@@ -7,6 +7,29 @@ Render 2dplot partition in react.
 
 ## [Storybook](https://zakodium.github.io/react-2dplot/)
 
+```ts
+interface DataPoints {
+  x: Array<number>;
+  y: Array<number>;
+  label?: string;
+  color?: string;
+}
+
+interface DataAxis {
+  label: string;
+  units?: string;
+  displayGrid?: boolean;
+  logarithmic?: boolean;
+}
+
+const Example = (data: DataPoints, axis: DataAxis) => (
+  <Plot
+    data={data}
+    axis={axis}
+  />
+)
+```
+
 ## Installation
 
 `$ npm install --save react-2dplot`
