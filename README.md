@@ -7,23 +7,40 @@ Render 2dplot partition in react.
 
 ## [Storybook](https://zakodium.github.io/react-plot/)
 
-```ts
-interface DataPoints {
-  x: Array<number>;
-  y: Array<number>;
-  label?: string;
-  color?: string;
-}
-
-interface DataAxis {
-  label: string;
-  units?: string;
-  displayGrid?: boolean;
-  logarithmic?: boolean;
-}
-
-const Example = (data: DataPoints, axis: DataAxis) => (
-  <Plot data={data} axis={axis} />
+```tsx
+const Example = () => (
+  <Plot
+    width={500}
+    height={500}
+    colorScheme={d3.schemePaired}
+    margin={{ right: 200 }}
+  >
+    <PlotHeading
+      title="Electrical characterization"
+      subtitle="current vs voltage"
+      titleStyle={}
+      substitleStyle={}
+      titleClass=""
+      substitleClass=""
+      position="top"
+    />
+    <PlotLineSeries
+      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
+      lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+      curve={d3.curveCardinal(0.5)}
+      label="Vg = 7V"
+    />
+    <PlotLineSeries
+      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 2, 4, 6, 6, 6] }}
+      lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+      markerStyle={}
+      displayMarker={true}
+      label="Vg = 3V"
+    />
+    <PlotXAxis label="Drain voltage [V]" />
+    <PlotYAxis label="Drain current [mA]" />
+    <PlotLegend position="right" direction="down" />
+  </Plot>
 );
 ```
 
