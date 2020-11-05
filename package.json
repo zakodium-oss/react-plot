@@ -15,7 +15,6 @@
     "clean": "rimraf lib lib-es",
     "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
     "prepublishOnly": "npm run build",
-    "postpublish": "npm run deploy",
     "watch": "tsc -p tsconfig.es.json -w",
     "dev": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
