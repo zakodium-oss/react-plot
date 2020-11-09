@@ -1,5 +1,5 @@
 {
-  "name": "react-2dplot",
+  "name": "react-plot",
   "version": "3.1.3",
   "description": "Render 2dplot partition in react",
   "main": "lib/src/index.js",
@@ -15,7 +15,6 @@
     "clean": "rimraf lib lib-es",
     "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
     "prepublishOnly": "npm run build",
-    "postpublish": "npm run deploy",
     "watch": "tsc -p tsconfig.es.json -w",
     "dev": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
@@ -25,15 +24,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zakodium/react-2dplot.git"
+    "url": "git+https://github.com/zakodium/react-plot.git"
   },
   "keywords": [],
   "author": "Miguel Asencio",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zakodium/react-2dplot/issues"
+    "url": "https://github.com/zakodium/react-plot/issues"
   },
-  "homepage": "https://github.com/zakodium/react-2dplot#readme",
+  "homepage": "https://github.com/zakodium/react-plot#readme",
   "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
