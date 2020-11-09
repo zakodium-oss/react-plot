@@ -15,7 +15,7 @@ const Example = () => (
     colorScheme={d3.schemePaired}
     margin={{ right: 200 }}
   >
-    <PlotHeading
+    <Plot.Heading
       title="Electrical characterization"
       subtitle="current vs voltage"
       titleStyle={}
@@ -24,22 +24,22 @@ const Example = () => (
       substitleClass=""
       position="top"
     />
-    <PlotLineSeries
+    <Plot.LineSeries
       data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
       lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
       curve={d3.curveCardinal(0.5)}
       label="Vg = 7V"
     />
-    <PlotLineSeries
+    <Plot.LineSeries
       data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 2, 4, 6, 6, 6] }}
       lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
       markerStyle={}
       displayMarker={true}
       label="Vg = 3V"
     />
-    <PlotXAxis label="Drain voltage [V]" showTicks={true} tickStep={1} />
-    <PlotYAxis label="Drain current [mA]" showTicks={true} tickStep={1} />
-    <PlotLegend position="right" direction="down" />
+    <Plot.XAxis label="Drain voltage [V]" showTicks={true} tickStep={1} />
+    <Plot.YAxis label="Drain current [mA]" showTicks={true} tickStep={1} />
+    <Plot.Legend position="right" direction="down" />
   </Plot>
 );
 ```
