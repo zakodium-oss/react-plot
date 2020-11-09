@@ -25,13 +25,27 @@ const Example = () => (
       position="top"
     />
     <Plot.LineSeries
-      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
+      data={[
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+        { x: 4, y: 3 },
+        { x: 5, y: 3 },
+      ]}
       lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
       curve={d3.curveCardinal(0.5)}
       label="Vg = 7V"
     />
     <Plot.LineSeries
-      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 2, 4, 6, 6, 6] }}
+      data={[
+        { x: 0, y: 0 },
+        { x: 1, y: 2 },
+        { x: 2, y: 4 },
+        { x: 3, y: 6 },
+        { x: 4, y: 6 },
+        { x: 5, y: 6 },
+      ]}
       lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
       markerStyle={}
       displayMarker={true}
