@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot } from '../src/Plot';
+import Plot from '../src/Plot';
 
 export default {
   title: 'Example/Plot',
