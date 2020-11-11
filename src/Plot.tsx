@@ -1,31 +1,18 @@
-import { scaleLinear } from 'd3-scale';
 import React, { useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
 import type { PlotProps, PlotState, ReducerActions } from './types';
-import { getMax, getMin } from './utils';
+import { getMax, getMin, splitChildren } from './utils';
 
 function reducer(state: PlotState, action: ReducerActions): PlotState {
   switch (action.type) {
     case 'newData': {
-      const xMin = getMin(action.value.xMin, state.xMin);
-      const xMax = getMax(action.value.xMax, state.xMax);
-      const yMin = getMin(action.value.yMin, state.yMin);
-      const yMax = getMax(action.value.yMax, state.yMax);
-
-      const xScale = scaleLinear().domain([0, state.width]).range([xMin, xMax]);
-      const yScale = scaleLinear()
-        .domain([state.height, 0])
-        .range([yMin, yMax]);
-
       return {
         ...state,
-        xMin,
-        xMax,
-        yMin,
-        yMax,
-        xScale,
-        yScale,
+        xMin: getMin(action.value.xMin, state.xMin),
+        xMax: getMax(action.value.xMax, state.xMax),
+        yMin: getMin(action.value.yMin, state.yMin),
+        yMax: getMax(action.value.yMax, state.yMax),
         labels: [...state.labels, action.value.label],
       };
     }
@@ -36,16 +23,23 @@ function reducer(state: PlotState, action: ReducerActions): PlotState {
 }
 
 export default function Plot({ width, height, children }: PlotProps) {
-  const [state, dispatch] = useReducer(
-    reducer,
-    { width, height, labels: [] },
-    null,
+  const [state, dispatch] = useReducer(reducer, { labels: [] }, undefined);
+
+  const { invalidChild, lineSeries } = splitChildren(children);
+  if (invalidChild) {
+    // eslint-disable-next-line no-console
+    console.error('Only compound components of Plot are displayed');
+  }
+
+  // Propagate props to children
+  const lineSeriesInjected = lineSeries.map((series) =>
+    React.cloneElement(series, { width, height }),
   );
   return (
     <PlotContext.Provider value={state}>
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
-          {children}
+          {lineSeriesInjected}
         </svg>
       </DispatchContext.Provider>
     </PlotContext.Provider>

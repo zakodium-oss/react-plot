@@ -7,8 +7,6 @@ interface DispatchContextType {
 }
 
 export const PlotContext = createContext<PlotState>({
-  xScale: null,
-  yScale: null,
   labels: [],
 });
 export const DispatchContext = createContext<DispatchContextType>({

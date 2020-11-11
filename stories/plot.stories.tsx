@@ -1,32 +1,50 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import Plot from '../src/Plot';
+import Plot, { LineSeries } from '../src/index';
 
 export default {
   title: 'Example/Plot',
   component: Plot,
   argTypes: {
-    rows: {
-      defaultValue: '6',
+    width: {
+      defaultValue: 500,
       control: 'number',
     },
-    columns: {
-      defaultValue: '7',
+    height: {
+      defaultValue: 500,
       control: 'number',
     },
   },
 } as Meta;
 
 export function Control(props) {
-  const pickedItems = [{ index: '3' }, { index: '5', label: 'owner' }];
   return (
-    <Plot
-      pickedItems={pickedItems}
-      size={320}
-      // eslint-disable-next-line no-console
-      onSelect={console.log}
-      {...props}
-    />
+    <Plot {...props} margin={{ botom: 2 }}>
+      <LineSeries
+        data={[
+          { x: 0, y: 0 },
+          { x: 1, y: 1 },
+          { x: 2, y: 2 },
+          { x: 3, y: 3 },
+          { x: 4, y: 3 },
+          { x: 5, y: 3 },
+        ]}
+        lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+        label="Vg = 7V"
+      />
+      <LineSeries
+        data={[
+          { x: 0, y: 0 },
+          { x: 1, y: 2 },
+          { x: 2, y: 4 },
+          { x: 3, y: 6 },
+          { x: 4, y: 6 },
+          { x: 5, y: 6 },
+        ]}
+        lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+        label="Vg = 3V"
+      />
+    </Plot>
   );
 }
