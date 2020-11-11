@@ -1,10 +1,10 @@
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 export interface PlotProps {
   width: number;
   height: number;
   colorScheme?: string;
-  margin: SVGStyleElement;
+  margin: Record<'botom', number>;
   children: ReactNode[];
 }
 
@@ -14,20 +14,18 @@ export interface Series {
 }
 
 export interface LineSeriesProps {
+  width?: number;
+  height?: number;
   data: Series[];
   lineStyle?: CSSProperties;
   label?: string;
 }
 
 export interface PlotState {
-  xMin: number | null;
-  xMax: number | null;
-  yMin: number | null;
-  yMax: number | null;
-  xScale: (x: number) => number | null;
-  yScale: (x: number) => number | null;
-  width: number;
-  height: number;
+  xMin?: number;
+  xMax?: number;
+  yMin?: number;
+  yMax?: number;
   labels: string[];
 }
 
@@ -42,4 +40,9 @@ interface DataAction {
 export interface ReducerActions {
   type: 'newData';
   value: DataAction;
+}
+
+export interface PlotChildren {
+  invalidChild: boolean;
+  lineSeries: ReactElement<LineSeriesProps>[];
 }
