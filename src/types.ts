@@ -1,10 +1,12 @@
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
+type Margins = Record<'top' | 'bottom' | 'left' | 'right', number | undefined>;
+
 export interface PlotProps {
   width: number;
   height: number;
   colorScheme?: string;
-  margin: Record<'botom', number>;
+  margin?: Margins;
   children: ReactNode[];
 }
 
@@ -35,4 +37,14 @@ export type ReducerActions =
 export interface PlotChildren {
   invalidChild: boolean;
   lineSeries: ReactElement<LineSeriesProps>[];
+  axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
+}
+
+export interface AxisProps {
+  label?: string;
+  showTicks?: boolean;
+  tickStep?: number;
+  width?: number;
+  height?: number;
+  margin?: Margins;
 }

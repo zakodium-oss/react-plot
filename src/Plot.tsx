@@ -30,7 +30,7 @@ function reducer(state: State, action: ReducerActions): State {
   }
 }
 
-export default function Plot({ width, height, children }: PlotProps) {
+export default function Plot({ width, height, margin, children }: PlotProps) {
   const [state, dispatch] = useReducer(reducer, { series: [] }, undefined);
 
   const xMin = min(state.series, (d) => d.xMin);
@@ -40,13 +40,17 @@ export default function Plot({ width, height, children }: PlotProps) {
 
   // Set scales
   const xScale = ![xMin, xMax].includes(undefined)
-    ? scaleLinear().range([0, width]).domain([xMin, xMax])
+    ? scaleLinear()
+        .domain([xMin, xMax])
+        .range([margin?.left || 0, width - (margin?.right || 0)])
     : null;
   const yScale = ![yMin, yMax].includes(undefined)
-    ? scaleLinear().range([height, 0]).domain([yMin, yMax])
+    ? scaleLinear()
+        .domain([yMin, yMax])
+        .range([height - (margin?.bottom || 0), margin?.top || 0])
     : null;
 
-  const { invalidChild, lineSeries } = splitChildren(children);
+  const { invalidChild, lineSeries, axis } = splitChildren(children);
   if (invalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -55,6 +59,8 @@ export default function Plot({ width, height, children }: PlotProps) {
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
           {lineSeries}
+          {axis.x}
+          {axis.y}
         </svg>
       </DispatchContext.Provider>
     </PlotContext.Provider>
