@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot, LineSeries } from '../src/index';
+import { Plot, LineSeries, XAxis, YAxis } from '../src/index';
 
 export default {
   title: 'Example/Plot',
@@ -38,6 +38,8 @@ export function Control(props) {
         lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
         label="Vg = 3V"
       />
+      <XAxis label="Drain voltage [V]" showTicks={true} tickStep={1} />
+      <YAxis label="Drain current [mA]" showTicks={true} tickStep={1} />
     </Plot>
   );
 }
