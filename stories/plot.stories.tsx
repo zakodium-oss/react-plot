@@ -25,7 +25,7 @@ export default {
 export function Control(props) {
   const { display, ...other } = props;
   return (
-    <Plot {...other} margin={{ botom: 2 }}>
+    <Plot {...other} margin={{ bottom: 50, left: 50, top: 10, right: 10 }}>
       {display && (
         <LineSeries
           data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}

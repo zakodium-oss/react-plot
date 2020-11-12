@@ -41,6 +41,7 @@ export interface PlotChildren {
 }
 
 export interface AxisProps {
+  fontSize?: number;
   label?: string;
   showTicks?: boolean;
   tickStep?: number;
