@@ -1,5 +1,4 @@
 import { extent } from 'd3-array';
-import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import React, { CSSProperties, useEffect } from 'react';
 
@@ -7,8 +6,6 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
 
 interface LineSeriesRenderProps {
-  width?: number;
-  height?: number;
   data: Series[];
   lineStyle?: CSSProperties;
 }
@@ -27,18 +24,10 @@ export default function LineSeries(props: LineSeriesProps) {
   return <LineSeriesRender {...otherProps} data={data} />;
 }
 
-function LineSeriesRender({
-  data,
-  lineStyle,
-  width,
-  height,
-}: LineSeriesRenderProps) {
+function LineSeriesRender({ data, lineStyle }: LineSeriesRenderProps) {
   // Get scales from context
-  const { xMin, xMax, yMin, yMax } = usePlotContext();
-  if ([xMin, xMax, yMin, yMax].includes(undefined)) return null;
-
-  const xScale = scaleLinear().range([0, width]).domain([xMin, xMax]);
-  const yScale = scaleLinear().range([height, 0]).domain([yMin, yMax]);
+  const { xScale, yScale } = usePlotContext();
+  if ([xScale, yScale].includes(null)) return null;
 
   // Calculate line from D3
   const plotLine = line<Series>()
