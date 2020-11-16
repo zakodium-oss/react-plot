@@ -14,8 +14,6 @@ export interface Series {
 }
 
 export interface LineSeriesProps {
-  width?: number;
-  height?: number;
   data: Series[];
   lineStyle?: CSSProperties;
   label?: string;
@@ -27,6 +25,8 @@ export interface PlotState {
   yMin?: number;
   yMax?: number;
   labels: string[];
+  xScale?: (x: number) => number;
+  yScale?: (y: number) => number;
 }
 
 interface DataAction {
