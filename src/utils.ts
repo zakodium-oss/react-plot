@@ -15,28 +15,24 @@ export function getMin(actionMin: number, stateMin: number | null | undefined) {
     : stateMin;
 }
 
-export function splitChildren(children: React.ReactNode[]) {
-  return React.Children.toArray(children).reduce<PlotChildren>(
-    (prev, curr) => {
-      // Base child validation
-      if (typeof curr !== 'object' || !React.isValidElement(curr)) {
-        return { invalidChild: true, lineSeries: prev.lineSeries };
-      }
+export function splitChildren(children: React.ReactNode[]): PlotChildren {
+  let invalidChild = false;
+  let lineSeries = [];
+  for (let child of React.Children.toArray(children)) {
+    // Base child validation
+    if (typeof child !== 'object' || !React.isValidElement(child)) {
+      invalidChild = true;
+      break;
+    }
 
-      // Checks that is a line series component
-      if (curr.type === LineSeries) {
-        return {
-          invalidChild: prev.invalidChild,
-          lineSeries: [...prev.lineSeries, curr],
-        };
-      }
+    // Checks that is a line series component
+    if (child.type === LineSeries) {
+      lineSeries.push(child);
+      break;
+    }
 
-      // Default case
-      return { invalidChild: true, lineSeries: prev.lineSeries };
-    },
-    {
-      invalidChild: false,
-      lineSeries: [],
-    },
-  );
+    // Default case
+    invalidChild = true;
+  }
+  return { invalidChild, lineSeries };
 }

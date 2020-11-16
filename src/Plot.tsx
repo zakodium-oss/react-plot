@@ -27,8 +27,7 @@ export default function Plot({ width, height, children }: PlotProps) {
 
   const { invalidChild, lineSeries } = splitChildren(children);
   if (invalidChild) {
-    // eslint-disable-next-line no-console
-    console.error('Only compound components of Plot are displayed');
+    throw new Error('Only compound components of Plot are displayed');
   }
 
   // Propagate props to children

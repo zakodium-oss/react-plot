@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import Plot, { LineSeries } from '../src/index';
+import { Plot, LineSeries } from '../src/index';
 
 export default {
   title: 'Example/Plot',
