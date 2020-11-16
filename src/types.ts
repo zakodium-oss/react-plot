@@ -25,8 +25,6 @@ export interface PlotState {
   yMin?: number;
   yMax?: number;
   labels: string[];
-  xScale?: (x: number) => number;
-  yScale?: (y: number) => number;
 }
 
 interface DataAction {
