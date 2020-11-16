@@ -41,7 +41,7 @@ export default function Plot({ width, height, children }: PlotProps) {
   }
 
   return (
-    <PlotContext.Provider value={{ ...state, xScale, yScale }}>
+    <PlotContext.Provider value={{ xScale, yScale }}>
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
           {lineSeries}
