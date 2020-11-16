@@ -20,20 +20,15 @@ export interface LineSeriesProps {
 }
 
 export interface PlotState {
-  xMin?: number;
-  xMax?: number;
-  yMin?: number;
-  yMax?: number;
-  labels: string[];
-}
-
-interface DataAction {
+  id: number;
   xMin: number;
   xMax: number;
   yMin: number;
   yMax: number;
   label: string;
 }
+
+type DataAction = Omit<PlotState, 'id'>;
 
 export interface ReducerActions {
   type: 'newData';

@@ -1,21 +1,22 @@
+import { max, min } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
 import React, { useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
 import type { PlotProps, PlotState, ReducerActions } from './types';
-import { getMax, getMin, splitChildren } from './utils';
+import { splitChildren } from './utils';
 
-function reducer(state: PlotState, action: ReducerActions): PlotState {
+interface State {
+  series: PlotState[];
+  currentIndex: number;
+}
+
+function reducer(state: State, action: ReducerActions): State {
   switch (action.type) {
     case 'newData': {
-      return {
-        ...state,
-        xMin: getMin(action.value.xMin, state.xMin),
-        xMax: getMax(action.value.xMax, state.xMax),
-        yMin: getMin(action.value.yMin, state.yMin),
-        yMax: getMax(action.value.yMax, state.yMax),
-        labels: [...state.labels, action.value.label],
-      };
+      const { series, currentIndex } = state;
+      const serieItem = { ...action.value, id: currentIndex };
+      return { series: [...series, serieItem], currentIndex: currentIndex + 1 };
     }
     default: {
       throw new Error();
@@ -24,8 +25,16 @@ function reducer(state: PlotState, action: ReducerActions): PlotState {
 }
 
 export default function Plot({ width, height, children }: PlotProps) {
-  const [state, dispatch] = useReducer(reducer, { labels: [] }, undefined);
-  const { xMin, xMax, yMin, yMax } = state;
+  const [state, dispatch] = useReducer(
+    reducer,
+    { series: [], currentIndex: 0 },
+    undefined,
+  );
+
+  const xMin = min(state.series, (d) => d.xMin);
+  const xMax = max(state.series, (d) => d.xMax);
+  const yMin = min(state.series, (d) => d.yMin);
+  const yMax = max(state.series, (d) => d.yMax);
 
   // Set scales
   const xScale = ![xMin, xMax].includes(undefined)
