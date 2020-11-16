@@ -22,17 +22,17 @@ export function splitChildren(children: React.ReactNode[]): PlotChildren {
     // Base child validation
     if (typeof child !== 'object' || !React.isValidElement(child)) {
       invalidChild = true;
-      break;
     }
 
     // Checks that is a line series component
-    if (child.type === LineSeries) {
+    else if (child.type === LineSeries) {
       lineSeries.push(child);
-      break;
     }
 
     // Default case
-    invalidChild = true;
+    else {
+      invalidChild = true;
+    }
   }
   return { invalidChild, lineSeries };
 }
