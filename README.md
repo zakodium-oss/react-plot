@@ -13,7 +13,7 @@ const Example = () => (
     width={500}
     height={500}
     colorScheme={d3.schemePaired}
-    margin={{ right: 200 }}
+    margin={{ bottom: 50, left: 50, top: 10, right: 10 }}
   >
     <Plot.Heading
       title="Electrical characterization"
@@ -37,8 +37,8 @@ const Example = () => (
       displayMarker={true}
       label="Vg = 3V"
     />
-    <Plot.XAxis label="Drain voltage [V]" showTicks={true} tickStep={1} />
-    <Plot.YAxis label="Drain current [mA]" showTicks={true} tickStep={1} />
+    <Plot.XAxis label="Drain voltage [V]" showTicks={true} />
+    <Plot.YAxis label="Drain current [mA]" showTicks={true} />
     <Plot.Legend position="right" direction="down" />
   </Plot>
 );

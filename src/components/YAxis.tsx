@@ -5,12 +5,22 @@ import React, { useRef } from 'react';
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const YAxis = ({ label, fontSize = 16 }: AxisProps) => {
+const YAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
   const axisRef = useRef(null);
-  const { yScale, margin, height } = usePlotContext();
+  const { yScale, margin, height, width } = usePlotContext();
   if (axisRef?.current) {
     const axis = axisLeft(yScale);
-    select(axisRef.current).call(axis);
+    if (showTicks) {
+      axis.tickSizeInner((margin?.right || 0) - width);
+    }
+    select(axisRef.current)
+      .call(axis)
+      .call((g) =>
+        g
+          .selectAll('.tick:not(:first-of-type) line')
+          .attr('stroke-opacity', showTicks ? 0.5 : 1)
+          .attr('stroke-dasharray', showTicks ? '2,2' : '0'),
+      );
   }
 
   // Recomend bigger margin

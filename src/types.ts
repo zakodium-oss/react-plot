@@ -45,7 +45,6 @@ export interface AxisProps {
   fontSize?: number;
   label?: string;
   showTicks?: boolean;
-  tickStep?: number;
 }
 
 export interface PlotContextType {
