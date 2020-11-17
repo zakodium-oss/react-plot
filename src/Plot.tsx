@@ -8,15 +8,19 @@ import { splitChildren } from './utils';
 
 interface State {
   series: PlotState[];
-  currentIndex: number;
 }
 
 function reducer(state: State, action: ReducerActions): State {
   switch (action.type) {
     case 'newData': {
-      const { series, currentIndex } = state;
-      const serieItem = { ...action.value, id: currentIndex };
-      return { series: [...series, serieItem], currentIndex: currentIndex + 1 };
+      const { series } = state;
+      const serieItem = action.value;
+      return { series: [...series, serieItem] };
+    }
+    case 'removeData': {
+      const { id } = action.value;
+      const seriesFiltered = state.series.filter((series) => series.id !== id);
+      return { series: seriesFiltered };
     }
     default: {
       throw new Error();

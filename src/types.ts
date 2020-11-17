@@ -20,7 +20,7 @@ export interface LineSeriesProps {
 }
 
 export interface PlotState {
-  id: number;
+  id: string;
   xMin: number;
   xMax: number;
   yMin: number;
@@ -28,12 +28,9 @@ export interface PlotState {
   label: string;
 }
 
-type DataAction = Omit<PlotState, 'id'>;
-
-export interface ReducerActions {
-  type: 'newData';
-  value: DataAction;
-}
+export type ReducerActions =
+  | { type: 'newData'; value: PlotState }
+  | { type: 'removeData'; value: { id: string } };
 
 export interface PlotChildren {
   invalidChild: boolean;
