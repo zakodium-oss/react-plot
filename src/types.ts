@@ -9,12 +9,12 @@ export interface PlotProps {
 }
 
 export interface Series {
-  x: number;
-  y: number;
+  x: number[];
+  y: number[];
 }
 
 export interface LineSeriesProps {
-  data: Series[];
+  data: Series;
   lineStyle?: CSSProperties;
   label?: string;
 }
