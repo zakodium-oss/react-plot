@@ -11,7 +11,7 @@ const YAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
   if (axisRef?.current) {
     const axis = axisLeft(yScale);
     if (showTicks) {
-      axis.tickSizeInner((margin?.right || 0) - width);
+      axis.tickSizeInner((margin?.left || 0) + (margin?.right || 0) - width);
     }
     select(axisRef.current)
       .call(axis)
