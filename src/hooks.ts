@@ -1,14 +1,9 @@
 import { createContext, useContext } from 'react';
 
-import { ReducerActions } from './types';
+import type { PlotContextType, ReducerActions } from './types';
 
 interface DispatchContextType {
   dispatch: ((action: ReducerActions) => void) | null;
-}
-
-interface PlotContextType {
-  xScale?: (x: number) => number;
-  yScale?: (y: number) => number;
 }
 
 export const PlotContext = createContext<PlotContextType>({});

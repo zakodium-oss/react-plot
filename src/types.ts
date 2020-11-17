@@ -1,3 +1,4 @@
+import { AxisScale } from 'd3-axis';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 type Margins = Record<'top' | 'bottom' | 'left' | 'right', number | undefined>;
@@ -45,6 +46,11 @@ export interface AxisProps {
   label?: string;
   showTicks?: boolean;
   tickStep?: number;
+}
+
+export interface PlotContextType {
+  xScale?: AxisScale<number>;
+  yScale?: AxisScale<number>;
   width?: number;
   height?: number;
   margin?: Margins;
