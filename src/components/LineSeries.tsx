@@ -1,9 +1,10 @@
 import { extent } from 'd3-array';
 import { line } from 'd3-shape';
-import React, { CSSProperties, useEffect, useMemo } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
+import { randomString } from '../utils';
 
 interface LineSeriesRenderProps {
   data: Series;
@@ -11,14 +12,20 @@ interface LineSeriesRenderProps {
 }
 
 export default function LineSeries(props: LineSeriesProps) {
+  const [id] = useState(randomString(4));
+
   const { data, label, ...otherProps } = props;
+
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
   useEffect(() => {
     const [xMin, xMax] = extent(data.x);
     const [yMin, yMax] = extent(data.y);
-    dispatch({ type: 'newData', value: { xMin, xMax, yMin, yMax, label } });
-  }, [data, label, dispatch]);
+    dispatch({ type: 'newData', value: { id, xMin, xMax, yMin, yMax, label } });
+
+    // Delete information on unmount
+    return () => dispatch({ type: 'removeData', value: { id } });
+  }, [data, label, dispatch, id]);
 
   // Render stateless plot component
   return <LineSeriesRender {...otherProps} data={data} />;
@@ -27,6 +34,8 @@ export default function LineSeries(props: LineSeriesProps) {
 function LineSeriesRender({ data, lineStyle }: LineSeriesRenderProps) {
   // Get scales from context
   const { xScale, yScale } = usePlotContext();
+
+  // calculates the path to display
   const path = useMemo(() => {
     if ([xScale, yScale].includes(null) || data.x.length !== data.y.length) {
       return null;
