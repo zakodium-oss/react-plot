@@ -11,7 +11,7 @@ const XAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
   if (axisRef?.current) {
     const axis = axisBottom(xScale);
     if (showTicks) {
-      axis.tickSizeInner((margin?.bottom || 0) - height);
+      axis.tickSizeInner((margin?.bottom || 0) + (margin?.top || 0) - height);
     }
 
     select(axisRef.current)
