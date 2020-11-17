@@ -12,7 +12,7 @@ interface LineSeriesRenderProps {
 }
 
 export default function LineSeries(props: LineSeriesProps) {
-  const [id] = useState(`series-${getNextId()}`);
+  const [id] = useState(() => `series-${getNextId()}`);
 
   const { data, label, ...otherProps } = props;
 
