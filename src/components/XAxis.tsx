@@ -13,14 +13,18 @@ const XAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
     if (showTicks) {
       axis.tickSizeInner((margin?.bottom || 0) - height);
     }
+
     select(axisRef.current)
       .call(axis)
-      .call((g) =>
-        g
-          .selectAll('.tick:not(:first-of-type) line')
+      .call((g) => {
+        g.selectAll('.tick line')
           .attr('stroke-opacity', showTicks ? 0.5 : 1)
-          .attr('stroke-dasharray', showTicks ? '2,2' : '0'),
-      );
+          .attr('stroke-dasharray', showTicks ? '2,2' : '0');
+        g.selectAll('.tick text').attr(
+          'transform',
+          `translate(0,${showTicks ? 6 : 0})`,
+        );
+      });
   }
 
   // Recomend bigger margin
