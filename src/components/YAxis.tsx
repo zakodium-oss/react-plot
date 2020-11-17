@@ -1,18 +1,14 @@
 import { axisLeft } from 'd3-axis';
-import { scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 import React, { useRef } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const YAxis = ({ height, margin, label, fontSize = 16 }: AxisProps) => {
+const YAxis = ({ label, fontSize = 16 }: AxisProps) => {
   const axisRef = useRef(null);
-  const { yMin, yMax } = usePlotContext();
+  const { yScale, margin, height } = usePlotContext();
   if (axisRef?.current) {
-    const yScale = scaleLinear()
-      .domain([yMin, yMax])
-      .range([height - (margin?.bottom || 0), margin?.top || 0]);
     const axis = axisLeft(yScale);
     select(axisRef.current).call(axis);
   }

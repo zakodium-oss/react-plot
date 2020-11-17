@@ -55,7 +55,7 @@ export default function Plot({ width, height, margin, children }: PlotProps) {
     throw new Error('Only compound components of Plot are displayed');
   }
   return (
-    <PlotContext.Provider value={{ xScale, yScale }}>
+    <PlotContext.Provider value={{ xScale, yScale, width, height, margin }}>
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
           {lineSeries}

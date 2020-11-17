@@ -35,7 +35,7 @@ export function Control(props) {
       )}
       <LineSeries
         data={{ x: [1, 2, 3, 4, 5, 6], y: [2, 4, 6, 6, 6, 6] }}
-        lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+        lineStyle={{ stroke: 'red', strokeWidth: 2 }}
         label="Vg = 3V"
       />
       <XAxis label="Drain voltage [V]" showTicks={true} tickStep={1} />
