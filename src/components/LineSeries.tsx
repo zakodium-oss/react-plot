@@ -4,7 +4,7 @@ import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
-import { randomString } from '../utils';
+import { getNextId } from '../utils';
 
 interface LineSeriesRenderProps {
   data: Series;
@@ -12,7 +12,7 @@ interface LineSeriesRenderProps {
 }
 
 export default function LineSeries(props: LineSeriesProps) {
-  const [id] = useState(randomString(4));
+  const [id] = useState(`series-${getNextId()}`);
 
   const { data, label, ...otherProps } = props;
 

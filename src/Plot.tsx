@@ -15,7 +15,9 @@ function reducer(state: State, action: ReducerActions): State {
     case 'newData': {
       const { series } = state;
       const serieItem = action.value;
-      return { series: [...series, serieItem] };
+      return {
+        series: [...series, serieItem],
+      };
     }
     case 'removeData': {
       const { id } = action.value;
@@ -29,11 +31,7 @@ function reducer(state: State, action: ReducerActions): State {
 }
 
 export default function Plot({ width, height, children }: PlotProps) {
-  const [state, dispatch] = useReducer(
-    reducer,
-    { series: [], currentIndex: 0 },
-    undefined,
-  );
+  const [state, dispatch] = useReducer(reducer, { series: [] }, undefined);
 
   const xMin = min(state.series, (d) => d.xMin);
   const xMax = max(state.series, (d) => d.xMax);
@@ -52,7 +50,6 @@ export default function Plot({ width, height, children }: PlotProps) {
   if (invalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
-
   return (
     <PlotContext.Provider value={{ xScale, yScale }}>
       <DispatchContext.Provider value={{ dispatch }}>
