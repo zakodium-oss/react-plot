@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot, LineSeries, XAxis, YAxis } from '../src/index';
+import { Plot, LineSeries, XAxis, YAxis, Heading } from '../src/index';
 
 export default {
   title: 'Example/Plot',
@@ -29,7 +29,12 @@ export default {
 export function Control(props) {
   const { display, showGridLines, ...other } = props;
   return (
-    <Plot {...other} margin={{ bottom: 50, left: 50, top: 10, right: 10 }}>
+    <Plot {...other} margin={{ bottom: 50, left: 50, top: 50, right: 10 }}>
+      <Heading
+        title="Electrical characterization"
+        subtitle="current vs voltage"
+        position="top"
+      />
       {display && (
         <LineSeries
           data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
