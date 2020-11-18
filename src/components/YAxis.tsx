@@ -10,7 +10,7 @@ const YAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
   const { yScale, margin, height, width } = usePlotContext();
 
   useLayoutEffect(() => {
-    if (axisRef?.current) {
+    if (axisRef?.current && yScale) {
       const axis = axisLeft(yScale);
       if (showTicks) {
         axis.tickSizeInner((margin?.left || 0) + (margin?.right || 0) - width);
