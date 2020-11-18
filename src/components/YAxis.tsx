@@ -1,6 +1,6 @@
 import { axisLeft } from 'd3-axis';
 import { select } from 'd3-selection';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
@@ -9,7 +9,7 @@ const YAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
   const axisRef = useRef(null);
   const { yScale, margin, height, width } = usePlotContext();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (axisRef?.current && yScale) {
       const axis = axisLeft(yScale);
       if (showGridLines) {
@@ -27,7 +27,7 @@ const YAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
           );
         });
     }
-  });
+  }, [axisRef, yScale, margin, width, showGridLines]);
 
   // Recomend bigger margin
   if ((margin?.bottom || 0) < fontSize + 30) {
