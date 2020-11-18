@@ -1,7 +1,16 @@
 import { AxisScale } from 'd3-axis';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
+// Component props helpers
+
 type Margins = Record<'top' | 'bottom' | 'left' | 'right', number | undefined>;
+
+export interface Series {
+  x: number[];
+  y: number[];
+}
+
+// Component props
 
 export interface PlotProps {
   width: number;
@@ -11,16 +20,19 @@ export interface PlotProps {
   children: ReactNode[];
 }
 
-export interface Series {
-  x: number[];
-  y: number[];
-}
-
 export interface LineSeriesProps {
   data: Series;
   lineStyle?: CSSProperties;
   label?: string;
 }
+
+export interface AxisProps {
+  fontSize?: number;
+  label?: string;
+  showGridLines?: boolean;
+}
+
+// State related
 
 export interface PlotState {
   id: string;
@@ -31,6 +43,16 @@ export interface PlotState {
   label: string;
 }
 
+export interface PlotContextType {
+  xScale?: AxisScale<number>;
+  yScale?: AxisScale<number>;
+  width?: number;
+  height?: number;
+  margin?: Margins;
+}
+
+// Util functions
+
 export type ReducerActions =
   | { type: 'newData'; value: PlotState }
   | { type: 'removeData'; value: { id: string } };
@@ -39,18 +61,4 @@ export interface PlotChildren {
   invalidChild: boolean;
   lineSeries: ReactElement<LineSeriesProps>[];
   axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
-}
-
-export interface AxisProps {
-  fontSize?: number;
-  label?: string;
-  showGridLines?: boolean;
-}
-
-export interface PlotContextType {
-  xScale?: AxisScale<number>;
-  yScale?: AxisScale<number>;
-  width?: number;
-  height?: number;
-  margin?: Margins;
 }
