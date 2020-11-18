@@ -10,7 +10,7 @@ const XAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
   const { xScale, margin, height, width } = usePlotContext();
 
   useLayoutEffect(() => {
-    if (axisRef?.current) {
+    if (axisRef?.current && xScale) {
       const axis = axisBottom(xScale);
       if (showTicks) {
         axis.tickSizeInner((margin?.bottom || 0) + (margin?.top || 0) - height);
