@@ -50,7 +50,7 @@ export default function Plot({ width, height, margin, children }: PlotProps) {
         .range([height - (margin?.bottom || 0), margin?.top || 0])
     : null;
 
-  const { invalidChild, lineSeries, axis } = splitChildren(children);
+  const { invalidChild, lineSeries, axis, heading } = splitChildren(children);
   if (invalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -58,6 +58,7 @@ export default function Plot({ width, height, margin, children }: PlotProps) {
     <PlotContext.Provider value={{ xScale, yScale, width, height, margin }}>
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
+          {heading}
           {lineSeries}
           {axis.x}
           {axis.y}

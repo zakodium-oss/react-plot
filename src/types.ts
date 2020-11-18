@@ -32,6 +32,16 @@ export interface AxisProps {
   showGridLines?: boolean;
 }
 
+export interface HeadingProps {
+  title: string;
+  titleStyle?: CSSProperties;
+  titleClass?: string;
+  subtitle?: string;
+  subtitleStyle?: CSSProperties;
+  subtitleClass?: string;
+  position?: 'top' | 'bottom';
+}
+
 // State related
 
 export interface PlotState {
@@ -61,4 +71,5 @@ export interface PlotChildren {
   invalidChild: boolean;
   lineSeries: ReactElement<LineSeriesProps>[];
   axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
+  heading: ReactElement<HeadingProps> | null;
 }
