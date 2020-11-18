@@ -19,7 +19,7 @@ export default {
       control: 'boolean',
       defaultValue: true,
     },
-    showTicks: {
+    showGridLines: {
       control: 'boolean',
       defaultValue: true,
     },
@@ -27,7 +27,7 @@ export default {
 } as Meta;
 
 export function Control(props) {
-  const { display, showTicks, ...other } = props;
+  const { display, showGridLines, ...other } = props;
   return (
     <Plot {...other} margin={{ bottom: 50, left: 50, top: 10, right: 10 }}>
       {display && (
@@ -42,8 +42,8 @@ export function Control(props) {
         lineStyle={{ stroke: 'red', strokeWidth: 2 }}
         label="Vg = 3V"
       />
-      <XAxis label="Drain voltage [V]" showTicks={showTicks} />
-      <YAxis label="Drain current [mA]" showTicks={showTicks} />
+      <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
+      <YAxis label="Drain current [mA]" showGridLines={showGridLines} />
     </Plot>
   );
 }

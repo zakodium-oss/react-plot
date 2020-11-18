@@ -5,25 +5,25 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const YAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
+const YAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
   const axisRef = useRef(null);
   const { yScale, margin, height, width } = usePlotContext();
 
   useLayoutEffect(() => {
     if (axisRef?.current && yScale) {
       const axis = axisLeft(yScale);
-      if (showTicks) {
+      if (showGridLines) {
         axis.tickSizeInner((margin?.left || 0) + (margin?.right || 0) - width);
       }
       select(axisRef.current)
         .call(axis)
         .call((g) => {
           g.selectAll('.tick line')
-            .attr('stroke-opacity', showTicks ? 0.5 : 1)
-            .attr('stroke-dasharray', showTicks ? '2,2' : '0');
+            .attr('stroke-opacity', showGridLines ? 0.5 : 1)
+            .attr('stroke-dasharray', showGridLines ? '2,2' : '0');
           g.selectAll('.tick text').attr(
             'transform',
-            `translate(${showTicks ? -6 : 0},0)`,
+            `translate(${showGridLines ? -6 : 0},0)`,
           );
         });
     }

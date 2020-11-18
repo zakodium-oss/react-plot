@@ -37,8 +37,8 @@ const Example = () => (
       displayMarker={true}
       label="Vg = 3V"
     />
-    <Plot.XAxis label="Drain voltage [V]" showTicks={true} />
-    <Plot.YAxis label="Drain current [mA]" showTicks={true} />
+    <Plot.XAxis label="Drain voltage [V]" showGridLines={true} />
+    <Plot.YAxis label="Drain current [mA]" showGridLines={true} />
     <Plot.Legend position="right" direction="down" />
   </Plot>
 );

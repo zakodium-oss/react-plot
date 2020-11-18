@@ -5,14 +5,14 @@ import React, { useLayoutEffect, useRef } from 'react';
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const XAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
+const XAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
   const axisRef = useRef(null);
   const { xScale, margin, height, width } = usePlotContext();
 
   useLayoutEffect(() => {
     if (axisRef?.current && xScale) {
       const axis = axisBottom(xScale);
-      if (showTicks) {
+      if (showGridLines) {
         axis.tickSizeInner((margin?.bottom || 0) + (margin?.top || 0) - height);
       }
 
@@ -20,11 +20,11 @@ const XAxis = ({ label, fontSize = 16, showTicks }: AxisProps) => {
         .call(axis)
         .call((g) => {
           g.selectAll('.tick line')
-            .attr('stroke-opacity', showTicks ? 0.5 : 1)
-            .attr('stroke-dasharray', showTicks ? '2,2' : '0');
+            .attr('stroke-opacity', showGridLines ? 0.5 : 1)
+            .attr('stroke-dasharray', showGridLines ? '2,2' : '0');
           g.selectAll('.tick text').attr(
             'transform',
-            `translate(0,${showTicks ? 6 : 0})`,
+            `translate(0,${showGridLines ? 6 : 0})`,
           );
         });
     }
