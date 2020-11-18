@@ -44,7 +44,7 @@ export interface PlotChildren {
 export interface AxisProps {
   fontSize?: number;
   label?: string;
-  showTicks?: boolean;
+  showGridLines?: boolean;
 }
 
 export interface PlotContextType {
