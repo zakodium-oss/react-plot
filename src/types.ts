@@ -2,8 +2,9 @@ import { AxisScale } from 'd3-axis';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 // Component props helpers
-
-type Margins = Record<'top' | 'bottom' | 'left' | 'right', number | undefined>;
+type Horizontal = 'left' | 'right';
+type Vertical = 'top' | 'bottom';
+type Margins = Record<Horizontal | Vertical, number | undefined>;
 
 export interface Series {
   x: number[];
@@ -39,7 +40,12 @@ export interface HeadingProps {
   subtitle?: string;
   subtitleStyle?: CSSProperties;
   subtitleClass?: string;
-  position?: 'top' | 'bottom';
+  position?: Vertical;
+}
+
+export interface LegendProps {
+  position?: Horizontal;
+  direction?: 'horizontal' | 'vertical';
 }
 
 // State related
@@ -59,6 +65,7 @@ export interface PlotContextType {
   width?: number;
   height?: number;
   margin?: Margins;
+  labels?: string[];
 }
 
 // Util functions
@@ -72,4 +79,5 @@ export interface PlotChildren {
   lineSeries: ReactElement<LineSeriesProps>[];
   axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
   heading: ReactElement<HeadingProps> | null;
+  legend: ReactElement<LegendProps> | null;
 }

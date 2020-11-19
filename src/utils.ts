@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Heading from './components/Heading';
+import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import XAxis from './components/XAxis';
 import YAxis from './components/YAxis';
@@ -17,13 +18,14 @@ export function splitChildren(children: React.ReactNode[]): PlotChildren {
   let lineSeries = [];
   let axis = { x: null, y: null };
   let heading = null;
+  let legend = null;
   for (let child of React.Children.toArray(children)) {
     // Base child validation
     if (typeof child !== 'object' || !React.isValidElement(child)) {
       invalidChild = true;
     }
 
-    // Checks that is a line series component
+    // Classifies the expected components
     else if (child.type === LineSeries) {
       lineSeries.push(child);
     } else if (child.type === XAxis) {
@@ -32,6 +34,8 @@ export function splitChildren(children: React.ReactNode[]): PlotChildren {
       axis.y = child;
     } else if (child.type === Heading) {
       heading = child;
+    } else if (child.type === Legend) {
+      legend = child;
     }
 
     // Default case
@@ -39,5 +43,5 @@ export function splitChildren(children: React.ReactNode[]): PlotChildren {
       invalidChild = true;
     }
   }
-  return { invalidChild, lineSeries, axis, heading };
+  return { invalidChild, lineSeries, axis, heading, legend };
 }

@@ -33,12 +33,19 @@ function reducer(state: State, action: ReducerActions): State {
 export default function Plot({ width, height, margin, children }: PlotProps) {
   const [state, dispatch] = useReducer(reducer, { series: [] }, undefined);
 
+  const { invalidChild, lineSeries, axis, heading, legend } = splitChildren(
+    children,
+  );
+  if (invalidChild) {
+    throw new Error('Only compound components of Plot are displayed');
+  }
+
+  // Set scales
   const xMin = min(state.series, (d) => d.xMin);
   const xMax = max(state.series, (d) => d.xMax);
   const yMin = min(state.series, (d) => d.yMin);
   const yMax = max(state.series, (d) => d.yMax);
 
-  // Set scales
   const xScale = ![xMin, xMax].includes(undefined)
     ? scaleLinear()
         .domain([xMin, xMax])
@@ -50,15 +57,16 @@ export default function Plot({ width, height, margin, children }: PlotProps) {
         .range([height - (margin?.bottom || 0), margin?.top || 0])
     : null;
 
-  const { invalidChild, lineSeries, axis, heading } = splitChildren(children);
-  if (invalidChild) {
-    throw new Error('Only compound components of Plot are displayed');
-  }
+  const labels = state.series.map(({ label }) => label);
+
   return (
-    <PlotContext.Provider value={{ xScale, yScale, width, height, margin }}>
+    <PlotContext.Provider
+      value={{ xScale, yScale, width, height, margin, labels }}
+    >
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>
           {heading}
+          {legend}
           {lineSeries}
           {axis.x}
           {axis.y}
