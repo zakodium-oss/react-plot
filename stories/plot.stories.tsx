@@ -1,14 +1,14 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot, LineSeries, XAxis, YAxis, Heading } from '../src/index';
+import { Plot, Heading, Legend, LineSeries, XAxis, YAxis } from '../src/index';
 
 export default {
   title: 'Example/Plot',
   component: Plot,
   argTypes: {
     width: {
-      defaultValue: 500,
+      defaultValue: 550,
       control: 'number',
     },
     height: {
@@ -29,7 +29,7 @@ export default {
 export function Control(props) {
   const { display, showGridLines, ...other } = props;
   return (
-    <Plot {...other} margin={{ bottom: 50, left: 50, top: 50, right: 10 }}>
+    <Plot {...other} margin={{ bottom: 50, left: 50, top: 50, right: 100 }}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"
@@ -49,6 +49,7 @@ export function Control(props) {
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
       <YAxis label="Drain current [mA]" showGridLines={showGridLines} />
+      <Legend position="right" direction="horizontal" />
     </Plot>
   );
 }
