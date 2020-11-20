@@ -15,27 +15,48 @@ export default {
       defaultValue: 500,
       control: 'number',
     },
-    display: {
-      control: 'boolean',
+    displayPlot: {
       defaultValue: true,
+      control: 'boolean',
     },
     showGridLines: {
-      control: 'boolean',
       defaultValue: true,
+      control: 'boolean',
+    },
+    headingPosition: {
+      defaultValue: 'top',
+      control: { type: 'select', options: ['top', 'bottom'] },
+    },
+    legendPosition: {
+      defaultValue: 'right',
+      control: { type: 'select', options: ['left', 'right'] },
     },
   },
 } as Meta;
 
 export function Control(props) {
-  const { display, showGridLines, ...other } = props;
+  const {
+    displayPlot,
+    showGridLines,
+    width,
+    height,
+    headingPosition,
+    legendPosition,
+  } = props;
+
+  const bottom = headingPosition === 'top' ? 50 : 100;
+  const left = legendPosition === 'right' ? 50 : 150;
+  const top = headingPosition === 'top' ? 50 : 10;
+  const right = legendPosition === 'right' ? 100 : 10;
+
   return (
-    <Plot {...other} margin={{ bottom: 50, left: 50, top: 50, right: 100 }}>
+    <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"
-        position="top"
+        position={headingPosition}
       />
-      {display && (
+      {displayPlot && (
         <LineSeries
           data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
           lineStyle={{ strokeWidth: 3 }}
@@ -48,7 +69,7 @@ export function Control(props) {
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
       <YAxis label="Drain current [mA]" showGridLines={showGridLines} />
-      <Legend position="right" />
+      <Legend position={legendPosition} />
     </Plot>
   );
 }
