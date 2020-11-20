@@ -61,12 +61,12 @@ export function Control(props) {
           data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
           lineStyle={{ strokeWidth: 3 }}
           label="Vg = 7V"
-          displayMarker={true}
+          displayMarker={false}
         />
       )}
       <LineSeries
         data={{ x: [1, 2, 3, 4, 5, 6], y: [2, 4, 6, 6, 6, 6] }}
-        displayMarker={false}
+        displayMarker={true}
         label="Vg = 3V"
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
