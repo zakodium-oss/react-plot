@@ -6,12 +6,22 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
 import { getNextId } from '../utils';
 
+import { Circle, Square, Triangle } from './Markers';
+
 interface LineSeriesRenderProps {
   data: Series;
   lineStyle?: CSSProperties;
   label: string;
   displayMarker?: boolean;
+  markerShape?: 'circle' | 'square' | 'triangle';
+  markerSize?: number;
 }
+
+const markersComps = {
+  circle: Circle,
+  square: Square,
+  triangle: Triangle,
+};
 
 export default function LineSeries(props: LineSeriesProps) {
   const [id] = useState(() => `series-${getNextId()}`);
@@ -38,6 +48,8 @@ function LineSeriesRender({
   lineStyle,
   label,
   displayMarker,
+  markerShape = 'circle',
+  markerSize = 3,
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { xScale, yScale, colorScaler } = usePlotContext();
@@ -63,21 +75,22 @@ function LineSeriesRender({
       .y((d) => d.y);
 
     // Show markers
+    const Marker = markersComps[markerShape];
     const markers = !displayMarker
       ? null
       : series.map(({ x, y }, i) => (
-          <circle
+          <Marker
             // eslint-disable-next-line react/no-array-index-key
             key={`markers-${i}`}
-            cx={x}
-            cy={y}
-            r="3px"
+            x={x}
+            y={y}
+            size={markerSize}
             fill={color}
           />
         ));
 
     return [lineGenerator(series), markers];
-  }, [xScale, yScale, data, color, displayMarker]);
+  }, [xScale, yScale, color, data, displayMarker, markerSize, markerShape]);
   if ([xScale, yScale].includes(null)) return null;
 
   // default style

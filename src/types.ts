@@ -27,6 +27,8 @@ export interface LineSeriesProps {
   lineStyle?: CSSProperties;
   label?: string;
   displayMarker?: boolean;
+  markerShape?: 'circle' | 'square' | 'triangle';
+  markerSize?: number;
 }
 
 export interface AxisProps {
