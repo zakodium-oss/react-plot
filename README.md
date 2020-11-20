@@ -39,7 +39,7 @@ const Example = () => (
     />
     <Plot.XAxis label="Drain voltage [V]" showGridLines={true} />
     <Plot.YAxis label="Drain current [mA]" showGridLines={true} />
-    <Plot.Legend position="right" direction="down" />
+    <Plot.Legend position="right" />
   </Plot>
 );
 ```

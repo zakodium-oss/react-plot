@@ -1,10 +1,11 @@
-import { AxisScale } from 'd3-axis';
+import type { AxisScale } from 'd3-axis';
+import type { ScaleOrdinal } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 // Component props helpers
-type Horizontal = 'left' | 'right';
-type Vertical = 'top' | 'bottom';
-type Margins = Record<Horizontal | Vertical, number | undefined>;
+export type Horizontal = 'left' | 'right';
+export type Vertical = 'top' | 'bottom';
+export type Margins = Record<Horizontal | Vertical, number | undefined>;
 
 export interface Series {
   x: number[];
@@ -16,7 +17,7 @@ export interface Series {
 export interface PlotProps {
   width: number;
   height: number;
-  colorScheme?: string;
+  colorScheme?: string[];
   margin?: Margins;
   children: ReactNode[];
 }
@@ -45,7 +46,6 @@ export interface HeadingProps {
 
 export interface LegendProps {
   position?: Horizontal;
-  direction?: 'horizontal' | 'vertical';
 }
 
 // State related
@@ -66,6 +66,7 @@ export interface PlotContextType {
   height?: number;
   margin?: Margins;
   labels?: string[];
+  colorScaler?: ScaleOrdinal<string, unknown, never>;
 }
 
 // Util functions

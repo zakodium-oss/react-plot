@@ -38,18 +38,17 @@ export function Control(props) {
       {display && (
         <LineSeries
           data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
-          lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
+          lineStyle={{ strokeWidth: 3 }}
           label="Vg = 7V"
         />
       )}
       <LineSeries
         data={{ x: [1, 2, 3, 4, 5, 6], y: [2, 4, 6, 6, 6, 6] }}
-        lineStyle={{ stroke: 'red', strokeWidth: 2 }}
         label="Vg = 3V"
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
       <YAxis label="Drain current [mA]" showGridLines={showGridLines} />
-      <Legend position="right" direction="horizontal" />
+      <Legend position="right" />
     </Plot>
   );
 }
