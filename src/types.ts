@@ -26,6 +26,7 @@ export interface LineSeriesProps {
   data: Series;
   lineStyle?: CSSProperties;
   label?: string;
+  displayMarker?: boolean;
 }
 
 export interface AxisProps {
