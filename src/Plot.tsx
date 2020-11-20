@@ -1,5 +1,6 @@
 import { max, min } from 'd3-array';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { schemeSet1 } from 'd3-scale-chromatic';
 import React, { useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
@@ -30,12 +31,17 @@ function reducer(state: State, action: ReducerActions): State {
   }
 }
 
-export default function Plot({ width, height, margin, children }: PlotProps) {
+export default function Plot({
+  width,
+  height,
+  margin,
+  colorScheme,
+  children,
+}: PlotProps) {
   const [state, dispatch] = useReducer(reducer, { series: [] }, undefined);
 
-  const { invalidChild, lineSeries, axis, heading, legend } = splitChildren(
-    children,
-  );
+  const compoundComp = splitChildren(children);
+  const { invalidChild, lineSeries, axis, heading, legend } = compoundComp;
   if (invalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -58,10 +64,13 @@ export default function Plot({ width, height, margin, children }: PlotProps) {
     : null;
 
   const labels = state.series.map(({ label }) => label);
+  const colorScaler = scaleOrdinal()
+    .range(colorScheme || schemeSet1)
+    .domain(labels);
 
   return (
     <PlotContext.Provider
-      value={{ xScale, yScale, width, height, margin, labels }}
+      value={{ xScale, yScale, width, height, margin, labels, colorScaler }}
     >
       <DispatchContext.Provider value={{ dispatch }}>
         <svg width={width} height={height}>

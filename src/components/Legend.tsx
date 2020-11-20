@@ -2,25 +2,43 @@
 import React from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { LegendProps } from '../types';
+import type { Horizontal, LegendProps, Margins } from '../types';
 
-export default function Legend({ position, direction }: LegendProps) {
-  const { labels, margin, height, width } = usePlotContext();
+function translation(
+  position: Horizontal,
+  width: number,
+  height: number,
+  margin: Margins,
+) {
+  switch (position) {
+    case 'right': {
+      return [width - (margin.right || 0) + 16, height / 2];
+    }
+    case 'left': {
+      return [(margin.left || 0) - 130, height / 2];
+    }
+    default: {
+      throw new Error(`Position ${JSON.stringify(position)} unknown`);
+    }
+  }
+}
+
+export default function Legend({ position }: LegendProps) {
+  const { labels, margin, height, width, colorScaler } = usePlotContext();
+  const [x, y] = translation(position, width, height, margin);
   return (
-    <g
-      transform={`translate(${width - (margin.right || 0) + 10},${height / 2})`}
-    >
-      {labels?.map((text, i) => (
+    <g transform={`translate(${x}, ${y})`}>
+      {labels?.map((text, index) => (
         <circle
-          key={`circle-${text}-${i}`}
+          key={`circle-${text}-${index}`}
           cx="0"
-          cy={`${i + 1}em`}
+          cy={`${index + 1}em`}
           r="0.25em"
-          fill="blue"
+          fill={colorScaler(text) as string}
         />
       ))}
-      {labels?.map((text, i) => (
-        <text key={`text-${text}-${i}`} x="0.75em" y={`${i + 1.25}em`}>
+      {labels?.map((text, index) => (
+        <text key={`text-${text}-${index}`} x="0.75em" y={`${index + 1.25}em`}>
           {text}
         </text>
       ))}

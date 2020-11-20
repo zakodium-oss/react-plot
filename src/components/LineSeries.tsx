@@ -9,6 +9,7 @@ import { getNextId } from '../utils';
 interface LineSeriesRenderProps {
   data: Series;
   lineStyle?: CSSProperties;
+  label: string;
 }
 
 export default function LineSeries(props: LineSeriesProps) {
@@ -28,12 +29,12 @@ export default function LineSeries(props: LineSeriesProps) {
   }, [data, label, dispatch, id]);
 
   // Render stateless plot component
-  return <LineSeriesRender {...otherProps} data={data} />;
+  return <LineSeriesRender {...otherProps} data={data} label={label} />;
 }
 
-function LineSeriesRender({ data, lineStyle }: LineSeriesRenderProps) {
+function LineSeriesRender({ data, lineStyle, label }: LineSeriesRenderProps) {
   // Get scales from context
-  const { xScale, yScale } = usePlotContext();
+  const { xScale, yScale, colorScaler } = usePlotContext();
 
   // calculates the path to display
   const path = useMemo(() => {
@@ -57,5 +58,12 @@ function LineSeriesRender({ data, lineStyle }: LineSeriesRenderProps) {
   }, [xScale, yScale, data]);
   if ([xScale, yScale].includes(null)) return null;
 
-  return <path style={lineStyle} d={path} fill="none" />;
+  // default style
+  const style = {
+    stroke: colorScaler(label) as string,
+    strokeWidth: 2,
+    ...lineStyle,
+  };
+
+  return <path style={style} d={path} fill="none" />;
 }
