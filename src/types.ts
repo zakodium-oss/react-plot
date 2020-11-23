@@ -26,6 +26,9 @@ export interface LineSeriesProps {
   data: Series;
   lineStyle?: CSSProperties;
   label?: string;
+  displayMarker?: boolean;
+  markerShape?: 'circle' | 'square' | 'triangle';
+  markerSize?: number;
 }
 
 export interface AxisProps {
@@ -46,6 +49,13 @@ export interface HeadingProps {
 
 export interface LegendProps {
   position?: Horizontal;
+}
+
+export interface MarkersProps {
+  x: number;
+  y: number;
+  fill: string;
+  size: number;
 }
 
 // State related

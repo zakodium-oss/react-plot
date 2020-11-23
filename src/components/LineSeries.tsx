@@ -6,11 +6,22 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
 import { getNextId } from '../utils';
 
+import { Circle, Square, Triangle } from './Markers';
+
 interface LineSeriesRenderProps {
   data: Series;
   lineStyle?: CSSProperties;
   label: string;
+  displayMarker?: boolean;
+  markerShape?: 'circle' | 'square' | 'triangle';
+  markerSize?: number;
 }
+
+const markersComps = {
+  circle: Circle,
+  square: Square,
+  triangle: Triangle,
+};
 
 export default function LineSeries(props: LineSeriesProps) {
   const [id] = useState(() => `series-${getNextId()}`);
@@ -32,14 +43,22 @@ export default function LineSeries(props: LineSeriesProps) {
   return <LineSeriesRender {...otherProps} data={data} label={label} />;
 }
 
-function LineSeriesRender({ data, lineStyle, label }: LineSeriesRenderProps) {
+function LineSeriesRender({
+  data,
+  lineStyle,
+  label,
+  displayMarker,
+  markerShape = 'circle',
+  markerSize = 3,
+}: LineSeriesRenderProps) {
   // Get scales from context
   const { xScale, yScale, colorScaler } = usePlotContext();
 
   // calculates the path to display
-  const path = useMemo(() => {
+  const color = colorScaler(label) as string;
+  const [path, markers] = useMemo(() => {
     if ([xScale, yScale].includes(null) || data.x.length !== data.y.length) {
-      return null;
+      return [null, null];
     }
 
     // Format data for line function generator
@@ -54,16 +73,37 @@ function LineSeriesRender({ data, lineStyle, label }: LineSeriesRenderProps) {
     const lineGenerator = line<{ x: number; y: number }>()
       .x((d) => d.x)
       .y((d) => d.y);
-    return lineGenerator(series);
-  }, [xScale, yScale, data]);
+
+    // Show markers
+    const Marker = markersComps[markerShape];
+    const markers = !displayMarker
+      ? null
+      : series.map(({ x, y }, i) => (
+          <Marker
+            // eslint-disable-next-line react/no-array-index-key
+            key={`markers-${i}`}
+            x={x}
+            y={y}
+            size={markerSize}
+            fill={color}
+          />
+        ));
+
+    return [lineGenerator(series), markers];
+  }, [xScale, yScale, color, data, displayMarker, markerSize, markerShape]);
   if ([xScale, yScale].includes(null)) return null;
 
   // default style
   const style = {
-    stroke: colorScaler(label) as string,
+    stroke: color,
     strokeWidth: 2,
     ...lineStyle,
   };
 
-  return <path style={style} d={path} fill="none" />;
+  return (
+    <g>
+      {markers}
+      <path style={style} d={path} fill="none" />
+    </g>
+  );
 }
