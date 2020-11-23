@@ -5,7 +5,12 @@ import React, { useEffect, useRef } from 'react';
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const XAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
+const XAxis = ({
+  label,
+  fontSize = 16,
+  showGridLines,
+  labelStyle,
+}: AxisProps) => {
   const axisRef = useRef(null);
   const { xScale, margin, height, width } = usePlotContext();
 
@@ -49,6 +54,7 @@ const XAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
           })`}
           fontSize={fontSize}
           textAnchor="middle"
+          style={labelStyle}
         >
           {label}
         </text>

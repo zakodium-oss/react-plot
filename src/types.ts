@@ -35,6 +35,7 @@ export interface AxisProps {
   fontSize?: number;
   label?: string;
   showGridLines?: boolean;
+  labelStyle?: CSSProperties;
 }
 
 export interface HeadingProps {
