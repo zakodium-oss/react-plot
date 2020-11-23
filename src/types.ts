@@ -51,6 +51,13 @@ export interface LegendProps {
   position?: Horizontal;
 }
 
+export interface MarkersProps {
+  x: number;
+  y: number;
+  fill: string;
+  size: number;
+}
+
 // State related
 
 export interface PlotState {

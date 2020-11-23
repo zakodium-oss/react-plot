@@ -1,11 +1,6 @@
 import React from 'react';
 
-interface MarkersProps {
-  x: number;
-  y: number;
-  fill: string;
-  size: number;
-}
+import type { MarkersProps } from '../types';
 
 export function Circle({ x, y, fill, size }: MarkersProps) {
   return <circle cx={x} cy={y} r={size} fill={fill} />;

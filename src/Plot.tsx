@@ -16,9 +16,7 @@ function reducer(state: State, action: ReducerActions): State {
     case 'newData': {
       const { series } = state;
       const serieItem = action.value;
-      return {
-        series: [...series, serieItem],
-      };
+      return { series: [...series, serieItem] };
     }
     case 'removeData': {
       const { id } = action.value;
