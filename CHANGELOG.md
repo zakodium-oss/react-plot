@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.0](https://www.github.com/zakodium/react-plot/compare/v1.0.0...v0.1.0) (2020-11-25)
+
+
+### Features
+
+* add label style property to axis ([#12](https://www.github.com/zakodium/react-plot/issues/12)) ([794beaf](https://www.github.com/zakodium/react-plot/commit/794beaf1df6c08713b47ea563879a7d04c677cdf))
+
+
+### Bug Fixes
+
+* release with correct name ([bedeae6](https://www.github.com/zakodium/react-plot/commit/bedeae69213eac229470f6d1791714c68f3538e5))
+
 ## 0.1.0 (2020-11-23)
 
 ### Features
