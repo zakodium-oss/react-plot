@@ -5,7 +5,12 @@ import React, { useEffect, useRef } from 'react';
 import { usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
-const YAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
+const YAxis = ({
+  label,
+  fontSize = 16,
+  showGridLines,
+  labelStyle,
+}: AxisProps) => {
   const axisRef = useRef(null);
   const { yScale, margin, height, width } = usePlotContext();
 
@@ -46,6 +51,7 @@ const YAxis = ({ label, fontSize = 16, showGridLines }: AxisProps) => {
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}
+          style={{ fontFamily: 'Arial, Helvetica, sans-serif', ...labelStyle }}
         >
           {label}
         </text>

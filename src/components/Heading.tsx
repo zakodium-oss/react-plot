@@ -29,11 +29,13 @@ export default function Heading({
   const { width, height, margin } = usePlotContext();
 
   const defaultTitleStyle: CSSProperties = {
+    fontFamily: 'Arial, Helvetica, sans-serif',
     textAnchor: 'middle',
     fontSize: '16px',
     fontWeight: 'bold',
   };
   const defaultSubtitleStyle: CSSProperties = {
+    fontFamily: '',
     textAnchor: 'middle',
     fontSize: '14px',
     color: 'gray',

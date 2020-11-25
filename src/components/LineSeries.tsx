@@ -95,6 +95,7 @@ function LineSeriesRender({
 
   // default style
   const style = {
+    fontFamily: 'Arial, Helvetica, sans-serif',
     stroke: color,
     strokeWidth: 2,
     ...lineStyle,
