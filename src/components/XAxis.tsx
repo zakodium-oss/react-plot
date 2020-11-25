@@ -54,7 +54,7 @@ const XAxis = ({
           })`}
           fontSize={fontSize}
           textAnchor="middle"
-          style={labelStyle}
+          style={{ fontFamily: 'Arial, Helvetica, sans-serif', ...labelStyle }}
         >
           {label}
         </text>
