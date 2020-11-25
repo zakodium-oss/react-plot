@@ -26,7 +26,13 @@
     "type": "git",
     "url": "git+https://github.com/zakodium/react-plot.git"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "plot",
+    "d3-line",
+    "d3",
+    "d3-react"
+  ],
   "author": "Miguel Asencio",
   "license": "MIT",
   "bugs": {
