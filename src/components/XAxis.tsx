@@ -11,7 +11,7 @@ const XAxis = ({
   labelSpace = 20,
   showGridLines,
   labelStyle,
-  labelFormat,
+  tickFormat,
 }: AxisProps) => {
   const axisRef = useRef(null);
   const { xScale, margin, height, width } = usePlotContext();
@@ -22,8 +22,8 @@ const XAxis = ({
       if (showGridLines) {
         axis.tickSizeInner((margin?.bottom || 0) + (margin?.top || 0) - height);
       }
-      if (labelFormat) {
-        axis.tickFormat(labelFormat);
+      if (tickFormat) {
+        axis.tickFormat(tickFormat);
       }
 
       select(axisRef.current)
@@ -38,7 +38,7 @@ const XAxis = ({
           );
         });
     }
-  }, [axisRef, xScale, margin, height, width, showGridLines, labelFormat]);
+  }, [axisRef, xScale, margin, height, width, showGridLines, tickFormat]);
 
   // Recomend bigger margin
   if ((margin?.left || 0) < fontSize + labelSpace) {

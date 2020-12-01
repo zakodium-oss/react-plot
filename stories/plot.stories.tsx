@@ -75,7 +75,7 @@ export function Control(props) {
       <YAxis
         label="Drain current [mA]"
         showGridLines={showGridLines}
-        labelFormat={format}
+        tickFormat={format}
         labelSpace={40}
       />
       <Legend position={legendPosition} />
