@@ -8,6 +8,7 @@ import type { AxisProps } from '../types';
 const YAxis = ({
   label,
   fontSize = 16,
+  labelSpace = 30,
   showGridLines,
   labelStyle,
   labelFormat,
@@ -40,9 +41,11 @@ const YAxis = ({
   }, [axisRef, yScale, margin, width, showGridLines, labelFormat]);
 
   // Recomend bigger margin
-  if ((margin?.bottom || 0) < fontSize + 30) {
+  if ((margin?.bottom || 0) < fontSize + labelSpace) {
     // eslint-disable-next-line no-console
-    console.warn(`Your margin bottom should be at least ${fontSize + 30}`);
+    console.warn(
+      `Your margin bottom should be at least ${fontSize + labelSpace}`,
+    );
   }
 
   return (
@@ -50,9 +53,9 @@ const YAxis = ({
       <g ref={axisRef} transform={`translate(${margin?.left || 0}, 0)`} />
       {label && (
         <text
-          transform={`translate(${(margin?.left || 0) - fontSize - 30}, ${
-            height / 2
-          })rotate(-90)`}
+          transform={`translate(${
+            (margin?.left || 0) - fontSize - labelSpace
+          }, ${height / 2})rotate(-90)`}
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}

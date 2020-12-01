@@ -36,6 +36,7 @@ export interface AxisProps {
   label?: string;
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
+  labelSpace?: number;
   labelFormat?: (label: number) => string;
 }
 

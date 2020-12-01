@@ -8,6 +8,7 @@ import type { AxisProps } from '../types';
 const XAxis = ({
   label,
   fontSize = 16,
+  labelSpace = 20,
   showGridLines,
   labelStyle,
   labelFormat,
@@ -40,7 +41,7 @@ const XAxis = ({
   }, [axisRef, xScale, margin, height, width, showGridLines, labelFormat]);
 
   // Recomend bigger margin
-  if ((margin?.left || 0) < fontSize + 20) {
+  if ((margin?.left || 0) < fontSize + labelSpace) {
     // eslint-disable-next-line no-console
     console.warn(`Your margin left should be at least ${fontSize + 20}`);
   }
@@ -54,7 +55,7 @@ const XAxis = ({
       {label && (
         <text
           transform={`translate(${width / 2} ,${
-            height - (margin?.bottom || 0) + 20 + fontSize
+            height - (margin?.bottom || 0) + labelSpace + fontSize
           })`}
           fontSize={fontSize}
           textAnchor="middle"
