@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/zakodium/react-plot/compare/v0.1.0...v0.2.0) (2020-12-01)
+
+
+### Features
+
+* add label format ([7748ba8](https://www.github.com/zakodium/react-plot/commit/7748ba8fb9a873971abe16bce877555cab5ed072))
+* customize space from label to axis ([018bafe](https://www.github.com/zakodium/react-plot/commit/018bafeb0b179ac75e933639d59d0d93887bbf97))
+
 ## [0.1.0](https://www.github.com/zakodium/react-plot/compare/v1.0.0...v0.1.0) (2020-11-25)
 
 
