@@ -45,11 +45,11 @@ export function Control(props) {
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
-  const left = legendPosition === 'right' ? 50 : 150;
+  const left = legendPosition === 'right' ? 50 : 160;
   const top = headingPosition === 'top' ? 50 : 10;
   const right = legendPosition === 'right' ? 100 : 10;
 
-  const format = (y: number) => Number.parseFloat(String(y / 1000)).toFixed(2);
+  const format = (y: number) => Number.parseFloat(String(y / 10)).toFixed(2);
   return (
     <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
       <Heading
@@ -76,6 +76,7 @@ export function Control(props) {
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelFormat={format}
+        labelSpace={40}
       />
       <Legend position={legendPosition} />
     </Plot>
