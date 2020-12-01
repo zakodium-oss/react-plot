@@ -11,7 +11,7 @@ const YAxis = ({
   labelSpace = 30,
   showGridLines,
   labelStyle,
-  labelFormat,
+  tickFormat,
 }: AxisProps) => {
   const axisRef = useRef(null);
   const { yScale, margin, height, width } = usePlotContext();
@@ -22,8 +22,8 @@ const YAxis = ({
       if (showGridLines) {
         axis.tickSizeInner((margin?.left || 0) + (margin?.right || 0) - width);
       }
-      if (labelFormat) {
-        axis.tickFormat(labelFormat);
+      if (tickFormat) {
+        axis.tickFormat(tickFormat);
       }
 
       select(axisRef.current)
@@ -38,7 +38,7 @@ const YAxis = ({
           );
         });
     }
-  }, [axisRef, yScale, margin, width, showGridLines, labelFormat]);
+  }, [axisRef, yScale, margin, width, showGridLines, tickFormat]);
 
   // Recomend bigger margin
   if ((margin?.bottom || 0) < fontSize + labelSpace) {

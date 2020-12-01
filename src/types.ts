@@ -37,7 +37,7 @@ export interface AxisProps {
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
   labelSpace?: number;
-  labelFormat?: (label: number) => string;
+  tickFormat?: (label: number) => string;
 }
 
 export interface HeadingProps {
