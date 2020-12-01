@@ -49,6 +49,7 @@ export function Control(props) {
   const top = headingPosition === 'top' ? 50 : 10;
   const right = legendPosition === 'right' ? 100 : 10;
 
+  const format = (y: number) => Number.parseFloat(String(y / 1000)).toFixed(2);
   return (
     <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
       <Heading
@@ -71,7 +72,11 @@ export function Control(props) {
         label="Vg = 3V"
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
-      <YAxis label="Drain current [mA]" showGridLines={showGridLines} />
+      <YAxis
+        label="Drain current [mA]"
+        showGridLines={showGridLines}
+        labelFormat={format}
+      />
       <Legend position={legendPosition} />
     </Plot>
   );
