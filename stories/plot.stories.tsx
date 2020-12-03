@@ -45,7 +45,7 @@ export function Control(props) {
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
-  const left = legendPosition === 'right' ? 50 : 160;
+  const left = legendPosition === 'right' ? 70 : 150;
   const top = headingPosition === 'top' ? 50 : 10;
   const right = legendPosition === 'right' ? 100 : 10;
 

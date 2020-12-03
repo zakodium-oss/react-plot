@@ -55,7 +55,10 @@ const YAxis = ({
         <text
           transform={`translate(${
             (margin?.left || 0) - fontSize - labelSpace
-          }, ${height / 2})rotate(-90)`}
+          }, ${
+            (margin?.top || 0) +
+            (height - (margin?.top || 0) - (margin?.bottom || 0)) / 2
+          })rotate(-90)`}
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}
