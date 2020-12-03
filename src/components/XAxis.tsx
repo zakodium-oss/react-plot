@@ -54,9 +54,10 @@ const XAxis = ({
       />
       {label && (
         <text
-          transform={`translate(${width / 2} ,${
-            height - (margin?.bottom || 0) + labelSpace + fontSize
-          })`}
+          transform={`translate(${
+            (width - (margin?.left || 0) - (margin?.right || 0)) / 2 +
+            (margin?.left || 0)
+          } ,${height - (margin?.bottom || 0) + labelSpace + fontSize})`}
           fontSize={fontSize}
           textAnchor="middle"
           style={{ fontFamily: 'Arial, Helvetica, sans-serif', ...labelStyle }}
