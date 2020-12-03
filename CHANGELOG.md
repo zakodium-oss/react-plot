@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/zakodium/react-plot/compare/v0.2.0...v0.2.1) (2020-12-03)
+
+
+### Bug Fixes
+
+* center axis labels on plot ([#16](https://www.github.com/zakodium/react-plot/issues/16)) ([00baa2a](https://www.github.com/zakodium/react-plot/commit/00baa2a461e1d6587055d173c6d5112b73b6c7e4))
+
 ## [0.2.0](https://www.github.com/zakodium/react-plot/compare/v0.1.0...v0.2.0) (2020-12-01)
 
 
