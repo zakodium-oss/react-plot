@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { Horizontal, LegendProps, Margins } from '../types';
+import type { Horizontal, LegendProps } from '../types';
 
 function translation(
   position: Horizontal,
@@ -28,7 +28,7 @@ export default function Legend({ position }: LegendProps) {
   const { labels, right, left, height, width, colorScaler } = usePlotContext();
   const [x, y] = translation(position, width, height, right, left);
   return (
-    <g x={x} y={y}>
+    <g transform={`translate(${x}, ${y})`}>
       {labels?.map((text, index) => (
         <circle
           key={`circle-${text}-${index}`}
