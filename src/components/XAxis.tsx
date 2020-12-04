@@ -42,16 +42,14 @@ const XAxis = ({
 
   return (
     <>
-      <g
-        ref={axisRef}
-        transform={`translate(0, ${height - (margin?.bottom || 0)})`}
-      />
+      <g ref={axisRef} x={0} y={height - (margin?.bottom || 0)} />
       {label && (
         <text
-          transform={`translate(${
+          x={
             (width - (margin?.left || 0) - (margin?.right || 0)) / 2 +
             (margin?.left || 0)
-          } ,${height - (margin?.bottom || 0) + labelSpace + fontSize})`}
+          }
+          y={height - (margin?.bottom || 0) + labelSpace + fontSize}
           fontSize={fontSize}
           textAnchor="middle"
           style={labelStyle}

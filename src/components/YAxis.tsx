@@ -42,15 +42,15 @@ const YAxis = ({
 
   return (
     <>
-      <g ref={axisRef} transform={`translate(${margin?.left || 0}, 0)`} />
+      <g ref={axisRef} x={margin?.left || 0} y={0} />
       {label && (
         <text
-          transform={`translate(${
-            (margin?.left || 0) - fontSize - labelSpace
-          }, ${
+          x={(margin?.left || 0) - fontSize - labelSpace}
+          y={
             (margin?.top || 0) +
             (height - (margin?.top || 0) - (margin?.bottom || 0)) / 2
-          })rotate(-90)`}
+          }
+          transform="rotate(-90)"
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}
