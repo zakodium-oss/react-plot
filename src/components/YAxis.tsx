@@ -40,14 +40,6 @@ const YAxis = ({
     }
   }, [axisRef, yScale, margin, width, showGridLines, tickFormat]);
 
-  // Recomend bigger margin
-  if ((margin?.bottom || 0) < fontSize + labelSpace) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `Your margin bottom should be at least ${fontSize + labelSpace}`,
-    );
-  }
-
   return (
     <>
       <g ref={axisRef} transform={`translate(${margin?.left || 0}, 0)`} />
