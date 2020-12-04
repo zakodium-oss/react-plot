@@ -40,12 +40,6 @@ const XAxis = ({
     }
   }, [axisRef, xScale, margin, height, width, showGridLines, tickFormat]);
 
-  // Recomend bigger margin
-  if ((margin?.left || 0) < fontSize + labelSpace) {
-    // eslint-disable-next-line no-console
-    console.warn(`Your margin left should be at least ${fontSize + 20}`);
-  }
-
   return (
     <>
       <g
