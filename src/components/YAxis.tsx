@@ -54,7 +54,7 @@ const YAxis = ({
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}
-          style={{ fontFamily: 'Arial, Helvetica, sans-serif', ...labelStyle }}
+          style={labelStyle}
         >
           {label}
         </text>
