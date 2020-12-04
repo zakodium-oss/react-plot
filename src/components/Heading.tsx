@@ -26,7 +26,7 @@ export default function Heading({
   subtitleClass,
   position = 'top',
 }: HeadingProps) {
-  const { width, height, margin } = usePlotContext();
+  const { width, height, bottom } = usePlotContext();
 
   const defaultTitleStyle: CSSProperties = {
     textAnchor: 'middle',
@@ -39,7 +39,7 @@ export default function Heading({
     color: 'gray',
   };
 
-  const bottomHeigth = height - (margin.bottom || 0);
+  const bottomHeigth = height - bottom;
   const y = yTranslation(position, bottomHeigth);
   return (
     <g x={width / 2} y={y}>
