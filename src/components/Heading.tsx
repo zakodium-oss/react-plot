@@ -42,7 +42,7 @@ export default function Heading({
   const bottomHeigth = height - (margin.bottom || 0);
   const y = yTranslation(position, bottomHeigth);
   return (
-    <g transform={`translate(${width / 2}, ${y})`}>
+    <g x={width / 2} y={y}>
       <text
         style={{ ...defaultTitleStyle, ...titleStyle }}
         className={titleClass}

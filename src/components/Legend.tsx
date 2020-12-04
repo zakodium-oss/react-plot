@@ -27,7 +27,7 @@ export default function Legend({ position }: LegendProps) {
   const { labels, margin, height, width, colorScaler } = usePlotContext();
   const [x, y] = translation(position, width, height, margin);
   return (
-    <g transform={`translate(${x}, ${y})`}>
+    <g x={x} y={y}>
       {labels?.map((text, index) => (
         <circle
           key={`circle-${text}-${index}`}
