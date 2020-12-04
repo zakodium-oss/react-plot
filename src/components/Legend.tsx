@@ -8,14 +8,15 @@ function translation(
   position: Horizontal,
   width: number,
   height: number,
-  margin: Margins,
+  right: number,
+  left: number,
 ) {
   switch (position) {
     case 'right': {
-      return [width - (margin.right || 0) + 16, height / 2];
+      return [width - right + 16, height / 2];
     }
     case 'left': {
-      return [(margin.left || 0) - 130, height / 2];
+      return [left - 130, height / 2];
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
@@ -24,8 +25,8 @@ function translation(
 }
 
 export default function Legend({ position }: LegendProps) {
-  const { labels, margin, height, width, colorScaler } = usePlotContext();
-  const [x, y] = translation(position, width, height, margin);
+  const { labels, right, left, height, width, colorScaler } = usePlotContext();
+  const [x, y] = translation(position, width, height, right, left);
   return (
     <g x={x} y={y}>
       {labels?.map((text, index) => (
