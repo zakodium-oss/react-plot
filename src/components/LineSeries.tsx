@@ -55,7 +55,7 @@ function LineSeriesRender({
   const { xScale, yScale, colorScaler } = usePlotContext();
 
   // calculates the path to display
-  const color = colorScaler(label) as string;
+  const color = colorScaler(label);
   const [path, markers] = useMemo(() => {
     if ([xScale, yScale].includes(null) || data.x.length !== data.y.length) {
       return [null, null];

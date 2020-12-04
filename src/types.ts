@@ -79,7 +79,7 @@ export interface PlotContextType {
   height?: number;
   margin?: Margins;
   labels?: string[];
-  colorScaler?: ScaleOrdinal<string, unknown, never>;
+  colorScaler?: ScaleOrdinal<string, string>;
 }
 
 // Util functions
