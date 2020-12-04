@@ -62,7 +62,7 @@ export default function Plot({
     : null;
 
   const labels = state.series.map(({ label }) => label);
-  const colorScaler = scaleOrdinal()
+  const colorScaler = scaleOrdinal<string>()
     .range(colorScheme || schemeSet1)
     .domain(labels);
 

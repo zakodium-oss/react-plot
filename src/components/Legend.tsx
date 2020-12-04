@@ -34,7 +34,7 @@ export default function Legend({ position }: LegendProps) {
           cx="0"
           cy={`${index + 1}em`}
           r="0.25em"
-          fill={colorScaler(text) as string}
+          fill={colorScaler(text)}
         />
       ))}
       {labels?.map((text, index) => (
