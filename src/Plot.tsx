@@ -47,7 +47,7 @@ export default function Plot({
   // Distances in plot
   const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
   const plotWidth = width - left - right;
-  const plotHeight = height - left - right;
+  const plotHeight = height - top - bottom;
 
   // Set scales
   const xMin = min(state.series, (d) => d.xMin);

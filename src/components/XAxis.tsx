@@ -50,7 +50,7 @@ const XAxis = ({
 
   return (
     <>
-      <g ref={axisRef} x={0} y={height - bottom} />
+      <g ref={axisRef} transform={`translate(0, ${height - bottom})`} />
       {label && (
         <text
           x={plotWidth / 2 + left}
