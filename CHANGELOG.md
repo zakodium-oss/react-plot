@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.2.2](https://www.github.com/zakodium/react-plot/compare/v0.2.1...v0.2.2) (2020-12-04)
+
+
+### Bug Fixes
+
+* missing margin values to update ([4cdd0e0](https://www.github.com/zakodium/react-plot/commit/4cdd0e076503ada443aa96ab8f08f929a540a9bb))
+* objects position misscalculations ([4124d79](https://www.github.com/zakodium/react-plot/commit/4124d79b5d9fa6b5d78a3d308b4235eac07ecfb5))
+
 ### [0.2.1](https://www.github.com/zakodium/react-plot/compare/v0.2.0...v0.2.1) (2020-12-03)
 
 
