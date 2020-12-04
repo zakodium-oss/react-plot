@@ -14,13 +14,13 @@ const YAxis = ({
   tickFormat,
 }: AxisProps) => {
   const axisRef = useRef(null);
-  const { yScale, margin, height, width } = usePlotContext();
+  const { yScale, plotHeight, plotWidth, left, top, width } = usePlotContext();
 
   useEffect(() => {
     if (axisRef?.current && yScale) {
       const axis = axisLeft(yScale);
       if (showGridLines) {
-        axis.tickSizeInner((margin?.left || 0) + (margin?.right || 0) - width);
+        axis.tickSizeInner(-plotWidth);
       }
       if (tickFormat) {
         axis.tickFormat(tickFormat);
@@ -38,18 +38,15 @@ const YAxis = ({
           );
         });
     }
-  }, [axisRef, yScale, margin, width, showGridLines, tickFormat]);
+  }, [axisRef, yScale, plotWidth, width, showGridLines, tickFormat]);
 
   return (
     <>
-      <g ref={axisRef} x={margin?.left || 0} y={0} />
+      <g ref={axisRef} x={left} y={0} />
       {label && (
         <text
-          x={(margin?.left || 0) - fontSize - labelSpace}
-          y={
-            (margin?.top || 0) +
-            (height - (margin?.top || 0) - (margin?.bottom || 0)) / 2
-          }
+          x={left - fontSize - labelSpace}
+          y={top + plotHeight / 2}
           transform="rotate(-90)"
           dy={fontSize}
           textAnchor="middle"

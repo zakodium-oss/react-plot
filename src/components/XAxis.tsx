@@ -14,13 +14,21 @@ const XAxis = ({
   tickFormat,
 }: AxisProps) => {
   const axisRef = useRef(null);
-  const { xScale, margin, height, width } = usePlotContext();
+  const {
+    xScale,
+    plotHeight,
+    plotWidth,
+    bottom,
+    left,
+    height,
+    width,
+  } = usePlotContext();
 
   useEffect(() => {
     if (axisRef?.current && xScale) {
       const axis = axisBottom(xScale);
       if (showGridLines) {
-        axis.tickSizeInner((margin?.bottom || 0) + (margin?.top || 0) - height);
+        axis.tickSizeInner(-plotHeight);
       }
       if (tickFormat) {
         axis.tickFormat(tickFormat);
@@ -38,18 +46,15 @@ const XAxis = ({
           );
         });
     }
-  }, [axisRef, xScale, margin, height, width, showGridLines, tickFormat]);
+  }, [axisRef, xScale, plotHeight, height, width, showGridLines, tickFormat]);
 
   return (
     <>
-      <g ref={axisRef} x={0} y={height - (margin?.bottom || 0)} />
+      <g ref={axisRef} x={0} y={height - bottom} />
       {label && (
         <text
-          x={
-            (width - (margin?.left || 0) - (margin?.right || 0)) / 2 +
-            (margin?.left || 0)
-          }
-          y={height - (margin?.bottom || 0) + labelSpace + fontSize}
+          x={plotWidth / 2 + left}
+          y={height - bottom + labelSpace + fontSize}
           fontSize={fontSize}
           textAnchor="middle"
           style={labelStyle}

@@ -44,6 +44,11 @@ export default function Plot({
     throw new Error('Only compound components of Plot are displayed');
   }
 
+  // Distances in plot
+  const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
+  const plotWidth = width - left - right;
+  const plotHeight = height - left - right;
+
   // Set scales
   const xMin = min(state.series, (d) => d.xMin);
   const xMax = max(state.series, (d) => d.xMax);
@@ -53,12 +58,12 @@ export default function Plot({
   const xScale = ![xMin, xMax].includes(undefined)
     ? scaleLinear()
         .domain([xMin, xMax])
-        .range([margin?.left || 0, width - (margin?.right || 0)])
+        .range([left, width - right])
     : null;
   const yScale = ![yMin, yMax].includes(undefined)
     ? scaleLinear()
         .domain([yMin, yMax])
-        .range([height - (margin?.bottom || 0), margin?.top || 0])
+        .range([height - bottom, top])
     : null;
 
   const labels = state.series.map(({ label }) => label);
@@ -68,7 +73,20 @@ export default function Plot({
 
   return (
     <PlotContext.Provider
-      value={{ xScale, yScale, width, height, margin, labels, colorScaler }}
+      value={{
+        xScale,
+        yScale,
+        width,
+        height,
+        left,
+        right,
+        top,
+        bottom,
+        plotWidth,
+        plotHeight,
+        labels,
+        colorScaler,
+      }}
     >
       <DispatchContext.Provider value={{ dispatch }}>
         <svg
