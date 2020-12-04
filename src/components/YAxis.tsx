@@ -2,7 +2,7 @@ import { axisLeft } from 'd3-axis';
 import { select } from 'd3-selection';
 import React, { useEffect, useRef } from 'react';
 
-import { usePlotContext } from '../hooks';
+import { useDispatchContext, usePlotContext } from '../hooks';
 import type { AxisProps } from '../types';
 
 const YAxis = ({
@@ -12,9 +12,17 @@ const YAxis = ({
   showGridLines,
   labelStyle,
   tickFormat,
+  min,
+  max,
 }: AxisProps) => {
   const axisRef = useRef(null);
   const { yScale, plotHeight, plotWidth, left, top, width } = usePlotContext();
+  const { dispatch } = useDispatchContext();
+
+  // Send min and max to main state
+  useEffect(() => {
+    dispatch({ type: 'yMinMax', value: { min, max } });
+  }, [dispatch, min, max]);
 
   useEffect(() => {
     if (axisRef?.current && yScale) {

@@ -38,6 +38,8 @@ export interface AxisProps {
   labelStyle?: CSSProperties;
   labelSpace?: number;
   tickFormat?: (label: number) => string;
+  min?: number;
+  max?: number;
 }
 
 export interface HeadingProps {
@@ -63,7 +65,7 @@ export interface MarkersProps {
 
 // State related
 
-export interface PlotState {
+export interface SeriesType {
   id: string;
   xMin: number;
   xMax: number;
@@ -90,8 +92,9 @@ export interface PlotContextType {
 // Util functions
 
 export type ReducerActions =
-  | { type: 'newData'; value: PlotState }
-  | { type: 'removeData'; value: { id: string } };
+  | { type: 'newData'; value: SeriesType }
+  | { type: 'removeData'; value: { id: string } }
+  | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } };
 
 export interface PlotChildren {
   invalidChild: boolean;
