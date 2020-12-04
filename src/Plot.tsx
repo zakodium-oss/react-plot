@@ -71,7 +71,11 @@ export default function Plot({
       value={{ xScale, yScale, width, height, margin, labels, colorScaler }}
     >
       <DispatchContext.Provider value={{ dispatch }}>
-        <svg width={width} height={height}>
+        <svg
+          width={width}
+          height={height}
+          style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
+        >
           {heading}
           {legend}
           {lineSeries}
