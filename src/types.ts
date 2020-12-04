@@ -77,7 +77,12 @@ export interface PlotContextType {
   yScale?: AxisScale<number>;
   width?: number;
   height?: number;
-  margin?: Margins;
+  left?: number;
+  right?: number;
+  top?: number;
+  bottom?: number;
+  plotWidth?: number;
+  plotHeight?: number;
   labels?: string[];
   colorScaler?: ScaleOrdinal<string, string>;
 }
