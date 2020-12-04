@@ -52,7 +52,17 @@ function LineSeriesRender({
   markerSize = 3,
 }: LineSeriesRenderProps) {
   // Get scales from context
-  const { xScale, yScale, colorScaler } = usePlotContext();
+  const {
+    xScale,
+    yScale,
+    colorScaler,
+    left,
+    right,
+    top,
+    bottom,
+    width,
+    height,
+  } = usePlotContext();
 
   // calculates the path to display
   const color = colorScaler(label);
@@ -66,7 +76,9 @@ function LineSeriesRender({
     for (let index = 0; index < data.x.length; index++) {
       const x = xScale(data.x[index]);
       const y = yScale(data.y[index]);
-      series.push({ x, y });
+      if (x >= left && x <= width - right && y >= top && y <= height - bottom) {
+        series.push({ x, y });
+      }
     }
 
     // Calculate line from D3
@@ -90,7 +102,21 @@ function LineSeriesRender({
         ));
 
     return [lineGenerator(series), markers];
-  }, [xScale, yScale, color, data, displayMarker, markerSize, markerShape]);
+  }, [
+    xScale,
+    yScale,
+    color,
+    data,
+    displayMarker,
+    markerSize,
+    markerShape,
+    left,
+    right,
+    top,
+    bottom,
+    width,
+    height,
+  ]);
   if ([xScale, yScale].includes(null)) return null;
 
   // default style

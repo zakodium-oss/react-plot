@@ -1,14 +1,18 @@
 import { max, min } from 'd3-array';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
-import React, { useReducer } from 'react';
+import React, { useMemo, useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
-import type { PlotProps, PlotState, ReducerActions } from './types';
+import type { PlotProps, SeriesType, ReducerActions } from './types';
 import { splitChildren } from './utils';
 
 interface State {
-  series: PlotState[];
+  series: SeriesType[];
+  xMin?: number;
+  xMax?: number;
+  yMin?: number;
+  yMax?: number;
 }
 
 function reducer(state: State, action: ReducerActions): State {
@@ -16,12 +20,20 @@ function reducer(state: State, action: ReducerActions): State {
     case 'newData': {
       const { series } = state;
       const serieItem = action.value;
-      return { series: [...series, serieItem] };
+      return { ...state, series: [...series, serieItem] };
     }
     case 'removeData': {
       const { id } = action.value;
       const seriesFiltered = state.series.filter((series) => series.id !== id);
-      return { series: seriesFiltered };
+      return { ...state, series: seriesFiltered };
+    }
+    case 'xMinMax': {
+      const { min: xMin, max: xMax } = action.value;
+      return { ...state, xMin, xMax };
+    }
+    case 'yMinMax': {
+      const { min: yMin, max: yMax } = action.value;
+      return { ...state, yMin, yMax };
     }
     default: {
       throw new Error();
@@ -50,26 +62,45 @@ export default function Plot({
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const xMin = min(state.series, (d) => d.xMin);
-  const xMax = max(state.series, (d) => d.xMax);
-  const yMin = min(state.series, (d) => d.yMin);
-  const yMax = max(state.series, (d) => d.yMax);
+  const xScale = useMemo(() => {
+    const xMin =
+      state.xMin !== undefined ? state.xMin : min(state.series, (d) => d.xMin);
+    const xMax =
+      state.xMax !== undefined ? state.xMax : max(state.series, (d) => d.xMax);
 
-  const xScale = ![xMin, xMax].includes(undefined)
-    ? scaleLinear()
-        .domain([xMin, xMax])
-        .range([left, width - right])
-    : null;
-  const yScale = ![yMin, yMax].includes(undefined)
-    ? scaleLinear()
-        .domain([yMin, yMax])
-        .range([height - bottom, top])
-    : null;
+    if ([xMin, xMax].includes(undefined)) return null;
+    if (xMin > xMax) {
+      throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
+    }
+
+    return scaleLinear()
+      .domain([xMin, xMax])
+      .range([left, width - right]);
+  }, [state, left, right, width]);
+
+  const yScale = useMemo(() => {
+    const yMin =
+      state.yMin !== undefined ? state.yMin : min(state.series, (d) => d.yMin);
+    const yMax =
+      state.yMax !== undefined ? state.yMax : max(state.series, (d) => d.yMax);
+
+    if ([yMin, yMax].includes(undefined)) return null;
+    if (yMin > yMax) {
+      throw new Error(`Y: min (${yMin}) is bigger than max (${yMax})`);
+    }
+    return scaleLinear()
+      .domain([yMin, yMax])
+      .range([height - bottom, top]);
+  }, [state, bottom, top, height]);
 
   const labels = state.series.map(({ label }) => label);
-  const colorScaler = scaleOrdinal<string>()
-    .range(colorScheme || schemeSet1)
-    .domain(labels);
+  const colorScaler = useMemo(
+    () =>
+      scaleOrdinal<string>()
+        .range(colorScheme || schemeSet1)
+        .domain(labels),
+    [colorScheme, labels],
+  );
 
   return (
     <PlotContext.Provider
