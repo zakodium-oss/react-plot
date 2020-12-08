@@ -62,35 +62,43 @@ export default function Plot({
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const xScale = useMemo(() => {
+  const { xScale, xMin, xMax } = useMemo(() => {
     const xMin =
       state.xMin !== undefined ? state.xMin : min(state.series, (d) => d.xMin);
     const xMax =
       state.xMax !== undefined ? state.xMax : max(state.series, (d) => d.xMax);
 
-    if ([xMin, xMax].includes(undefined)) return null;
+    if ([xMin, xMax].includes(undefined)) return {};
     if (xMin > xMax) {
       throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
     }
 
-    return scaleLinear()
-      .domain([xMin, xMax])
-      .range([left, width - right]);
+    return {
+      xMin,
+      xMax,
+      xScale: scaleLinear()
+        .domain([xMin, xMax])
+        .range([left, width - right]),
+    };
   }, [state, left, right, width]);
 
-  const yScale = useMemo(() => {
+  const { yScale, yMin, yMax } = useMemo(() => {
     const yMin =
       state.yMin !== undefined ? state.yMin : min(state.series, (d) => d.yMin);
     const yMax =
       state.yMax !== undefined ? state.yMax : max(state.series, (d) => d.yMax);
 
-    if ([yMin, yMax].includes(undefined)) return null;
+    if ([yMin, yMax].includes(undefined)) return {};
     if (yMin > yMax) {
       throw new Error(`Y: min (${yMin}) is bigger than max (${yMax})`);
     }
-    return scaleLinear()
-      .domain([yMin, yMax])
-      .range([height - bottom, top]);
+    return {
+      yMin,
+      yMax,
+      yScale: scaleLinear()
+        .domain([yMin, yMax])
+        .range([height - bottom, top]),
+    };
   }, [state, bottom, top, height]);
 
   const labels = state.series.map(({ label }) => label);
@@ -101,6 +109,9 @@ export default function Plot({
         .domain(labels),
     [colorScheme, labels],
   );
+
+  const xDiff = xMax - xMin;
+  const yDiff = yMax - yMin;
 
   return (
     <PlotContext.Provider
@@ -117,6 +128,8 @@ export default function Plot({
         plotHeight,
         labels,
         colorScaler,
+        xScientific: xDiff <= 0.001 || xDiff >= 1000,
+        yScientific: yDiff <= 0.001 || yDiff >= 1000,
       }}
     >
       <DispatchContext.Provider value={{ dispatch }}>

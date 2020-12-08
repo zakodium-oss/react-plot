@@ -37,7 +37,6 @@ export interface AxisProps {
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
   labelSpace?: number;
-  tickFormat?: (label: number) => string;
   min?: number;
   max?: number;
 }
@@ -87,6 +86,8 @@ export interface PlotContextType {
   plotHeight?: number;
   labels?: string[];
   colorScaler?: ScaleOrdinal<string, string>;
+  xScientific: boolean;
+  yScientific: boolean;
 }
 
 // Util functions

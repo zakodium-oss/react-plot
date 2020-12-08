@@ -11,12 +11,19 @@ const YAxis = ({
   labelSpace = 30,
   showGridLines,
   labelStyle,
-  tickFormat,
   min,
   max,
 }: AxisProps) => {
   const axisRef = useRef(null);
-  const { yScale, plotHeight, plotWidth, left, top, width } = usePlotContext();
+  const {
+    yScale,
+    yScientific,
+    plotHeight,
+    plotWidth,
+    left,
+    top,
+    width,
+  } = usePlotContext();
   const { dispatch } = useDispatchContext();
 
   // Send min and max to main state
@@ -27,11 +34,12 @@ const YAxis = ({
   useEffect(() => {
     if (axisRef?.current && yScale) {
       const axis = axisLeft(yScale);
+
       if (showGridLines) {
         axis.tickSizeInner(-plotWidth);
       }
-      if (tickFormat) {
-        axis.tickFormat(tickFormat);
+      if (yScientific) {
+        axis.tickFormat((val) => val.toExponential(2));
       }
 
       select(axisRef.current)
@@ -46,16 +54,16 @@ const YAxis = ({
           );
         });
     }
-  }, [axisRef, yScale, plotWidth, width, showGridLines, tickFormat]);
+  }, [axisRef, yScale, plotWidth, width, showGridLines, yScientific]);
 
   return (
     <>
       <g ref={axisRef} transform={`translate(${left}, 0)`} />
       {label && (
         <text
-          transform={`translate(${left - fontSize - labelSpace}, ${
-            top + plotHeight / 2
-          })rotate(-90)`}
+          transform={`translate(${
+            left - fontSize - labelSpace - (yScientific ? 14 : 0)
+          }, ${top + plotHeight / 2})rotate(-90)`}
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}
