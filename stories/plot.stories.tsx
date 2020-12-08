@@ -4,7 +4,7 @@ import React from 'react';
 import { Plot, Heading, Legend, LineSeries, XAxis, YAxis } from '../src/index';
 
 export default {
-  title: 'Example/Plot',
+  title: 'Plot/General options',
   component: Plot,
   argTypes: {
     width: {
@@ -68,7 +68,7 @@ export function Control(props) {
       <LineSeries
         data={{ x: [1, 2, 3, 4, 5, 6], y: [2, 4, 6, 6, 6, 6] }}
         displayMarker={true}
-        markerShape="triangle"
+        markerShape="circle"
         label="Vg = 3V"
       />
       <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
