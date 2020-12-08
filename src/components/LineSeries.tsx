@@ -57,7 +57,10 @@ function LineSeriesRender({
   // calculates the path to display
   const color = colorScaler(label);
   const [path, markers] = useMemo(() => {
-    if ([xScale, yScale].includes(null) || data.x.length !== data.y.length) {
+    if (
+      [xScale, yScale].includes(undefined) ||
+      data.x.length !== data.y.length
+    ) {
       return [null, null];
     }
 

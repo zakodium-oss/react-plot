@@ -49,7 +49,6 @@ export function Control(props) {
   const top = headingPosition === 'top' ? 50 : 10;
   const right = legendPosition === 'right' ? 100 : 10;
 
-  const format = (y: number) => Number.parseFloat(String(y / 10)).toFixed(2);
   return (
     <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
       <Heading
@@ -75,7 +74,6 @@ export function Control(props) {
       <YAxis
         label="Drain current [mA]"
         showGridLines={showGridLines}
-        tickFormat={format}
         labelSpace={40}
       />
       <Legend position={legendPosition} />

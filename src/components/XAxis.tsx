@@ -11,13 +11,13 @@ const XAxis = ({
   labelSpace = 20,
   showGridLines,
   labelStyle,
-  tickFormat,
   min,
   max,
 }: AxisProps) => {
   const axisRef = useRef(null);
   const {
     xScale,
+    xScientific,
     plotHeight,
     plotWidth,
     bottom,
@@ -35,11 +35,12 @@ const XAxis = ({
   useEffect(() => {
     if (axisRef?.current && xScale) {
       const axis = axisBottom(xScale);
+
       if (showGridLines) {
         axis.tickSizeInner(-plotHeight);
       }
-      if (tickFormat) {
-        axis.tickFormat(tickFormat);
+      if (xScientific) {
+        axis.tickFormat((val) => val.toExponential(2));
       }
 
       select(axisRef.current)
@@ -52,9 +53,13 @@ const XAxis = ({
             'transform',
             `translate(0,${showGridLines ? 6 : 0})`,
           );
+
+          if (xScientific) {
+            g.selectAll('.tick:nth-child(odd) text').style('display', 'none');
+          }
         });
     }
-  }, [axisRef, xScale, plotHeight, height, width, showGridLines, tickFormat]);
+  }, [axisRef, xScale, plotHeight, height, width, showGridLines, xScientific]);
 
   return (
     <>
