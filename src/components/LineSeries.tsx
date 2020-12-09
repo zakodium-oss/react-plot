@@ -52,21 +52,11 @@ function LineSeriesRender({
   markerSize = 3,
 }: LineSeriesRenderProps) {
   // Get scales from context
-  const {
-    xScale,
-    yScale,
-    colorScaler,
-    left,
-    right,
-    top,
-    bottom,
-    width,
-    height,
-  } = usePlotContext();
+  const { xScale, yScale, colorScaler } = usePlotContext();
 
   // calculates the path to display
   const color = colorScaler(label);
-  const [path, markers, clip] = useMemo(() => {
+  const [path, markers] = useMemo(() => {
     if ([xScale, yScale].includes(null) || data.x.length !== data.y.length) {
       return [null, null];
     }
@@ -78,16 +68,6 @@ function LineSeriesRender({
       const y = yScale(data.y[index]);
       series.push({ x, y });
     }
-
-    // (x >= left && x <= width - right && y >= top && y <= height - bottom)
-    const [xMin, xMax] = extent(series, (d) => d.x);
-    const [yMin, yMax] = extent(series, (d) => d.y);
-    const clip = {
-      left: Math.max(left - xMin, 0),
-      top: Math.max(top - yMin, 0),
-      right: Math.max(xMax - width + right, 0),
-      bottom: Math.max(yMax - height + bottom, 0),
-    };
 
     // Calculate line from D3
     const lineGenerator = line<{ x: number; y: number }>()
@@ -109,22 +89,8 @@ function LineSeriesRender({
           />
         ));
 
-    return [lineGenerator(series), markers, clip];
-  }, [
-    xScale,
-    yScale,
-    color,
-    data,
-    displayMarker,
-    markerSize,
-    markerShape,
-    left,
-    right,
-    top,
-    bottom,
-    width,
-    height,
-  ]);
+    return [lineGenerator(series), markers];
+  }, [xScale, yScale, color, data, displayMarker, markerSize, markerShape]);
   if ([xScale, yScale].includes(null)) return null;
 
   // default style
@@ -135,11 +101,7 @@ function LineSeriesRender({
   };
 
   return (
-    <g
-      style={{
-        clipPath: `inset(${clip.top}px ${clip.right}px ${clip.bottom}px ${clip.left}px)`,
-      }}
-    >
+    <g>
       {markers}
       <path style={style} d={path} fill="none" />
     </g>

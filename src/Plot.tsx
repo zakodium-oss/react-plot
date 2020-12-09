@@ -127,9 +127,20 @@ export default function Plot({
         >
           {heading}
           {legend}
-          {lineSeries}
           {axis.x}
           {axis.y}
+
+          {/* Defines the borders of the plot space */}
+          <clipPath id="squareClip">
+            <rect
+              fillOpacity="0"
+              x={left}
+              y={top}
+              width={plotWidth}
+              height={plotHeight}
+            />
+          </clipPath>
+          <g style={{ clipPath: 'url(#squareClip)' }}>{lineSeries}</g>
         </svg>
       </DispatchContext.Provider>
     </PlotContext.Provider>
