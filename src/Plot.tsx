@@ -13,6 +13,10 @@ interface State {
   xMax?: number;
   yMin?: number;
   yMax?: number;
+  paddingLeft?: number;
+  paddingRight?: number;
+  paddingTop?: number;
+  paddingBottom?: number;
 }
 
 function reducer(state: State, action: ReducerActions): State {
@@ -34,6 +38,14 @@ function reducer(state: State, action: ReducerActions): State {
     case 'yMinMax': {
       const { min: yMin, max: yMax } = action.value;
       return { ...state, yMin, yMax };
+    }
+    case 'xPadding': {
+      const { min: paddingLeft, max: paddingRight } = action.value;
+      return { ...state, paddingLeft, paddingRight };
+    }
+    case 'yPadding': {
+      const { min: paddingBottom, max: paddingTop } = action.value;
+      return { ...state, paddingBottom, paddingTop };
     }
     default: {
       throw new Error();
@@ -73,30 +85,42 @@ export default function Plot({
       throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
     }
 
+    const leftPad = state.paddingLeft ? (xMax - xMin) * state.paddingLeft : 0;
+    const rightPad = state.paddingRight
+      ? (xMax - xMin) * state.paddingRight
+      : 0;
+
     return {
       xMin,
       xMax,
       xScale: scaleLinear()
-        .domain([xMin, xMax])
+        .domain([xMin - leftPad, xMax + rightPad])
         .range([left, width - right]),
     };
   }, [state, left, right, width]);
 
   const { yScale, yMin, yMax } = useMemo(() => {
+    // Get limits from state or data
     const yMin =
       state.yMin !== undefined ? state.yMin : min(state.series, (d) => d.yMin);
     const yMax =
       state.yMax !== undefined ? state.yMax : max(state.series, (d) => d.yMax);
-
+    // Limits validation
     if ([yMin, yMax].includes(undefined)) return {};
     if (yMin > yMax) {
       throw new Error(`Y: min (${yMin}) is bigger than max (${yMax})`);
     }
+
+    // Limits paddings
+    const topPad = state.paddingTop ? (yMax - yMin) * state.paddingTop : 0;
+    const bottomPad = state.paddingBottom
+      ? (yMax - yMin) * state.paddingBottom
+      : 0;
     return {
       yMin,
       yMax,
       yScale: scaleLinear()
-        .domain([yMin, yMax])
+        .domain([yMin - bottomPad, yMax + topPad])
         .range([height - bottom, top]),
     };
   }, [state, bottom, top, height]);

@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import React, { useEffect, useRef } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { AxisProps } from '../types';
+import type { YAxisProps } from '../types';
 
 const YAxis = ({
   label,
@@ -13,7 +13,9 @@ const YAxis = ({
   labelStyle,
   min,
   max,
-}: AxisProps) => {
+  paddingBottom,
+  paddingTop,
+}: YAxisProps) => {
   const axisRef = useRef(null);
   const {
     yScale,
@@ -30,6 +32,23 @@ const YAxis = ({
   useEffect(() => {
     dispatch({ type: 'yMinMax', value: { min, max } });
   }, [dispatch, min, max]);
+
+  // Send paddings to main state
+  useEffect(() => {
+    if (paddingBottom < 0 || paddingBottom > 1) {
+      throw new Error(
+        `Padding bottom (${paddingBottom}) is not between 0 and 1`,
+      );
+    }
+    if (paddingTop < 0 || paddingTop > 1) {
+      throw new Error(`Padding top (${paddingTop}) is not between 0 and 1`);
+    }
+
+    dispatch({
+      type: 'yPadding',
+      value: { min: paddingBottom, max: paddingTop },
+    });
+  }, [dispatch, paddingBottom, paddingTop]);
 
   useEffect(() => {
     if (axisRef?.current && yScale) {
