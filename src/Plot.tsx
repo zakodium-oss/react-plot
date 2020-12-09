@@ -128,8 +128,8 @@ export default function Plot({
         plotHeight,
         labels,
         colorScaler,
-        xScientific: xDiff <= 0.001 || xDiff >= 1000,
-        yScientific: yDiff <= 0.001 || yDiff >= 1000,
+        xScientific: xDiff <= 0.01 || xDiff >= 1000,
+        yScientific: yDiff <= 0.01 || yDiff >= 1000,
       }}
     >
       <DispatchContext.Provider value={{ dispatch }}>
