@@ -94,7 +94,7 @@ export function ScientificNotation() {
       />
       <LineSeries
         data={{
-          x: [0, 1, 2, 3, 4, 5].map((val) => val * 1000),
+          x: [0, 1, 2, 3, 4, 5].map((val) => val / 1000),
           y: [0, 1, 2, 3, 3, 3].map((val) => val * 1000),
         }}
         lineStyle={{ strokeWidth: 3 }}
@@ -103,14 +103,14 @@ export function ScientificNotation() {
       />
       <LineSeries
         data={{
-          x: [1, 2, 3, 4, 5, 6].map((val) => val * 1000),
+          x: [1, 2, 3, 4, 5, 6].map((val) => val / 1000),
           y: [2, 4, 6, 6, 6, 6].map((val) => val * 1000),
         }}
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"
       />
-      <XAxis label="Drain voltage [V]" showGridLines={true} max={6100} />
+      <XAxis label="Drain voltage [V]" showGridLines={true} max={0.0061} />
       <YAxis
         label="Drain current [mA]"
         showGridLines={true}
