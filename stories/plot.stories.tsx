@@ -80,3 +80,44 @@ export function Control(props) {
     </Plot>
   );
 }
+
+export function ScientificNotation() {
+  return (
+    <Plot
+      width={550}
+      height={500}
+      margin={{ bottom: 50, left: 70, top: 50, right: 100 }}
+    >
+      <Heading
+        title="Electrical characterization"
+        subtitle="current vs voltage"
+      />
+      <LineSeries
+        data={{
+          x: [0, 1, 2, 3, 4, 5].map((val) => val * 1000),
+          y: [0, 1, 2, 3, 3, 3].map((val) => val * 1000),
+        }}
+        lineStyle={{ strokeWidth: 3 }}
+        label="Vg = 7V"
+        displayMarker={false}
+      />
+      <LineSeries
+        data={{
+          x: [1, 2, 3, 4, 5, 6].map((val) => val * 1000),
+          y: [2, 4, 6, 6, 6, 6].map((val) => val * 1000),
+        }}
+        displayMarker={true}
+        markerShape="circle"
+        label="Vg = 3V"
+      />
+      <XAxis label="Drain voltage [V]" showGridLines={true} max={6100} />
+      <YAxis
+        label="Drain current [mA]"
+        showGridLines={true}
+        labelSpace={40}
+        max={6100}
+      />
+      <Legend position="right" />
+    </Plot>
+  );
+}
