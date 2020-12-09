@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import React, { useEffect, useRef } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { AxisProps } from '../types';
+import type { XAxisProps } from '../types';
 
 const XAxis = ({
   label,
@@ -13,7 +13,9 @@ const XAxis = ({
   labelStyle,
   min,
   max,
-}: AxisProps) => {
+  paddingLeft,
+  paddingRight,
+}: XAxisProps) => {
   const axisRef = useRef(null);
   const {
     xScale,
@@ -31,6 +33,21 @@ const XAxis = ({
   useEffect(() => {
     dispatch({ type: 'xMinMax', value: { min, max } });
   }, [dispatch, min, max]);
+
+  // Send paddings to main state
+  useEffect(() => {
+    if (paddingLeft < 0 || paddingLeft > 1) {
+      throw new Error(`Padding left (${paddingLeft}) is not between 0 and 1`);
+    }
+    if (paddingRight < 0 || paddingRight > 1) {
+      throw new Error(`Padding right (${paddingRight}) is not between 0 and 1`);
+    }
+
+    dispatch({
+      type: 'xPadding',
+      value: { min: paddingLeft, max: paddingRight },
+    });
+  }, [dispatch, paddingLeft, paddingRight]);
 
   useEffect(() => {
     if (axisRef?.current && xScale) {

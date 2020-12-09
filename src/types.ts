@@ -31,7 +31,7 @@ export interface LineSeriesProps {
   markerSize?: number;
 }
 
-export interface AxisProps {
+interface AxisProps {
   fontSize?: number;
   label?: string;
   showGridLines?: boolean;
@@ -39,6 +39,16 @@ export interface AxisProps {
   labelSpace?: number;
   min?: number;
   max?: number;
+}
+
+export interface XAxisProps extends AxisProps {
+  paddingLeft?: number;
+  paddingRight?: number;
+}
+
+export interface YAxisProps extends AxisProps {
+  paddingTop?: number;
+  paddingBottom?: number;
 }
 
 export interface HeadingProps {
@@ -95,7 +105,8 @@ export interface PlotContextType {
 export type ReducerActions =
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
-  | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } };
+  | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } }
+  | { type: 'xPadding' | 'yPadding'; value: { min?: number; max?: number } };
 
 export interface PlotChildren {
   invalidChild: boolean;

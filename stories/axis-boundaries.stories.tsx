@@ -13,11 +13,26 @@ export default {
     xMax: { defaultValue: 6, control: 'number' },
     yMin: { defaultValue: 0, control: 'number' },
     yMax: { defaultValue: 6, control: 'number' },
+    paddingLeft: { defaultValue: 0.01, control: 'number' },
+    paddingRight: { defaultValue: 0.01, control: 'number' },
+    paddingTop: { defaultValue: 0.01, control: 'number' },
+    paddingBottom: { defaultValue: 0.01, control: 'number' },
   },
 } as Meta;
 
 export function Control(props: Record<string, number>) {
-  const { width, height, xMin, xMax, yMax, yMin } = props;
+  const {
+    width,
+    height,
+    xMin,
+    xMax,
+    yMax,
+    yMin,
+    paddingLeft,
+    paddingRight,
+    paddingTop,
+    paddingBottom,
+  } = props;
   return (
     <Plot
       width={width}
@@ -45,6 +60,8 @@ export function Control(props: Record<string, number>) {
         showGridLines={true}
         min={xMin}
         max={xMax}
+        paddingLeft={paddingLeft}
+        paddingRight={paddingRight}
       />
       <YAxis
         label="Drain current [mA]"
@@ -52,6 +69,8 @@ export function Control(props: Record<string, number>) {
         labelSpace={40}
         min={yMin}
         max={yMax}
+        paddingTop={paddingTop}
+        paddingBottom={paddingBottom}
       />
       <Legend position="right" />
     </Plot>
