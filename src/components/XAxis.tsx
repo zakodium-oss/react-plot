@@ -49,10 +49,9 @@ const XAxis = ({
           g.selectAll('.tick line')
             .attr('stroke-opacity', showGridLines ? 0.5 : 1)
             .attr('stroke-dasharray', showGridLines ? '2,2' : '0');
-          g.selectAll('.tick text').attr(
-            'transform',
-            `translate(0,${showGridLines ? 6 : 0})`,
-          );
+          g.selectAll('.tick text')
+            .attr('transform', `translate(0,${showGridLines ? 6 : 0})`)
+            .style('user-select', 'none');
 
           if (xScientific) {
             g.selectAll('.tick:nth-child(odd) text').style('display', 'none');
