@@ -6,7 +6,10 @@ interface DispatchContextType {
   dispatch: ((action: ReducerActions) => void) | null;
 }
 
-export const PlotContext = createContext<PlotContextType>({});
+export const PlotContext = createContext<PlotContextType>({
+  xScientific: false,
+  yScientific: false,
+});
 export const DispatchContext = createContext<DispatchContextType>({
   dispatch: null,
 });
