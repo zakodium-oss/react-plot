@@ -13,8 +13,8 @@ const YAxis = ({
   labelStyle,
   min,
   max,
-  paddingBottom,
-  paddingTop,
+  paddingBottom = 0,
+  paddingTop = 0,
 }: YAxisProps) => {
   const axisRef = useRef(null);
   const {

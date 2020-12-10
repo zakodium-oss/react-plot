@@ -13,8 +13,8 @@ const XAxis = ({
   labelStyle,
   min,
   max,
-  paddingLeft,
-  paddingRight,
+  paddingLeft = 0,
+  paddingRight = 0,
 }: XAxisProps) => {
   const axisRef = useRef(null);
   const {

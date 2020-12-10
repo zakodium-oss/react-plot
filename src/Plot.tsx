@@ -85,10 +85,8 @@ export default function Plot({
       throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
     }
 
-    const leftPad = state.paddingLeft ? (xMax - xMin) * state.paddingLeft : 0;
-    const rightPad = state.paddingRight
-      ? (xMax - xMin) * state.paddingRight
-      : 0;
+    const leftPad = (xMax - xMin) * (state.paddingLeft || 0);
+    const rightPad = (xMax - xMin) * (state.paddingRight || 0);
 
     return {
       xMin,
@@ -112,10 +110,8 @@ export default function Plot({
     }
 
     // Limits paddings
-    const topPad = state.paddingTop ? (yMax - yMin) * state.paddingTop : 0;
-    const bottomPad = state.paddingBottom
-      ? (yMax - yMin) * state.paddingBottom
-      : 0;
+    const topPad = (yMax - yMin) * (state.paddingTop || 0);
+    const bottomPad = (yMax - yMin) * (state.paddingBottom || 0);
     return {
       yMin,
       yMax,
