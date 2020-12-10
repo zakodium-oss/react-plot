@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/zakodium/react-plot/compare/v0.2.1...v0.3.0) (2020-12-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* deletes tickFormat for avoiding colitions
+
+### Features
+
+* add "paddingXXX" prop to axes ([04273bf](https://www.github.com/zakodium/react-plot/commit/04273bf2aba097887e58e6a6b327f8975297ef45)), closes [#24](https://www.github.com/zakodium/react-plot/issues/24)
+* allow to set boundaries on axis ([da2164e](https://www.github.com/zakodium/react-plot/commit/da2164e2f06ff93bab8a08a29d68a046a1444720))
+* clip the graph instead of delete points ([4b6dccd](https://www.github.com/zakodium/react-plot/commit/4b6dccd9a501b9690fabf0f9e789733ba2b7da84))
+
+
+### Bug Fixes
+
+* missing margin values to update ([4cdd0e0](https://www.github.com/zakodium/react-plot/commit/4cdd0e076503ada443aa96ab8f08f929a540a9bb))
+* objects position misscalculations ([4124d79](https://www.github.com/zakodium/react-plot/commit/4124d79b5d9fa6b5d78a3d308b4235eac07ecfb5))
+* small values overload on x axis ([1aa7fd3](https://www.github.com/zakodium/react-plot/commit/1aa7fd33008038423eb3dc06194d5bbeb3010259))
+* use scientific notation for large number ([29ddacc](https://www.github.com/zakodium/react-plot/commit/29ddaccb90fc1925421fd011703ff50e916d74ed))
+
+
+### Performance Improvements
+
+* defines a unique clipPath for all series ([461b99a](https://www.github.com/zakodium/react-plot/commit/461b99a4702989818167463c3799cadd13ff7b2f))
+
 ### [0.2.1](https://www.github.com/zakodium/react-plot/compare/v0.2.0...v0.2.1) (2020-12-03)
 
 
