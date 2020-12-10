@@ -1,6 +1,6 @@
 {
   "name": "react-plot",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Render 2dplot partition in react",
   "main": "lib/src/index.js",
   "module": "lib-es/src/index.js",
