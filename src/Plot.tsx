@@ -13,10 +13,10 @@ interface State {
   xMax?: number;
   yMin?: number;
   yMax?: number;
-  paddingLeft?: number;
-  paddingRight?: number;
-  paddingTop?: number;
-  paddingBottom?: number;
+  paddingLeft: number;
+  paddingRight: number;
+  paddingTop: number;
+  paddingBottom: number;
 }
 
 function reducer(state: State, action: ReducerActions): State {
@@ -60,7 +60,14 @@ export default function Plot({
   colorScheme,
   children,
 }: PlotProps) {
-  const [state, dispatch] = useReducer(reducer, { series: [] }, undefined);
+  const initialState = {
+    series: [],
+    paddingLeft: 0,
+    paddingRight: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+  };
+  const [state, dispatch] = useReducer(reducer, initialState, undefined);
 
   const compoundComp = splitChildren(children);
   const { invalidChild, lineSeries, axis, heading, legend } = compoundComp;
@@ -85,8 +92,8 @@ export default function Plot({
       throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
     }
 
-    const leftPad = (xMax - xMin) * (state.paddingLeft || 0);
-    const rightPad = (xMax - xMin) * (state.paddingRight || 0);
+    const leftPad = (xMax - xMin) * state.paddingLeft;
+    const rightPad = (xMax - xMin) * state.paddingRight;
 
     return {
       xMin,
@@ -110,8 +117,8 @@ export default function Plot({
     }
 
     // Limits paddings
-    const topPad = (yMax - yMin) * (state.paddingTop || 0);
-    const bottomPad = (yMax - yMin) * (state.paddingBottom || 0);
+    const topPad = (yMax - yMin) * state.paddingTop;
+    const bottomPad = (yMax - yMin) * state.paddingBottom;
     return {
       yMin,
       yMax,
