@@ -137,12 +137,13 @@ export default function Plot({
   }, [state, bottom, top, height]);
 
   const labels = state.series.map(({ label }) => label);
+  const ids = state.series.map(({ id }) => id);
   const colorScaler = useMemo(
     () =>
       scaleOrdinal<string>()
         .range(colorScheme || schemeSet1)
-        .domain(labels),
-    [colorScheme, labels],
+        .domain(ids),
+    [colorScheme, ids],
   );
 
   const xDiff = xMax - xMin;

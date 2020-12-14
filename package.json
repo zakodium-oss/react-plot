@@ -55,6 +55,7 @@
     "@types/d3-array": "^2.5.1",
     "@types/d3-axis": "^2.0.0",
     "@types/d3-scale": "^3.2.1",
+    "@types/d3-scale-chromatic": "^2.0.0",
     "@types/d3-selection": "^2.0.0",
     "@types/d3-shape": "^2.0.0",
     "@types/react": "^16.9.52",
