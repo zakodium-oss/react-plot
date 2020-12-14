@@ -19,7 +19,7 @@ export interface PlotProps {
   height: number;
   colorScheme?: string[];
   margin?: Margins;
-  children: ReactNode[];
+  children: ReactNode;
 }
 
 export interface LineSeriesProps {

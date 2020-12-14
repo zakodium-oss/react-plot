@@ -13,7 +13,7 @@ export function getNextId() {
   return ++currentValue;
 }
 
-export function splitChildren(children: React.ReactNode[]): PlotChildren {
+export function splitChildren(children: React.ReactNode): PlotChildren {
   let invalidChild = false;
   let lineSeries = [];
   let axis = { x: null, y: null };
