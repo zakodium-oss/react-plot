@@ -74,8 +74,8 @@ export function PCA() {
             height={size / numFeatures}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
-            <XAxis paddingLeft={0.05} paddingRight={0.05} />
-            <YAxis paddingTop={0.05} paddingBottom={0.05} />
+            <XAxis paddingLeft={0.05} paddingRight={0.05} display={false} />
+            <YAxis paddingTop={0.05} paddingBottom={0.05} display={false} />
             {series}
           </Plot>,
         );
