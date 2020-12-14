@@ -35,6 +35,14 @@ export default {
       defaultValue: true,
       control: 'boolean',
     },
+    xFlip: {
+      defaultValue: false,
+      control: 'boolean',
+    },
+    yFlip: {
+      defaultValue: false,
+      control: 'boolean',
+    },
   },
 } as Meta;
 
@@ -47,6 +55,8 @@ export function Control(props) {
     headingPosition,
     legendPosition,
     showAxis,
+    xFlip,
+    yFlip,
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
@@ -79,12 +89,14 @@ export function Control(props) {
         label="Drain voltage [V]"
         showGridLines={showGridLines}
         display={showAxis}
+        flip={xFlip}
       />
       <YAxis
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelSpace={40}
         display={showAxis}
+        flip={yFlip}
       />
       <Legend position={legendPosition} />
     </Plot>

@@ -16,6 +16,7 @@ const YAxis = ({
   paddingBottom = 0,
   paddingTop = 0,
   display = true,
+  flip = false,
 }: YAxisProps) => {
   const axisRef = useRef(null);
   const {
@@ -33,6 +34,11 @@ const YAxis = ({
   useEffect(() => {
     dispatch({ type: 'yMinMax', value: { min, max } });
   }, [dispatch, min, max]);
+
+  // Send flip to main state
+  useEffect(() => {
+    dispatch({ type: 'flip', value: { flip, axis: 'y' } });
+  }, [dispatch, flip]);
 
   // Send paddings to main state
   useEffect(() => {
