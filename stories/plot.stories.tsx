@@ -31,6 +31,10 @@ export default {
       defaultValue: 'right',
       control: { type: 'select', options: ['left', 'right'] },
     },
+    showAxis: {
+      defaultValue: true,
+      control: 'boolean',
+    },
   },
 } as Meta;
 
@@ -42,6 +46,7 @@ export function Control(props) {
     height,
     headingPosition,
     legendPosition,
+    showAxis,
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
@@ -70,11 +75,16 @@ export function Control(props) {
         markerShape="circle"
         label="Vg = 3V"
       />
-      <XAxis label="Drain voltage [V]" showGridLines={showGridLines} />
+      <XAxis
+        label="Drain voltage [V]"
+        showGridLines={showGridLines}
+        display={showAxis}
+      />
       <YAxis
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelSpace={40}
+        display={showAxis}
       />
       <Legend position={legendPosition} />
     </Plot>
