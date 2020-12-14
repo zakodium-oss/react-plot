@@ -17,7 +17,7 @@ export interface Series {
 export interface PlotProps {
   width: number;
   height: number;
-  colorScheme?: string[];
+  colorScheme?: Iterable<string>;
   margin?: Partial<Margins>;
   children: ReactNode;
 }
