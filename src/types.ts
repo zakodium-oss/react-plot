@@ -39,6 +39,7 @@ interface AxisProps {
   labelSpace?: number;
   min?: number;
   max?: number;
+  display?: boolean;
 }
 
 export interface XAxisProps extends AxisProps {

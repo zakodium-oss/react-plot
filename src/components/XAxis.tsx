@@ -15,6 +15,7 @@ const XAxis = ({
   max,
   paddingLeft = 0,
   paddingRight = 0,
+  display = true,
 }: XAxisProps) => {
   const axisRef = useRef(null);
   const {
@@ -65,22 +66,38 @@ const XAxis = ({
         .call((g) => {
           g.selectAll('.tick line')
             .attr('stroke-opacity', showGridLines ? 0.5 : 1)
-            .attr('stroke-dasharray', showGridLines ? '2,2' : '0');
+            .attr('stroke-dasharray', showGridLines ? '2,2' : '0')
+            .style('display', display || showGridLines ? 'inline' : 'none');
           g.selectAll('.tick text')
             .attr('transform', `translate(0,${showGridLines ? 6 : 0})`)
-            .style('user-select', 'none');
+            .style('user-select', 'none')
+            .style('display', display ? 'inline' : 'none');
 
           if (xScientific) {
             g.selectAll('.tick:nth-child(odd) text').style('display', 'none');
           }
+
+          g.selectAll('path.domain').style(
+            'display',
+            display ? 'inline' : 'none',
+          );
         });
     }
-  }, [axisRef, xScale, plotHeight, height, width, showGridLines, xScientific]);
+  }, [
+    axisRef,
+    xScale,
+    plotHeight,
+    height,
+    width,
+    showGridLines,
+    xScientific,
+    display,
+  ]);
 
   return (
     <>
       <g ref={axisRef} transform={`translate(0, ${height - bottom})`} />
-      {label && (
+      {label && display && (
         <text
           x={plotWidth / 2 + left}
           y={height - bottom + labelSpace + fontSize}
