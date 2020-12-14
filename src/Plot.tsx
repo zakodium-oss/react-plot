@@ -62,7 +62,7 @@ function reducer(state: State, action: ReducerActions): State {
 export default function Plot({
   width,
   height,
-  margin,
+  margin = {},
   colorScheme,
   children,
 }: PlotProps) {
