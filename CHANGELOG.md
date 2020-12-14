@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/zakodium/react-plot/compare/v0.3.0...v0.3.1) (2020-12-14)
+
+
+### Bug Fixes
+
+* **types:** allow Plot to have a single child ([6a2e585](https://www.github.com/zakodium/react-plot/commit/6a2e58500c1a3168e9186c18c6bf8642e31b61cb))
+
 ## [0.3.0](https://www.github.com/zakodium/react-plot/compare/v0.2.1...v0.3.0) (2020-12-10)
 
 
