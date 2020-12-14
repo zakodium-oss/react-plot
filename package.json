@@ -40,8 +40,8 @@
   },
   "homepage": "https://github.com/zakodium/react-plot#readme",
   "peerDependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react": "^16.0.0 || ^17.0.0",
+    "react-dom": "^16.0.0 || ^17.0.0"
   },
   "prettier": {
     "trailingComma": "all",
@@ -49,7 +49,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
     "@storybook/addon-essentials": "^6.1.10",
     "@storybook/addon-links": "^6.1.10",
     "@storybook/react": "^6.1.10",
@@ -60,14 +59,10 @@
     "@types/d3-shape": "^2.0.0",
     "@types/react": "^16.9.52",
     "@zakodium/eslint-config": "^2.1.1",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.1.0",
     "eslint": "^7.11.0",
     "prettier": "^2.1.2",
     "react": "^16.13.1",
-    "react-docgen-typescript-loader": "^3.7.2",
     "react-dom": "^16.13.1",
-    "react-is": "^16.13.1",
     "typescript": "^4.0.3"
   },
   "dependencies": {
