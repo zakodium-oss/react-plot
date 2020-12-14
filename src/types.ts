@@ -18,7 +18,7 @@ export interface PlotProps {
   width: number;
   height: number;
   colorScheme?: string[];
-  margin?: Margins;
+  margin?: Partial<Margins>;
   children: ReactNode;
 }
 
