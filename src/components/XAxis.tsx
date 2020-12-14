@@ -16,6 +16,7 @@ const XAxis = ({
   paddingLeft = 0,
   paddingRight = 0,
   display = true,
+  flip = false,
 }: XAxisProps) => {
   const axisRef = useRef(null);
   const {
@@ -34,6 +35,11 @@ const XAxis = ({
   useEffect(() => {
     dispatch({ type: 'xMinMax', value: { min, max } });
   }, [dispatch, min, max]);
+
+  // Send flip to main state
+  useEffect(() => {
+    dispatch({ type: 'flip', value: { flip, axis: 'x' } });
+  }, [dispatch, flip]);
 
   // Send paddings to main state
   useEffect(() => {

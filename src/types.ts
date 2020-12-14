@@ -40,6 +40,7 @@ interface AxisProps {
   min?: number;
   max?: number;
   display?: boolean;
+  flip?: boolean;
 }
 
 export interface XAxisProps extends AxisProps {
@@ -107,7 +108,8 @@ export type ReducerActions =
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
   | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } }
-  | { type: 'xPadding' | 'yPadding'; value: { min?: number; max?: number } };
+  | { type: 'xPadding' | 'yPadding'; value: { min?: number; max?: number } }
+  | { type: 'flip'; value: { flip: boolean; axis: 'x' | 'y' } };
 
 export interface PlotChildren {
   invalidChild: boolean;

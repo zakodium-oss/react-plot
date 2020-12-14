@@ -17,6 +17,8 @@ interface State {
   paddingRight: number;
   paddingTop: number;
   paddingBottom: number;
+  xFlip: boolean;
+  yFlip: boolean;
 }
 
 function reducer(state: State, action: ReducerActions): State {
@@ -47,6 +49,10 @@ function reducer(state: State, action: ReducerActions): State {
       const { min: paddingBottom, max: paddingTop } = action.value;
       return { ...state, paddingBottom, paddingTop };
     }
+    case 'flip': {
+      const { flip, axis } = action.value;
+      return { ...state, [axis === 'x' ? 'xFlip' : 'yFlip']: flip };
+    }
     default: {
       throw new Error();
     }
@@ -66,6 +72,8 @@ export default function Plot({
     paddingRight: 0,
     paddingTop: 0,
     paddingBottom: 0,
+    xFlip: false,
+    yFlip: false,
   };
   const [state, dispatch] = useReducer(reducer, initialState, undefined);
 
@@ -100,7 +108,7 @@ export default function Plot({
       xMax,
       xScale: scaleLinear()
         .domain([xMin - leftPad, xMax + rightPad])
-        .range([left, width - right]),
+        .range(state.xFlip ? [width - right, left] : [left, width - right]),
     };
   }, [state, left, right, width]);
 
@@ -124,7 +132,7 @@ export default function Plot({
       yMax,
       yScale: scaleLinear()
         .domain([yMin - bottomPad, yMax + topPad])
-        .range([height - bottom, top]),
+        .range(state.yFlip ? [top, height - bottom] : [height - bottom, top]),
     };
   }, [state, bottom, top, height]);
 
