@@ -140,13 +140,11 @@ export default function Plot({
     state.series,
   ]);
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
-  const colorScaler = useMemo(
-    () =>
-      scaleOrdinal<string>()
-        .range(colorScheme || schemeSet1)
-        .domain(ids),
-    [colorScheme, ids],
-  );
+  const colorScaler = useMemo(() => {
+    return scaleOrdinal<string>()
+      .range(colorScheme || schemeSet1)
+      .domain(ids);
+  }, [colorScheme, ids]);
 
   const xDiff = xMax - xMin;
   const yDiff = yMax - yMin;
