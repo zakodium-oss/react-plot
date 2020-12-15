@@ -1,3 +1,4 @@
+import { PropertiesHyphen } from 'csstype';
 import type { AxisScale } from 'd3-axis';
 import type { ScaleOrdinal } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
@@ -36,6 +37,7 @@ interface AxisProps {
   label?: string;
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
+  tickStyle?: PropertiesHyphen;
   labelSpace?: number;
   min?: number;
   max?: number;

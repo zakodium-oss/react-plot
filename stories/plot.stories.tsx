@@ -109,7 +109,7 @@ export function ScientificNotation() {
     <Plot
       width={550}
       height={500}
-      margin={{ bottom: 50, left: 70, top: 50, right: 100 }}
+      margin={{ bottom: 50, left: 90, top: 50, right: 100 }}
     >
       <Heading
         title="Electrical characterization"
@@ -137,12 +137,14 @@ export function ScientificNotation() {
         label="Drain voltage [V]"
         showGridLines={true}
         max={6.1 / factor}
+        tickStyle={{ 'font-size': '0.8rem' }}
       />
       <YAxis
         label="Drain current [mA]"
         showGridLines={true}
-        labelSpace={40}
+        labelSpace={50}
         max={6.1 * factor}
+        tickStyle={{ 'font-size': '0.8rem' }}
       />
       <Legend position="right" />
     </Plot>

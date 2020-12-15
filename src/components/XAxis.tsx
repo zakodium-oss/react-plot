@@ -17,6 +17,7 @@ const XAxis = ({
   paddingRight = 0,
   display = true,
   flip = false,
+  tickStyle = {},
 }: XAxisProps) => {
   const axisRef = useRef(null);
   const {
@@ -74,10 +75,14 @@ const XAxis = ({
             .attr('stroke-opacity', showGridLines ? 0.5 : 1)
             .attr('stroke-dasharray', showGridLines ? '2,2' : '0')
             .style('display', display || showGridLines ? 'inline' : 'none');
-          g.selectAll('.tick text')
+          let text = g
+            .selectAll('.tick text')
             .attr('transform', `translate(0,${showGridLines ? 6 : 0})`)
             .style('user-select', 'none')
             .style('display', display ? 'inline' : 'none');
+          for (const key in tickStyle) {
+            text.style(key, tickStyle[key]);
+          }
 
           if (xScientific) {
             g.selectAll('.tick:nth-child(odd) text').style('display', 'none');
@@ -98,6 +103,7 @@ const XAxis = ({
     showGridLines,
     xScientific,
     display,
+    tickStyle,
   ]);
 
   return (
