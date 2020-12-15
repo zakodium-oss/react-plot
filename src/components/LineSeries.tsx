@@ -9,9 +9,9 @@ import { getNextId } from '../utils';
 import { Circle, Square, Triangle } from './Markers';
 
 interface LineSeriesRenderProps {
+  id: string;
   data: Series;
   lineStyle?: CSSProperties;
-  label: string;
   displayMarker?: boolean;
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
@@ -40,13 +40,13 @@ export default function LineSeries(props: LineSeriesProps) {
   }, [data, label, dispatch, id]);
 
   // Render stateless plot component
-  return <LineSeriesRender {...otherProps} data={data} label={label} />;
+  return <LineSeriesRender {...otherProps} data={data} id={id} />;
 }
 
 function LineSeriesRender({
+  id,
   data,
   lineStyle,
-  label,
   displayMarker,
   markerShape = 'circle',
   markerSize = 3,
@@ -55,7 +55,7 @@ function LineSeriesRender({
   const { xScale, yScale, colorScaler } = usePlotContext();
 
   // calculates the path to display
-  const color = colorScaler(label);
+  const color = colorScaler(id);
   const [path, markers] = useMemo(() => {
     if (
       [xScale, yScale].includes(undefined) ||
