@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { XAxisProps } from '../types';
+import { camelToKebab } from '../utils';
 
 const XAxis = ({
   label,
@@ -81,7 +82,7 @@ const XAxis = ({
             .style('user-select', 'none')
             .style('display', display ? 'inline' : 'none');
           for (const key in tickStyle) {
-            text.style(key, tickStyle[key]);
+            text.style(camelToKebab(key), tickStyle[key]);
           }
 
           if (xScientific) {
