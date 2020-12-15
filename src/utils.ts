@@ -45,3 +45,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
   }
   return { invalidChild, lineSeries, axis, heading, legend };
 }
+
+export function camelToKebab(string: string) {
+  return string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+}
