@@ -17,6 +17,7 @@ const YAxis = ({
   paddingTop = 0,
   display = true,
   flip = false,
+  tickStyle = {},
 }: YAxisProps) => {
   const axisRef = useRef(null);
   const {
@@ -75,10 +76,14 @@ const YAxis = ({
             .attr('stroke-opacity', showGridLines ? 0.5 : 1)
             .attr('stroke-dasharray', showGridLines ? '2,2' : '0')
             .style('display', display || showGridLines ? 'inline' : 'none');
-          g.selectAll('.tick text')
+          let text = g
+            .selectAll('.tick text')
             .attr('transform', `translate(${showGridLines ? -6 : 0},0)`)
             .style('user-select', 'none')
             .style('display', display ? 'inline' : 'none');
+          for (const key in tickStyle) {
+            text.style(key, tickStyle[key]);
+          }
 
           g.selectAll('path.domain').style(
             'display',
@@ -86,7 +91,16 @@ const YAxis = ({
           );
         });
     }
-  }, [axisRef, yScale, plotWidth, width, showGridLines, yScientific, display]);
+  }, [
+    axisRef,
+    yScale,
+    plotWidth,
+    width,
+    showGridLines,
+    yScientific,
+    display,
+    tickStyle,
+  ]);
 
   return (
     <>
