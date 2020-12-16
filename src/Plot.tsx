@@ -78,7 +78,7 @@ export default function Plot({
   const [state, dispatch] = useReducer(reducer, initialState, undefined);
 
   const compoundComp = splitChildren(children);
-  const { invalidChild, lineSeries, axis, heading, legend } = compoundComp;
+  const { invalidChild, series, axis, heading, legend } = compoundComp;
   if (invalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -190,7 +190,7 @@ export default function Plot({
               height={plotHeight}
             />
           </clipPath>
-          <g style={{ clipPath: 'url(#squareClip)' }}>{lineSeries}</g>
+          <g style={{ clipPath: 'url(#squareClip)' }}>{series}</g>
         </svg>
       </DispatchContext.Provider>
     </PlotContext.Provider>

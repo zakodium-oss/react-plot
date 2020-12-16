@@ -31,6 +31,13 @@ export interface LineSeriesProps {
   markerSize?: number;
 }
 
+export interface ScatterSeriesProps {
+  data: Series;
+  label?: string;
+  markerShape?: 'circle' | 'square' | 'triangle';
+  markerSize?: number;
+}
+
 export interface AxisProps {
   fontSize?: number;
   label?: string;
@@ -114,7 +121,7 @@ export type ReducerActions =
 
 export interface PlotChildren {
   invalidChild: boolean;
-  lineSeries: ReactElement<LineSeriesProps>[];
+  series: ReactElement<LineSeriesProps | ScatterSeriesProps>[];
   axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
