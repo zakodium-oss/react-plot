@@ -3,6 +3,7 @@ import React from 'react';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
+import ScatterSeries from './components/ScatterSeries';
 import XAxis from './components/XAxis';
 import YAxis from './components/YAxis';
 import type { PlotChildren } from './types';
@@ -15,7 +16,7 @@ export function getNextId() {
 
 export function splitChildren(children: React.ReactNode): PlotChildren {
   let invalidChild = false;
-  let lineSeries = [];
+  let series = [];
   let axis = { x: null, y: null };
   let heading = null;
   let legend = null;
@@ -26,8 +27,8 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
     }
 
     // Classifies the expected components
-    else if (child.type === LineSeries) {
-      lineSeries.push(child);
+    else if (child.type === LineSeries || child.type === ScatterSeries) {
+      series.push(child);
     } else if (child.type === XAxis) {
       axis.x = child;
     } else if (child.type === YAxis) {
@@ -43,7 +44,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
       invalidChild = true;
     }
   }
-  return { invalidChild, lineSeries, axis, heading, legend };
+  return { invalidChild, series, axis, heading, legend };
 }
 
 export function camelToKebab(string: string) {

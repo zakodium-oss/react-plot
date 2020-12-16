@@ -3,8 +3,8 @@ import { getClasses, getNumbers, getDistinctClasses } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
 import React, { ReactElement } from 'react';
 
-import { Plot, LineSeries, XAxis, YAxis } from '../../src/index';
 import { Series } from '../../src/types';
+import { Plot, ScatterSeries, XAxis, YAxis } from '../../src/index';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -60,13 +60,11 @@ export function PCA() {
           }
 
           series.push(
-            <LineSeries
+            <ScatterSeries
               key={klass}
               data={data}
               label={klass}
-              lineStyle={{ strokeWidth: 0 }}
               markerSize={2}
-              displayMarker
             />,
           );
         }
