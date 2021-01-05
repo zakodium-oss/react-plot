@@ -29,18 +29,18 @@ export default function Legend({ position }: LegendProps) {
   const [x, y] = translation(position, width, height, right, left);
   return (
     <g transform={`translate(${x}, ${y})`}>
-      {labels?.map((text, index) => (
+      {labels?.map(({ id }, index) => (
         <circle
-          key={`circle-${text}-${index}`}
+          key={`circle-${id}-${index}`}
           cx="0"
           cy={`${index + 1}em`}
           r="0.25em"
-          fill={colorScaler(text)}
+          fill={colorScaler(id)}
         />
       ))}
-      {labels?.map((text, index) => (
-        <text key={`text-${text}-${index}`} x="0.75em" y={`${index + 1.25}em`}>
-          {text}
+      {labels?.map(({ label }, index) => (
+        <text key={`text-${label}-${index}`} x="0.75em" y={`${index + 1.25}em`}>
+          {label}
         </text>
       ))}
     </g>

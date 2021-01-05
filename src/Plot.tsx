@@ -136,9 +136,10 @@ export default function Plot({
     };
   }, [state, bottom, top, height]);
 
-  const labels = useMemo(() => state.series.map(({ label }) => label), [
-    state.series,
-  ]);
+  const labels = useMemo(
+    () => state.series.map(({ id, label }) => ({ id, label })),
+    [state.series],
+  );
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
   const colorScaler = useMemo(() => {
     return scaleOrdinal<string>()
