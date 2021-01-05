@@ -73,14 +73,28 @@ export function Control(props) {
       />
       {displayPlot && (
         <LineSeries
-          data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
+          data={[
+            { x: 0, y: 0 },
+            { x: 1, y: 1 },
+            { x: 2, y: 2 },
+            { x: 3, y: 3 },
+            { x: 4, y: 3 },
+            { x: 5, y: 3 },
+          ]}
           lineStyle={{ strokeWidth: 3 }}
           label="Vg = 7V"
           displayMarker={false}
         />
       )}
       <LineSeries
-        data={{ x: [1, 2, 3, 4, 5, 6], y: [2, 4, 6, 6, 6, 6] }}
+        data={[
+          { x: 1, y: 2 },
+          { x: 2, y: 4 },
+          { x: 3, y: 6 },
+          { x: 4, y: 6 },
+          { x: 5, y: 6 },
+          { x: 6, y: 6 },
+        ]}
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"
@@ -116,19 +130,27 @@ export function ScientificNotation() {
         subtitle="current vs voltage"
       />
       <LineSeries
-        data={{
-          x: [0, 1, 2, 3, 4, 5].map((val) => val / factor),
-          y: [0, 1, 2, 3, 3, 3].map((val) => val * factor),
-        }}
+        data={[
+          { x: 0 / factor, y: 0 * factor },
+          { x: 1 / factor, y: 1 * factor },
+          { x: 2 / factor, y: 2 * factor },
+          { x: 3 / factor, y: 3 * factor },
+          { x: 4 / factor, y: 3 * factor },
+          { x: 5 / factor, y: 3 * factor },
+        ]}
         lineStyle={{ strokeWidth: 3 }}
         label="Vg = 7V"
         displayMarker={false}
       />
       <LineSeries
-        data={{
-          x: [1, 2, 3, 4, 5, 6].map((val) => val / factor),
-          y: [2, 4, 6, 6, 6, 6].map((val) => val * factor),
-        }}
+        data={[
+          { x: 1 / factor, y: 2 * factor },
+          { x: 2 / factor, y: 4 * factor },
+          { x: 3 / factor, y: 6 * factor },
+          { x: 4 / factor, y: 6 * factor },
+          { x: 5 / factor, y: 6 * factor },
+          { x: 6 / factor, y: 6 * factor },
+        ]}
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"

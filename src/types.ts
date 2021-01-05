@@ -8,8 +8,8 @@ export type Vertical = 'top' | 'bottom';
 export type Margins = Record<Horizontal | Vertical, number | undefined>;
 
 export interface Series {
-  x: number[];
-  y: number[];
+  x: number;
+  y: number;
 }
 
 // Component props
@@ -23,7 +23,7 @@ export interface PlotProps {
 }
 
 export interface LineSeriesProps {
-  data: Series;
+  data: Series[];
   lineStyle?: CSSProperties;
   label?: string;
   displayMarker?: boolean;
