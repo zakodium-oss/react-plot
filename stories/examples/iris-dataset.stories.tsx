@@ -4,6 +4,7 @@ import { PCA as MlPCA } from 'ml-pca';
 import React, { ReactElement } from 'react';
 
 import { Plot, LineSeries, XAxis, YAxis } from '../../src/index';
+import { Series } from '../../src/types';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -50,10 +51,13 @@ export function PCA() {
           }
 
           const predictedData = predicted.selection(indices, [pcX, pcY]);
-          const data = {
-            x: predictedData.getColumn(0),
-            y: predictedData.getColumn(1),
-          };
+          const x = predictedData.getColumn(0);
+          const y = predictedData.getColumn(1);
+
+          let data: Series[] = new Array(x.length);
+          for (let i = 0; i < x.length; i++) {
+            data[i] = { x: x[i], y: y[i] };
+          }
 
           series.push(
             <LineSeries
