@@ -97,7 +97,7 @@ export interface PlotContextType {
   bottom?: number;
   plotWidth?: number;
   plotHeight?: number;
-  labels?: string[];
+  labels?: Array<{ id: string; label: string }>;
   colorScaler?: ScaleOrdinal<string, string>;
   xScientific: boolean;
   yScientific: boolean;
