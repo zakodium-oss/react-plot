@@ -69,8 +69,8 @@ function LineSeriesRender({
           <Marker
             // eslint-disable-next-line react/no-array-index-key
             key={`markers-${i}`}
-            x={x}
-            y={y}
+            x={xScale(x)}
+            y={yScale(y)}
             size={markerSize}
             fill={color}
           />
