@@ -1,10 +1,11 @@
 import { Meta } from '@storybook/react';
 import { getClasses, getNumbers, getDistinctClasses } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
+import LinearRegression from 'ml-regression-simple-linear';
 import React, { ReactElement } from 'react';
 
 import { Series } from '../../src/types';
-import { Plot, ScatterSeries, XAxis, YAxis } from '../../src/index';
+import { LineSeries, Plot, ScatterSeries, XAxis, YAxis } from '../../src/index';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -28,6 +29,7 @@ export function PCA() {
         children.push(
           <div
             key={`${pcX}-${pcY}`}
+            B
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -58,6 +60,8 @@ export function PCA() {
           for (let i = 0; i < x.length; i++) {
             data[i] = { x: x[i], y: y[i] };
           }
+          const regression = new LinearRegression(data.x, data.y);
+          const yRegression = data.x.map((x: number) => regression.predict(x));
 
           series.push(
             <ScatterSeries
@@ -65,6 +69,13 @@ export function PCA() {
               data={data}
               label={klass}
               markerSize={2}
+            />,
+          );
+          series.push(
+            <LineSeries
+              key={klass}
+              data={{ x: data.x, y: yRegression }}
+              label={klass}
             />,
           );
         }
