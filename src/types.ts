@@ -32,7 +32,7 @@ export interface LineSeriesProps {
 }
 
 export interface ScatterSeriesProps {
-  data: Series;
+  data: Series[];
   label?: string;
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
