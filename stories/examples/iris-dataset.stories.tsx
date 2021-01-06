@@ -4,8 +4,8 @@ import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
 import React, { ReactElement } from 'react';
 
-import { Series } from '../../src/types';
 import { LineSeries, Plot, ScatterSeries, XAxis, YAxis } from '../../src/index';
+import { Series } from '../../src/types';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -29,7 +29,6 @@ export function PCA() {
         children.push(
           <div
             key={`${pcX}-${pcY}`}
-            B
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -56,12 +55,15 @@ export function PCA() {
           const x = predictedData.getColumn(0);
           const y = predictedData.getColumn(1);
 
+          const regression = new LinearRegression(x, y);
+          const yRegression = x.map((val: number) => regression.predict(val));
+
           let data: Series[] = new Array(x.length);
+          let dataRegression: Series[] = new Array(x.length);
           for (let i = 0; i < x.length; i++) {
             data[i] = { x: x[i], y: y[i] };
+            dataRegression[i] = { x: x[i], y: yRegression[i] };
           }
-          const regression = new LinearRegression(data.x, data.y);
-          const yRegression = data.x.map((x: number) => regression.predict(x));
 
           series.push(
             <ScatterSeries
@@ -72,11 +74,7 @@ export function PCA() {
             />,
           );
           series.push(
-            <LineSeries
-              key={klass}
-              data={{ x: data.x, y: yRegression }}
-              label={klass}
-            />,
+            <LineSeries key={klass} data={dataRegression} label={klass} />,
           );
         }
 

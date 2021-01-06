@@ -2,16 +2,13 @@ import { extent } from 'd3-array';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { ScatterSeriesProps, Series } from '../types';
+import type { ScatterSeriesProps } from '../types';
 import { getNextId } from '../utils';
 
 import { Circle, Square, Triangle } from './Markers';
 
-interface ScatterSeriesRenderProps {
+interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;
-  data: Series;
-  markerShape?: 'circle' | 'square' | 'triangle';
-  markerSize?: number;
 }
 
 const markersComps = {
@@ -28,8 +25,8 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
   useEffect(() => {
-    const [xMin, xMax] = extent(data.x);
-    const [yMin, yMax] = extent(data.y);
+    const [xMin, xMax] = extent(data, (d) => d.x);
+    const [yMin, yMax] = extent(data, (d) => d.y);
     dispatch({ type: 'newData', value: { id, xMin, xMax, yMin, yMax, label } });
 
     // Delete information on unmount
@@ -52,29 +49,18 @@ function ScatterSeriesRender({
   // calculates the path to display
   const color = colorScaler(id);
   const markers = useMemo(() => {
-    if (
-      [xScale, yScale].includes(undefined) ||
-      data.x.length !== data.y.length
-    ) {
+    if ([xScale, yScale].includes(undefined)) {
       return null;
-    }
-
-    // Format data for line function generator
-    let series = [];
-    for (let index = 0; index < data.x.length; index++) {
-      const x = xScale(data.x[index]);
-      const y = yScale(data.y[index]);
-      series.push({ x, y });
     }
 
     // Show markers
     const Marker = markersComps[markerShape];
-    const markers = series.map(({ x, y }, i) => (
+    const markers = data.map(({ x, y }, i) => (
       <Marker
         // eslint-disable-next-line react/no-array-index-key
         key={`markers-${i}`}
-        x={x}
-        y={y}
+        x={xScale(x)}
+        y={yScale(y)}
         size={markerSize}
         fill={color}
       />
