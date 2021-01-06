@@ -31,7 +31,7 @@ export interface LineSeriesProps {
   markerSize?: number;
 }
 
-interface AxisProps {
+export interface AxisProps {
   fontSize?: number;
   label?: string;
   showGridLines?: boolean;
