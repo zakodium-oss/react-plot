@@ -1,11 +1,10 @@
 import React from 'react';
 
+import Axis from './components/Axis';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import XAxis from './components/XAxis';
-import YAxis from './components/YAxis';
 import type { PlotChildren } from './types';
 
 let currentValue = 1;
@@ -17,7 +16,7 @@ export function getNextId() {
 export function splitChildren(children: React.ReactNode): PlotChildren {
   let invalidChild = false;
   let series = [];
-  let axis = { x: null, y: null };
+  let axis = [];
   let heading = null;
   let legend = null;
   for (let child of React.Children.toArray(children)) {
@@ -29,10 +28,8 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
     // Classifies the expected components
     else if (child.type === LineSeries || child.type === ScatterSeries) {
       series.push(child);
-    } else if (child.type === XAxis) {
-      axis.x = child;
-    } else if (child.type === YAxis) {
-      axis.y = child;
+    } else if (child.type === Axis) {
+      axis.push(child);
     } else if (child.type === Heading) {
       heading = child;
     } else if (child.type === Legend) {

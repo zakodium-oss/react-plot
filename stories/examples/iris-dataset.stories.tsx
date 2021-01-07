@@ -4,7 +4,7 @@ import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
 import React, { ReactElement } from 'react';
 
-import { LineSeries, Plot, ScatterSeries, XAxis, YAxis } from '../../src/index';
+import { LineSeries, Plot, ScatterSeries, Axis } from '../../src/index';
 import { Series } from '../../src/types';
 
 export default {
@@ -85,8 +85,12 @@ export function PCA() {
             height={size / numFeatures}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
-            <XAxis paddingLeft={0.05} paddingRight={0.05} display={false} />
-            <YAxis paddingTop={0.05} paddingBottom={0.05} display={false} />
+            <Axis
+              position="horizontal"
+              padding={[0.05, 0.05]}
+              display={false}
+            />
+            <Axis position="vertical" padding={[0.05, 0.05]} display={false} />
             {series}
           </Plot>,
         );

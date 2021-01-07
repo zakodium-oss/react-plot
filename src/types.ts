@@ -1,5 +1,4 @@
-import type { AxisScale } from 'd3-axis';
-import type { ScaleOrdinal } from 'd3-scale';
+import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 // Component props helpers
@@ -38,27 +37,22 @@ export interface ScatterSeriesProps {
   markerSize?: number;
 }
 
-export interface AxisProps {
+export interface AxisChildProps {
   fontSize?: number;
   label?: string;
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
   tickStyle?: CSSProperties;
   labelSpace?: number;
+  display?: boolean;
+}
+
+export interface AxisProps extends AxisChildProps {
+  position: 'vertical' | 'horizontal';
   min?: number;
   max?: number;
-  display?: boolean;
+  padding?: [number, number];
   flip?: boolean;
-}
-
-export interface XAxisProps extends AxisProps {
-  paddingLeft?: number;
-  paddingRight?: number;
-}
-
-export interface YAxisProps extends AxisProps {
-  paddingTop?: number;
-  paddingBottom?: number;
 }
 
 export interface HeadingProps {
@@ -94,8 +88,8 @@ export interface SeriesType {
 }
 
 export interface PlotContextType {
-  xScale?: AxisScale<number>;
-  yScale?: AxisScale<number>;
+  xScale?: ScaleLinear<number, number>;
+  yScale?: ScaleLinear<number, number>;
   width?: number;
   height?: number;
   left?: number;
@@ -117,12 +111,14 @@ export type ReducerActions =
   | { type: 'removeData'; value: { id: string } }
   | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } }
   | { type: 'xPadding' | 'yPadding'; value: { min?: number; max?: number } }
-  | { type: 'flip'; value: { flip: boolean; axis: 'x' | 'y' } };
+  | { type: 'flip'; value: { flip: boolean; axis: 'x' | 'y' } }
+  | { type: 'padding'; value: { min?: number; max?: number; axis: 'x' | 'y' } }
+  | { type: 'minMax'; value: { min?: number; max?: number; axis: 'x' | 'y' } };
 
 export interface PlotChildren {
   invalidChild: boolean;
   series: ReactElement<LineSeriesProps | ScatterSeriesProps>[];
-  axis: Record<'x' | 'y', ReactElement<AxisProps> | null>;
+  axis: ReactElement<AxisProps>[];
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
 }

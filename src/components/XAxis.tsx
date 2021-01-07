@@ -1,115 +1,73 @@
-import { axisBottom } from 'd3-axis';
-import { select } from 'd3-selection';
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
-import type { XAxisProps } from '../types';
-import { camelToKebab } from '../utils';
+import { usePlotContext } from '../hooks';
+import type { AxisChildProps } from '../types';
 
-const XAxis = ({
-  label,
-  fontSize = 16,
-  labelSpace = 20,
+export default function XAxis({
   showGridLines,
+  display,
+  label,
+  labelSpace,
   labelStyle,
-  min,
-  max,
-  paddingLeft = 0,
-  paddingRight = 0,
-  display = true,
-  flip = false,
-  tickStyle = {},
-}: XAxisProps) => {
-  const axisRef = useRef(null);
+  fontSize,
+  tickStyle,
+}: AxisChildProps) {
   const {
     xScale,
     xScientific,
-    plotHeight,
     plotWidth,
+    top,
     bottom,
     left,
     height,
-    width,
   } = usePlotContext();
-  const { dispatch } = useDispatchContext();
+  // Calculates the main axis values
+  const ticks: number[] = useMemo(
+    () => xScale?.ticks(xScientific ? plotWidth / 50 : undefined) || [],
+    [xScale, xScientific, plotWidth],
+  );
+  const range = xScale?.range() || [0, 0];
 
-  // Send min and max to main state
-  useEffect(() => {
-    dispatch({ type: 'xMinMax', value: { min, max } });
-  }, [dispatch, min, max]);
-
-  // Send flip to main state
-  useEffect(() => {
-    dispatch({ type: 'flip', value: { flip, axis: 'x' } });
-  }, [dispatch, flip]);
-
-  // Send paddings to main state
-  useEffect(() => {
-    if (paddingLeft < 0 || paddingLeft > 1) {
-      throw new Error(`Padding left (${paddingLeft}) is not between 0 and 1`);
-    }
-    if (paddingRight < 0 || paddingRight > 1) {
-      throw new Error(`Padding right (${paddingRight}) is not between 0 and 1`);
-    }
-
-    dispatch({
-      type: 'xPadding',
-      value: { min: paddingLeft, max: paddingRight },
-    });
-  }, [dispatch, paddingLeft, paddingRight]);
-
-  useEffect(() => {
-    if (axisRef?.current && xScale) {
-      const axis = axisBottom(xScale);
-
-      if (showGridLines) {
-        axis.tickSizeInner(-plotHeight);
-      }
-      if (xScientific) {
-        axis.tickFormat((val) => val.toExponential(2));
-      }
-
-      select(axisRef.current)
-        .call(axis)
-        .call((g) => {
-          g.selectAll('.tick line')
-            .attr('stroke-opacity', showGridLines ? 0.5 : 1)
-            .attr('stroke-dasharray', showGridLines ? '2,2' : '0')
-            .style('display', display || showGridLines ? 'inline' : 'none');
-          let text = g
-            .selectAll('.tick text')
-            .attr('transform', `translate(0,${showGridLines ? 6 : 0})`)
-            .style('user-select', 'none')
-            .style('display', display ? 'inline' : 'none');
-          for (const key in tickStyle) {
-            text.style(camelToKebab(key), tickStyle[key]);
-          }
-
-          if (xScientific) {
-            g.selectAll('.tick:nth-child(odd) text').style('display', 'none');
-          }
-
-          g.selectAll('path.domain').style(
-            'display',
-            display ? 'inline' : 'none',
-          );
-        });
-    }
-  }, [
-    axisRef,
-    xScale,
-    plotHeight,
-    height,
-    width,
-    showGridLines,
-    xScientific,
-    display,
-    tickStyle,
-  ]);
+  // Create gridlines
+  const gridlines = useMemo(() => {
+    if (!showGridLines || !xScale) return null;
+    return (
+      <g className="gridLines">
+        {ticks.map((val) => (
+          <line
+            key={val}
+            x1={xScale(val)}
+            x2={xScale(val)}
+            y1={height - bottom}
+            y2={top}
+            stroke="black"
+            strokeDasharray="2,2"
+            strokeOpacity={0.5}
+          />
+        ))}
+      </g>
+    );
+  }, [showGridLines, ticks, top, xScale, height, bottom]);
 
   return (
-    <>
-      <g ref={axisRef} transform={`translate(0, ${height - bottom})`} />
+    <g className="axis">
+      {gridlines}
+      {display && (
+        <g className="ticks" transform={`translate(0, ${height - bottom})`}>
+          <line x1={range[0]} x2={range[1]} stroke="black" />
+          {ticks.map((val) => {
+            const x = xScale(val);
+            return (
+              <g key={val}>
+                <line x1={x} x2={x} y2={6} stroke="black" />
+                <text x={x} y={24} textAnchor="middle" style={tickStyle}>
+                  {xScientific ? val.toExponential(2) : val}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      )}
       {label && display && (
         <text
           x={plotWidth / 2 + left}
@@ -121,8 +79,6 @@ const XAxis = ({
           {label}
         </text>
       )}
-    </>
+    </g>
   );
-};
-
-export default XAxis;
+}

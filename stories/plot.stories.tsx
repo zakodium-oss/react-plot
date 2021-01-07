@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot, Heading, Legend, LineSeries, XAxis, YAxis } from '../src/index';
+import { Plot, Heading, Legend, LineSeries, Axis } from '../src/index';
 
 export default {
   title: 'Plot/General options',
@@ -99,13 +99,15 @@ export function Control(props) {
         markerShape="circle"
         label="Vg = 3V"
       />
-      <XAxis
+      <Axis
+        position="horizontal"
         label="Drain voltage [V]"
         showGridLines={showGridLines}
         display={showAxis}
         flip={xFlip}
       />
-      <YAxis
+      <Axis
+        position="vertical"
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelSpace={40}
@@ -155,13 +157,15 @@ export function ScientificNotation() {
         markerShape="circle"
         label="Vg = 3V"
       />
-      <XAxis
+      <Axis
+        position="horizontal"
         label="Drain voltage [V]"
         showGridLines={true}
         max={6.1 / factor}
         tickStyle={{ fontSize: '0.8rem' }}
       />
-      <YAxis
+      <Axis
+        position="vertical"
         label="Drain current [mA]"
         showGridLines={true}
         labelSpace={50}
