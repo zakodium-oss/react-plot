@@ -1,111 +1,70 @@
-import { axisLeft } from 'd3-axis';
-import { select } from 'd3-selection';
-import React, { useEffect, useRef } from 'react';
+import React, { useMemo } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
-import type { YAxisProps } from '../types';
-import { camelToKebab } from '../utils';
+import { usePlotContext } from '../hooks';
+import type { AxisChildProps } from '../types';
 
-const YAxis = ({
-  label,
-  fontSize = 16,
-  labelSpace = 30,
+export default function YAxis({
   showGridLines,
+  display,
+  label,
+  labelSpace,
   labelStyle,
-  min,
-  max,
-  paddingBottom = 0,
-  paddingTop = 0,
-  display = true,
-  flip = false,
-  tickStyle = {},
-}: YAxisProps) => {
-  const axisRef = useRef(null);
+  fontSize,
+  tickStyle,
+}: AxisChildProps) {
   const {
     yScale,
     yScientific,
     plotHeight,
-    plotWidth,
-    left,
     top,
+    left,
     width,
+    right,
   } = usePlotContext();
-  const { dispatch } = useDispatchContext();
+  // Calculates the main axis values
+  const ticks: number[] = useMemo(() => yScale?.ticks() || [], [yScale]);
+  const range = yScale?.range() || [0, 0];
 
-  // Send min and max to main state
-  useEffect(() => {
-    dispatch({ type: 'yMinMax', value: { min, max } });
-  }, [dispatch, min, max]);
-
-  // Send flip to main state
-  useEffect(() => {
-    dispatch({ type: 'flip', value: { flip, axis: 'y' } });
-  }, [dispatch, flip]);
-
-  // Send paddings to main state
-  useEffect(() => {
-    if (paddingBottom < 0 || paddingBottom > 1) {
-      throw new Error(
-        `Padding bottom (${paddingBottom}) is not between 0 and 1`,
-      );
-    }
-    if (paddingTop < 0 || paddingTop > 1) {
-      throw new Error(`Padding top (${paddingTop}) is not between 0 and 1`);
-    }
-
-    dispatch({
-      type: 'yPadding',
-      value: { min: paddingBottom, max: paddingTop },
-    });
-  }, [dispatch, paddingBottom, paddingTop]);
-
-  useEffect(() => {
-    if (axisRef?.current && yScale) {
-      const axis = axisLeft(yScale);
-
-      if (showGridLines) {
-        axis.tickSizeInner(-plotWidth);
-      }
-      if (yScientific) {
-        axis.tickFormat((val) => val.toExponential(2));
-      }
-
-      select(axisRef.current)
-        .call(axis)
-        .call((g) => {
-          g.selectAll('.tick line')
-            .attr('stroke-opacity', showGridLines ? 0.5 : 1)
-            .attr('stroke-dasharray', showGridLines ? '2,2' : '0')
-            .style('display', display || showGridLines ? 'inline' : 'none');
-          let text = g
-            .selectAll('.tick text')
-            .attr('transform', `translate(${showGridLines ? -6 : 0},0)`)
-            .style('user-select', 'none')
-            .style('display', display ? 'inline' : 'none');
-          for (const key in tickStyle) {
-            text.style(camelToKebab(key), tickStyle[key]);
-          }
-
-          g.selectAll('path.domain').style(
-            'display',
-            display ? 'inline' : 'none',
-          );
-        });
-    }
-  }, [
-    axisRef,
-    yScale,
-    plotWidth,
-    width,
-    showGridLines,
-    yScientific,
-    display,
-    tickStyle,
-  ]);
+  // Create gridlines
+  const gridlines = useMemo(() => {
+    if (!showGridLines || !yScale) return null;
+    return (
+      <g className="gridLines">
+        {ticks.map((val) => (
+          <line
+            key={val}
+            x1={left}
+            x2={width - right}
+            y1={yScale(val)}
+            y2={yScale(val)}
+            stroke="black"
+            strokeDasharray="2,2"
+            strokeOpacity={0.5}
+          />
+        ))}
+      </g>
+    );
+  }, [showGridLines, ticks, yScale, left, width, right]);
 
   return (
-    <>
-      <g ref={axisRef} transform={`translate(${left}, 0)`} />
+    <g className="axis">
+      {gridlines}
+      {display && (
+        <g className="ticks" transform={`translate(${left}, 0)`}>
+          <line y1={range[0]} y2={range[1]} stroke="black" />
+          {ticks.map((val) => {
+            const y = yScale(val);
+            return (
+              <g key={val}>
+                <line x2={-6} y1={y} y2={y} stroke="black" />
+                <text x={-8} y={y} textAnchor="end" style={tickStyle}>
+                  {yScientific ? val.toExponential(2) : val}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      )}
       {label && display && (
         <text
           transform={`translate(${
@@ -119,8 +78,6 @@ const YAxis = ({
           {label}
         </text>
       )}
-    </>
+    </g>
   );
-};
-
-export default YAxis;
+}

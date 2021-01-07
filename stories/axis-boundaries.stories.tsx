@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Plot, Heading, Legend, LineSeries, XAxis, YAxis } from '../src/index';
+import { Plot, Heading, Legend, LineSeries, Axis } from '../src/index';
 
 export default {
   title: 'Plot/Axis boundaries',
@@ -69,22 +69,22 @@ export function Control(props: Record<string, number>) {
         markerShape="circle"
         label="Vg = 3V"
       />
-      <XAxis
+      <Axis
+        position="horizontal"
         label="Drain voltage [V]"
         showGridLines={true}
         min={xMin}
         max={xMax}
-        paddingLeft={paddingLeft}
-        paddingRight={paddingRight}
+        padding={[paddingLeft, paddingRight]}
       />
-      <YAxis
+      <Axis
+        position="vertical"
         label="Drain current [mA]"
         showGridLines={true}
         labelSpace={40}
         min={yMin}
         max={yMax}
-        paddingTop={paddingTop}
-        paddingBottom={paddingBottom}
+        padding={[paddingBottom, paddingTop]}
       />
       <Legend position="right" />
     </Plot>

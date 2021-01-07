@@ -16,8 +16,13 @@ export function Control() {
       margin: { bottom: 50, left: 50, top: 5, right: 10 },
     },
     axes: {
-      x: { label: 'My X axis', position: 'bottom', min: 0, max: 10 },
-      y: { label: 'My Y axis', position: 'left', min: 0, max: 10 },
+      x: {
+        label: 'My X axis',
+        position: 'horizontal' as const,
+        min: 0,
+        max: 10,
+      },
+      y: { label: 'My Y axis', position: 'vertical' as const, min: 0, max: 10 },
     },
     series: [
       {

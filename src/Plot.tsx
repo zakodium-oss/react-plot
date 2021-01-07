@@ -41,6 +41,12 @@ function reducer(state: State, action: ReducerActions): State {
       const { min: yMin, max: yMax } = action.value;
       return { ...state, yMin, yMax };
     }
+    case 'minMax': {
+      const { min, max, axis } = action.value;
+      const extent =
+        axis === 'x' ? { xMin: min, xMax: max } : { yMin: min, yMax: max };
+      return { ...state, ...extent };
+    }
     case 'xPadding': {
       const { min: paddingLeft, max: paddingRight } = action.value;
       return { ...state, paddingLeft, paddingRight };
@@ -48,6 +54,14 @@ function reducer(state: State, action: ReducerActions): State {
     case 'yPadding': {
       const { min: paddingBottom, max: paddingTop } = action.value;
       return { ...state, paddingBottom, paddingTop };
+    }
+    case 'padding': {
+      const { min, max, axis } = action.value;
+      const extent =
+        axis === 'x'
+          ? { paddingLeft: min, paddingRight: max }
+          : { paddingBottom: min, paddingTop: max };
+      return { ...state, ...extent };
     }
     case 'flip': {
       const { flip, axis } = action.value;
@@ -177,8 +191,7 @@ export default function Plot({
         >
           {heading}
           {legend}
-          {axis.x}
-          {axis.y}
+          {axis}
 
           {/* Defines the borders of the plot space */}
           <clipPath id="squareClip">

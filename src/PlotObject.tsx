@@ -1,10 +1,9 @@
 import React from 'react';
 
 import Plot from './Plot';
+import Axis from './components/Axis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
-import XAxis from './components/XAxis';
-import YAxis from './components/YAxis';
 import { AxisProps, LegendProps, LineSeriesProps, PlotProps } from './types';
 
 type Axes = Record<string, AxisProps>;
@@ -28,8 +27,8 @@ export default function PlotObject({
   }
   return (
     <Plot colorScheme={colorScheme} {...dimentions}>
-      <XAxis {...axes.x} />
-      <YAxis {...axes.y} />
+      <Axis {...axes.x} position="horizontal" />
+      <Axis {...axes.y} position="vertical" />
       {legend !== undefined ? <Legend {...legend} /> : null}
       {series.map((seriesProps, i) => (
         // eslint-disable-next-line react/no-array-index-key
