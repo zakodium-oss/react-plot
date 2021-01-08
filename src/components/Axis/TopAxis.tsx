@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 
-import { usePlotContext } from '../hooks';
-import type { AxisChildProps } from '../types';
+import { usePlotContext } from '../../hooks';
+import type { AxisChildProps } from '../../types';
 
-export default function XAxis({
+export default function TopAxis({
   showGridLines,
   display,
   label,
@@ -53,14 +53,19 @@ export default function XAxis({
     <g className="axis">
       {gridlines}
       {display && (
-        <g className="ticks" transform={`translate(0, ${height - bottom})`}>
+        <g className="ticks" transform={`translate(0, ${top})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
           {ticks.map((val) => {
             const x = xScale(val);
             return (
               <g key={val}>
-                <line x1={x} x2={x} y2={6} stroke="black" />
-                <text x={x} y={24} textAnchor="middle" style={tickStyle}>
+                <line x1={x} x2={x} y2={-6} stroke="black" />
+                <text
+                  x={x}
+                  y={-12}
+                  textAnchor="middle"
+                  style={{ userSelect: 'none', ...tickStyle }}
+                >
                   {xScientific ? val.toExponential(2) : val}
                 </text>
               </g>
@@ -71,7 +76,7 @@ export default function XAxis({
       {label && display && (
         <text
           x={plotWidth / 2 + left}
-          y={height - bottom + labelSpace + fontSize}
+          y={top - labelSpace - fontSize}
           fontSize={fontSize}
           textAnchor="middle"
           style={labelStyle}

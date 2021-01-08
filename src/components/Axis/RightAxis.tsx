@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 
-import { usePlotContext } from '../hooks';
-import type { AxisChildProps } from '../types';
+import { usePlotContext } from '../../hooks';
+import type { AxisChildProps } from '../../types';
 
-export default function YAxis({
+export default function RightAxis({
   showGridLines,
   display,
   label,
@@ -50,19 +50,19 @@ export default function YAxis({
     <g className="axis">
       {gridlines}
       {display && (
-        <g className="ticks" transform={`translate(${left}, 0)`}>
+        <g className="ticks" transform={`translate(${width - right}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
           {ticks.map((val) => {
             const y = yScale(val);
             return (
               <g key={val}>
-                <line x2={-6} y1={y} y2={y} stroke="black" />
+                <line x2={6} y1={y} y2={y} stroke="black" />
                 <text
-                  x={-8}
+                  x={10}
                   y={y}
-                  textAnchor="end"
+                  textAnchor="start"
                   alignmentBaseline="middle"
-                  style={tickStyle}
+                  style={{ userSelect: 'none', ...tickStyle }}
                 >
                   {yScientific ? val.toExponential(2) : val}
                 </text>
@@ -74,8 +74,8 @@ export default function YAxis({
       {label && display && (
         <text
           transform={`translate(${
-            left - fontSize - labelSpace - (yScientific ? 14 : 0)
-          }, ${top + plotHeight / 2})rotate(-90)`}
+            width - right + fontSize + labelSpace + (yScientific ? 14 : 0)
+          }, ${top + plotHeight / 2})rotate(90)`}
           dy={fontSize}
           textAnchor="middle"
           fontSize={fontSize}

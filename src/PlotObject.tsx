@@ -18,8 +18,8 @@ export default function PlotObject({
   }
   return (
     <Plot colorScheme={colorScheme} {...dimentions}>
-      <Axis {...axes.x} position="horizontal" />
-      <Axis {...axes.y} position="vertical" />
+      <Axis {...axes.x} />
+      <Axis {...axes.y} />
       {legend !== undefined ? <Legend {...legend} /> : null}
       {series.map((seriesProps, i) => (
         // eslint-disable-next-line react/no-array-index-key

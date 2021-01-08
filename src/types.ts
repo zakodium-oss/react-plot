@@ -48,7 +48,7 @@ export interface AxisChildProps {
 }
 
 export interface AxisProps extends AxisChildProps {
-  position: 'vertical' | 'horizontal';
+  position: Horizontal | Vertical;
   min?: number;
   max?: number;
   padding?: [number, number];
