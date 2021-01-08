@@ -5,7 +5,7 @@ import LinearRegression from 'ml-regression-simple-linear';
 import React, { ReactElement } from 'react';
 
 import { LineSeries, Plot, ScatterSeries, Axis } from '../../src/index';
-import { Series } from '../../src/types';
+import type { Series } from '../../src/types';
 
 export default {
   title: 'Examples/Iris dataset',

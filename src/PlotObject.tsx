@@ -4,10 +4,10 @@ import Plot from './Plot';
 import Axis from './components/Axis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
-import { PlotObjectProps } from './types';
+import { PlotObjectType } from './types';
 
 interface Props {
-  plot: PlotObjectProps;
+  plot: PlotObjectType;
 }
 
 export default function PlotObject({
