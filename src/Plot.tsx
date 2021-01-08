@@ -1,8 +1,7 @@
 import { max, min } from 'd3-array';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
-// eslint-disable-next-line import/no-named-as-default
-import produce from 'immer';
+import { produce } from 'immer';
 import React, { useMemo, useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
@@ -23,59 +22,56 @@ interface State {
   yFlip: boolean;
 }
 
-function reducer(state: State, action: ReducerActions): State {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      case 'newData': {
-        draft.series.push(action.value);
-        break;
-      }
-      case 'removeData': {
-        const { id } = action.value;
-        const seriesFiltered = draft.series.filter(
-          (series) => series.id !== id,
-        );
-        draft.series = seriesFiltered;
-        break;
-      }
-      case 'minMax': {
-        const { min, max, axis } = action.value;
-        if (axis === 'x') {
-          draft.xMin = min;
-          draft.xMax = max;
-        } else {
-          draft.yMin = min;
-          draft.yMax = max;
-        }
-        break;
-      }
-      case 'padding': {
-        const { min, max, axis } = action.value;
-        if (axis === 'x') {
-          draft.paddingLeft = min;
-          draft.paddingRight = max;
-        } else {
-          draft.paddingBottom = min;
-          draft.paddingTop = max;
-        }
-        break;
-      }
-      case 'flip': {
-        const { flip, axis } = action.value;
-        if (axis === 'x') {
-          draft.xFlip = flip;
-        } else {
-          draft.yFlip = flip;
-        }
-        break;
-      }
-      default: {
-        throw new Error();
-      }
+function reducer(state: State, action: ReducerActions) {
+  switch (action.type) {
+    case 'newData': {
+      state.series.push(action.value);
+      break;
     }
-  });
+    case 'removeData': {
+      const { id } = action.value;
+      const seriesFiltered = state.series.filter((series) => series.id !== id);
+      state.series = seriesFiltered;
+      break;
+    }
+    case 'minMax': {
+      const { min, max, axis } = action.value;
+      if (axis === 'x') {
+        state.xMin = min;
+        state.xMax = max;
+      } else {
+        state.yMin = min;
+        state.yMax = max;
+      }
+      break;
+    }
+    case 'padding': {
+      const { min, max, axis } = action.value;
+      if (axis === 'x') {
+        state.paddingLeft = min;
+        state.paddingRight = max;
+      } else {
+        state.paddingBottom = min;
+        state.paddingTop = max;
+      }
+      break;
+    }
+    case 'flip': {
+      const { flip, axis } = action.value;
+      if (axis === 'x') {
+        state.xFlip = flip;
+      } else {
+        state.yFlip = flip;
+      }
+      break;
+    }
+    default: {
+      throw new Error();
+    }
+  }
 }
 
+const reducerCurr = produce(reducer);
 export default function Plot({
   width,
   height,
@@ -92,7 +88,7 @@ export default function Plot({
     xFlip: false,
     yFlip: false,
   };
-  const [state, dispatch] = useReducer(reducer, initialState, undefined);
+  const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
   const compoundComp = splitChildren(children);
   const { invalidChild, series, axis, heading, legend } = compoundComp;
