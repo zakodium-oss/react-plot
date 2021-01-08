@@ -10,13 +10,16 @@ function translation(
   height: number,
   right: number,
   left: number,
+  space?: number,
 ) {
   switch (position) {
     case 'right': {
-      return [width - right + 16, height / 2];
+      const border = space === undefined ? 16 : space;
+      return [width - right + border, height / 2];
     }
     case 'left': {
-      return [left - 130, height / 2];
+      const border = space === undefined ? 130 : space;
+      return [left - border, height / 2];
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
@@ -24,9 +27,9 @@ function translation(
   }
 }
 
-export default function Legend({ position }: LegendProps) {
+export default function Legend({ position, space }: LegendProps) {
   const { labels, right, left, height, width, colorScaler } = usePlotContext();
-  const [x, y] = translation(position, width, height, right, left);
+  const [x, y] = translation(position, width, height, right, left, space);
   return (
     <g transform={`translate(${x}, ${y})`}>
       {labels?.map(({ id }, index) => (
