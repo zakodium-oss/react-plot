@@ -57,7 +57,13 @@ export default function YAxis({
             return (
               <g key={val}>
                 <line x2={-6} y1={y} y2={y} stroke="black" />
-                <text x={-8} y={y} textAnchor="end" style={tickStyle}>
+                <text
+                  x={-8}
+                  y={y}
+                  textAnchor="end"
+                  alignmentBaseline="middle"
+                  style={tickStyle}
+                >
                   {yScientific ? val.toExponential(2) : val}
                 </text>
               </g>
