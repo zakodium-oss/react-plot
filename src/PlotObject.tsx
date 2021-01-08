@@ -4,24 +4,15 @@ import Plot from './Plot';
 import Axis from './components/Axis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
-import { AxisProps, LegendProps, LineSeriesProps, PlotProps } from './types';
+import { PlotObjectProps } from './types';
 
-type Axes = Record<string, AxisProps>;
-type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
-
-interface PlotObjectProps {
-  axes: Axes;
-  series: Array<LineSeriesProps>;
-  legend?: LegendProps;
-  dimentions: Dimentions;
-  colorScheme?: Iterable<string>;
+interface Props {
+  plot: PlotObjectProps;
 }
 
 export default function PlotObject({
   plot: { dimentions, axes, series, legend, colorScheme },
-}: {
-  plot: PlotObjectProps;
-}) {
+}: Props) {
   if (axes.x === undefined || axes.y === undefined) {
     throw new Error('x and y axes are required');
   }

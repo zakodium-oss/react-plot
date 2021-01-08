@@ -76,6 +76,16 @@ export interface MarkersProps {
   size: number;
 }
 
+type Axes = Record<string, AxisProps>;
+type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
+export interface PlotObjectProps {
+  axes: Axes;
+  series: Array<LineSeriesProps>;
+  legend?: LegendProps;
+  dimentions: Dimentions;
+  colorScheme?: Iterable<string>;
+}
+
 // State related
 
 export interface SeriesType {
