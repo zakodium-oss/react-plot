@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { PlotObject } from '../src/index';
-import { PlotObjectProps } from '../src/types';
+import type { PlotObjectType } from '../src/types';
 
 export default {
   title: 'Plot/Plot object',
@@ -10,7 +10,7 @@ export default {
 } as Meta;
 
 export function Control() {
-  const plot: PlotObjectProps = {
+  const plot: PlotObjectType = {
     dimentions: {
       width: 550,
       height: 500,

@@ -78,7 +78,7 @@ export interface MarkersProps {
 
 type Axes = Record<string, AxisProps>;
 type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
-export interface PlotObjectProps {
+export interface PlotObjectType {
   axes: Axes;
   series: Array<LineSeriesProps>;
   legend?: LegendProps;
