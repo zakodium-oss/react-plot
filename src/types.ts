@@ -67,6 +67,7 @@ export interface HeadingProps {
 
 export interface LegendProps {
   position?: Horizontal;
+  space?: number;
 }
 
 export interface MarkersProps {

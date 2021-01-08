@@ -37,7 +37,7 @@ export function Control(props: Record<string, number>) {
     <Plot
       width={width}
       height={height}
-      margin={{ bottom: 50, left: 70, top: 50, right: 100 }}
+      margin={{ bottom: 50, left: 70, top: 80, right: 120 }}
     >
       <Heading
         title="Electrical characterization"
@@ -86,7 +86,9 @@ export function Control(props: Record<string, number>) {
         max={yMax}
         padding={[paddingBottom, paddingTop]}
       />
-      <Legend position="right" />
+      <Axis position="right" />
+      <Axis position="top" />
+      <Legend position="right" space={45} />
     </Plot>
   );
 }
