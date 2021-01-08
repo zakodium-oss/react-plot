@@ -1,6 +1,8 @@
 import { max, min } from 'd3-array';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
+// eslint-disable-next-line import/no-named-as-default
+import produce from 'immer';
 import React, { useMemo, useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
@@ -22,55 +24,56 @@ interface State {
 }
 
 function reducer(state: State, action: ReducerActions): State {
-  switch (action.type) {
-    case 'newData': {
-      const { series } = state;
-      const serieItem = action.value;
-      return { ...state, series: [...series, serieItem] };
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case 'newData': {
+        draft.series.push(action.value);
+        break;
+      }
+      case 'removeData': {
+        const { id } = action.value;
+        const seriesFiltered = draft.series.filter(
+          (series) => series.id !== id,
+        );
+        draft.series = seriesFiltered;
+        break;
+      }
+      case 'minMax': {
+        const { min, max, axis } = action.value;
+        if (axis === 'x') {
+          draft.xMin = min;
+          draft.xMax = max;
+        } else {
+          draft.yMin = min;
+          draft.yMax = max;
+        }
+        break;
+      }
+      case 'padding': {
+        const { min, max, axis } = action.value;
+        if (axis === 'x') {
+          draft.paddingLeft = min;
+          draft.paddingRight = max;
+        } else {
+          draft.paddingBottom = min;
+          draft.paddingTop = max;
+        }
+        break;
+      }
+      case 'flip': {
+        const { flip, axis } = action.value;
+        if (axis === 'x') {
+          draft.xFlip = flip;
+        } else {
+          draft.yFlip = flip;
+        }
+        break;
+      }
+      default: {
+        throw new Error();
+      }
     }
-    case 'removeData': {
-      const { id } = action.value;
-      const seriesFiltered = state.series.filter((series) => series.id !== id);
-      return { ...state, series: seriesFiltered };
-    }
-    case 'xMinMax': {
-      const { min: xMin, max: xMax } = action.value;
-      return { ...state, xMin, xMax };
-    }
-    case 'yMinMax': {
-      const { min: yMin, max: yMax } = action.value;
-      return { ...state, yMin, yMax };
-    }
-    case 'minMax': {
-      const { min, max, axis } = action.value;
-      const extent =
-        axis === 'x' ? { xMin: min, xMax: max } : { yMin: min, yMax: max };
-      return { ...state, ...extent };
-    }
-    case 'xPadding': {
-      const { min: paddingLeft, max: paddingRight } = action.value;
-      return { ...state, paddingLeft, paddingRight };
-    }
-    case 'yPadding': {
-      const { min: paddingBottom, max: paddingTop } = action.value;
-      return { ...state, paddingBottom, paddingTop };
-    }
-    case 'padding': {
-      const { min, max, axis } = action.value;
-      const extent =
-        axis === 'x'
-          ? { paddingLeft: min, paddingRight: max }
-          : { paddingBottom: min, paddingTop: max };
-      return { ...state, ...extent };
-    }
-    case 'flip': {
-      const { flip, axis } = action.value;
-      return { ...state, [axis === 'x' ? 'xFlip' : 'yFlip']: flip };
-    }
-    default: {
-      throw new Error();
-    }
-  }
+  });
 }
 
 export default function Plot({

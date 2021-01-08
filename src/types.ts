@@ -109,8 +109,6 @@ export interface PlotContextType {
 export type ReducerActions =
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
-  | { type: 'xMinMax' | 'yMinMax'; value: { min?: number; max?: number } }
-  | { type: 'xPadding' | 'yPadding'; value: { min?: number; max?: number } }
   | { type: 'flip'; value: { flip: boolean; axis: 'x' | 'y' } }
   | { type: 'padding'; value: { min?: number; max?: number; axis: 'x' | 'y' } }
   | { type: 'minMax'; value: { min?: number; max?: number; axis: 'x' | 'y' } };
