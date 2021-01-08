@@ -54,10 +54,8 @@
     "@storybook/addon-storysource": "^6.1.11",
     "@storybook/react": "^6.1.10",
     "@types/d3-array": "^2.5.1",
-    "@types/d3-axis": "^2.0.0",
     "@types/d3-scale": "^3.2.1",
     "@types/d3-scale-chromatic": "^2.0.0",
-    "@types/d3-selection": "^2.0.0",
     "@types/d3-shape": "^2.0.0",
     "@types/react": "^16.9.52",
     "@zakodium/eslint-config": "^2.1.1",
@@ -72,10 +70,9 @@
   },
   "dependencies": {
     "d3-array": "^2.8.0",
-    "d3-axis": "^2.0.0",
     "d3-scale": "^3.2.3",
     "d3-scale-chromatic": "^2.0.0",
-    "d3-selection": "^2.0.0",
-    "d3-shape": "^2.0.0"
+    "d3-shape": "^2.0.0",
+    "immer": "^8.0.0"
   }
 }
