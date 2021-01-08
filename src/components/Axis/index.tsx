@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 
-import { useDispatchContext } from '../hooks';
-import type { AxisProps } from '../types';
+import { useDispatchContext } from '../../hooks';
+import type { AxisProps } from '../../types';
 
-import XAxis from './XAxis';
-import YAxis from './YAxis';
+import BottomAxis from './BottomAxis';
+import LeftAxis from './LeftAxis';
+import RightAxis from './RightAxis';
+import TopAxis from './TopAxis';
 
 export default function Axis({
   position,
@@ -23,7 +25,7 @@ export default function Axis({
   tickStyle = {},
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
-  const isHorizontal = position === 'horizontal';
+  const isHorizontal = position === 'top' || position === 'bottom';
 
   // Send min and max to main state
   useEffect(() => {
@@ -45,25 +47,17 @@ export default function Axis({
   useEffect(() => {
     const [min = 0, max = 0] = padding || [0, 0];
     if (min < 0 || min > 1) {
-      throw new Error(
-        `Padding ${
-          isHorizontal ? 'left' : 'bottom'
-        } (${min}) is not between 0 and 1`,
-      );
+      throw new Error(`Padding ${position} (${min}) is not between 0 and 1`);
     }
     if (max < 0 || max > 1) {
-      throw new Error(
-        `Padding ${
-          isHorizontal ? 'right' : 'top'
-        } (${max}) is not between 0 and 1`,
-      );
+      throw new Error(`Padding ${position} (${max}) is not between 0 and 1`);
     }
 
     dispatch({
       type: 'padding',
       value: { min, max, axis: isHorizontal ? 'x' : 'y' },
     });
-  }, [dispatch, padding, isHorizontal]);
+  }, [dispatch, padding, isHorizontal, position]);
 
   const childProps = {
     showGridLines,
@@ -74,5 +68,17 @@ export default function Axis({
     fontSize,
     tickStyle,
   };
-  return isHorizontal ? <XAxis {...childProps} /> : <YAxis {...childProps} />;
+
+  switch (position) {
+    case 'top':
+      return <TopAxis {...childProps} />;
+    case 'bottom':
+      return <BottomAxis {...childProps} />;
+    case 'left':
+      return <LeftAxis {...childProps} />;
+    case 'right':
+      return <RightAxis {...childProps} />;
+    default:
+      return null;
+  }
 }

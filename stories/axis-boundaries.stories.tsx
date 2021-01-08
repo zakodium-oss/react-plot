@@ -70,7 +70,7 @@ export function Control(props: Record<string, number>) {
         label="Vg = 3V"
       />
       <Axis
-        position="horizontal"
+        position="bottom"
         label="Drain voltage [V]"
         showGridLines={true}
         min={xMin}
@@ -78,7 +78,7 @@ export function Control(props: Record<string, number>) {
         padding={[paddingLeft, paddingRight]}
       />
       <Axis
-        position="vertical"
+        position="left"
         label="Drain current [mA]"
         showGridLines={true}
         labelSpace={40}

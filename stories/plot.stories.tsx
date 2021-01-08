@@ -100,14 +100,14 @@ export function Control(props) {
         label="Vg = 3V"
       />
       <Axis
-        position="horizontal"
+        position="bottom"
         label="Drain voltage [V]"
         showGridLines={showGridLines}
         display={showAxis}
         flip={xFlip}
       />
       <Axis
-        position="vertical"
+        position="left"
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelSpace={40}
@@ -158,14 +158,14 @@ export function ScientificNotation() {
         label="Vg = 3V"
       />
       <Axis
-        position="horizontal"
+        position="bottom"
         label="Drain voltage [V]"
         showGridLines={true}
         max={6.1 / factor}
         tickStyle={{ fontSize: '0.8rem' }}
       />
       <Axis
-        position="vertical"
+        position="left"
         label="Drain current [mA]"
         showGridLines={true}
         labelSpace={50}

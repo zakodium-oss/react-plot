@@ -85,12 +85,8 @@ export function PCA() {
             height={size / numFeatures}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
-            <Axis
-              position="horizontal"
-              padding={[0.05, 0.05]}
-              display={false}
-            />
-            <Axis position="vertical" padding={[0.05, 0.05]} display={false} />
+            <Axis position="bottom" padding={[0.05, 0.05]} display={false} />
+            <Axis position="left" padding={[0.05, 0.05]} display={false} />
             {series}
           </Plot>,
         );
