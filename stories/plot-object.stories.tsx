@@ -2,6 +2,7 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { PlotObject } from '../src/index';
+import { PlotObjectProps } from '../src/types';
 
 export default {
   title: 'Plot/Plot object',
@@ -9,7 +10,7 @@ export default {
 } as Meta;
 
 export function Control() {
-  const plot = {
+  const plot: PlotObjectProps = {
     dimentions: {
       width: 550,
       height: 500,
@@ -18,17 +19,17 @@ export function Control() {
     axes: {
       x: {
         label: 'My X axis',
-        position: 'horizontal' as const,
+        position: 'horizontal',
         min: 0,
         max: 10,
       },
-      y: { label: 'My Y axis', position: 'vertical' as const, min: 0, max: 10 },
+      y: { label: 'My Y axis', position: 'vertical', min: 0, max: 10 },
     },
     series: [
       {
-        type: 'line', // scatter
-        xAxis: 'x',
-        yAxis: 'y',
+        // type: 'line', // scatter
+        // xAxis: 'x',
+        // yAxis: 'y',
         label: 'My first serie',
         data: [
           { x: 1, y: 2 },
