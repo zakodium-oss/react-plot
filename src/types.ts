@@ -80,7 +80,10 @@ export interface MarkersProps {
 type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
   axes: AxisProps[];
-  series: Array<LineSeriesProps>;
+  series: Array<
+    | ({ type: 'line' } & LineSeriesProps)
+    | ({ type: 'scatter' } & ScatterSeriesProps)
+  >;
   legend?: LegendProps;
   dimentions: Dimentions;
   colorScheme?: Iterable<string>;
