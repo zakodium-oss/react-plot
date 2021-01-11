@@ -19,6 +19,7 @@ export function Control() {
     axes: [
       { id: 'x', label: 'My X axis', position: 'bottom', min: 0, max: 10 },
       { id: 'y', label: 'My Y axis', position: 'left', min: 0, max: 10 },
+      { id: 'right', position: 'right', min: 1.5, max: 8.5 },
     ],
     series: [
       {
@@ -38,7 +39,7 @@ export function Control() {
       {
         type: 'scatter',
         xAxis: 'x',
-        yAxis: 'y',
+        yAxis: 'right',
         label: 'Scatter serie',
         data: [
           { x: 2, y: 8 },
