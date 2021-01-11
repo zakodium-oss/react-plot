@@ -67,6 +67,8 @@ export function PCA() {
 
           series.push(
             <ScatterSeries
+              xAxis="x"
+              yAxis="y"
               key={klass}
               data={data}
               label={klass}
@@ -74,7 +76,13 @@ export function PCA() {
             />,
           );
           series.push(
-            <LineSeries key={klass} data={dataRegression} label={klass} />,
+            <LineSeries
+              xAxis="x"
+              yAxis="y"
+              key={klass}
+              data={dataRegression}
+              label={klass}
+            />,
           );
         }
 
@@ -85,8 +93,18 @@ export function PCA() {
             height={size / numFeatures}
             margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
-            <Axis position="bottom" padding={[0.05, 0.05]} display={false} />
-            <Axis position="left" padding={[0.05, 0.05]} display={false} />
+            <Axis
+              id="x"
+              position="bottom"
+              padding={[0.05, 0.05]}
+              display={false}
+            />
+            <Axis
+              id="y"
+              position="left"
+              padding={[0.05, 0.05]}
+              display={false}
+            />
             {series}
           </Plot>,
         );

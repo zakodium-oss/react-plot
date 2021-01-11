@@ -4,6 +4,7 @@ import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
 
 export default function BottomAxis({
+  id,
   showGridLines,
   display,
   label,
@@ -13,31 +14,32 @@ export default function BottomAxis({
   tickStyle,
 }: AxisChildProps) {
   const {
-    xScale,
-    xScientific,
+    axisContext,
     plotWidth,
     top,
     bottom,
     left,
     height,
   } = usePlotContext();
+
   // Calculates the main axis values
+  const { scale, scientific } = axisContext[id] || {};
   const ticks: number[] = useMemo(
-    () => xScale?.ticks(xScientific ? plotWidth / 50 : undefined) || [],
-    [xScale, xScientific, plotWidth],
+    () => scale?.ticks(scientific ? plotWidth / 50 : undefined) || [],
+    [scale, scientific, plotWidth],
   );
-  const range = xScale?.range() || [0, 0];
+  const range = scale?.range() || [0, 0];
 
   // Create gridlines
   const gridlines = useMemo(() => {
-    if (!showGridLines || !xScale) return null;
+    if (!showGridLines || !scale) return null;
     return (
       <g className="gridLines">
         {ticks.map((val) => (
           <line
             key={val}
-            x1={xScale(val)}
-            x2={xScale(val)}
+            x1={scale(val)}
+            x2={scale(val)}
             y1={height - bottom}
             y2={top}
             stroke="black"
@@ -47,7 +49,7 @@ export default function BottomAxis({
         ))}
       </g>
     );
-  }, [showGridLines, ticks, top, xScale, height, bottom]);
+  }, [showGridLines, ticks, top, scale, height, bottom]);
 
   return (
     <g className="axis">
@@ -56,7 +58,7 @@ export default function BottomAxis({
         <g className="ticks" transform={`translate(0, ${height - bottom})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
           {ticks.map((val) => {
-            const x = xScale(val);
+            const x = scale(val);
             return (
               <g key={val}>
                 <line x1={x} x2={x} y2={6} stroke="black" />
@@ -66,7 +68,7 @@ export default function BottomAxis({
                   textAnchor="middle"
                   style={{ userSelect: 'none', ...tickStyle }}
                 >
-                  {xScientific ? val.toExponential(2) : val}
+                  {scientific ? val.toExponential(2) : val}
                 </text>
               </g>
             );

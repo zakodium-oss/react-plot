@@ -9,6 +9,7 @@ import RightAxis from './RightAxis';
 import TopAxis from './TopAxis';
 
 export default function Axis({
+  id,
   position,
   min,
   max,
@@ -25,41 +26,36 @@ export default function Axis({
   tickStyle = {},
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
-  const isHorizontal = position === 'top' || position === 'bottom';
-
-  // Send min and max to main state
   useEffect(() => {
-    dispatch({
-      type: 'minMax',
-      value: { min, max, axis: isHorizontal ? 'x' : 'y' },
-    });
-  }, [dispatch, min, max, isHorizontal]);
-
-  // Send flip to main state
-  useEffect(() => {
-    dispatch({
-      type: 'flip',
-      value: { flip, axis: isHorizontal ? 'x' : 'y' },
-    });
-  }, [dispatch, flip, isHorizontal]);
-
-  // Send paddings to main state
-  useEffect(() => {
-    const [min = 0, max = 0] = padding || [0, 0];
-    if (min < 0 || min > 1) {
-      throw new Error(`Padding ${position} (${min}) is not between 0 and 1`);
+    const [minPadding = 0, maxPadding = 0] = padding || [0, 0];
+    if (minPadding < 0 || minPadding > 1) {
+      throw new Error(
+        `Padding ${position} (${minPadding}) is not between 0 and 1`,
+      );
     }
-    if (max < 0 || max > 1) {
-      throw new Error(`Padding ${position} (${max}) is not between 0 and 1`);
+    if (maxPadding < 0 || maxPadding > 1) {
+      throw new Error(
+        `Padding ${position} (${maxPadding}) is not between 0 and 1`,
+      );
     }
 
     dispatch({
-      type: 'padding',
-      value: { min, max, axis: isHorizontal ? 'x' : 'y' },
+      type: 'newAxis',
+      value: {
+        id,
+        position,
+        min,
+        max,
+        padding: [minPadding, maxPadding],
+        flip,
+      },
     });
-  }, [dispatch, padding, isHorizontal, position]);
+
+    return () => dispatch({ type: 'removeAxis', value: { id } });
+  }, [dispatch, id, position, min, max, padding, flip]);
 
   const childProps = {
+    id,
     showGridLines,
     display,
     label,

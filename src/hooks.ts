@@ -7,8 +7,7 @@ interface DispatchContextType {
 }
 
 export const PlotContext = createContext<PlotContextType>({
-  xScientific: false,
-  yScientific: false,
+  axisContext: {},
 });
 export const DispatchContext = createContext<DispatchContextType>({
   dispatch: null,

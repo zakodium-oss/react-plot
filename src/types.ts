@@ -21,23 +21,21 @@ export interface PlotProps {
   children: ReactNode;
 }
 
-export interface LineSeriesProps {
+export interface ScatterSeriesProps {
+  xAxis: string;
+  yAxis: string;
   data: Series[];
-  lineStyle?: CSSProperties;
   label?: string;
-  displayMarker?: boolean;
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
 }
-
-export interface ScatterSeriesProps {
-  data: Series[];
-  label?: string;
-  markerShape?: 'circle' | 'square' | 'triangle';
-  markerSize?: number;
+export interface LineSeriesProps extends ScatterSeriesProps {
+  lineStyle?: CSSProperties;
+  displayMarker?: boolean;
 }
 
 export interface AxisChildProps {
+  id: string;
   fontSize?: number;
   label?: string;
   showGridLines?: boolean;
@@ -47,13 +45,15 @@ export interface AxisChildProps {
   display?: boolean;
 }
 
-export interface AxisProps extends AxisChildProps {
+export interface AxisParentProps {
+  id: string;
   position: Horizontal | Vertical;
   min?: number;
   max?: number;
   padding?: [number, number];
   flip?: boolean;
 }
+export type AxisProps = AxisChildProps & AxisParentProps;
 
 export interface HeadingProps {
   title: string;
@@ -77,10 +77,9 @@ export interface MarkersProps {
   size: number;
 }
 
-type Axes = Record<string, AxisProps>;
 type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
-  axes: Axes;
+  axes: AxisProps[];
   series: Array<LineSeriesProps>;
   legend?: LegendProps;
   dimentions: Dimentions;
@@ -89,18 +88,23 @@ export interface PlotObjectType {
 
 // State related
 
+interface SeriesAxisType {
+  min: number;
+  max: number;
+  axisId: string;
+}
 export interface SeriesType {
   id: string;
-  xMin: number;
-  xMax: number;
-  yMin: number;
-  yMax: number;
+  x: SeriesAxisType;
+  y: SeriesAxisType;
   label: string;
 }
 
+export interface AxisContextType {
+  scale: ScaleLinear<number, number>;
+  scientific: boolean;
+}
 export interface PlotContextType {
-  xScale?: ScaleLinear<number, number>;
-  yScale?: ScaleLinear<number, number>;
   width?: number;
   height?: number;
   left?: number;
@@ -111,8 +115,12 @@ export interface PlotContextType {
   plotHeight?: number;
   labels?: Array<{ id: string; label: string }>;
   colorScaler?: ScaleOrdinal<string, string>;
-  xScientific: boolean;
-  yScientific: boolean;
+  axisContext: Record<string, AxisContextType>;
+}
+
+export interface State {
+  series: SeriesType[];
+  axis: Record<string, Omit<AxisParentProps, 'id'>>;
 }
 
 // Util functions
@@ -120,9 +128,8 @@ export interface PlotContextType {
 export type ReducerActions =
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
-  | { type: 'flip'; value: { flip: boolean; axis: 'x' | 'y' } }
-  | { type: 'padding'; value: { min?: number; max?: number; axis: 'x' | 'y' } }
-  | { type: 'minMax'; value: { min?: number; max?: number; axis: 'x' | 'y' } };
+  | { type: 'newAxis'; value: AxisParentProps }
+  | { type: 'removeAxis'; value: { id: string } };
 
 export interface PlotChildren {
   invalidChild: boolean;

@@ -81,6 +81,8 @@ export function Control(props) {
             { x: 4, y: 3 },
             { x: 5, y: 3 },
           ]}
+          xAxis="x"
+          yAxis="y"
           lineStyle={{ strokeWidth: 3 }}
           label="Vg = 7V"
           displayMarker={false}
@@ -95,11 +97,14 @@ export function Control(props) {
           { x: 5, y: 6 },
           { x: 6, y: 6 },
         ]}
+        xAxis="x"
+        yAxis="y"
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"
       />
       <Axis
+        id="x"
         position="bottom"
         label="Drain voltage [V]"
         showGridLines={showGridLines}
@@ -107,6 +112,7 @@ export function Control(props) {
         flip={xFlip}
       />
       <Axis
+        id="y"
         position="left"
         label="Drain current [mA]"
         showGridLines={showGridLines}
@@ -140,6 +146,8 @@ export function ScientificNotation() {
           { x: 4 / factor, y: 3 * factor },
           { x: 5 / factor, y: 3 * factor },
         ]}
+        xAxis="x"
+        yAxis="y"
         lineStyle={{ strokeWidth: 3 }}
         label="Vg = 7V"
         displayMarker={false}
@@ -153,11 +161,14 @@ export function ScientificNotation() {
           { x: 5 / factor, y: 6 * factor },
           { x: 6 / factor, y: 6 * factor },
         ]}
+        xAxis="x"
+        yAxis="y"
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"
       />
       <Axis
+        id="x"
         position="bottom"
         label="Drain voltage [V]"
         showGridLines={true}
@@ -165,6 +176,7 @@ export function ScientificNotation() {
         tickStyle={{ fontSize: '0.8rem' }}
       />
       <Axis
+        id="y"
         position="left"
         label="Drain current [mA]"
         showGridLines={true}

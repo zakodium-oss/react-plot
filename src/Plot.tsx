@@ -5,22 +5,13 @@ import { produce } from 'immer';
 import React, { useMemo, useReducer } from 'react';
 
 import { PlotContext, DispatchContext } from './hooks';
-import type { PlotProps, SeriesType, ReducerActions } from './types';
-import { splitChildren } from './utils';
-
-interface State {
-  series: SeriesType[];
-  xMin?: number;
-  xMax?: number;
-  yMin?: number;
-  yMax?: number;
-  paddingLeft: number;
-  paddingRight: number;
-  paddingTop: number;
-  paddingBottom: number;
-  xFlip: boolean;
-  yFlip: boolean;
-}
+import type {
+  PlotProps,
+  State,
+  ReducerActions,
+  AxisContextType,
+} from './types';
+import { splitChildren, validatePosition } from './utils';
 
 function reducer(state: State, action: ReducerActions) {
   switch (action.type) {
@@ -34,35 +25,21 @@ function reducer(state: State, action: ReducerActions) {
       state.series = seriesFiltered;
       break;
     }
-    case 'minMax': {
-      const { min, max, axis } = action.value;
-      if (axis === 'x') {
-        state.xMin = min;
-        state.xMax = max;
+    case 'newAxis': {
+      const { id, position, ...values } = action.value;
+      let currentAxis = state.axis[id];
+      if (currentAxis) {
+        validatePosition(currentAxis.position, position, id);
+        state.axis[id] = { ...currentAxis, position, ...values };
       } else {
-        state.yMin = min;
-        state.yMax = max;
+        state.axis[id] = { position, ...values };
       }
       break;
     }
-    case 'padding': {
-      const { min, max, axis } = action.value;
-      if (axis === 'x') {
-        state.paddingLeft = min;
-        state.paddingRight = max;
-      } else {
-        state.paddingBottom = min;
-        state.paddingTop = max;
-      }
-      break;
-    }
-    case 'flip': {
-      const { flip, axis } = action.value;
-      if (axis === 'x') {
-        state.xFlip = flip;
-      } else {
-        state.yFlip = flip;
-      }
+    case 'removeAxis': {
+      const { id } = action.value;
+      const seriesFiltered = state.series.filter((series) => series.id !== id);
+      state.series = seriesFiltered;
       break;
     }
     default: {
@@ -79,14 +56,9 @@ export default function Plot({
   colorScheme,
   children,
 }: PlotProps) {
-  const initialState = {
+  const initialState: State = {
     series: [],
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    xFlip: false,
-    yFlip: false,
+    axis: {},
   };
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
@@ -102,52 +74,44 @@ export default function Plot({
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const { xScale, xMin, xMax } = useMemo(() => {
-    const xMin =
-      state.xMin !== undefined ? state.xMin : min(state.series, (d) => d.xMin);
-    const xMax =
-      state.xMax !== undefined ? state.xMax : max(state.series, (d) => d.xMax);
+  const axisContext = useMemo(() => {
+    let axisContext: Record<string, AxisContextType> = {};
+    for (const id in state.axis) {
+      const axis = state.axis[id];
+      const isHorizontal = ['top', 'bottom'].includes(axis.position);
+      const xY = isHorizontal ? 'x' : 'y';
 
-    if ([xMin, xMax].includes(undefined)) return {};
-    if (xMin > xMax) {
-      throw new Error(`X: min (${xMin}) is bigger than max (${xMax})`);
+      // Get limits from state or data
+      const axisMin =
+        axis.min !== undefined ? axis.min : min(state.series, (d) => d[xY].min);
+      const axisMax =
+        axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
+
+      // Limits validation
+      if ([axisMin, axisMax].includes(undefined)) return {};
+      if (axisMin > axisMax) {
+        throw new Error(
+          `${id}: min (${axisMin}) is bigger than max (${axisMax})`,
+        );
+      }
+
+      // Limits paddings
+      const diff = axisMax - axisMin;
+      const minPad = diff * axis.padding[0];
+      const maxPad = diff * axis.padding[1];
+
+      const range = isHorizontal
+        ? [left, width - right]
+        : [height - bottom, top];
+      axisContext[id] = {
+        scientific: diff <= 0.01 || diff >= 1000,
+        scale: scaleLinear()
+          .domain([axisMin - minPad, axisMax + maxPad])
+          .range(axis.flip ? range.reverse() : range),
+      };
     }
-
-    const leftPad = (xMax - xMin) * state.paddingLeft;
-    const rightPad = (xMax - xMin) * state.paddingRight;
-
-    return {
-      xMin,
-      xMax,
-      xScale: scaleLinear()
-        .domain([xMin - leftPad, xMax + rightPad])
-        .range(state.xFlip ? [width - right, left] : [left, width - right]),
-    };
-  }, [state, left, right, width]);
-
-  const { yScale, yMin, yMax } = useMemo(() => {
-    // Get limits from state or data
-    const yMin =
-      state.yMin !== undefined ? state.yMin : min(state.series, (d) => d.yMin);
-    const yMax =
-      state.yMax !== undefined ? state.yMax : max(state.series, (d) => d.yMax);
-    // Limits validation
-    if ([yMin, yMax].includes(undefined)) return {};
-    if (yMin > yMax) {
-      throw new Error(`Y: min (${yMin}) is bigger than max (${yMax})`);
-    }
-
-    // Limits paddings
-    const topPad = (yMax - yMin) * state.paddingTop;
-    const bottomPad = (yMax - yMin) * state.paddingBottom;
-    return {
-      yMin,
-      yMax,
-      yScale: scaleLinear()
-        .domain([yMin - bottomPad, yMax + topPad])
-        .range(state.yFlip ? [top, height - bottom] : [height - bottom, top]),
-    };
-  }, [state, bottom, top, height]);
+    return axisContext;
+  }, [state, width, height, right, left, top, bottom]);
 
   const labels = useMemo(
     () => state.series.map(({ id, label }) => ({ id, label })),
@@ -160,14 +124,9 @@ export default function Plot({
       .domain(ids);
   }, [colorScheme, ids]);
 
-  const xDiff = xMax - xMin;
-  const yDiff = yMax - yMin;
-
   return (
     <PlotContext.Provider
       value={{
-        xScale,
-        yScale,
         width,
         height,
         left,
@@ -178,8 +137,7 @@ export default function Plot({
         plotHeight,
         labels,
         colorScaler,
-        xScientific: xDiff <= 0.01 || xDiff >= 1000,
-        yScientific: yDiff <= 0.01 || yDiff >= 1000,
+        axisContext,
       }}
     >
       <DispatchContext.Provider value={{ dispatch }}>

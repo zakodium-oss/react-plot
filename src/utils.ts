@@ -44,11 +44,17 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
   return { invalidChild, series, axis, heading, legend };
 }
 
-export function camelToKebab(string: string) {
-  return string
-    .replace(
-      /(?<lower>[a-z0-9]|(?=[A-Z]))(?<upper>[A-Z])/g,
-      '$<lower>-$<upper>',
-    )
-    .toLowerCase();
+export function validatePosition(
+  currPosition: string,
+  position: string,
+  id: string,
+) {
+  const horizontal = ['top', 'bottom'];
+  const vertical = ['left', 'right'];
+  const error =
+    (horizontal.includes(currPosition) && !horizontal.includes(position)) ||
+    (vertical.includes(currPosition) && !vertical.includes(position));
+  if (error) {
+    throw new Error(`The positions are not ortogonal for ${id}`);
+  }
 }
