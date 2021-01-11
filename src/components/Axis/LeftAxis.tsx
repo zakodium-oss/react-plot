@@ -4,6 +4,7 @@ import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
 
 export default function LeftAxis({
+  id,
   showGridLines,
   display,
   label,
@@ -12,22 +13,16 @@ export default function LeftAxis({
   fontSize,
   tickStyle,
 }: AxisChildProps) {
-  const {
-    yScale,
-    yScientific,
-    plotHeight,
-    top,
-    left,
-    width,
-    right,
-  } = usePlotContext();
+  const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
+
   // Calculates the main axis values
-  const ticks: number[] = useMemo(() => yScale?.ticks() || [], [yScale]);
-  const range = yScale?.range() || [0, 0];
+  const { scale, scientific } = axisContext[id] || {};
+  const ticks: number[] = useMemo(() => scale?.ticks() || [], [scale]);
+  const range = scale?.range() || [0, 0];
 
   // Create gridlines
   const gridlines = useMemo(() => {
-    if (!showGridLines || !yScale) return null;
+    if (!showGridLines || !scale) return null;
     return (
       <g className="gridLines">
         {ticks.map((val) => (
@@ -35,8 +30,8 @@ export default function LeftAxis({
             key={val}
             x1={left}
             x2={width - right}
-            y1={yScale(val)}
-            y2={yScale(val)}
+            y1={scale(val)}
+            y2={scale(val)}
             stroke="black"
             strokeDasharray="2,2"
             strokeOpacity={0.5}
@@ -44,7 +39,7 @@ export default function LeftAxis({
         ))}
       </g>
     );
-  }, [showGridLines, ticks, yScale, left, width, right]);
+  }, [showGridLines, ticks, scale, left, width, right]);
 
   return (
     <g className="axis">
@@ -53,7 +48,7 @@ export default function LeftAxis({
         <g className="ticks" transform={`translate(${left}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
           {ticks.map((val) => {
-            const y = yScale(val);
+            const y = scale(val);
             return (
               <g key={val}>
                 <line x2={-6} y1={y} y2={y} stroke="black" />
@@ -64,7 +59,7 @@ export default function LeftAxis({
                   alignmentBaseline="middle"
                   style={{ userSelect: 'none', ...tickStyle }}
                 >
-                  {yScientific ? val.toExponential(2) : val}
+                  {scientific ? val.toExponential(2) : val}
                 </text>
               </g>
             );
@@ -74,7 +69,7 @@ export default function LeftAxis({
       {label && display && (
         <text
           transform={`translate(${
-            left - fontSize - labelSpace - (yScientific ? 14 : 0)
+            left - fontSize - labelSpace - (scientific ? 14 : 0)
           }, ${top + plotHeight / 2})rotate(-90)`}
           dy={fontSize}
           textAnchor="middle"

@@ -13,17 +13,15 @@ interface Props {
 export default function PlotObject({
   plot: { dimentions, axes, series, legend, colorScheme },
 }: Props) {
-  if (axes.x === undefined || axes.y === undefined) {
-    throw new Error('x and y axes are required');
-  }
   return (
     <Plot colorScheme={colorScheme} {...dimentions}>
-      <Axis {...axes.x} />
-      <Axis {...axes.y} />
+      {axes.map((props) => (
+        <Axis key={props.id} {...props} />
+      ))}
       {legend !== undefined ? <Legend {...legend} /> : null}
-      {series.map((seriesProps, i) => (
+      {series.map((props, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <LineSeries key={`series-${i}`} {...seriesProps} />
+        <LineSeries key={`series-${i}`} {...props} />
       ))}
     </Plot>
   );

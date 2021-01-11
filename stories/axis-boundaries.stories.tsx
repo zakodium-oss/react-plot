@@ -52,6 +52,8 @@ export function Control(props: Record<string, number>) {
           { x: 4, y: 3 },
           { x: 5, y: 3 },
         ]}
+        xAxis="x"
+        yAxis="y"
         lineStyle={{ strokeWidth: 3 }}
         label="Vg = 7V"
         displayMarker={false}
@@ -65,11 +67,14 @@ export function Control(props: Record<string, number>) {
           { x: 5, y: 6 },
           { x: 6, y: 6 },
         ]}
+        xAxis="x"
+        yAxis="y"
         displayMarker={true}
         markerShape="circle"
         label="Vg = 3V"
       />
       <Axis
+        id="x"
         position="bottom"
         label="Drain voltage [V]"
         showGridLines={true}
@@ -78,6 +83,7 @@ export function Control(props: Record<string, number>) {
         padding={[paddingLeft, paddingRight]}
       />
       <Axis
+        id="y"
         position="left"
         label="Drain current [mA]"
         showGridLines={true}
@@ -86,8 +92,8 @@ export function Control(props: Record<string, number>) {
         max={yMax}
         padding={[paddingBottom, paddingTop]}
       />
-      <Axis position="right" />
-      <Axis position="top" />
+      <Axis id="y" position="right" />
+      <Axis id="x" position="top" />
       <Legend position="right" space={45} />
     </Plot>
   );

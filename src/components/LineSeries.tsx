@@ -21,33 +21,40 @@ const markersComps = {
 export default function LineSeries(props: LineSeriesProps) {
   const [id] = useState(() => `series-${getNextId()}`);
 
-  const { data, label, ...otherProps } = props;
+  const { xAxis, yAxis, data, label, ...otherProps } = props;
 
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
-    dispatch({ type: 'newData', value: { id, xMin, xMax, yMin, yMax, label } });
+    const x = { min: xMin, max: xMax, axisId: xAxis };
+    const y = { min: yMin, max: yMax, axisId: yAxis };
+    dispatch({ type: 'newData', value: { id, x, y, label } });
 
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', value: { id } });
-  }, [data, label, dispatch, id]);
+  }, [dispatch, id, data, xAxis, yAxis, label]);
 
   // Render stateless plot component
-  return <LineSeriesRender {...otherProps} data={data} id={id} />;
+  const inheretedProps = { data, id, xAxis, yAxis };
+  return <LineSeriesRender {...otherProps} {...inheretedProps} />;
 }
 
 function LineSeriesRender({
   id,
   data,
+  xAxis,
+  yAxis,
   lineStyle,
   displayMarker,
   markerShape = 'circle',
   markerSize = 3,
 }: LineSeriesRenderProps) {
   // Get scales from context
-  const { xScale, yScale, colorScaler } = usePlotContext();
+  const { axisContext, colorScaler } = usePlotContext();
+  const xScale = axisContext[xAxis]?.scale;
+  const yScale = axisContext[yAxis]?.scale;
 
   // calculates the path to display
   const color = colorScaler(id);
