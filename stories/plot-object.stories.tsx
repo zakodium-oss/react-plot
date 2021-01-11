@@ -22,7 +22,7 @@ export function Control() {
     ],
     series: [
       {
-        // type: 'line', // scatter
+        type: 'line',
         xAxis: 'x',
         yAxis: 'y',
         label: 'My first serie',
@@ -34,6 +34,19 @@ export function Control() {
           { x: 7, y: 8 },
         ],
         lineStyle: { strokeWidth: '2px' },
+      },
+      {
+        type: 'scatter',
+        xAxis: 'x',
+        yAxis: 'y',
+        label: 'Scatter serie',
+        data: [
+          { x: 2, y: 8 },
+          { x: 3, y: 7 },
+          { x: 5, y: 4 },
+          { x: 6, y: 4 },
+          { x: 7, y: 2 },
+        ],
       },
     ],
   };
