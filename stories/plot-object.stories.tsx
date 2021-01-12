@@ -11,6 +11,11 @@ export default {
 
 export function Control() {
   const plot: PlotObjectType = {
+    viewPortStyle: {
+      stroke: 'black',
+      strokeWidth: '2px',
+      fill: '#111',
+    },
     dimentions: {
       width: 550,
       height: 500,
