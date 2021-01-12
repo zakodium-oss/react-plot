@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';
-import { getNextId } from '../utils';
+import { getNextId, validateAxis } from '../utils';
 
 import { Circle, Square, Triangle } from './Markers';
 
@@ -20,7 +20,7 @@ const markersComps = {
 export default function ScatterSeries(props: ScatterSeriesProps) {
   const [id] = useState(() => `series-${getNextId()}`);
 
-  const { xAxis, yAxis, data, label, ...otherProps } = props;
+  const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
 
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
@@ -50,8 +50,7 @@ function ScatterSeriesRender({
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
-  const xScale = axisContext[xAxis]?.scale;
-  const yScale = axisContext[yAxis]?.scale;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
   // calculates the path to display
   const color = colorScaler(id);

@@ -21,7 +21,7 @@ const markersComps = {
 export default function LineSeries(props: LineSeriesProps) {
   const [id] = useState(() => `series-${getNextId()}`);
 
-  const { xAxis, yAxis, data, label, ...otherProps } = props;
+  const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
 
   // Update plot context with data description
   const { dispatch } = useDispatchContext();

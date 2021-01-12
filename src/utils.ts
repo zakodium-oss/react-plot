@@ -5,7 +5,7 @@ import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import type { PlotChildren } from './types';
+import type { AxisContextType, PlotChildren } from './types';
 
 let currentValue = 1;
 
@@ -44,17 +44,36 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
   return { invalidChild, series, axis, heading, legend };
 }
 
+const horizontal = ['top', 'bottom'];
+const vertical = ['left', 'right'];
 export function validatePosition(
   currPosition: string,
   position: string,
   id: string,
 ) {
-  const horizontal = ['top', 'bottom'];
-  const vertical = ['left', 'right'];
   const error =
     (horizontal.includes(currPosition) && !horizontal.includes(position)) ||
     (vertical.includes(currPosition) && !vertical.includes(position));
   if (error) {
     throw new Error(`The positions are not ortogonal for ${id}`);
   }
+}
+
+export function validateAxis(
+  axisContext: Record<string, AxisContextType>,
+  xKey: string,
+  yKey: string,
+) {
+  const xAxis = axisContext[xKey];
+  const yAxis = axisContext[yKey];
+  if (!xAxis || !yAxis) return [undefined, undefined];
+
+  if (
+    (horizontal.includes(xAxis.position) &&
+      !vertical.includes(yAxis.position)) ||
+    (vertical.includes(xAxis.position) && !horizontal.includes(yAxis.position))
+  ) {
+    throw new Error(`The axis ${xKey} and ${yKey} are not orthogonal`);
+  }
+  return [xAxis.scale, yAxis.scale];
 }

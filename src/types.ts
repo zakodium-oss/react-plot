@@ -22,8 +22,8 @@ export interface PlotProps {
 }
 
 export interface ScatterSeriesProps {
-  xAxis: string;
-  yAxis: string;
+  xAxis?: string;
+  yAxis?: string;
   data: Series[];
   label?: string;
   markerShape?: 'circle' | 'square' | 'triangle';
@@ -46,7 +46,7 @@ export interface AxisChildProps {
 }
 
 export interface AxisParentProps {
-  id: string;
+  id?: string;
   position: Horizontal | Vertical;
   min?: number;
   max?: number;
@@ -106,6 +106,7 @@ export interface SeriesType {
 export interface AxisContextType {
   scale: ScaleLinear<number, number>;
   scientific: boolean;
+  position: Horizontal | Vertical;
 }
 export interface PlotContextType {
   width?: number;
