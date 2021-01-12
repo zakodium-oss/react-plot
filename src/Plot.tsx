@@ -43,7 +43,8 @@ function reducer(state: State, action: ReducerActions) {
       break;
     }
     default: {
-      throw new Error();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      throw new Error(`Unknown reducer type ${(action as any).type}`);
     }
   }
 }
@@ -104,6 +105,7 @@ export default function Plot({
         ? [left, width - right]
         : [height - bottom, top];
       axisContext[id] = {
+        position: axis.position,
         scientific: diff <= 0.01 || diff >= 1000,
         scale: scaleLinear()
           .domain([axisMin - minPad, axisMax + maxPad])

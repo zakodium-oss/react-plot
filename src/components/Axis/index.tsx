@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useDispatchContext } from '../../hooks';
-import type { AxisProps } from '../../types';
+import type { AxisChildProps, AxisProps } from '../../types';
 
 import BottomAxis from './BottomAxis';
 import LeftAxis from './LeftAxis';
@@ -26,6 +26,8 @@ export default function Axis({
   tickStyle = {},
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
+
+  const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
   useEffect(() => {
     const [minPadding = 0, maxPadding = 0] = padding || [0, 0];
     if (minPadding < 0 || minPadding > 1) {
@@ -42,7 +44,7 @@ export default function Axis({
     dispatch({
       type: 'newAxis',
       value: {
-        id,
+        id: id || xY,
         position,
         min,
         max,
@@ -51,11 +53,11 @@ export default function Axis({
       },
     });
 
-    return () => dispatch({ type: 'removeAxis', value: { id } });
-  }, [dispatch, id, position, min, max, padding, flip]);
+    return () => dispatch({ type: 'removeAxis', value: { id: id || xY } });
+  }, [dispatch, xY, id, position, min, max, padding, flip]);
 
-  const childProps = {
-    id,
+  const childProps: AxisChildProps = {
+    id: id || xY,
     showGridLines,
     display,
     label,
