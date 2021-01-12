@@ -38,8 +38,7 @@ function reducer(state: State, action: ReducerActions) {
     }
     case 'removeAxis': {
       const { id } = action.value;
-      const seriesFiltered = state.series.filter((series) => series.id !== id);
-      state.series = seriesFiltered;
+      state.axis[id] = undefined;
       break;
     }
     default: {
