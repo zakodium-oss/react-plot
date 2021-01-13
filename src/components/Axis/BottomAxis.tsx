@@ -14,6 +14,7 @@ export default function BottomAxis({
   fontSize,
   tickStyle,
   showTicks,
+  tickInside,
 }: AxisChildProps) {
   const {
     axisContext,
@@ -53,13 +54,13 @@ export default function BottomAxis({
     );
   }, [showGridLines, ticks, top, scale, height, bottom]);
 
+  const tickLen = tickInside ? -6 : 6;
   return (
     <g className="axis">
       {gridlines}
       {display && (
         <g className="ticks" transform={`translate(0, ${height - bottom})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
-
           <Ticks
             scientific={scientific}
             scale={scale}
@@ -68,7 +69,7 @@ export default function BottomAxis({
             style={tickStyle}
             anchor="middle"
             getPositions={(val) => ({
-              line: { x1: val, x2: val, yl: 6 },
+              line: { x1: val, x2: val, yl: tickLen },
               text: { x1: val, y1: 24 },
             })}
           />
