@@ -33,7 +33,7 @@ export default function LineSeries(props: LineSeriesProps) {
         hidden={!displayMarker || props.hidden}
         id={id}
       />
-      ;{props.hidden ? null : <LineSeriesRender {...lineProps} />}
+      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
     </g>
   );
 }
