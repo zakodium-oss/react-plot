@@ -14,7 +14,8 @@ export function Control() {
     viewportStyle: {
       stroke: 'black',
       strokeWidth: '2px',
-      fill: '#111',
+      fillOpacity: 1,
+      fill: '#ddd',
     },
     dimentions: {
       width: 550,
