@@ -22,7 +22,7 @@ export interface PlotProps {
 }
 
 export interface ScatterSeriesProps {
-  id?: string;
+  groupId?: string;
   xAxis?: string;
   yAxis?: string;
   data: Series[];

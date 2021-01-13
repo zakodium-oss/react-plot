@@ -18,7 +18,7 @@ const markersComps = {
 };
 
 export default function ScatterSeries(props: ScatterSeriesProps) {
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
 
   const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
 

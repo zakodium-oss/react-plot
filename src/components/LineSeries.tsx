@@ -16,7 +16,7 @@ interface LineSeriesRenderProps {
 }
 
 export default function LineSeries(props: LineSeriesProps) {
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const lineProps = {
     id,
@@ -31,7 +31,7 @@ export default function LineSeries(props: LineSeriesProps) {
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker || props.hidden}
-        id={id}
+        groupId={id}
       />
       {props.hidden ? null : <LineSeriesRender {...lineProps} />}
     </g>
