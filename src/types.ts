@@ -18,7 +18,7 @@ export interface PlotProps {
   height: number;
   colorScheme?: Iterable<string>;
   margin?: Partial<Margins>;
-  viewPortStyle?: CSSProperties;
+  viewportStyle?: CSSProperties;
   children: ReactNode;
 }
 
@@ -88,7 +88,7 @@ export interface PlotObjectType {
   legend?: LegendProps;
   dimentions: Dimentions;
   colorScheme?: Iterable<string>;
-  viewPortStyle?: CSSProperties;
+  viewportStyle?: CSSProperties;
 }
 
 // State related

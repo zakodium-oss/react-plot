@@ -12,12 +12,12 @@ interface Props {
 }
 
 export default function PlotObject({
-  plot: { dimentions, viewPortStyle, axes, series, legend, colorScheme },
+  plot: { dimentions, viewportStyle, axes, series, legend, colorScheme },
 }: Props) {
   return (
     <Plot
       colorScheme={colorScheme}
-      viewPortStyle={viewPortStyle}
+      viewportStyle={viewportStyle}
       {...dimentions}
     >
       {axes.map((props) => (

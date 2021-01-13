@@ -55,7 +55,7 @@ export default function Plot({
   margin = {},
   colorScheme,
   children,
-  viewPortStyle = {},
+  viewportStyle = {},
 }: PlotProps) {
   const initialState: State = {
     series: [],
@@ -154,7 +154,7 @@ export default function Plot({
             y={top}
             width={plotWidth}
             height={plotHeight}
-            style={viewPortStyle}
+            style={viewportStyle}
           />
           {heading}
           {legend}
