@@ -11,6 +11,12 @@ export interface Series {
   y: number;
 }
 
+export type CSSFuncProps<T> = {
+  [key in keyof CSSProperties]:
+    | ((point: T, index: number, data: T[]) => CSSProperties[key])
+    | CSSProperties[key];
+};
+
 // Component props
 
 export interface PlotProps {
@@ -31,6 +37,7 @@ export interface ScatterSeriesProps {
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
   hidden?: boolean;
+  markerStyle?: CSSFuncProps<Series>;
 }
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;
@@ -76,8 +83,8 @@ export interface LegendProps {
 export interface MarkersProps {
   x: number;
   y: number;
-  fill: string;
   size: number;
+  style: CSSProperties;
 }
 
 type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;

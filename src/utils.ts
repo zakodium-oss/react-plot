@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import Axis from './components/Axis';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import type { AxisContextType, PlotChildren } from './types';
+import type { AxisContextType, CSSFuncProps, PlotChildren } from './types';
 
 let currentValue = 1;
 
+/**
+ * Creates autoincremental values, generally for series
+ */
 export function getNextId() {
   return ++currentValue;
 }
 
+/**
+ * Validates that all the items inside Plot are supported and organizes by kind
+ */
 export function splitChildren(children: React.ReactNode): PlotChildren {
   let invalidChild = false;
   let series = [];
@@ -46,6 +52,9 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
 
 const horizontal = ['top', 'bottom'];
 const vertical = ['left', 'right'];
+/**
+ * Validates that two positions are not orthogonal between them
+ */
 export function validatePosition(
   currPosition: string,
   position: string,
@@ -55,10 +64,13 @@ export function validatePosition(
     (horizontal.includes(currPosition) && !horizontal.includes(position)) ||
     (vertical.includes(currPosition) && !vertical.includes(position));
   if (error) {
-    throw new Error(`The positions are not ortogonal for ${id}`);
+    throw new Error(`The positions are ortogonal for ${id}`);
   }
 }
 
+/**
+ * Validates that two axes are orthogonal between them
+ */
 export function validateAxis(
   axisContext: Record<string, AxisContextType>,
   xKey: string,
@@ -76,4 +88,25 @@ export function validateAxis(
     throw new Error(`The axis ${xKey} and ${yKey} are not orthogonal`);
   }
   return [xAxis.scale, yAxis.scale];
+}
+
+/**
+ * Checks the style added to a component and if is a function, gets the resulting value
+ */
+export function functionalStyle<T>(
+  defaultStyle: CSSProperties,
+  elementStyle: CSSFuncProps<T>,
+  point: T,
+  index: number,
+  data: T[],
+): CSSProperties {
+  let style: CSSProperties = { ...defaultStyle };
+  for (const key in elementStyle) {
+    if (typeof elementStyle[key] === 'function') {
+      style[key] = elementStyle[key](point, index, data);
+    } else {
+      style[key] = elementStyle[key];
+    }
+  }
+  return style;
 }
