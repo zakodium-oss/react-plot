@@ -55,6 +55,7 @@ export default function Plot({
   margin = {},
   colorScheme,
   children,
+  viewportStyle = {},
 }: PlotProps) {
   const initialState: State = {
     series: [],
@@ -147,6 +148,14 @@ export default function Plot({
           height={height}
           style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
         >
+          <rect
+            fillOpacity="0"
+            x={left}
+            y={top}
+            width={plotWidth}
+            height={plotHeight}
+            style={viewportStyle}
+          />
           {heading}
           {legend}
           {axis}
