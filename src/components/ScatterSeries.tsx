@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';
-import { getNextId, validateAxis } from '../utils';
+import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import { Circle, Square, Triangle } from './Markers';
 
@@ -49,31 +49,43 @@ function ScatterSeriesRender({
   yAxis,
   markerShape = 'circle',
   markerSize = 3,
+  markerStyle = {},
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
   // calculates the path to display
-  const color = colorScaler(id);
   const markers = useMemo(() => {
     if ([xScale, yScale].includes(undefined)) return null;
+    const defaultColor = { fill: colorScaler(id) };
 
     // Show markers
     const Marker = markersComps[markerShape];
-    const markers = data.map(({ x, y }, i) => (
-      <Marker
-        // eslint-disable-next-line react/no-array-index-key
-        key={`markers-${i}`}
-        x={xScale(x)}
-        y={yScale(y)}
-        size={markerSize}
-        fill={color}
-      />
-    ));
+    const markers = data.map((point, i) => {
+      return (
+        <Marker
+          // eslint-disable-next-line react/no-array-index-key
+          key={`markers-${i}`}
+          x={xScale(point.x)}
+          y={yScale(point.y)}
+          size={markerSize}
+          style={functionalStyle(defaultColor, markerStyle, point, i, data)}
+        />
+      );
+    });
 
     return markers;
-  }, [xScale, yScale, color, data, markerSize, markerShape]);
+  }, [
+    xScale,
+    yScale,
+    colorScaler,
+    id,
+    data,
+    markerSize,
+    markerStyle,
+    markerShape,
+  ]);
   if (!markers) return null;
 
   return <g className="markers">{markers}</g>;

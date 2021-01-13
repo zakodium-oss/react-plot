@@ -53,6 +53,9 @@ export function Control() {
           { x: 6, y: 4 },
           { x: 7, y: 2 },
         ],
+        markerStyle: {
+          fill: ({ x }) => (x > 4 ? 'blue' : 'green'),
+        },
       },
     ],
   };
