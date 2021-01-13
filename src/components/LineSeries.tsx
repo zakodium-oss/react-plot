@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
-import { getNextId } from '../utils';
+import { getNextId, validateAxis } from '../utils';
 
 import { Circle, Square, Triangle } from './Markers';
 
@@ -53,8 +53,7 @@ function LineSeriesRender({
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
-  const xScale = axisContext[xAxis]?.scale;
-  const yScale = axisContext[yAxis]?.scale;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
   // calculates the path to display
   const color = colorScaler(id);
