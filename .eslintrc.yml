@@ -1,3 +1,3 @@
 extends: '@zakodium/eslint-config/typescript-react'
 rules:
-  '@typescript-eslint/no-dynamic-delete': 0
+  '@typescript-eslint/no-dynamic-delete': off
