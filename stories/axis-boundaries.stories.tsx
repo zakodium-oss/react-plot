@@ -9,6 +9,7 @@ export default {
   argTypes: {
     width: { defaultValue: 550, control: 'number' },
     height: { defaultValue: 500, control: 'number' },
+    allTicksInside: { defaultValue: false, control: 'boolean' },
     xMin: { defaultValue: 0, control: 'number' },
     xMax: { defaultValue: 6, control: 'number' },
     yMin: { defaultValue: 0, control: 'number' },
@@ -24,6 +25,7 @@ export function Control(props: Record<string, number>) {
   const {
     width,
     height,
+    allTicksInside,
     xMin,
     xMax,
     yMax,
@@ -81,6 +83,7 @@ export function Control(props: Record<string, number>) {
         min={xMin}
         max={xMax}
         padding={[paddingLeft, paddingRight]}
+        tickInside={allTicksInside}
       />
       <Axis
         id="y"
@@ -91,9 +94,10 @@ export function Control(props: Record<string, number>) {
         min={yMin}
         max={yMax}
         padding={[paddingBottom, paddingTop]}
+        tickInside={allTicksInside}
       />
-      <Axis id="y" position="right" />
-      <Axis id="x" position="top" />
+      <Axis id="y" position="right" tickInside={allTicksInside} />
+      <Axis id="x" position="top" tickInside={allTicksInside} />
       <Legend position="right" space={45} />
     </Plot>
   );

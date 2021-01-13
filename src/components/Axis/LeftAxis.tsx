@@ -14,6 +14,7 @@ export default function LeftAxis({
   fontSize,
   tickStyle,
   showTicks,
+  tickInside,
 }: AxisChildProps) {
   const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
 
@@ -43,13 +44,13 @@ export default function LeftAxis({
     );
   }, [showGridLines, ticks, scale, left, width, right]);
 
+  const tickLen = tickInside ? 6 : -6;
   return (
     <g className="axis">
       {gridlines}
       {display && (
         <g className="ticks" transform={`translate(${left}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
-
           <Ticks
             scientific={scientific}
             scale={scale}
@@ -57,7 +58,7 @@ export default function LeftAxis({
             ticks={ticks}
             style={tickStyle}
             getPositions={(y) => ({
-              line: { x2: -6, y1: y, y2: y },
+              line: { x2: tickLen, y1: y, y2: y },
               text: { x1: -8, y1: y },
             })}
           />
