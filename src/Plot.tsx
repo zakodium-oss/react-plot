@@ -38,7 +38,7 @@ function reducer(state: State, action: ReducerActions) {
     }
     case 'removeAxis': {
       const { id } = action.value;
-      state.axis[id] = undefined;
+      delete state.axis[id];
       break;
     }
     default: {
