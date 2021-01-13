@@ -1,44 +1,41 @@
-import { extent } from 'd3-array';
 import { line } from 'd3-shape';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, useMemo, useState } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
+import { usePlotContext } from '../hooks';
 import type { LineSeriesProps, Series } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
-import { Circle, Square, Triangle } from './Markers';
+import ScatterSeries from './ScatterSeries';
 
-interface LineSeriesRenderProps extends Omit<LineSeriesProps, 'label'> {
+interface LineSeriesRenderProps {
   id: string;
+  data: Series[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
 }
 
-const markersComps = {
-  circle: Circle,
-  square: Square,
-  triangle: Triangle,
-};
-
 export default function LineSeries(props: LineSeriesProps) {
-  const [id] = useState(() => `series-${getNextId()}`);
+  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
+  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
+  const lineProps = {
+    id,
+    data: props.data,
+    xAxis: props.xAxis || 'x',
+    yAxis: props.yAxis || 'y',
+    lineStyle,
+  };
 
-  const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
-
-  // Update plot context with data description
-  const { dispatch } = useDispatchContext();
-  useEffect(() => {
-    const [xMin, xMax] = extent(data, (d) => d.x);
-    const [yMin, yMax] = extent(data, (d) => d.y);
-    const x = { min: xMin, max: xMax, axisId: xAxis };
-    const y = { min: yMin, max: yMax, axisId: yAxis };
-    dispatch({ type: 'newData', value: { id, x, y, label } });
-
-    // Delete information on unmount
-    return () => dispatch({ type: 'removeData', value: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label]);
-
-  // Render stateless plot component
-  const inheretedProps = { data, id, xAxis, yAxis };
-  return <LineSeriesRender {...otherProps} {...inheretedProps} />;
+  return (
+    <g>
+      <ScatterSeries
+        {...otherProps}
+        hidden={!displayMarker || props.hidden}
+        groupId={id}
+      />
+      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
+    </g>
+  );
 }
 
 function LineSeriesRender({
@@ -47,9 +44,6 @@ function LineSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
-  displayMarker,
-  markerShape = 'circle',
-  markerSize = 3,
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -57,34 +51,17 @@ function LineSeriesRender({
 
   // calculates the path to display
   const color = colorScaler(id);
-  const [path, markers] = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) {
-      return [null, null];
-    }
+  const path = useMemo(() => {
+    if ([xScale, yScale].includes(undefined)) return null;
 
     // Calculate line from D3
     const lineGenerator = line<Series>()
       .x((d) => xScale(d.x))
       .y((d) => yScale(d.y));
 
-    // Show markers
-    const Marker = markersComps[markerShape];
-    const markers = !displayMarker
-      ? null
-      : data.map(({ x, y }, i) => (
-          <Marker
-            // eslint-disable-next-line react/no-array-index-key
-            key={`markers-${i}`}
-            x={xScale(x)}
-            y={yScale(y)}
-            size={markerSize}
-            fill={color}
-          />
-        ));
-
-    return [lineGenerator(data), markers];
-  }, [xScale, yScale, color, data, displayMarker, markerSize, markerShape]);
-  if ([xScale, yScale].includes(null)) return null;
+    return lineGenerator(data);
+  }, [data, xScale, yScale]);
+  if (!path) return null;
 
   // default style
   const style = {
@@ -93,10 +70,5 @@ function LineSeriesRender({
     ...lineStyle,
   };
 
-  return (
-    <g>
-      {markers}
-      <path style={style} d={path} fill="none" />
-    </g>
-  );
+  return <path style={style} d={path} fill="none" />;
 }

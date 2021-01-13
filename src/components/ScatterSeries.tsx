@@ -18,7 +18,7 @@ const markersComps = {
 };
 
 export default function ScatterSeries(props: ScatterSeriesProps) {
-  const [id] = useState(() => `series-${getNextId()}`);
+  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
 
   const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
 
@@ -35,9 +35,11 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     return () => dispatch({ type: 'removeData', value: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
+  if (props.hidden) return null;
+
   // Render stateless plot component
   const inheretedProps = { data, id, xAxis, yAxis };
-  return <ScatterSeriesRender {...otherProps} {...inheretedProps} />;
+  return <ScatterSeriesRender {...otherProps} {...inheretedProps} id={id} />;
 }
 
 function ScatterSeriesRender({
@@ -55,9 +57,7 @@ function ScatterSeriesRender({
   // calculates the path to display
   const color = colorScaler(id);
   const markers = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) {
-      return null;
-    }
+    if ([xScale, yScale].includes(undefined)) return null;
 
     // Show markers
     const Marker = markersComps[markerShape];
@@ -74,7 +74,7 @@ function ScatterSeriesRender({
 
     return markers;
   }, [xScale, yScale, color, data, markerSize, markerShape]);
-  if ([xScale, yScale].includes(null)) return null;
+  if (!markers) return null;
 
-  return <g>{markers}</g>;
+  return <g className="markers">{markers}</g>;
 }

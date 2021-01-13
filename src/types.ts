@@ -23,12 +23,14 @@ export interface PlotProps {
 }
 
 export interface ScatterSeriesProps {
+  groupId?: string;
   xAxis?: string;
   yAxis?: string;
   data: Series[];
   label?: string;
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
+  hidden?: boolean;
 }
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;
