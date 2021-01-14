@@ -78,10 +78,9 @@ export interface HeadingProps {
   position?: Vertical;
 }
 
-export interface LegendProps {
-  position?: Horizontal;
-  space?: number;
-}
+export type LegendProps = {
+  position: Horizontal | Vertical | 'embedded';
+} & { [K in Vertical | Horizontal]?: number };
 
 export interface MarkersProps {
   x: number;

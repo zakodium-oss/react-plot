@@ -81,9 +81,9 @@ export function validateAxis(
   if (!xAxis || !yAxis) return [undefined, undefined];
 
   if (
-    (horizontal.includes(xAxis.position) &&
-      !vertical.includes(yAxis.position)) ||
-    (vertical.includes(xAxis.position) && !horizontal.includes(yAxis.position))
+    horizontal.includes(xAxis.position)
+      ? !vertical.includes(yAxis.position)
+      : vertical.includes(xAxis.position)
   ) {
     throw new Error(`The axis ${xKey} and ${yKey} are not orthogonal`);
   }
