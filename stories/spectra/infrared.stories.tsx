@@ -26,7 +26,7 @@ export function InfraredExample() {
       <Axis
         id="y"
         position="left"
-        label="Transmittance [%T]"
+        label="Transmittance [%]"
         display
         padding={[0.1, 0.1]}
       />
