@@ -19,6 +19,7 @@
     "eslint-fix": "npm run eslint -- --fix",
     "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
     "prepublishOnly": "npm run build",
+    "start": "npm run dev",
     "test": "npm run eslint && tsc --noEmit",
     "watch": "tsc -p tsconfig.es.json -w"
   },
