@@ -12,15 +12,15 @@
   "scripts": {
     "build": "npm run clean && npm run build:ts",
     "build:ts": "tsc && tsc -p tsconfig.es.json",
-    "clean": "rimraf lib lib-es",
-    "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
-    "prepublishOnly": "npm run build",
-    "watch": "tsc -p tsconfig.es.json -w",
-    "dev": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "clean": "rimraf lib lib-es",
+    "dev": "start-storybook -p 6006",
     "eslint": "eslint --ext ts,tsx src stories",
     "eslint-fix": "npm run eslint -- --fix",
-    "test": "npm run eslint && tsc --noEmit"
+    "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
+    "prepublishOnly": "npm run build",
+    "test": "npm run eslint && tsc --noEmit",
+    "watch": "tsc -p tsconfig.es.json -w"
   },
   "repository": {
     "type": "git",
