@@ -13,7 +13,7 @@ export function InfraredExample() {
     <Plot
       width={1400}
       height={540}
-      margin={{ bottom: 95, left: 95, top: 95, right: 95 }}
+      margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
       viewportStyle={{ stroke: 'black' }}
     >
       <LineSeries

@@ -3,8 +3,6 @@ import React, { useMemo } from 'react';
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
 
-const space = 10;
-
 export default function BottomAxis({
   id,
   showGridLines,
@@ -80,7 +78,7 @@ export default function BottomAxis({
       {label && display && (
         <text
           x={plotWidth / 2 + left}
-          y={height - bottom + labelSpace + fontSize + space}
+          y={height - bottom + labelSpace + fontSize}
           fontSize={fontSize}
           textAnchor="middle"
           style={labelStyle}
