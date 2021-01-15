@@ -47,7 +47,7 @@ export interface LineSeriesProps extends ScatterSeriesProps {
 export interface AxisChildProps {
   id: string;
   fontSize?: number;
-  label?: string;
+  label?: ReactNode;
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
   tickStyle?: CSSProperties;
