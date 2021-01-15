@@ -7,6 +7,7 @@
     "lib": ["dom", "esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "outDir": "lib",
     "removeComments": false,
     "sourceMap": false,
