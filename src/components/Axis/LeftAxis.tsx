@@ -3,6 +3,8 @@ import React, { useMemo } from 'react';
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
 
+const space = 20;
+
 export default function LeftAxis({
   id,
   showGridLines,
@@ -68,6 +70,7 @@ export default function LeftAxis({
       )}
       {label && display && (
         <text
+          y={-space}
           transform={`translate(${
             left - fontSize - labelSpace - (scientific ? 14 : 0)
           }, ${top + plotHeight / 2})rotate(-90)`}
