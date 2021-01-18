@@ -1,7 +1,7 @@
 import { ScaleLinear } from 'd3-scale';
 import React, { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
-interface NumberXY {
+interface CoordinatesXY {
   x1?: number;
   x2?: number;
   y1?: number;
@@ -12,8 +12,8 @@ export interface TickProps {
   style: CSSProperties;
   children: ReactNode;
 
-  line: NumberXY;
-  text: Omit<NumberXY, 'x2' | 'y2'>;
+  line: CoordinatesXY;
+  text: Omit<CoordinatesXY, 'x2' | 'y2'>;
 
   strokeColor?: string;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
@@ -27,7 +27,7 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
 
   getValues: (
     y: number,
-  ) => { line: NumberXY; text: Omit<NumberXY, 'x2' | 'y2'> };
+  ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
   getText: (tick) => string;
 }
 
