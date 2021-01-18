@@ -21,7 +21,8 @@ export default {
   },
 } as Meta;
 
-export function Control(props: Record<string, number>) {
+type Props = Record<string, number> & { allTicksInside: boolean };
+export function Control(props: Props) {
   const {
     width,
     height,
