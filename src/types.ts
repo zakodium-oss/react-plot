@@ -53,6 +53,8 @@ export interface AxisChildProps {
   tickStyle?: CSSProperties;
   labelSpace?: number;
   display?: boolean;
+
+  showTicks?: boolean;
 }
 
 export interface AxisParentProps {
