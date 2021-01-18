@@ -24,27 +24,30 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   show: boolean;
   ticks: number[];
   scale: ScaleLinear<number, number, never>;
+  scientific?: boolean;
 
   getValues: (
     y: number,
   ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
-  getText: (tick) => string;
 }
 
 export function Ticks(props: Omit<TicksProps, 'children'>) {
-  const { show, ticks, scale, getValues, getText, ...otherProps } = props;
+  const {
+    show,
+    ticks,
+    scale,
+    getValues,
+    scientific = true,
+    ...otherProps
+  } = props;
   if (!show) return null;
 
   const elements = ticks.map((tick) => {
     const { line, text } = getValues(scale(tick));
     return (
-      <Tick
-        key={tick}
-        line={line}
-        text={text}
-        children={getText(tick)}
-        {...otherProps}
-      />
+      <Tick key={tick} line={line} text={text} {...otherProps}>
+        {scientific ? tick.toExponential(2) : tick}
+      </Tick>
     );
   });
 

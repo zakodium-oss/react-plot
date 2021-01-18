@@ -51,7 +51,7 @@ export default function LeftAxis({
           <line y1={range[0]} y2={range[1]} stroke="black" />
 
           <Ticks
-            getText={(tick) => (scientific ? tick.toExponential(2) : tick)}
+            scientific={scientific}
             scale={scale}
             show={showTicks}
             ticks={ticks}
