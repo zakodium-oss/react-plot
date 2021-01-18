@@ -54,8 +54,8 @@ export interface AxisChildProps {
   tickInside?: boolean;
   labelSpace?: number;
   display?: boolean;
-
   showTicks?: boolean;
+  tickLength?: number;
 }
 
 export interface AxisParentProps {

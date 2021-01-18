@@ -26,6 +26,7 @@ export default function Axis({
   tickStyle = {},
   showTicks = true,
   tickInside = false,
+  tickLength = 6,
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
 
@@ -69,6 +70,7 @@ export default function Axis({
     tickStyle,
     showTicks,
     tickInside,
+    tickLength,
   };
 
   switch (position) {
