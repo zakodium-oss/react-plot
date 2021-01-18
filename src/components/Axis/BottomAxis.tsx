@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
+import { Ticks } from '../Ticks';
 
 export default function BottomAxis({
   id,
@@ -58,23 +59,19 @@ export default function BottomAxis({
       {display && (
         <g className="ticks" transform={`translate(0, ${height - bottom})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
-          {showTicks &&
-            ticks.map((val) => {
-              const x = scale(val);
-              return (
-                <g key={val}>
-                  <line x1={x} x2={x} y2={6} stroke="black" />
-                  <text
-                    x={x}
-                    y={24}
-                    textAnchor="middle"
-                    style={{ userSelect: 'none', ...tickStyle }}
-                  >
-                    {scientific ? val.toExponential(2) : val}
-                  </text>
-                </g>
-              );
+
+          <Ticks
+            scientific={scientific}
+            scale={scale}
+            show={showTicks}
+            ticks={ticks}
+            style={tickStyle}
+            anchor="middle"
+            getPositions={(val) => ({
+              line: { x1: val, x2: val, yl: 6 },
+              text: { x1: val, y1: 24 },
             })}
+          />
         </g>
       )}
       {label && display && (

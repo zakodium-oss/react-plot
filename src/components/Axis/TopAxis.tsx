@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
+import { Ticks } from '../Ticks';
 
 export default function TopAxis({
   id,
@@ -58,23 +59,19 @@ export default function TopAxis({
       {display && (
         <g className="ticks" transform={`translate(0, ${top})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
-          {showTicks &&
-            ticks.map((val) => {
-              const x = scale(val);
-              return (
-                <g key={val}>
-                  <line x1={x} x2={x} y2={-6} stroke="black" />
-                  <text
-                    x={x}
-                    y={-12}
-                    textAnchor="middle"
-                    style={{ userSelect: 'none', ...tickStyle }}
-                  >
-                    {scientific ? val.toExponential(2) : val}
-                  </text>
-                </g>
-              );
+
+          <Ticks
+            scientific={scientific}
+            scale={scale}
+            alignment="middle"
+            show={showTicks}
+            ticks={ticks}
+            style={tickStyle}
+            getPositions={(val) => ({
+              line: { x1: val, x2: val, y2: -6 },
+              text: { x1: val, y1: -12 },
             })}
+          />
         </g>
       )}
       {label && display && (

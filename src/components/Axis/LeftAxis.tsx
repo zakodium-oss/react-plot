@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
+import { Ticks } from '../Ticks';
 
 export default function LeftAxis({
   id,
@@ -49,25 +50,17 @@ export default function LeftAxis({
         <g className="ticks" transform={`translate(${left}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
 
-          {showTicks &&
-            ticks.map((val) => {
-              const y = scale(val);
-
-              return (
-                <g key={val}>
-                  <line x2={-6} y1={y} y2={y} stroke="black" />
-                  <text
-                    x={-8}
-                    y={y}
-                    textAnchor="end"
-                    alignmentBaseline="middle"
-                    style={{ userSelect: 'none', ...tickStyle }}
-                  >
-                    {scientific ? val.toExponential(2) : val}
-                  </text>
-                </g>
-              );
+          <Ticks
+            scientific={scientific}
+            scale={scale}
+            show={showTicks}
+            ticks={ticks}
+            style={tickStyle}
+            getPositions={(y) => ({
+              line: { x2: -6, y1: y, y2: y },
+              text: { x1: -8, y1: y },
             })}
+          />
         </g>
       )}
       {label && display && (
