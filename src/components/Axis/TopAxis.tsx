@@ -67,7 +67,7 @@ export default function TopAxis({
             show={showTicks}
             ticks={ticks}
             style={tickStyle}
-            getValues={(val) => ({
+            getPositions={(val) => ({
               line: { x1: val, x2: val, y2: -6 },
               text: { x1: val, y1: -12 },
             })}

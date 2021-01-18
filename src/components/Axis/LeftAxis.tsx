@@ -56,7 +56,7 @@ export default function LeftAxis({
             show={showTicks}
             ticks={ticks}
             style={tickStyle}
-            getValues={(y) => ({
+            getPositions={(y) => ({
               line: { x2: -6, y1: y, y2: y },
               text: { x1: -8, y1: y },
             })}

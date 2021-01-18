@@ -26,7 +26,7 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   scale: ScaleLinear<number, number, never>;
   scientific?: boolean;
 
-  getValues: (
+  getPositions: (
     y: number,
   ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
 }
@@ -36,14 +36,14 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     show,
     ticks,
     scale,
-    getValues,
+    getPositions,
     scientific = true,
     ...otherProps
   } = props;
   if (!show) return null;
 
   const elements = ticks.map((tick) => {
-    const { line, text } = getValues(scale(tick));
+    const { line, text } = getPositions(scale(tick));
     return (
       <Tick key={tick} line={line} text={text} {...otherProps}>
         {scientific ? tick.toExponential(2) : tick}
