@@ -13,7 +13,7 @@ export function RamanExample() {
     <Plot
       width={1400}
       height={540}
-      margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
+      margin={{ bottom: 45, left: 50, top: 40, right: 40 }}
       viewportStyle={{ stroke: 'black' }}
     >
       <LineSeries
@@ -22,12 +22,12 @@ export function RamanExample() {
         yAxis="y"
         lineStyle={{ stroke: 'black' }}
       />
-      <Axis id="x" position="bottom" label="Raman shift / cm⁻¹" display />
+      <Axis id="x" position="bottom" label="Raman shift / cm⁻¹" />
       <Axis
         id="y"
         position="left"
         label="Intensity / arbitrary"
-        display
+        showTicks={false}
         padding={[0.1, 0.1]}
       />
     </Plot>
