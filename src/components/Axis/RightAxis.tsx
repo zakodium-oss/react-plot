@@ -12,6 +12,7 @@ export default function RightAxis({
   labelStyle,
   fontSize,
   tickStyle,
+  showTicks,
 }: AxisChildProps) {
   const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
 
@@ -47,23 +48,24 @@ export default function RightAxis({
       {display && (
         <g className="ticks" transform={`translate(${width - right}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
-          {ticks.map((val) => {
-            const y = scale(val);
-            return (
-              <g key={val}>
-                <line x2={6} y1={y} y2={y} stroke="black" />
-                <text
-                  x={10}
-                  y={y}
-                  textAnchor="start"
-                  alignmentBaseline="middle"
-                  style={{ userSelect: 'none', ...tickStyle }}
-                >
-                  {scientific ? val.toExponential(2) : val}
-                </text>
-              </g>
-            );
-          })}
+          {showTicks &&
+            ticks.map((val) => {
+              const y = scale(val);
+              return (
+                <g key={val}>
+                  <line x2={6} y1={y} y2={y} stroke="black" />
+                  <text
+                    x={10}
+                    y={y}
+                    textAnchor="start"
+                    alignmentBaseline="middle"
+                    style={{ userSelect: 'none', ...tickStyle }}
+                  >
+                    {scientific ? val.toExponential(2) : val}
+                  </text>
+                </g>
+              );
+            })}
         </g>
       )}
       {label && display && (

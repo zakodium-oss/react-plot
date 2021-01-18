@@ -7,6 +7,10 @@ export default {
   title: 'Plot/General options',
   component: Plot,
   argTypes: {
+    showTicks: {
+      defaultValue: true,
+      control: 'boolean',
+    },
     width: {
       defaultValue: 550,
       control: 'number',
@@ -57,6 +61,7 @@ export function Control(props) {
     showAxis,
     xFlip,
     yFlip,
+    showTicks,
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
@@ -119,6 +124,7 @@ export function Control(props) {
         labelSpace={40}
         display={showAxis}
         flip={yFlip}
+        showTicks={showTicks}
       />
       <Legend position={legendPosition} />
     </Plot>

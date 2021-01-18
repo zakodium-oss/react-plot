@@ -12,6 +12,7 @@ export default function TopAxis({
   labelStyle,
   fontSize,
   tickStyle,
+  showTicks,
 }: AxisChildProps) {
   const {
     axisContext,
@@ -57,22 +58,23 @@ export default function TopAxis({
       {display && (
         <g className="ticks" transform={`translate(0, ${top})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
-          {ticks.map((val) => {
-            const x = scale(val);
-            return (
-              <g key={val}>
-                <line x1={x} x2={x} y2={-6} stroke="black" />
-                <text
-                  x={x}
-                  y={-12}
-                  textAnchor="middle"
-                  style={{ userSelect: 'none', ...tickStyle }}
-                >
-                  {scientific ? val.toExponential(2) : val}
-                </text>
-              </g>
-            );
-          })}
+          {showTicks &&
+            ticks.map((val) => {
+              const x = scale(val);
+              return (
+                <g key={val}>
+                  <line x1={x} x2={x} y2={-6} stroke="black" />
+                  <text
+                    x={x}
+                    y={-12}
+                    textAnchor="middle"
+                    style={{ userSelect: 'none', ...tickStyle }}
+                  >
+                    {scientific ? val.toExponential(2) : val}
+                  </text>
+                </g>
+              );
+            })}
         </g>
       )}
       {label && display && (
