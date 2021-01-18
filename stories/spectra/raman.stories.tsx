@@ -2,13 +2,13 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { Axis, LineSeries, Plot } from '../../src';
-import data from '../data/nmr.json';
+import data from '../data/raman.json';
 
 export default {
-  title: 'Experimental spectra/NMR',
+  title: 'Experimental spectra/Raman',
 } as Meta;
 
-export function NmrExample() {
+export function RamanExample() {
   return (
     <Plot
       width={1400}
@@ -22,12 +22,12 @@ export function NmrExample() {
         yAxis="y"
         lineStyle={{ stroke: 'black' }}
       />
-      <Axis id="x" position="bottom" label="δ [ppm]" display flip />
+      <Axis id="x" position="bottom" label="Raman shift / cm⁻¹" display />
       <Axis
         id="y"
         position="left"
         label="Intensity / arbitrary"
-        display={false}
+        display
         padding={[0.1, 0.1]}
       />
     </Plot>
