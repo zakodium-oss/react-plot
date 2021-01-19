@@ -14,7 +14,7 @@ export default function TopAxis({
   fontSize,
   tickStyle,
   showTicks,
-  tickInside,
+  tickEmbedded,
   tickLength,
 }: AxisChildProps) {
   const {
@@ -55,7 +55,7 @@ export default function TopAxis({
     );
   }, [showGridLines, ticks, top, scale, height, bottom]);
 
-  const tickDirection = tickInside ? 1 : -1;
+  const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
   return (
     <g className="axis">

@@ -14,7 +14,7 @@ export default function RightAxis({
   fontSize,
   tickStyle,
   showTicks,
-  tickInside,
+  tickEmbedded,
   tickLength,
 }: AxisChildProps) {
   const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
@@ -45,7 +45,7 @@ export default function RightAxis({
     );
   }, [showGridLines, ticks, scale, left, width, right]);
 
-  const tickDirection = tickInside ? -1 : 1;
+  const tickDirection = tickEmbedded ? -1 : 1;
   const tickLen = tickDirection * tickLength;
   return (
     <g className="axis">
