@@ -51,7 +51,7 @@ export interface AxisChildProps {
   showGridLines?: boolean;
   labelStyle?: CSSProperties;
   tickStyle?: CSSProperties;
-  tickInside?: boolean;
+  tickEmbedded?: boolean;
   labelSpace?: number;
   display?: boolean;
   showTicks?: boolean;
