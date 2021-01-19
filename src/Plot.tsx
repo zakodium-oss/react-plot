@@ -1,54 +1,14 @@
-import { max, min } from 'd3-array';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import React, { useMemo, useReducer } from 'react';
+import React, { Reducer, useMemo, useReducer } from 'react';
 
-import { PlotContext, DispatchContext } from './hooks';
-import type {
-  PlotProps,
-  State,
-  ReducerActions,
-  AxisContextType,
-} from './types';
-import { splitChildren, validatePosition } from './utils';
+import { reducer } from './PlotReducer';
+import { PlotContext, DispatchContext, useAxisContext } from './hooks';
+import type { PlotProps, ReducerActions, State } from './types';
+import { splitChildren } from './utils';
 
-function reducer(state: State, action: ReducerActions) {
-  switch (action.type) {
-    case 'newData': {
-      state.series.push(action.value);
-      break;
-    }
-    case 'removeData': {
-      const { id } = action.value;
-      const seriesFiltered = state.series.filter((series) => series.id !== id);
-      state.series = seriesFiltered;
-      break;
-    }
-    case 'newAxis': {
-      const { id, position, ...values } = action.value;
-      let currentAxis = state.axis[id];
-      if (currentAxis) {
-        validatePosition(currentAxis.position, position, id);
-        state.axis[id] = { ...currentAxis, position, ...values };
-      } else {
-        state.axis[id] = { position, ...values };
-      }
-      break;
-    }
-    case 'removeAxis': {
-      const { id } = action.value;
-      delete state.axis[id];
-      break;
-    }
-    default: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      throw new Error(`Unknown reducer type ${(action as any).type}`);
-    }
-  }
-}
-
-const reducerCurr = produce(reducer);
+const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
 export default function Plot({
   width,
   height,
@@ -75,45 +35,14 @@ export default function Plot({
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const axisContext = useMemo(() => {
-    let axisContext: Record<string, AxisContextType> = {};
-    for (const id in state.axis) {
-      const axis = state.axis[id];
-      const isHorizontal = ['top', 'bottom'].includes(axis.position);
-      const xY = isHorizontal ? 'x' : 'y';
-
-      // Get limits from state or data
-      const axisMin =
-        axis.min !== undefined ? axis.min : min(state.series, (d) => d[xY].min);
-      const axisMax =
-        axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
-
-      // Limits validation
-      if ([axisMin, axisMax].includes(undefined)) return {};
-      if (axisMin > axisMax) {
-        throw new Error(
-          `${id}: min (${axisMin}) is bigger than max (${axisMax})`,
-        );
-      }
-
-      // Limits paddings
-      const diff = axisMax - axisMin;
-      const minPad = diff * axis.padding[0];
-      const maxPad = diff * axis.padding[1];
-
-      const range = isHorizontal
-        ? [left, width - right]
-        : [height - bottom, top];
-      axisContext[id] = {
-        position: axis.position,
-        scientific: diff <= 0.01 || diff >= 1000,
-        scale: scaleLinear()
-          .domain([axisMin - minPad, axisMax + maxPad])
-          .range(axis.flip ? range.reverse() : range),
-      };
-    }
-    return axisContext;
-  }, [state, width, height, right, left, top, bottom]);
+  const axisContext = useAxisContext(state, {
+    left,
+    width,
+    right,
+    height,
+    bottom,
+    top,
+  });
 
   const labels = useMemo(
     () => state.series.map(({ id, label }) => ({ id, label })),

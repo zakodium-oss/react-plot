@@ -135,9 +135,11 @@ export interface PlotContextType {
   axisContext: Record<string, AxisContextType>;
 }
 
+export type AxisType = Record<string, Omit<AxisParentProps, 'id'>>;
+
 export interface State {
   series: SeriesType[];
-  axis: Record<string, Omit<AxisParentProps, 'id'>>;
+  axis: AxisType;
 }
 
 // Util functions
