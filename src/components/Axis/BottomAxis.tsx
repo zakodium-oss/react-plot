@@ -71,7 +71,7 @@ export default function BottomAxis({
             style={tickStyle}
             anchor="middle"
             getPositions={(val) => ({
-              line: { x1: val, x2: val, yl: tickLen },
+              line: { x1: val, x2: val, y2: tickLen },
               text: { x1: val, y1: 24 },
             })}
           />
