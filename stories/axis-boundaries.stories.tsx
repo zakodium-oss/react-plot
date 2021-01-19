@@ -84,7 +84,7 @@ export function Control(props: Props) {
         min={xMin}
         max={xMax}
         padding={[paddingLeft, paddingRight]}
-        tickInside={allTicksInside}
+        tickEmbedded={allTicksInside}
       />
       <Axis
         id="y"
@@ -95,10 +95,10 @@ export function Control(props: Props) {
         min={yMin}
         max={yMax}
         padding={[paddingBottom, paddingTop]}
-        tickInside={allTicksInside}
+        tickEmbedded={allTicksInside}
       />
-      <Axis id="y" position="right" tickInside={allTicksInside} />
-      <Axis id="x" position="top" tickInside={allTicksInside} />
+      <Axis id="y" position="right" tickEmbedded={allTicksInside} />
+      <Axis id="x" position="top" tickEmbedded={allTicksInside} />
       <Legend position="right" space={45} />
     </Plot>
   );
