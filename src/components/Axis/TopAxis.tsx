@@ -66,7 +66,7 @@ export default function TopAxis({
           <Ticks
             scientific={scientific}
             scale={scale}
-            alignment="middle"
+            anchor="middle"
             show={showTicks}
             ticks={ticks}
             style={tickStyle}
