@@ -59,7 +59,6 @@ export default function RightAxis({
             show={showTicks}
             ticks={ticks}
             style={tickStyle}
-            alignment="middle"
             anchor="begin"
             getPositions={(y) => ({
               line: { x2: tickLen, y1: y, y2: y },

@@ -59,7 +59,6 @@ export default function LeftAxis({
             show={showTicks}
             ticks={ticks}
             style={tickStyle}
-            alignment="middle"
             getPositions={(y) => ({
               line: { x2: tickLen, y1: y, y2: y },
               text: { x1: -8, y1: y },
