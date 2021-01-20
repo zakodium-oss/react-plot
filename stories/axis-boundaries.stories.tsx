@@ -101,7 +101,7 @@ export function Control(props: Props) {
         id="y"
         position="right"
         tickEmbedded={allTicksInside}
-        label="Hello, World!"
+        label="Drain current [mA]"
       />
       <Axis id="x" position="top" tickEmbedded={allTicksInside} />
       <Legend position="embedded" bottom={50} right={90} />
