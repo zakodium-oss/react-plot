@@ -10,39 +10,69 @@ Render 2dplot partition in react.
 ```tsx
 const Example = () => (
   <Plot
-    width={500}
+    width={550}
     height={500}
-    colorScheme={d3.schemePaired}
-    margin={{ bottom: 50, left: 50, top: 10, right: 10 }}
+    margin={{ bottom: 50, left: 90, top: 50, right: 100 }}
   >
-    <Plot.Heading
+    <Heading
       title="Electrical characterization"
       subtitle="current vs voltage"
-      titleStyle={}
-      substitleStyle={}
-      titleClass=""
-      substitleClass=""
-      position="top"
     />
-    <Plot.LineSeries
-      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 1, 2, 3, 3, 3] }}
-      lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
-      curve={d3.curveCardinal(0.5)}
+    <LineSeries
+      data={[
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+        { x: 4, y: 3 },
+        { x: 5, y: 3 },
+      ]}
+      xAxis="x"
+      yAxis="y"
+      lineStyle={{ strokeWidth: 3 }}
       label="Vg = 7V"
+      displayMarker={false}
     />
-    <Plot.LineSeries
-      data={{ x: [0, 1, 2, 3, 4, 5], y: [0, 2, 4, 6, 6, 6] }}
-      lineStyle={{ stroke: 'blue', strokeWidth: 2 }}
-      markerStyle={}
+    <LineSeries
+      data={[
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 2, y: 2 },
+        { x: 3, y: 3 },
+        { x: 4, y: 3 },
+        { x: 5, y: 3 },
+      ]}
+      xAxis="x"
+      yAxis="y"
       displayMarker={true}
+      markerShape="circle"
       label="Vg = 3V"
     />
-    <Plot.XAxis label="Drain voltage [V]" showGridLines={true} />
-    <Plot.YAxis label="Drain current [mA]" showGridLines={true} />
-    <Plot.Legend position="right" />
+    <Axis
+      id="x"
+      position="bottom"
+      label="Drain voltage [V]"
+      showGridLines={true}
+      max={6.1 / factor}
+      tickStyle={{ fontSize: '0.8rem' }}
+    />
+    <Axis
+      id="y"
+      position="left"
+      label="Drain current [mA]"
+      showGridLines={true}
+      labelSpace={50}
+      max={6.1 * factor}
+      tickStyle={{ fontSize: '0.8rem' }}
+    />
+    <Legend position="right" />
   </Plot>
 );
 ```
+
+This code will result in this example
+
+![Plot Example](./PlotExample.png)
 
 ## Installation
 
