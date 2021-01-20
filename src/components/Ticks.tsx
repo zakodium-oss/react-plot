@@ -79,6 +79,7 @@ export function Tick(props: TickProps) {
         y={textY1}
         textAnchor={anchor}
         alignmentBaseline={alignment}
+        dominantBaseline="middle"
         style={{ userSelect: 'none', ...style }}
       >
         {children}
