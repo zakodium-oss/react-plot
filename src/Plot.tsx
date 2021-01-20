@@ -3,8 +3,8 @@ import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import React, { Reducer, useMemo, useReducer } from 'react';
 
-import { reducer } from './PlotReducer';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
+import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
 import { splitChildren } from './utils';
 
