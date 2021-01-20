@@ -40,7 +40,7 @@ export function Control(props: Props) {
     <Plot
       width={width}
       height={height}
-      margin={{ bottom: 50, left: 70, top: 80, right: 120 }}
+      margin={{ bottom: 50, left: 120, top: 80, right: 120 }}
     >
       <Heading
         title="Electrical characterization"
@@ -97,7 +97,12 @@ export function Control(props: Props) {
         padding={[paddingBottom, paddingTop]}
         tickEmbedded={allTicksInside}
       />
-      <Axis id="y" position="right" tickEmbedded={allTicksInside} />
+      <Axis
+        id="y"
+        position="right"
+        tickEmbedded={allTicksInside}
+        label="Drain current [mA]"
+      />
       <Axis id="x" position="top" tickEmbedded={allTicksInside} />
       <Legend position="embedded" bottom={50} right={90} />
     </Plot>

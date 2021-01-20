@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
-import { Ticks } from '../Ticks';
+
+import { Ticks } from './Ticks';
 
 export default function TopAxis({
   id,
