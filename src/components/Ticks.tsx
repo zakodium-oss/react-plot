@@ -62,7 +62,6 @@ export function Tick(props: TickProps) {
     children,
     strokeColor = 'black',
     anchor = 'end',
-    alignment = 'auto',
   } = props;
 
   return (
@@ -78,7 +77,6 @@ export function Tick(props: TickProps) {
         x={textX1}
         y={textY1}
         textAnchor={anchor}
-        alignmentBaseline={alignment}
         dominantBaseline="middle"
         style={{ userSelect: 'none', ...style }}
       >
