@@ -99,7 +99,7 @@ export function Control(props: Props) {
       />
       <Axis id="y" position="right" tickEmbedded={allTicksInside} />
       <Axis id="x" position="top" tickEmbedded={allTicksInside} />
-      <Legend position="right" space={45} />
+      <Legend position="embedded" bottom={50} right={90} />
     </Plot>
   );
 }
