@@ -81,6 +81,7 @@ export function useAxisContext(
       axisContext[id] = {
         position: axis.position,
         scientific: diff <= 0.01 || diff >= 1000,
+        padding: axis.padding,
         scale: scaleLinear()
           .domain([axisMin - minPad, axisMax + maxPad])
           .range(axis.flip ? range.reverse() : range),

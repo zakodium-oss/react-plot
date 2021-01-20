@@ -25,7 +25,16 @@ export interface PlotProps {
   colorScheme?: Iterable<string>;
   margin?: Partial<Margins>;
   viewportStyle?: CSSProperties;
+  onZoom?: (
+    deltaY: number,
+    axis: AxisContext,
+  ) => Record<string, [number, number]>;
   children: ReactNode;
+}
+
+export interface PlotZoomProps extends Omit<PlotProps, 'onZoom'> {
+  zoomVertical?: Vertical | 'none';
+  zoomHorizontal?: Horizontal | 'none';
 }
 
 export interface ScatterSeriesProps {
@@ -120,7 +129,9 @@ export interface AxisContextType {
   scale: ScaleLinear<number, number>;
   scientific: boolean;
   position: Horizontal | Vertical;
+  padding: [number, number];
 }
+export type AxisContext = Record<string, AxisContextType>;
 export interface PlotContextType {
   width?: number;
   height?: number;
@@ -132,7 +143,7 @@ export interface PlotContextType {
   plotHeight?: number;
   labels?: Array<{ id: string; label: string }>;
   colorScaler?: ScaleOrdinal<string, string>;
-  axisContext: Record<string, AxisContextType>;
+  axisContext: AxisContext;
 }
 
 export type AxisType = Record<string, Omit<AxisParentProps, 'id'>>;
@@ -145,6 +156,7 @@ export interface State {
 // Util functions
 
 export type ReducerActions =
+  | { type: 'zoom'; value: Record<string, [number, number]> }
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
   | { type: 'newAxis'; value: AxisParentProps }

@@ -16,6 +16,7 @@ export default function Plot({
   colorScheme,
   children,
   viewportStyle = {},
+  onZoom,
 }: PlotProps) {
   const initialState: State = {
     series: [],
@@ -84,6 +85,12 @@ export default function Plot({
             width={plotWidth}
             height={plotHeight}
             style={viewportStyle}
+            onWheel={(evt) =>
+              dispatch({
+                type: 'zoom',
+                value: onZoom?.(evt.deltaY, axisContext),
+              })
+            }
           />
           {heading}
           {legend}
