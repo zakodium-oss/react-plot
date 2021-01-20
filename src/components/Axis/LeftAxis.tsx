@@ -2,7 +2,9 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
-import { Ticks } from '../Ticks';
+import VerticalText from '../VerticalText';
+
+import { Ticks } from './Ticks';
 
 export default function LeftAxis({
   id,
@@ -67,17 +69,15 @@ export default function LeftAxis({
         </g>
       )}
       {label && display && (
-        <text
+        <VerticalText
+          label={label}
           transform={`translate(${
             left - fontSize - labelSpace - (scientific ? 14 : 0)
-          }, ${top + plotHeight / 2})rotate(-90)`}
+          }, ${top + plotHeight / 2})`}
           dy={fontSize}
-          textAnchor="middle"
           fontSize={fontSize}
           style={labelStyle}
-        >
-          {label}
-        </text>
+        />
       )}
     </g>
   );
