@@ -1,4 +1,4 @@
-import { ReducerActions, State } from './types';
+import type { ReducerActions, State } from './types';
 import { validatePosition } from './utils';
 
 export function reducer(state: State, action: ReducerActions) {
@@ -27,6 +27,14 @@ export function reducer(state: State, action: ReducerActions) {
     case 'removeAxis': {
       const { id } = action.value;
       delete state.axis[id];
+      break;
+    }
+    case 'zoom': {
+      if (action.value) {
+        for (const key in action.value) {
+          state.axis[key].padding = action.value[key];
+        }
+      }
       break;
     }
     default: {
