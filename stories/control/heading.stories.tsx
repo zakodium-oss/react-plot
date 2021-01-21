@@ -58,7 +58,7 @@ interface HeadingControlProps {
 export function HeadingControl(props: HeadingControlProps) {
   return (
     <Plot
-      width={1500}
+      width={900}
       height={540}
       viewportStyle={{ stroke: 'black' }}
       margin={{

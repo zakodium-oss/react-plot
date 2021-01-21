@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import { Axis, Plot, ScatterSeries } from '../../src';
 
 enum ShapeProps {
   'circle' = 'circle',
@@ -10,19 +10,11 @@ enum ShapeProps {
 }
 
 export default {
-  title: 'Control/LineSeries',
+  title: 'Control/Scatter',
   argTypes: {
     displayMarker: {
       control: 'boolean',
       defaultValue: true,
-    },
-    lineStyle: {
-      control: 'text',
-      defaultValue: '{ "stroke": "black" }',
-    },
-    markerStyle: {
-      control: 'text',
-      defaultValue: '{ "fill": "black" }',
     },
     hidden: {
       control: 'boolean',
@@ -66,50 +58,31 @@ const data = [
   },
 ];
 
-interface LineControlProps {
+interface ScatterControlProps {
   hidden: boolean;
   label: string;
   markerShape: ShapeProps;
   markerSize: number;
   lineStyle: string;
-  markerStyle: string;
   displayMarker: boolean;
 }
 
-export function LineControl(props: LineControlProps) {
-  let lineStyle;
-  let markerStyle;
-
-  try {
-    lineStyle = JSON.parse(props.lineStyle);
-    markerStyle = JSON.parse(props.markerStyle);
-  } catch {
-    lineStyle = { stroke: 'black' };
-    markerStyle = { fill: 'black' };
-  }
-
+export function ScatterControl(props: ScatterControlProps) {
   return (
     <Plot
       width={900}
       height={540}
       viewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 45,
+        bottom: 100,
         left: 40,
         top: 40,
         right: 40,
       }}
     >
-      <LineSeries
-        {...props}
-        data={data}
-        xAxis="x"
-        yAxis="y"
-        lineStyle={lineStyle}
-        markerStyle={markerStyle}
-      />
-      <Axis id="x" position="bottom" label="Label One" />
-      <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
+      <ScatterSeries data={data} xAxis="x" yAxis="y" {...props} />
+      <Axis id="x" position="bottom" label="X" />
+      <Axis id="y" position="left" label="Y" />
     </Plot>
   );
 }

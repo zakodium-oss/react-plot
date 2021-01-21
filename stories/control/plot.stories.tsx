@@ -28,7 +28,7 @@ export default {
     },
     width: {
       control: 'number',
-      defaultValue: 1500,
+      defaultValue: 900,
     },
     height: {
       control: 'number',
