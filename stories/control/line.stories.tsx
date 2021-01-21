@@ -12,9 +12,17 @@ enum ShapeProps {
 export default {
   title: 'Control/LineSeries',
   argTypes: {
+    displayMarker: {
+      control: 'boolean',
+      defaultValue: true,
+    },
     lineStyle: {
       control: 'text',
       defaultValue: '{ "stroke": "black" }',
+    },
+    markerStyle: {
+      control: 'text',
+      defaultValue: '{ "fill": "black" }',
     },
     hidden: {
       control: 'boolean',
@@ -64,6 +72,8 @@ interface LineControlProps {
   markerShape: ShapeProps;
   markerSize: number;
   lineStyle: string;
+  markerStyle: string;
+  displayMarker: boolean;
 }
 
 export function LineControl(props: LineControlProps) {
@@ -85,6 +95,7 @@ export function LineControl(props: LineControlProps) {
         xAxis="x"
         yAxis="y"
         lineStyle={JSON.parse(props.lineStyle)}
+        markerStyle={JSON.parse(props.markerStyle)}
       />
       <Axis id="x" position="bottom" label="Label One" />
       <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
