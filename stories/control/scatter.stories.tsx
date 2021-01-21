@@ -11,6 +11,7 @@ enum ShapeProps {
 
 export default {
   title: 'API/Scatter',
+  component: ScatterSeries,
   argTypes: {
     displayMarker: {
       control: 'boolean',

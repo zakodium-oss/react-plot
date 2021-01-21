@@ -5,6 +5,7 @@ import { Axis, LineSeries, Plot } from '../../src';
 
 export default {
   title: 'API/Plot',
+  component: Plot,
   argTypes: {
     marginBottom: {
       control: 'number',

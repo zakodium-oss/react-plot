@@ -10,6 +10,7 @@ enum Position {
 
 export default {
   title: 'API/Heading',
+  component: Heading,
   argTypes: {
     title: {
       control: 'text',
