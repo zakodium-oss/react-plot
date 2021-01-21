@@ -20,7 +20,7 @@ export default function Axis({
   label,
   fontSize = 16,
   labelSpace = 24,
-  showGridLines,
+  displayGridLines,
   labelStyle,
   hidden = false,
   tickStyle = {},
@@ -61,7 +61,7 @@ export default function Axis({
 
   const childProps: AxisChildProps = {
     id: id || xY,
-    showGridLines,
+    displayGridLines,
     hidden,
     label,
     labelSpace,

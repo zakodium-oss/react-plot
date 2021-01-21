@@ -8,7 +8,7 @@ import { Ticks } from './Ticks';
 
 export default function LeftAxis({
   id,
-  showGridLines,
+  displayGridLines,
   hidden = false,
   label,
   labelSpace,
@@ -28,7 +28,7 @@ export default function LeftAxis({
 
   // Create gridlines
   const gridlines = useMemo(() => {
-    if (!showGridLines || !scale) return null;
+    if (!displayGridLines || !scale) return null;
     return (
       <g className="gridLines">
         {ticks.map((val) => (
@@ -45,7 +45,7 @@ export default function LeftAxis({
         ))}
       </g>
     );
-  }, [showGridLines, ticks, scale, left, width, right]);
+  }, [displayGridLines, ticks, scale, left, width, right]);
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;

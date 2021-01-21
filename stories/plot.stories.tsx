@@ -23,7 +23,7 @@ export default {
       defaultValue: true,
       control: 'boolean',
     },
-    showGridLines: {
+    displayGridLines: {
       defaultValue: true,
       control: 'boolean',
     },
@@ -53,7 +53,7 @@ export default {
 export function Control(props) {
   const {
     displayPlot,
-    showGridLines,
+    displayGridLines,
     width,
     height,
     headingPosition,
@@ -112,7 +112,7 @@ export function Control(props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        showGridLines={showGridLines}
+        displayGridLines={displayGridLines}
         hidden={hidden}
         flip={xFlip}
         hiddenTicks={hiddenTicks}
@@ -121,7 +121,7 @@ export function Control(props) {
         id="y"
         position="left"
         label="Drain current [mA]"
-        showGridLines={showGridLines}
+        displayGridLines={displayGridLines}
         labelSpace={40}
         hidden={hidden}
         flip={yFlip}
@@ -178,7 +178,7 @@ export function ScientificNotation() {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        showGridLines={true}
+        displayGridLines={true}
         max={6.1 / factor}
         tickStyle={{ fontSize: '0.8rem' }}
       />
@@ -186,7 +186,7 @@ export function ScientificNotation() {
         id="y"
         position="left"
         label="Drain current [mA]"
-        showGridLines={true}
+        displayGridLines={true}
         labelSpace={50}
         max={6.1 * factor}
         tickStyle={{ fontSize: '0.8rem' }}

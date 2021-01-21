@@ -80,7 +80,7 @@ export function Control(props: Props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        showGridLines={true}
+        displayGridLines={true}
         min={xMin}
         max={xMax}
         padding={[paddingLeft, paddingRight]}
@@ -90,7 +90,7 @@ export function Control(props: Props) {
         id="y"
         position="left"
         label="Drain current [mA]"
-        showGridLines={true}
+        displayGridLines={true}
         labelSpace={40}
         min={yMin}
         max={yMax}
