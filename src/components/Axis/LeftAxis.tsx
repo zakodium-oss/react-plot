@@ -58,7 +58,7 @@ export default function LeftAxis({
           <Ticks
             scientific={scientific}
             scale={scale}
-            show={!hiddenTicks}
+            hidden={!hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             getPositions={(y) => ({
