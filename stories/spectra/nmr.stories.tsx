@@ -22,12 +22,12 @@ export function NmrExample() {
         yAxis="y"
         lineStyle={{ stroke: 'black' }}
       />
-      <Axis id="x" position="bottom" label="δ [ppm]" display flip />
+      <Axis id="x" position="bottom" label="δ [ppm]" flip />
       <Axis
         id="y"
         position="left"
         label="Intensity / arbitrary"
-        display={false}
+        hidden
         padding={[0.1, 0.1]}
       />
     </Plot>

@@ -7,8 +7,8 @@ export default {
   title: 'Plot/General options',
   component: Plot,
   argTypes: {
-    showTicks: {
-      defaultValue: true,
+    hiddenTicks: {
+      defaultValue: false,
       control: 'boolean',
     },
     width: {
@@ -23,7 +23,7 @@ export default {
       defaultValue: true,
       control: 'boolean',
     },
-    showGridLines: {
+    displayGridLines: {
       defaultValue: true,
       control: 'boolean',
     },
@@ -35,8 +35,8 @@ export default {
       defaultValue: 'right',
       control: { type: 'select', options: ['left', 'right'] },
     },
-    showAxis: {
-      defaultValue: true,
+    hidden: {
+      defaultValue: false,
       control: 'boolean',
     },
     xFlip: {
@@ -53,15 +53,15 @@ export default {
 export function Control(props) {
   const {
     displayPlot,
-    showGridLines,
+    displayGridLines,
     width,
     height,
     headingPosition,
     legendPosition,
-    showAxis,
+    hidden,
     xFlip,
     yFlip,
-    showTicks,
+    hiddenTicks,
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
@@ -112,19 +112,20 @@ export function Control(props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        showGridLines={showGridLines}
-        display={showAxis}
+        displayGridLines={displayGridLines}
+        hidden={hidden}
         flip={xFlip}
+        hiddenTicks={hiddenTicks}
       />
       <Axis
         id="y"
         position="left"
         label="Drain current [mA]"
-        showGridLines={showGridLines}
+        displayGridLines={displayGridLines}
         labelSpace={40}
-        display={showAxis}
+        hidden={hidden}
         flip={yFlip}
-        showTicks={showTicks}
+        hiddenTicks={hiddenTicks}
       />
       <Legend position={legendPosition} />
     </Plot>
@@ -177,7 +178,7 @@ export function ScientificNotation() {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        showGridLines={true}
+        displayGridLines={true}
         max={6.1 / factor}
         tickStyle={{ fontSize: '0.8rem' }}
       />
@@ -185,7 +186,7 @@ export function ScientificNotation() {
         id="y"
         position="left"
         label="Drain current [mA]"
-        showGridLines={true}
+        displayGridLines={true}
         labelSpace={50}
         max={6.1 * factor}
         tickStyle={{ fontSize: '0.8rem' }}

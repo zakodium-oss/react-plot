@@ -48,13 +48,13 @@ export interface AxisChildProps {
   id: string;
   fontSize?: number;
   label?: ReactNode;
-  showGridLines?: boolean;
+  displayGridLines?: boolean;
   labelStyle?: CSSProperties;
   tickStyle?: CSSProperties;
   tickEmbedded?: boolean;
   labelSpace?: number;
-  display?: boolean;
-  showTicks?: boolean;
+  hidden?: boolean;
+  hiddenTicks?: boolean;
   tickLength?: number;
 }
 

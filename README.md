@@ -52,7 +52,7 @@ const Example = () => (
       id="x"
       position="bottom"
       label="Drain voltage [V]"
-      showGridLines={true}
+      displayGridLines={true}
       max={6.1 / factor}
       tickStyle={{ fontSize: '0.8rem' }}
     />
@@ -60,7 +60,7 @@ const Example = () => (
       id="y"
       position="left"
       label="Drain current [mA]"
-      showGridLines={true}
+      displayGridLines={true}
       labelSpace={50}
       max={6.1 * factor}
       tickStyle={{ fontSize: '0.8rem' }}
