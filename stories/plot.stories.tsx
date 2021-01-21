@@ -7,8 +7,8 @@ export default {
   title: 'Plot/General options',
   component: Plot,
   argTypes: {
-    showTicks: {
-      defaultValue: true,
+    hiddenTicks: {
+      defaultValue: false,
       control: 'boolean',
     },
     width: {
@@ -35,8 +35,8 @@ export default {
       defaultValue: 'right',
       control: { type: 'select', options: ['left', 'right'] },
     },
-    showAxis: {
-      defaultValue: true,
+    hidden: {
+      defaultValue: false,
       control: 'boolean',
     },
     xFlip: {
@@ -58,10 +58,10 @@ export function Control(props) {
     height,
     headingPosition,
     legendPosition,
-    showAxis,
+    hidden,
     xFlip,
     yFlip,
-    showTicks,
+    hiddenTicks,
   } = props;
 
   const bottom = headingPosition === 'top' ? 50 : 100;
@@ -113,8 +113,9 @@ export function Control(props) {
         position="bottom"
         label="Drain voltage [V]"
         showGridLines={showGridLines}
-        display={showAxis}
+        hidden={hidden}
         flip={xFlip}
+        hiddenTicks={hiddenTicks}
       />
       <Axis
         id="y"
@@ -122,9 +123,9 @@ export function Control(props) {
         label="Drain current [mA]"
         showGridLines={showGridLines}
         labelSpace={40}
-        display={showAxis}
+        hidden={hidden}
         flip={yFlip}
-        showTicks={showTicks}
+        hiddenTicks={hiddenTicks}
       />
       <Legend position={legendPosition} />
     </Plot>

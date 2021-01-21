@@ -9,13 +9,13 @@ import { Ticks } from './Ticks';
 export default function RightAxis({
   id,
   showGridLines,
-  display,
+  hidden = false,
   label,
   labelSpace,
   labelStyle,
   fontSize,
   tickStyle,
-  showTicks,
+  hiddenTicks = false,
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
@@ -52,13 +52,13 @@ export default function RightAxis({
   return (
     <g className="axis">
       {gridlines}
-      {display && (
+      {!hidden && (
         <g className="ticks" transform={`translate(${width - right}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
             scale={scale}
-            show={showTicks}
+            show={!hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             anchor="begin"
@@ -69,7 +69,7 @@ export default function RightAxis({
           />
         </g>
       )}
-      {label && display && (
+      {label && !hidden && (
         <VerticalText
           label={label}
           dy={fontSize}

@@ -8,13 +8,13 @@ import { Ticks } from './Ticks';
 export default function TopAxis({
   id,
   showGridLines,
-  display,
+  hidden = false,
   label,
   labelSpace,
   labelStyle,
   fontSize,
   tickStyle,
-  showTicks,
+  hiddenTicks = false,
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
@@ -61,14 +61,14 @@ export default function TopAxis({
   return (
     <g className="axis">
       {gridlines}
-      {display && (
+      {!hidden && (
         <g className="ticks" transform={`translate(0, ${top})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
             scale={scale}
             anchor="middle"
-            show={showTicks}
+            show={!hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             getPositions={(val) => ({
@@ -78,7 +78,7 @@ export default function TopAxis({
           />
         </g>
       )}
-      {label && display && (
+      {label && !hidden && (
         <text
           x={plotWidth / 2 + left}
           y={top - labelSpace - fontSize}

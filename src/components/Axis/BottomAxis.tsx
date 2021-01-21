@@ -8,13 +8,13 @@ import { Ticks } from './Ticks';
 export default function BottomAxis({
   id,
   showGridLines,
-  display,
+  hidden = false,
   label,
   labelSpace,
   labelStyle,
   fontSize,
   tickStyle,
-  showTicks,
+  hiddenTicks = false,
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
@@ -61,13 +61,13 @@ export default function BottomAxis({
   return (
     <g className="axis">
       {gridlines}
-      {display && (
+      {!hidden && (
         <g className="ticks" transform={`translate(0, ${height - bottom})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
             scale={scale}
-            show={showTicks}
+            show={!hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             anchor="middle"
@@ -78,7 +78,7 @@ export default function BottomAxis({
           />
         </g>
       )}
-      {label && display && (
+      {label && !hidden && (
         <text
           x={plotWidth / 2 + left}
           y={height - bottom + labelSpace + fontSize}

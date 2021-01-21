@@ -22,10 +22,10 @@ export default function Axis({
   labelSpace = 24,
   showGridLines,
   labelStyle,
-  display = true,
+  hidden = false,
   tickStyle = {},
-  showTicks = true,
-  tickEmbedded = false,
+  hiddenTicks,
+  tickEmbedded,
   tickLength = 6,
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
@@ -62,13 +62,13 @@ export default function Axis({
   const childProps: AxisChildProps = {
     id: id || xY,
     showGridLines,
-    display,
+    hidden,
     label,
     labelSpace,
     labelStyle,
     fontSize,
     tickStyle,
-    showTicks,
+    hiddenTicks,
     tickEmbedded,
     tickLength,
   };
