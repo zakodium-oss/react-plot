@@ -22,12 +22,11 @@ export function InfraredExample() {
         yAxis="y"
         lineStyle={{ stroke: 'black' }}
       />
-      <Axis id="x" position="bottom" label="Wavenumber [cm⁻¹]" display flip />
+      <Axis id="x" position="bottom" label="Wavenumber [cm⁻¹]" flip />
       <Axis
         id="y"
         position="left"
         label="Transmittance [%]"
-        display
         padding={[0.1, 0.1]}
       />
     </Plot>
