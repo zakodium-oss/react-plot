@@ -80,7 +80,6 @@ export function NasdaqExample(props: Props) {
           position="left"
           label="Nasdaq value [USD]"
           labelSpace={50}
-          showTicks={true}
           showGridLines={true}
           padding={[0.1, 0.1]}
         />
