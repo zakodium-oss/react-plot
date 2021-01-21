@@ -6,7 +6,7 @@ import type { Series } from '../../src/types';
 import srcData from '../data/nasdaq.json';
 
 export default {
-  title: 'Experimental spectra/Nasqad',
+  title: 'Examples/Nasdaq',
   argTypes: {
     refreshFrequency: { defaultValue: 1, control: 'number' },
     step: { defaultValue: 1, control: 'number' },
@@ -38,7 +38,7 @@ const getLastData = (
 /** Main Component *****************/
 
 type Props = Record<string, number>;
-export function NasqadExample(props: Props) {
+export function NasdaqExample(props: Props) {
   const {
     refreshFrequency, // Page refresher frequency (s)
     step, // timestamp's step
@@ -49,13 +49,13 @@ export function NasqadExample(props: Props) {
     const [data, setData] = useState(srcData);
 
     useEffect(() => {
-      const timer = setInterval(() => {
-        const [x, y] = generateNewXY(data[data.length - 1], step); // generate a new conrdinates
+      const timer = setTimeout(() => {
+        const [x, y] = generateNewXY(data[data.length - 1], step); // generate a new coordinates
         const newData = getLastData([...data, { x, y }], displayInterval); // get last 500s data
         setData(newData);
       }, refreshFrequency * 1000);
-      return () => clearInterval(timer);
-    });
+      return () => clearTimeout(timer);
+    }, [data]);
 
     return (
       <Plot
