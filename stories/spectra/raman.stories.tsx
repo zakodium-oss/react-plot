@@ -27,7 +27,7 @@ export function RamanExample() {
         id="y"
         position="left"
         label="Intensity / arbitrary"
-        showTicks={false}
+        hiddenTicks
         padding={[0.1, 0.1]}
       />
     </Plot>

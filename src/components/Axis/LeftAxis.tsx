@@ -8,14 +8,14 @@ import { Ticks } from './Ticks';
 
 export default function LeftAxis({
   id,
-  showGridLines,
-  display,
+  displayGridLines,
+  hidden = false,
   label,
   labelSpace,
   labelStyle,
   fontSize,
   tickStyle,
-  showTicks,
+  hiddenTicks = false,
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
@@ -28,7 +28,7 @@ export default function LeftAxis({
 
   // Create gridlines
   const gridlines = useMemo(() => {
-    if (!showGridLines || !scale) return null;
+    if (!displayGridLines || !scale) return null;
     return (
       <g className="gridLines">
         {ticks.map((val) => (
@@ -45,20 +45,20 @@ export default function LeftAxis({
         ))}
       </g>
     );
-  }, [showGridLines, ticks, scale, left, width, right]);
+  }, [displayGridLines, ticks, scale, left, width, right]);
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
   return (
     <g className="axis">
       {gridlines}
-      {display && (
+      {!hidden && (
         <g className="ticks" transform={`translate(${left}, 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
             scale={scale}
-            show={showTicks}
+            show={!hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             getPositions={(y) => ({
@@ -68,7 +68,7 @@ export default function LeftAxis({
           />
         </g>
       )}
-      {label && display && (
+      {label && !hidden && (
         <VerticalText
           label={label}
           transform={`translate(${
