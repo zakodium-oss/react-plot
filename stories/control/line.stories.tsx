@@ -10,7 +10,7 @@ enum ShapeProps {
 }
 
 export default {
-  title: 'Control/LineSeries',
+  title: 'API/LineSeries',
   argTypes: {
     displayMarker: {
       control: 'boolean',

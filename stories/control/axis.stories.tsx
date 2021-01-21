@@ -4,7 +4,7 @@ import React from 'react';
 import { Axis, LineSeries, Plot } from '../../src';
 
 export default {
-  title: 'Control/Axis',
+  title: 'API/Axis',
   argTypes: {
     labelX: {
       control: 'text',

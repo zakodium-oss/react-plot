@@ -9,7 +9,7 @@ enum Position {
 }
 
 export default {
-  title: 'Control/Heading',
+  title: 'API/Heading',
   argTypes: {
     title: {
       control: 'text',

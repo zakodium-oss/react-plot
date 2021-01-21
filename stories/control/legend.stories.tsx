@@ -12,7 +12,7 @@ enum Position {
 }
 
 export default {
-  title: 'Control/Legend',
+  title: 'API/Legend',
   argTypes: {
     position: {
       control: { type: 'select', options: Position },

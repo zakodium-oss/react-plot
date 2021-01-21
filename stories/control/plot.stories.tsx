@@ -4,7 +4,7 @@ import React from 'react';
 import { Axis, LineSeries, Plot } from '../../src';
 
 export default {
-  title: 'Control/Plot',
+  title: 'API/Plot',
   argTypes: {
     marginBottom: {
       control: 'number',

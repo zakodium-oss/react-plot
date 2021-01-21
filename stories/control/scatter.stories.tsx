@@ -10,7 +10,7 @@ enum ShapeProps {
 }
 
 export default {
-  title: 'Control/Scatter',
+  title: 'API/Scatter',
   argTypes: {
     displayMarker: {
       control: 'boolean',
