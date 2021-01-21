@@ -76,17 +76,17 @@ interface LineControlProps {
   displayMarker: boolean;
 }
 
-export function LineControl(props: LineControlProps) {
-  let lineStyle;
-  let markerStyle;
-
+function tryJsonParse(string, fallback) {
   try {
-    lineStyle = JSON.parse(props.lineStyle);
-    markerStyle = JSON.parse(props.markerStyle);
+    return JSON.parse(string);
   } catch {
-    lineStyle = { stroke: 'black' };
-    markerStyle = { fill: 'black' };
+    return fallback;
   }
+}
+
+export function LineControl(props: LineControlProps) {
+  const lineStyle = tryJsonParse(props.lineStyle, { stroke: 'black' });
+  const markerStyle = tryJsonParse(props.markerStyle, { fill: 'black' });
 
   return (
     <Plot
