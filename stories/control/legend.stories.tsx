@@ -57,9 +57,9 @@ export function HeadingControl(props: LegendControlProps) {
       viewportStyle={{ stroke: 'black' }}
       margin={{
         bottom: 100,
-        left: 40,
-        top: 40,
-        right: 40,
+        left: 100,
+        top: 100,
+        right: 200,
       }}
     >
       <Legend {...props} />

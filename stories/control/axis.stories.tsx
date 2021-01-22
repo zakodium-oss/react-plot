@@ -5,11 +5,10 @@ import { Axis, LineSeries, Plot } from '../../src';
 
 export default {
   title: 'API/Axis',
-  component: Axis,
   argTypes: {
-    labelX: {
+    label: {
       control: 'text',
-      defaultValue: 'Label X',
+      defaultValue: 'Axis label',
     },
     padding: {
       control: 'array',
@@ -66,7 +65,7 @@ const data = [
 ];
 
 interface AxisControlProps {
-  labelX: string;
+  label: string;
   padding: [number, number];
   flip: boolean;
   fontSize: number;
@@ -91,58 +90,58 @@ const plot = {
 };
 
 function getProps(args: AxisControlProps) {
-  const { labelX, ...other } = args;
+  const { label, ...other } = args;
 
   return {
-    labelX,
+    label,
     args: other,
   };
 }
 
 export function AxisLeftControl(props: AxisControlProps) {
-  const { args, labelX } = getProps(props);
+  const { args, label } = getProps(props);
 
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
       <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="left" label={labelX} {...args} />
+      <Axis id="x" position="left" label={label} {...args} />
     </Plot>
   );
 }
 
 export function AxisBottomControl(props: AxisControlProps) {
-  const { args, labelX } = getProps(props);
+  const { args, label } = getProps(props);
 
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
       <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="left" label={labelX} {...args} />
+      <Axis id="x" position="left" label={label} {...args} />
     </Plot>
   );
 }
 
 export function AxisRightControl(props: AxisControlProps) {
-  const { args, labelX } = getProps(props);
+  const { args, label } = getProps(props);
 
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
       <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="right" label={labelX} {...args} />
+      <Axis id="x" position="right" label={label} {...args} />
     </Plot>
   );
 }
 
 export function AxisTopControl(props: AxisControlProps) {
-  const { args, labelX } = getProps(props);
+  const { args, label } = getProps(props);
 
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="y" position="left" label="Label" />
-      <Axis id="x" position="top" label={labelX} {...args} />
+      <Axis id="x" position="top" label={label} {...args} />
     </Plot>
   );
 }
