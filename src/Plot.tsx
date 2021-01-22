@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import React, { Reducer, useMemo, useReducer } from 'react';
 
 import TransparentRect from './components/TransparentRect';
+import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
@@ -48,7 +49,9 @@ export default function Plot({
     () => state.series.map(({ id, label }) => ({ id, label })),
     [state.series],
   );
+
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
+
   const colorScaler = useMemo(() => {
     return scaleOrdinal<string>()
       .range(colorScheme || schemeSet1)
@@ -72,36 +75,38 @@ export default function Plot({
       }}
     >
       <DispatchContext.Provider value={{ dispatch }}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={width}
-          height={height}
-          style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
-        >
-          {/* Main plot area */}
-          <TransparentRect width={width} height={height} style={style} />
+        <LegendProvider>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={width}
+            height={height}
+            style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
+          >
+            {/* Main plot area */}
+            <TransparentRect width={width} height={height} style={style} />
 
-          {/* Viewport area */}
-          <g transform={`translate(${left}, ${top})`}>
-            <TransparentRect
-              width={plotWidth}
-              height={plotHeight}
-              style={viewportStyle}
-            />
+            {/* Viewport area */}
+            <g transform={`translate(${left}, ${top})`}>
+              <TransparentRect
+                width={plotWidth}
+                height={plotHeight}
+                style={viewportStyle}
+              />
 
-            {/* Prevents the chart from being drawn outside of the viewport */}
-            <clipPath id="viewportClip">
-              <rect width={plotWidth} height={plotHeight} />
-            </clipPath>
+              {/* Prevents the chart from being drawn outside of the viewport */}
+              <clipPath id="viewportClip">
+                <rect width={plotWidth} height={plotHeight} />
+              </clipPath>
 
-            <g style={{ clipPath: 'url(#viewportClip)' }}>{series}</g>
+              <g style={{ clipPath: 'url(#viewportClip)' }}>{series}</g>
 
-            {axes}
-          </g>
+              {axes}
+            </g>
 
-          {heading}
-          {legend}
-        </svg>
+            {heading}
+            {legend}
+          </svg>
+        </LegendProvider>
       </DispatchContext.Provider>
     </PlotContext.Provider>
   );

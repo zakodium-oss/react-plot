@@ -1,8 +1,11 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { Horizontal, LegendProps, Vertical } from '../types';
+
+import { Circle, Square, Triangle } from './Markers';
+import { useLegend } from './legendsContext';
 
 type Positions = { [K in Vertical | Horizontal]?: number };
 interface ValidatedPosition {
@@ -110,36 +113,48 @@ function translation(
 }
 
 export default function Legend({ position, ...legendMargins }: LegendProps) {
-  const {
-    labels,
-    right,
-    left,
-    top,
-    bottom,
-    height,
-    width,
-    colorScaler,
-  } = usePlotContext();
+  const { right, left, top, bottom, height, width } = usePlotContext();
+  const [state] = useLegend();
+
   const [x, y] = useMemo(() => {
     const plotMargins = { right, left, top, bottom };
     return translation(position, legendMargins, plotMargins, width, height);
   }, [position, legendMargins, right, left, top, bottom, width, height]);
+
   return (
     <g className="legend" transform={`translate(${x}, ${y})`}>
-      {labels?.map(({ id }, index) => (
-        <circle
-          key={`circle-${id}-${index}`}
-          cx="0.25em"
-          cy={`${index + 0.7}em`}
-          r="0.25em"
-          fill={colorScaler(id)}
-        />
-      ))}
-      {labels?.map(({ label }, index) => (
-        <text key={`text-${label}-${index}`} x="0.75em" y={`${index + 1}em`}>
-          {label}
-        </text>
+      {state.labels.map((value, index) => (
+        <Fragment key={`${value.color}-${value.label}`}>
+          {getShape(value.shape, { color: value.color, index })}
+
+          <text
+            key={`text-${value.label}-${index}`}
+            x={`${0.75 + 0.5}em`}
+            y={`${index + 1}em`}
+          >
+            {value.label}
+          </text>
+        </Fragment>
       ))}
     </g>
   );
+}
+
+function getShape(shape: string, config: { index: number; color: string }) {
+  const x = 5;
+  const y = (config.index + 1) * 16 - x;
+
+  switch (shape) {
+    case 'circle': {
+      return <Circle x={x} y={y} size={5} style={{ fill: config.color }} />;
+    }
+    case 'square': {
+      return <Square x={x} y={y} size={5} style={{ fill: config.color }} />;
+    }
+    case 'triangle': {
+      return <Triangle x={x} y={y} size={5} style={{ fill: config.color }} />;
+    }
+    default:
+      throw new Error('unreachable');
+  }
 }

@@ -13,7 +13,7 @@ export default {
   },
 } as Meta;
 
-const data = [
+const data1 = [
   {
     x: 0,
     y: 10,
@@ -36,6 +36,29 @@ const data = [
   },
 ];
 
+const data2 = [
+  {
+    x: 0,
+    y: 20,
+  },
+  {
+    x: 1,
+    y: 22,
+  },
+  {
+    x: 2,
+    y: 24,
+  },
+  {
+    x: 3,
+    y: 26,
+  },
+  {
+    x: 4,
+    y: 28,
+  },
+];
+
 export function HeadingControl(props: LegendProps) {
   return (
     <Plot
@@ -50,7 +73,51 @@ export function HeadingControl(props: LegendProps) {
       }}
     >
       <Legend {...props} />
-      <LineSeries data={data} xAxis="x" yAxis="y" label="Label line series" />
+      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <Axis id="x" position="bottom" label="X" />
+      <Axis id="y" position="left" label="Y" />
+    </Plot>
+  );
+}
+
+export function HeaderTest() {
+  return (
+    <Plot
+      width={900}
+      height={540}
+      viewportStyle={{ stroke: 'black' }}
+      margin={{
+        bottom: 100,
+        left: 100,
+        top: 100,
+        right: 200,
+      }}
+    >
+      <Legend position={'embedded'} />
+
+      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <LineSeries
+        data={data2}
+        markerStyle={{ fill: 'green' }}
+        lineStyle={{ stroke: 'green' }}
+        markerShape="triangle"
+        displayMarker
+        xAxis="x"
+        yAxis="y"
+        label="Label line series 2"
+      />
+
+      <LineSeries
+        data={data2}
+        markerStyle={{ fill: 'blue' }}
+        lineStyle={{ stroke: 'blue' }}
+        markerShape="square"
+        displayMarker
+        xAxis="x"
+        yAxis="y"
+        label="Label line series 3"
+      />
+
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>
