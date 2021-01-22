@@ -28,12 +28,12 @@ export default function LineSeries(props: LineSeriesProps) {
 
   return (
     <g>
+      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker || props.hidden}
         groupId={id}
       />
-      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
     </g>
   );
 }
