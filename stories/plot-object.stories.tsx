@@ -1,8 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { PlotObject } from '../src/index';
-import type { PlotObjectType } from '../src/types';
+import { PlotObject, PlotObjectType } from '../src';
 
 export default {
   title: 'Plot/Plot object',

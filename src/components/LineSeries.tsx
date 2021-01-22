@@ -2,14 +2,14 @@ import { line } from 'd3-shape';
 import React, { CSSProperties, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { LineSeriesProps, Series } from '../types';
+import type { LineSeriesProps, SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import ScatterSeries from './ScatterSeries';
 
 interface LineSeriesRenderProps {
   id: string;
-  data: Series[];
+  data: SeriesPointType[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
@@ -55,7 +55,7 @@ function LineSeriesRender({
     if ([xScale, yScale].includes(undefined)) return null;
 
     // Calculate line from D3
-    const lineGenerator = line<Series>()
+    const lineGenerator = line<SeriesPointType>()
       .x((d) => xScale(d.x))
       .y((d) => yScale(d.y));
 

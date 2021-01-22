@@ -6,7 +6,7 @@ export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
 export type Margins = Record<Horizontal | Vertical, number | undefined>;
 
-export interface Series {
+export interface SeriesPointType {
   x: number;
   y: number;
 }
@@ -32,12 +32,12 @@ export interface ScatterSeriesProps {
   groupId?: string;
   xAxis?: string;
   yAxis?: string;
-  data: Series[];
+  data: SeriesPointType[];
   label?: string;
   markerShape?: 'circle' | 'square' | 'triangle';
   markerSize?: number;
   hidden?: boolean;
-  markerStyle?: CSSFuncProps<Series>;
+  markerStyle?: CSSFuncProps<SeriesPointType>;
 }
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;
@@ -103,6 +103,10 @@ export interface PlotObjectType {
   dimentions: Dimentions;
   colorScheme?: Iterable<string>;
   viewportStyle?: CSSProperties;
+}
+
+export interface PlotObjectProps {
+  plot: PlotObjectType;
 }
 
 // State related
