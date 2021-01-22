@@ -88,15 +88,31 @@ export function PCA() {
           );
         }
 
+        const isXHidden = pcY !== 0 && pcY !== numFeatures - 1;
+        const xPosition = pcY === 0 ? 'top' : 'bottom';
+
+        const isYHidden = pcX !== 0 && pcX !== numFeatures - 1;
+        const yPosition = pcX === 0 ? 'left' : 'right';
+
         children.push(
           <Plot
             key={`${pcX}-${pcY}`}
             width={size / numFeatures}
             height={size / numFeatures}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+            margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
           >
-            <Axis id="x" position="bottom" padding={[0.05, 0.05]} hidden />
-            <Axis id="y" position="left" padding={[0.05, 0.05]} hidden />
+            <Axis
+              id="x"
+              position={xPosition}
+              padding={[0.05, 0.05]}
+              hidden={isXHidden}
+            />
+            <Axis
+              id="y"
+              position={yPosition}
+              padding={[0.05, 0.05]}
+              hidden={isYHidden}
+            />
             {series}
           </Plot>,
         );
@@ -119,3 +135,5 @@ export function PCA() {
     </div>
   );
 }
+
+PCA.storyName = 'Principal component analysis (PCA)';
