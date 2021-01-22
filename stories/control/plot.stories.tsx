@@ -97,7 +97,13 @@ export function PlotControl(props: PlotControlProps) {
       <Legend position="embedded" />
       <LineSeries data={data} xAxis="x" yAxis="y" label="Line" />
       <Axis id="x" position="bottom" label="Label One" />
-      <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
+      <Axis
+        id="y"
+        position="left"
+        label="Label two"
+        paddingStart={0.1}
+        paddingEnd={0.1}
+      />
     </Plot>
   );
 }

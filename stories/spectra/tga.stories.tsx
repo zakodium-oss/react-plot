@@ -34,7 +34,13 @@ export function TgaExample() {
       />
 
       <Axis id="x" position="bottom" label="Temperature/°C" />
-      <Axis id="y" position="left" label="Weight loss/%" padding={[0.1, 0.1]} />
+      <Axis
+        id="y"
+        position="left"
+        label="Weight loss/%"
+        paddingStart={0.1}
+        paddingEnd={0.1}
+      />
     </Plot>
   );
 }
