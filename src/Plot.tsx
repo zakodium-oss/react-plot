@@ -3,29 +3,33 @@ import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import React, { Reducer, useMemo, useReducer } from 'react';
 
+import TransparentRect from './components/TransparentRect';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
 import { splitChildren } from './utils';
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
+const initialState: State = {
+  series: [],
+  axis: {},
+};
+
 export default function Plot({
   width,
   height,
   margin = {},
   colorScheme,
   children,
+  style = {},
   viewportStyle = {},
 }: PlotProps) {
-  const initialState: State = {
-    series: [],
-    axis: {},
-  };
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
-  const compoundComp = splitChildren(children);
-  const { invalidChild, series, axis, heading, legend } = compoundComp;
-  if (invalidChild) {
+  const { hasInvalidChild, series, axes, heading, legend } = splitChildren(
+    children,
+  );
+  if (hasInvalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
 
@@ -36,12 +40,8 @@ export default function Plot({
 
   // Set scales
   const axisContext = useAxisContext(state, {
-    left,
-    width,
-    right,
-    height,
-    bottom,
-    top,
+    plotWidth,
+    plotHeight,
   });
 
   const labels = useMemo(
@@ -73,33 +73,34 @@ export default function Plot({
     >
       <DispatchContext.Provider value={{ dispatch }}>
         <svg
+          xmlns="http://www.w3.org/2000/svg"
           width={width}
           height={height}
           style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
         >
-          <rect
-            fillOpacity="0"
-            x={left}
-            y={top}
-            width={plotWidth}
-            height={plotHeight}
-            style={viewportStyle}
-          />
-          {heading}
-          {legend}
-          {axis}
+          {/* Main plot area */}
+          <TransparentRect width={width} height={height} style={style} />
 
-          {/* Defines the borders of the plot space */}
-          <clipPath id="squareClip">
-            <rect
-              fillOpacity="0"
-              x={left}
-              y={top}
+          {/* Viewport area */}
+          <g transform={`translate(${left}, ${top})`}>
+            <TransparentRect
               width={plotWidth}
               height={plotHeight}
+              style={viewportStyle}
             />
-          </clipPath>
-          <g style={{ clipPath: 'url(#squareClip)' }}>{series}</g>
+
+            {/* Prevents the chart from being drawn outside of the viewport */}
+            <clipPath id="viewportClip">
+              <rect width={plotWidth} height={plotHeight} />
+            </clipPath>
+
+            <g style={{ clipPath: 'url(#squareClip)' }}>{series}</g>
+
+            {axes}
+          </g>
+
+          {heading}
+          {legend}
         </svg>
       </DispatchContext.Provider>
     </PlotContext.Provider>

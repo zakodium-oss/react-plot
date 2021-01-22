@@ -24,6 +24,7 @@ export interface PlotProps {
   height: number;
   colorScheme?: Iterable<string>;
   margin?: Partial<Margins>;
+  style?: CSSProperties;
   viewportStyle?: CSSProperties;
   children: ReactNode;
 }
@@ -154,9 +155,9 @@ export type ReducerActions =
   | { type: 'removeAxis'; value: { id: string } };
 
 export interface PlotChildren {
-  invalidChild: boolean;
+  hasInvalidChild: boolean;
   series: ReactElement<LineSeriesProps | ScatterSeriesProps>[];
-  axis: ReactElement<AxisProps>[];
+  axes: ReactElement<AxisProps>[];
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
 }

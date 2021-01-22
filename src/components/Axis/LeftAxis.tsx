@@ -19,7 +19,7 @@ export default function LeftAxis({
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
-  const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
+  const { axisContext, plotHeight, plotWidth } = usePlotContext();
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
@@ -34,8 +34,8 @@ export default function LeftAxis({
         {ticks.map((val) => (
           <line
             key={val}
-            x1={left}
-            x2={width - right}
+            x1="0"
+            x2={plotWidth}
             y1={scale(val)}
             y2={scale(val)}
             stroke="black"
@@ -45,7 +45,7 @@ export default function LeftAxis({
         ))}
       </g>
     );
-  }, [displayGridLines, ticks, scale, left, width, right]);
+  }, [displayGridLines, ticks, scale, plotWidth]);
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
@@ -53,7 +53,7 @@ export default function LeftAxis({
     <g className="axis">
       {gridlines}
       {!hidden && (
-        <g className="ticks" transform={`translate(${left}, 0)`}>
+        <g className="ticks">
           <line y1={range[0]} y2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
@@ -72,8 +72,8 @@ export default function LeftAxis({
         <VerticalText
           label={label}
           transform={`translate(${
-            left - fontSize - labelSpace - (scientific ? 14 : 0)
-          }, ${top + plotHeight / 2})`}
+            0 - fontSize - labelSpace - (scientific ? 14 : 0)
+          }, ${plotHeight / 2})`}
           dy={fontSize}
           fontSize={fontSize}
           style={labelStyle}
