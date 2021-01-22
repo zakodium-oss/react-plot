@@ -40,7 +40,7 @@ export function Control(props: Props) {
     <Plot
       width={width}
       height={height}
-      margin={{ bottom: 50, left: 120, top: 80, right: 120 }}
+      margin={{ bottom: 50, left: 80, top: 80, right: 80 }}
     >
       <Heading
         title="Electrical characterization"
