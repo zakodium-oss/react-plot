@@ -98,7 +98,13 @@ export function LineControl(props: LineSeriesProps) {
     >
       <LineSeries {...props} data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="Label One" />
-      <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
+      <Axis
+        id="y"
+        position="left"
+        label="Label two"
+        paddingStart={0.1}
+        paddingEnd={0.1}
+      />
 
       <Legend position="embedded" />
     </Plot>

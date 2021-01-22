@@ -11,9 +11,13 @@ export default {
       control: 'text',
       defaultValue: 'Axis label',
     },
-    padding: {
-      control: 'array',
-      defaultValue: [0.1, 0.1],
+    paddingStart: {
+      control: 'number',
+      defaultValue: 0.1,
+    },
+    paddingEnd: {
+      control: 'number',
+      defaultValue: 0.1,
     },
     flip: {
       control: 'boolean',
@@ -77,7 +81,8 @@ const data = [
 
 interface AxisControlProps {
   label: string;
-  padding: [number, number];
+  paddingStart: number;
+  paddingEnd: number;
   flip: boolean;
   fontSize: number;
   min: number;
