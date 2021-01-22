@@ -1,13 +1,8 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, LineSeries, Plot } from '../../src';
-
-enum ShapeProps {
-  'circle' = 'circle',
-  'square' = 'square',
-  'triangle' = 'triangle',
-}
+import { Axis, Legend, LineSeries, Plot } from '../../src';
+import { LineSeriesProps } from '../../src/types';
 
 export default {
   title: 'API/LineSeries',
@@ -18,12 +13,14 @@ export default {
       defaultValue: true,
     },
     lineStyle: {
-      control: 'text',
-      defaultValue: '{ "stroke": "black" }',
+      control: 'object',
+      defaultValue: {
+        stroke: 'black',
+      },
     },
     markerStyle: {
-      control: 'text',
-      defaultValue: '{ "fill": "black" }',
+      control: 'object',
+      defaultValue: { fill: 'black' },
     },
     hidden: {
       control: 'boolean',
@@ -34,12 +31,31 @@ export default {
       defaultValue: 'Label',
     },
     markerShape: {
-      control: { type: 'select', options: ShapeProps },
-      defaultValue: ShapeProps.circle,
+      defaultValue: 'circle',
     },
     markerSize: {
       control: 'number',
       defaultValue: 5,
+    },
+    groupId: {
+      table: {
+        disable: true,
+      },
+    },
+    xAxis: {
+      table: {
+        disable: true,
+      },
+    },
+    yAxis: {
+      table: {
+        disable: true,
+      },
+    },
+    data: {
+      table: {
+        disable: true,
+      },
     },
   },
 } as Meta;
@@ -67,28 +83,7 @@ const data = [
   },
 ];
 
-interface LineControlProps {
-  hidden: boolean;
-  label: string;
-  markerShape: ShapeProps;
-  markerSize: number;
-  lineStyle: string;
-  markerStyle: string;
-  displayMarker: boolean;
-}
-
-function tryJsonParse(string, fallback) {
-  try {
-    return JSON.parse(string);
-  } catch {
-    return fallback;
-  }
-}
-
-export function LineControl(props: LineControlProps) {
-  const lineStyle = tryJsonParse(props.lineStyle, { stroke: 'black' });
-  const markerStyle = tryJsonParse(props.markerStyle, { fill: 'black' });
-
+export function LineControl(props: LineSeriesProps) {
   return (
     <Plot
       width={900}
@@ -101,16 +96,11 @@ export function LineControl(props: LineControlProps) {
         right: 40,
       }}
     >
-      <LineSeries
-        {...props}
-        data={data}
-        xAxis="x"
-        yAxis="y"
-        lineStyle={lineStyle}
-        markerStyle={markerStyle}
-      />
+      <LineSeries {...props} data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="Label One" />
       <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
+
+      <Legend position="embedded" />
     </Plot>
   );
 }
