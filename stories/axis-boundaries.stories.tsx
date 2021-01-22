@@ -83,7 +83,8 @@ export function Control(props: Props) {
         displayGridLines={true}
         min={xMin}
         max={xMax}
-        padding={[paddingLeft, paddingRight]}
+        paddingStart={paddingLeft}
+        paddingEnd={paddingRight}
         tickEmbedded={allTicksInside}
       />
       <Axis
@@ -94,7 +95,8 @@ export function Control(props: Props) {
         labelSpace={40}
         min={yMin}
         max={yMax}
-        padding={[paddingBottom, paddingTop]}
+        paddingStart={paddingBottom}
+        paddingEnd={paddingTop}
         tickEmbedded={allTicksInside}
       />
       <Axis

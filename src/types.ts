@@ -63,7 +63,10 @@ export interface AxisParentProps {
   position: Horizontal | Vertical;
   min?: number;
   max?: number;
-  padding?: [number, number];
+
+  paddingStart?: number;
+  paddingEnd?: number;
+
   flip?: boolean;
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
