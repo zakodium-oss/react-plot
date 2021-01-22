@@ -5,7 +5,7 @@ export interface VerticalTextProps extends React.SVGProps<SVGTextElement> {
 }
 
 export default function VerticalText(props: VerticalTextProps) {
-  const { transform = '', fontSize, style, label, ...otherProps } = props;
+  const { transform = '', style, label, ...otherProps } = props;
 
   return (
     <text

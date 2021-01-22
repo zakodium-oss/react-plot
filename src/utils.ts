@@ -85,6 +85,17 @@ export function validateAxis(
       ? !vertical.includes(yAxis.position)
       : vertical.includes(xAxis.position)
   ) {
+    if (
+      vertical.includes(xAxis.position) ||
+      horizontal.includes(yAxis.position)
+    ) {
+      throw new Error(
+        `The axis ${xKey} should be ${horizontal.join(
+          ' ',
+        )} and ${yKey} should be ${vertical.join(' ')}`,
+      );
+    }
+
     throw new Error(`The axis ${xKey} and ${yKey} are not orthogonal`);
   }
   return [xAxis.scale, yAxis.scale];
