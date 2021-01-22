@@ -5,6 +5,7 @@ import { Axis, LineSeries, Plot } from '../../src';
 
 export default {
   title: 'API/Axis',
+  component: Axis,
   argTypes: {
     label: {
       control: 'text',
@@ -37,6 +38,12 @@ export default {
     showTicks: {
       control: 'boolean',
       defaultValue: true,
+    },
+    position: {
+      control: false,
+    },
+    id: {
+      control: false,
     },
   },
 } as Meta;
