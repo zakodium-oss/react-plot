@@ -1,5 +1,54 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/zakodium/react-plot/compare/v0.3.0...v0.4.0) (2021-01-22)
+
+
+### Features
+
+* add IR spectrum storybook ([230376a](https://www.github.com/zakodium/react-plot/commit/230376afc4ba4feec49637582c52375d460ddfc7))
+* add option for getting ticks inside the axis ([9e4ace7](https://www.github.com/zakodium/react-plot/commit/9e4ace75fb6baafed2131ab39fdff68dcfdbb5d1))
+* add scatter plot option ([73567a0](https://www.github.com/zakodium/react-plot/commit/73567a022c6254fa62172ae8124fd9bd19327c56))
+* add scatter plot to PlotObject options ([528760e](https://www.github.com/zakodium/react-plot/commit/528760eeeae8aaeab2334c14f4a448733eb17e80))
+* add showTicks props on Axis ([#84](https://www.github.com/zakodium/react-plot/issues/84)) ([64563c3](https://www.github.com/zakodium/react-plot/commit/64563c35b501005afe0026b926ddc48c3fe14061))
+* add story to addons ([0a14f67](https://www.github.com/zakodium/react-plot/commit/0a14f678319e4bb59b6013150b1c80de9b542ed9))
+* add tick length ([092e109](https://www.github.com/zakodium/react-plot/commit/092e109a96b87f5d35dfb6602777d90df4d8aa34))
+* add tick style modifiers ([8329f0d](https://www.github.com/zakodium/react-plot/commit/8329f0d40f8297e687012106bad8a6454edc0104))
+* add viewport style ([#67](https://www.github.com/zakodium/react-plot/issues/67)) ([6f84e14](https://www.github.com/zakodium/react-plot/commit/6f84e1424b10d3c18a5ea6aa5fedec9467beb283))
+* adds a single prop component to render plot ([320d68b](https://www.github.com/zakodium/react-plot/commit/320d68bc2d6446912818b941991ed6773da9c52f))
+* allow legend position inside plot ([#87](https://www.github.com/zakodium/react-plot/issues/87)) ([18f468f](https://www.github.com/zakodium/react-plot/commit/18f468fdea0f60169d1e51c847168eb2275a75cb))
+* allow to add axis in different position ([9f46934](https://www.github.com/zakodium/react-plot/commit/9f46934cecf5cb4ef1087e2f97de0edd5ee6b186))
+* allows to hide series and specify serie id ([#68](https://www.github.com/zakodium/react-plot/issues/68)) ([571da6b](https://www.github.com/zakodium/react-plot/commit/571da6b92e27145b80bec88d0843d00f31288ddd))
+* create VerticalText component & add vertical-text on cursor ([#96](https://www.github.com/zakodium/react-plot/issues/96)) ([3c0a4c6](https://www.github.com/zakodium/react-plot/commit/3c0a4c6f3b930171a2820e3e2ad874adbac55f91))
+* flip axis ([1a62250](https://www.github.com/zakodium/react-plot/commit/1a62250bc338b8c3e7e856fb9c6297625153ddb8)), closes [#23](https://www.github.com/zakodium/react-plot/issues/23)
+* hidde or display axis ([426de9c](https://www.github.com/zakodium/react-plot/commit/426de9c99697b980cac0b880cd015f4191518bd3)), closes [#34](https://www.github.com/zakodium/react-plot/issues/34)
+* marker style allows to a property to be a function ([960103b](https://www.github.com/zakodium/react-plot/commit/960103ba0f71b8c2c7107dc3648c6bb956580767))
+* multiple axis ([b628cd3](https://www.github.com/zakodium/react-plot/commit/b628cd32d2dc23b91604667d51017cfab52f1493))
+* use camel case for ticks style ([fc27982](https://www.github.com/zakodium/react-plot/commit/fc27982e26c897ad588ef5e49909e4c2e3973b76))
+
+
+### Bug Fixes
+
+* add dominantBaseline on Ticks ([#91](https://www.github.com/zakodium/react-plot/issues/91)) ([3978abe](https://www.github.com/zakodium/react-plot/commit/3978abe62925921534a9401a006cfc9d8cf7404a))
+* color match label and plot ([9db3451](https://www.github.com/zakodium/react-plot/commit/9db3451a9180d837684450ea16ab67b216ac4a9b))
+* margin optional in plots ([569dcc8](https://www.github.com/zakodium/react-plot/commit/569dcc889898a9ca06c5b4b1fd54adf1cd3892ef)), closes [#36](https://www.github.com/zakodium/react-plot/issues/36)
+* missing validation on lineseries ([e774dc2](https://www.github.com/zakodium/react-plot/commit/e774dc28d4ca1c69f80eff5504c1d39e2b41a617))
+* preffer named groups in regex ([b2e5ec2](https://www.github.com/zakodium/react-plot/commit/b2e5ec2d4a7c878439cd7f474098db5b2c1806dc))
+* remove axis from state on unmount ([4041a01](https://www.github.com/zakodium/react-plot/commit/4041a01eb27e121be6ba0faa5b2a6b839d4c2078))
+* rename variables on text ([67ab11e](https://www.github.com/zakodium/react-plot/commit/67ab11ef0be83958de1c10238e6829be8270e22d))
+* set the marker to be in front of line ([#107](https://www.github.com/zakodium/react-plot/issues/107)) ([7e0cd37](https://www.github.com/zakodium/react-plot/commit/7e0cd3796b8dbd6852d58836a9cf667dcc1599eb)), closes [#103](https://www.github.com/zakodium/react-plot/issues/103)
+* ticks text positions ([435c2da](https://www.github.com/zakodium/react-plot/commit/435c2da978b746cb75c1ce769621326f61bed6f6))
+* update broken dependency ([a17ae88](https://www.github.com/zakodium/react-plot/commit/a17ae88a6e3a69c3ae566eea1f62a737e3008793))
+* update ir storybook for percentage ([2550380](https://www.github.com/zakodium/react-plot/commit/255038052d96d47a186973aa5532b502c20085b0))
+* use id of serie instead label for color ([67274db](https://www.github.com/zakodium/react-plot/commit/67274db7dd5d3d0d40211843e9ec3b2025b37ebe)), closes [#37](https://www.github.com/zakodium/react-plot/issues/37)
+* use of id for color scaler instead of labels ([fba975e](https://www.github.com/zakodium/react-plot/commit/fba975ea11475868cac18f3999ce501a343b44ed))
+* vertical center ticks text ([efadc85](https://www.github.com/zakodium/react-plot/commit/efadc85754d51320e588568a05d8e8ff1ae52e10))
+* **types:** allow Plot to have a single child ([6a2e585](https://www.github.com/zakodium/react-plot/commit/6a2e58500c1a3168e9186c18c6bf8642e31b61cb))
+
+
+### Performance Improvements
+
+* use memoification for mappin series ([7013491](https://www.github.com/zakodium/react-plot/commit/7013491ec26cc1e7a3ff4c2a3e6120ad74faa1f1))
+
 ## [0.3.0](https://www.github.com/zakodium/react-plot/compare/v0.2.1...v0.3.0) (2020-12-10)
 
 ### ⚠ BREAKING CHANGES
