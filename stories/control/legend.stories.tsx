@@ -2,22 +2,14 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { Axis, Legend, LineSeries, Plot } from '../../src';
-
-enum Position {
-  'bottom' = 'bottom',
-  'embedded' = 'embedded',
-  'left' = 'left',
-  'right' = 'right',
-  'top' = 'top',
-}
+import { LegendProps } from '../../src/types';
 
 export default {
   title: 'API/Legend',
   component: Legend,
   argTypes: {
     position: {
-      control: { type: 'select', options: Position },
-      defaultValue: Position.embedded,
+      defaultValue: 'embedded',
     },
   },
 } as Meta;
@@ -45,11 +37,7 @@ const data = [
   },
 ];
 
-interface LegendControlProps {
-  position: Position;
-}
-
-export function HeadingControl(props: LegendControlProps) {
+export function HeadingControl(props: LegendProps) {
   return (
     <Plot
       width={900}

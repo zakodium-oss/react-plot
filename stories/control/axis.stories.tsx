@@ -127,8 +127,8 @@ export function AxisBottomControl(props: AxisControlProps) {
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
-      <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="left" label={label} {...args} />
+      <Axis id="y" position="bottom" label={label} {...args} />
+      <Axis id="x" position="left" label="Label" />
     </Plot>
   );
 }

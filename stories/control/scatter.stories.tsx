@@ -1,22 +1,13 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, Plot, ScatterSeries } from '../../src';
-
-enum ShapeProps {
-  'circle' = 'circle',
-  'square' = 'square',
-  'triangle' = 'triangle',
-}
+import { Axis, Legend, Plot, ScatterSeries } from '../../src';
+import { ScatterSeriesProps } from '../../src/types';
 
 export default {
   title: 'API/Scatter',
   component: ScatterSeries,
   argTypes: {
-    displayMarker: {
-      control: 'boolean',
-      defaultValue: true,
-    },
     hidden: {
       control: 'boolean',
       defaultValue: false,
@@ -26,12 +17,31 @@ export default {
       defaultValue: 'Label',
     },
     markerShape: {
-      control: { type: 'select', options: ShapeProps },
-      defaultValue: ShapeProps.circle,
+      defaultValue: 'circle',
     },
     markerSize: {
       control: 'number',
       defaultValue: 5,
+    },
+    groupId: {
+      table: {
+        disable: true,
+      },
+    },
+    xAxis: {
+      table: {
+        disable: true,
+      },
+    },
+    yAxis: {
+      table: {
+        disable: true,
+      },
+    },
+    data: {
+      table: {
+        disable: true,
+      },
     },
   },
 } as Meta;
@@ -59,16 +69,7 @@ const data = [
   },
 ];
 
-interface ScatterControlProps {
-  hidden: boolean;
-  label: string;
-  markerShape: ShapeProps;
-  markerSize: number;
-  lineStyle: string;
-  displayMarker: boolean;
-}
-
-export function ScatterControl(props: ScatterControlProps) {
+export function ScatterControl(props: ScatterSeriesProps) {
   return (
     <Plot
       width={900}
@@ -81,6 +82,8 @@ export function ScatterControl(props: ScatterControlProps) {
         right: 40,
       }}
     >
+      <Legend position="embedded" />
+
       <ScatterSeries data={data} xAxis="x" yAxis="y" {...props} />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />

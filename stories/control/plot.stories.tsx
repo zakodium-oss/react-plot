@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import { Axis, Legend, LineSeries, Plot } from '../../src';
 
 export default {
   title: 'API/Plot',
@@ -24,8 +24,8 @@ export default {
       defaultValue: 40,
     },
     viewportStyle: {
-      control: 'text',
-      defaultValue: '{ "stroke": "black" }',
+      control: 'object',
+      defaultValue: { stroke: 'black' },
     },
     width: {
       control: 'number',
@@ -44,7 +44,7 @@ interface PlotControlProps {
   marginTop: number;
   marginRight: number;
 
-  viewportStyle: string;
+  viewportStyle: CSSProperties;
 
   width: number;
   height: number;
@@ -86,7 +86,7 @@ export function PlotControl(props: PlotControlProps) {
   return (
     <Plot
       {...other}
-      viewportStyle={JSON.parse(viewportStyle)}
+      viewportStyle={viewportStyle}
       margin={{
         bottom: marginBottom,
         left: marginLeft,
@@ -94,12 +94,8 @@ export function PlotControl(props: PlotControlProps) {
         right: marginRight,
       }}
     >
-      <LineSeries
-        data={data}
-        xAxis="x"
-        yAxis="y"
-        lineStyle={{ stroke: 'black' }}
-      />
+      <Legend position="embedded" />
+      <LineSeries data={data} xAxis="x" yAxis="y" label="Line" />
       <Axis id="x" position="bottom" label="Label One" />
       <Axis id="y" position="left" label="Label two" padding={[0.1, 0.1]} />
     </Plot>
