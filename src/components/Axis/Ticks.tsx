@@ -21,7 +21,7 @@ export interface TickProps {
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
-  show: boolean;
+  hidden: boolean;
   ticks: number[];
   scale: ScaleLinear<number, number, never>;
   scientific?: boolean;
@@ -33,14 +33,14 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
 
 export function Ticks(props: Omit<TicksProps, 'children'>) {
   const {
-    show,
+    hidden,
     ticks,
     scale,
     getPositions,
     scientific = true,
     ...otherProps
   } = props;
-  if (!show) return null;
+  if (hidden) return null;
 
   const elements = ticks.map((tick) => {
     const { line, text } = getPositions(scale(tick));
