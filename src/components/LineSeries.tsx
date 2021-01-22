@@ -1,11 +1,12 @@
 import { line } from 'd3-shape';
-import React, { CSSProperties, useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { LineSeriesProps, SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import ScatterSeries from './ScatterSeries';
+import { useLegend } from './legendsContext';
 
 interface LineSeriesRenderProps {
   id: string;
@@ -16,6 +17,7 @@ interface LineSeriesRenderProps {
 }
 
 export default function LineSeries(props: LineSeriesProps) {
+  const [, legendDispatch] = useLegend();
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const lineProps = {
@@ -25,6 +27,24 @@ export default function LineSeries(props: LineSeriesProps) {
     yAxis: props.yAxis || 'y',
     lineStyle,
   };
+
+  useEffect(() => {
+    const hasStyle = otherProps.markerStyle?.fill !== undefined;
+
+    legendDispatch({
+      type: 'ADD_LEGEND_LABEL',
+      payload: {
+        label: otherProps.label,
+        color: hasStyle ? otherProps.markerStyle.fill.toString() : 'red',
+        shape: otherProps.markerShape,
+      },
+    });
+  }, [
+    legendDispatch,
+    otherProps.label,
+    otherProps.markerShape,
+    otherProps.markerStyle?.fill,
+  ]);
 
   return (
     <g>
