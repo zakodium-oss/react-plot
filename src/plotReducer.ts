@@ -29,14 +29,6 @@ export function reducer(state: State, action: ReducerActions) {
       delete state.axis[id];
       break;
     }
-    case 'zoom': {
-      if (action.value) {
-        for (const key in action.value) {
-          state.axis[key].padding = action.value[key];
-        }
-      }
-      break;
-    }
     default: {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       throw new Error(`Unknown reducer type ${(action as any).type}`);
