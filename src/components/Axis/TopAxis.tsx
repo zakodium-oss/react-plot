@@ -68,7 +68,7 @@ export default function TopAxis({
             scientific={scientific}
             scale={scale}
             anchor="middle"
-            hidden={!hiddenTicks}
+            hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             getPositions={(val) => ({

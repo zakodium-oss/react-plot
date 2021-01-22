@@ -67,7 +67,7 @@ export default function BottomAxis({
           <Ticks
             scientific={scientific}
             scale={scale}
-            hidden={!hiddenTicks}
+            hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             anchor="middle"

@@ -33,7 +33,7 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
 
 export function Ticks(props: Omit<TicksProps, 'children'>) {
   const {
-    hidden = false,
+    hidden,
     ticks,
     scale,
     getPositions,

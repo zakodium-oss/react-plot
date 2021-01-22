@@ -58,7 +58,7 @@ export default function RightAxis({
           <Ticks
             scientific={scientific}
             scale={scale}
-            hidden={!hiddenTicks}
+            hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
             anchor="begin"
