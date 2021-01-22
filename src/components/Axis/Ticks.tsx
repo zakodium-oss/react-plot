@@ -40,7 +40,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     scientific = true,
     ...otherProps
   } = props;
-  if (!hidden) return null;
+  if (hidden) return null;
 
   const elements = ticks.map((tick) => {
     const { line, text } = getPositions(scale(tick));
