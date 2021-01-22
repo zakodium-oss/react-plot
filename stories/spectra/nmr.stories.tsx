@@ -28,7 +28,8 @@ export function NmrExample() {
         position="left"
         label="Intensity / arbitrary"
         hidden
-        padding={[0.1, 0.1]}
+        paddingStart={0.1}
+        paddingEnd={0.1}
       />
     </Plot>
   );

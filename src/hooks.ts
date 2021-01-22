@@ -72,8 +72,8 @@ export function useAxisContext(
 
       // Limits paddings
       const diff = axisMax - axisMin;
-      const minPad = diff * axis.padding[0];
-      const maxPad = diff * axis.padding[1];
+      const minPad = diff * axis.paddingStart;
+      const maxPad = diff * axis.paddingEnd;
 
       const range: number[] = isHorizontal
         ? [left, width - right]

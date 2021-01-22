@@ -13,7 +13,8 @@ export default function Axis({
   position,
   min,
   max,
-  padding,
+  paddingStart,
+  paddingEnd,
   flip = false,
 
   // children props
@@ -32,7 +33,9 @@ export default function Axis({
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
   useEffect(() => {
-    const [minPadding = 0, maxPadding = 0] = padding || [0, 0];
+    const minPadding = paddingStart || 0;
+    const maxPadding = paddingEnd || 0;
+
     if (minPadding < 0 || minPadding > 1) {
       throw new Error(
         `Padding ${position} (${minPadding}) is not between 0 and 1`,
@@ -51,13 +54,14 @@ export default function Axis({
         position,
         min,
         max,
-        padding: [minPadding, maxPadding],
+        paddingStart: minPadding,
+        paddingEnd: maxPadding,
         flip,
       },
     });
 
     return () => dispatch({ type: 'removeAxis', value: { id: id || xY } });
-  }, [dispatch, xY, id, position, min, max, padding, flip]);
+  }, [dispatch, xY, id, position, min, max, flip, paddingStart, paddingEnd]);
 
   const childProps: AxisChildProps = {
     id: id || xY,

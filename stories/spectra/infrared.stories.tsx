@@ -27,7 +27,8 @@ export function InfraredExample() {
         id="y"
         position="left"
         label="Transmittance [%]"
-        padding={[0.1, 0.1]}
+        paddingStart={0.1}
+        paddingEnd={0.1}
       />
     </Plot>
   );
