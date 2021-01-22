@@ -40,10 +40,14 @@ export default {
       defaultValue: true,
     },
     position: {
-      control: false,
+      table: {
+        disable: true,
+      },
     },
     id: {
-      control: false,
+      table: {
+        disable: true,
+      },
     },
   },
 } as Meta;
