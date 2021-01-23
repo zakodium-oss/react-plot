@@ -5,15 +5,11 @@ import Axis from './components/Axis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import { PlotObjectType } from './types';
-
-interface Props {
-  plot: PlotObjectType;
-}
+import { PlotObjectProps } from './types';
 
 export default function PlotObject({
   plot: { dimentions, viewportStyle, axes, series, legend, colorScheme },
-}: Props) {
+}: PlotObjectProps) {
   return (
     <Plot
       colorScheme={colorScheme}

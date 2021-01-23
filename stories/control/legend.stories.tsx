@@ -1,8 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, Legend, LineSeries, Plot } from '../../src';
-import { LegendProps } from '../../src/types';
+import { Axis, Legend, LegendProps, LineSeries, Plot } from '../../src';
 
 export default {
   title: 'API/Legend',

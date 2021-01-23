@@ -1,8 +1,13 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, Legend, Plot, ScatterSeries } from '../../src';
-import { ScatterSeriesProps } from '../../src/types';
+import {
+  Axis,
+  Legend,
+  Plot,
+  ScatterSeries,
+  ScatterSeriesProps,
+} from '../../src';
 
 export default {
   title: 'API/Scatter',
