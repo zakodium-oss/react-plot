@@ -23,8 +23,8 @@ export default function TopAxis({
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
   const ticks: number[] = useMemo(() => {
-    const tickSizeDefault = 16;
-    const tickScientificLength = 7;
+    const fontSizeDefault = 16;
+    const scientificTickLength = 7;
     let tickLength = `${Math.trunc(scale?.domain()[1])}`.length;
     // if domaine too small => tickLength+2 for decimal values
     tickLength =
@@ -33,8 +33,8 @@ export default function TopAxis({
         : tickLength;
 
     const ticksNbr = scientific
-      ? plotWidth / (tickScientificLength * tickSizeDefault)
-      : plotWidth / (tickLength * tickSizeDefault);
+      ? plotWidth / (scientificTickLength * fontSizeDefault)
+      : plotWidth / (tickLength * fontSizeDefault);
 
     return scale?.ticks(ticksNbr) || [];
   }, [scale, scientific, plotWidth]);
