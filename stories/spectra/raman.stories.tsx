@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Axis, LineSeries, Plot } from '../../src';
 import data from '../data/raman.json';
+import { DEFAULT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/Raman',
@@ -11,8 +12,7 @@ export default {
 export function RamanExample() {
   return (
     <Plot
-      width={1400}
-      height={540}
+      {...DEFAULT_CONFIG}
       margin={{ bottom: 45, left: 50, top: 40, right: 40 }}
       viewportStyle={{ stroke: 'black' }}
     >
