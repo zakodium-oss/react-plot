@@ -24,12 +24,12 @@ export default function TopAxis({
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
   const ticks: number[] = useMemo(() => {
-    const ticksNbr = calculateTicksNumber(
+    const ticksNumber = calculateTicksNumber(
       plotWidth,
       scientific,
       scale?.domain(),
     );
-    return scale?.ticks(ticksNbr) || [];
+    return scale?.ticks(ticksNumber) || [];
   }, [scale, scientific, plotWidth]);
   const range = scale?.range() || [0, 0];
 
