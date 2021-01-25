@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
+import { calculateTicksNumber } from '../../utils';
 
 import { Ticks } from './Ticks';
 
@@ -23,19 +24,11 @@ export default function BottomAxis({
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
   const ticks: number[] = useMemo(() => {
-    const fontSizeDefault = 16;
-    const scientificTickLength = 7;
-    let tickLength = `${Math.trunc(scale?.domain()[1])}`.length;
-    // if domaine too small => tickLength+2 for decimal values
-    tickLength =
-      Math.abs(scale?.domain()[1] - scale?.domain()[0]) < plotWidth * 0.05
-        ? tickLength + 2
-        : tickLength;
-
-    const ticksNbr = scientific
-      ? plotWidth / (scientificTickLength * fontSizeDefault)
-      : plotWidth / (tickLength * fontSizeDefault);
-
+    const ticksNbr = calculateTicksNumber(
+      plotWidth,
+      scientific,
+      scale?.domain(),
+    );
     return scale?.ticks(ticksNbr) || [];
   }, [scale, scientific, plotWidth]);
   const range = scale?.range() || [0, 0];
