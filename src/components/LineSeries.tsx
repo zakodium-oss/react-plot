@@ -41,7 +41,7 @@ export default function LineSeries(props: LineSeriesProps) {
           : colorScaler(id),
 
         shape: {
-          color: otherProps.markerStyle?.fill.toString() || 'red',
+          color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
           figure: otherProps.markerShape || 'circle',
           hidden: !displayMarker,
         },
