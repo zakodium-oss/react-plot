@@ -35,14 +35,6 @@ export default {
       control: 'number',
       defaultValue: 20,
     },
-    showGridLines: {
-      control: 'boolean',
-      defaultValue: true,
-    },
-    showTicks: {
-      control: 'boolean',
-      defaultValue: true,
-    },
     position: {
       table: {
         disable: true,
@@ -87,8 +79,6 @@ interface AxisControlProps {
   fontSize: number;
   min: number;
   max: number;
-  showGridLines: boolean;
-  showTicks: boolean;
 }
 
 const plot = {
