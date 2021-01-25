@@ -20,22 +20,22 @@ export function getNextId() {
  * Validates that all the items inside Plot are supported and organizes by kind
  */
 export function splitChildren(children: React.ReactNode): PlotChildren {
-  let invalidChild = false;
+  let hasInvalidChild = false;
   let series = [];
-  let axis = [];
+  let axes = [];
   let heading = null;
   let legend = null;
   for (let child of React.Children.toArray(children)) {
     // Base child validation
     if (typeof child !== 'object' || !React.isValidElement(child)) {
-      invalidChild = true;
+      hasInvalidChild = true;
     }
 
     // Classifies the expected components
     else if (child.type === LineSeries || child.type === ScatterSeries) {
       series.push(child);
     } else if (child.type === Axis) {
-      axis.push(child);
+      axes.push(child);
     } else if (child.type === Heading) {
       heading = child;
     } else if (child.type === Legend) {
@@ -44,10 +44,10 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
 
     // Default case
     else {
-      invalidChild = true;
+      hasInvalidChild = true;
     }
   }
-  return { invalidChild, series, axis, heading, legend };
+  return { hasInvalidChild, series, axes, heading, legend };
 }
 
 const horizontal = ['top', 'bottom'];

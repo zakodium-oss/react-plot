@@ -19,7 +19,7 @@ export default function RightAxis({
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
-  const { axisContext, plotHeight, top, left, width, right } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
@@ -34,8 +34,8 @@ export default function RightAxis({
         {ticks.map((val) => (
           <line
             key={val}
-            x1={left}
-            x2={width - right}
+            x1="0"
+            x2={plotWidth}
             y1={scale(val)}
             y2={scale(val)}
             stroke="black"
@@ -45,7 +45,7 @@ export default function RightAxis({
         ))}
       </g>
     );
-  }, [displayGridLines, ticks, scale, left, width, right]);
+  }, [displayGridLines, ticks, scale, plotWidth]);
 
   const tickDirection = tickEmbedded ? -1 : 1;
   const tickLen = tickDirection * tickLength;
@@ -53,7 +53,7 @@ export default function RightAxis({
     <g className="axis">
       {gridlines}
       {!hidden && (
-        <g className="ticks" transform={`translate(${width - right}, 0)`}>
+        <g className="ticks" transform={`translate(${plotWidth} 0)`}>
           <line y1={range[0]} y2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
@@ -76,8 +76,8 @@ export default function RightAxis({
           fontSize={fontSize}
           style={labelStyle}
           transform={`translate(${
-            width - right + fontSize + labelSpace + (scientific ? 14 : 0)
-          }, ${top + plotHeight / 2})`}
+            plotWidth + fontSize + labelSpace + (scientific ? 14 : 0)
+          }, ${plotHeight / 2})`}
         />
       )}
     </g>

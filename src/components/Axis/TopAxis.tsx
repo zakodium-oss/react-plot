@@ -18,14 +18,7 @@ export default function TopAxis({
   tickEmbedded,
   tickLength,
 }: AxisChildProps) {
-  const {
-    axisContext,
-    plotWidth,
-    top,
-    bottom,
-    left,
-    height,
-  } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
@@ -45,8 +38,8 @@ export default function TopAxis({
             key={val}
             x1={scale(val)}
             x2={scale(val)}
-            y1={height - bottom}
-            y2={top}
+            y1={plotHeight}
+            y2="0"
             stroke="black"
             strokeDasharray="2,2"
             strokeOpacity={0.5}
@@ -54,7 +47,7 @@ export default function TopAxis({
         ))}
       </g>
     );
-  }, [displayGridLines, ticks, top, scale, height, bottom]);
+  }, [displayGridLines, ticks, scale, plotHeight]);
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
@@ -62,7 +55,7 @@ export default function TopAxis({
     <g className="axis">
       {gridlines}
       {!hidden && (
-        <g className="ticks" transform={`translate(0, ${top})`}>
+        <g className="ticks">
           <line x1={range[0]} x2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
@@ -80,8 +73,8 @@ export default function TopAxis({
       )}
       {label && !hidden && (
         <text
-          x={plotWidth / 2 + left}
-          y={top - labelSpace - fontSize}
+          x={plotWidth / 2}
+          y={0 - labelSpace - fontSize}
           fontSize={fontSize}
           textAnchor="middle"
           style={labelStyle}

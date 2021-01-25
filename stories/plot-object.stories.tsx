@@ -13,7 +13,6 @@ export function Control() {
     viewportStyle: {
       stroke: 'black',
       strokeWidth: '2px',
-      fillOpacity: 1,
       fill: '#ddd',
     },
     dimentions: {

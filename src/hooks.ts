@@ -37,17 +37,13 @@ export function useDispatchContext() {
 }
 
 interface SizeProps {
-  left: number;
-  width: number;
-  right: number;
-  height: number;
-  bottom: number;
-  top: number;
+  plotWidth: number;
+  plotHeight: number;
 }
 
 export function useAxisContext(
   state: State,
-  { left, width, right, height, bottom, top }: SizeProps,
+  { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {
     let axisContext: Record<string, AxisContextType> = {};
@@ -75,9 +71,7 @@ export function useAxisContext(
       const minPad = diff * axis.paddingStart;
       const maxPad = diff * axis.paddingEnd;
 
-      const range: number[] = isHorizontal
-        ? [left, width - right]
-        : [height - bottom, top];
+      const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
       axisContext[id] = {
         position: axis.position,
         scientific: diff <= 0.01 || diff >= 1000,
@@ -87,7 +81,7 @@ export function useAxisContext(
       };
     }
     return axisContext;
-  }, [state, width, height, right, left, top, bottom]);
+  }, [state, plotWidth, plotHeight]);
 
   return context;
 }
