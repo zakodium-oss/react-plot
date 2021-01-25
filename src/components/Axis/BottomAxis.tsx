@@ -22,10 +22,22 @@ export default function BottomAxis({
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(
-    () => scale?.ticks(scientific ? plotWidth / 50 : undefined) || [],
-    [scale, scientific, plotWidth],
-  );
+  const ticks: number[] = useMemo(() => {
+    const tickSizeDefault = 16;
+    const tickScientificLength = 7;
+    let tickLength = `${Math.trunc(scale?.domain()[1])}`.length;
+    // if domaine too small => tickLength+2 for decimal values
+    tickLength =
+      Math.abs(scale?.domain()[1] - scale?.domain()[0]) < plotWidth * 0.05
+        ? tickLength + 2
+        : tickLength;
+
+    const ticksNbr = scientific
+      ? plotWidth / (tickScientificLength * tickSizeDefault)
+      : plotWidth / (tickLength * tickSizeDefault);
+
+    return scale?.ticks(ticksNbr) || [];
+  }, [scale, scientific, plotWidth]);
   const range = scale?.range() || [0, 0];
 
   // Create gridlines
