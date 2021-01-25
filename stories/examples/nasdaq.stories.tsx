@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Axis, LineSeries, Plot, Heading, SeriesPointType } from '../../src';
 import srcData from '../data/nasdaq.json';
+import { DEFAULT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Nasdaq',
@@ -61,8 +62,7 @@ export function NasdaqExample(props: Props) {
 
     return (
       <Plot
-        width={1400}
-        height={540}
+        {...DEFAULT_CONFIG}
         margin={{ bottom: 70, left: 70, top: 50, right: 10 }}
         viewportStyle={{
           stroke: 'black',

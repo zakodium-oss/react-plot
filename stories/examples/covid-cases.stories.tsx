@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Axis, LineSeries, Plot, Heading } from '../../src';
 import data from '../data/covid-cases.json';
+import { DEFAULT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Covid19 cases-USA',
@@ -11,8 +12,7 @@ export default {
 export function Covid19Cases() {
   return (
     <Plot
-      width={1400}
-      height={540}
+      {...DEFAULT_CONFIG}
       margin={{ bottom: 50, left: 100, top: 50, right: 10 }}
       viewportStyle={{
         stroke: 'black',

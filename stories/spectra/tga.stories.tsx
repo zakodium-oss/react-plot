@@ -4,6 +4,7 @@ import React from 'react';
 import { Axis, LineSeries, Plot } from '../../src';
 import data1 from '../data/tga1.json';
 import data2 from '../data/tga2.json';
+import { DEFAULT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/TGA',
@@ -12,8 +13,7 @@ export default {
 export function TgaExample() {
   return (
     <Plot
-      width={1400}
-      height={540}
+      {...DEFAULT_CONFIG}
       margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
       viewportStyle={{ stroke: 'black' }}
     >
