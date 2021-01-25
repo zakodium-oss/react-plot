@@ -96,26 +96,16 @@ export function HeaderTest() {
       <Legend position={'embedded'} />
 
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
-      <LineSeries
-        data={data2}
-        markerStyle={{ fill: 'green' }}
-        lineStyle={{ stroke: 'green' }}
-        markerShape="triangle"
-        displayMarker
-        xAxis="x"
-        yAxis="y"
-        label="Label line series 2"
-      />
 
       <LineSeries
         data={data2}
-        markerStyle={{ fill: 'blue' }}
+        markerStyle={{ fill: 'green' }}
         lineStyle={{ stroke: 'blue' }}
         markerShape="square"
         displayMarker
         xAxis="x"
         yAxis="y"
-        label="Label line series 3"
+        label="Label line series 2"
       />
 
       <Axis id="x" position="bottom" label="X" />
