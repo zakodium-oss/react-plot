@@ -29,20 +29,27 @@ export default function LineSeries(props: LineSeriesProps) {
   };
 
   useEffect(() => {
-    const hasStyle = otherProps.markerStyle?.fill !== undefined;
-
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
         label: otherProps.label,
-        color: hasStyle ? otherProps.markerStyle.fill.toString() : 'red',
-        shape: otherProps.markerShape,
+
+        colorLine: lineStyle?.stroke ? lineStyle?.stroke.toString() : 'red',
+        shape: {
+          color: otherProps.markerStyle?.fill.toString() || 'red',
+          figure: otherProps.markerShape || 'circle',
+          hidden: !displayMarker,
+        },
       },
     });
   }, [
+    displayMarker,
     legendDispatch,
+    lineStyle,
+    lineStyle?.stroke,
     otherProps.label,
     otherProps.markerShape,
+    otherProps.markerStyle,
     otherProps.markerStyle?.fill,
   ]);
 

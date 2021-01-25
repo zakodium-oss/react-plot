@@ -124,12 +124,19 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
   return (
     <g className="legend" transform={`translate(${x}, ${y})`}>
       {state.labels.map((value, index) => (
-        <Fragment key={`${value.color}-${value.label}`}>
-          {getShape(value.shape, { color: value.color, index })}
+        <Fragment
+          key={`${value.colorLine}/${value.shape.color}-${value.label}`}
+        >
+          {getLineShape({ index, color: value.colorLine })}
+          {!value.shape.hidden &&
+            getMarkerShape(value.shape.figure, {
+              color: value.shape.color,
+              index,
+            })}
 
           <text
             key={`text-${value.label}-${index}`}
-            x={`${0.75 + 0.5}em`}
+            x={30}
             y={`${index + 1}em`}
           >
             {value.label}
@@ -140,19 +147,29 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
   );
 }
 
-function getShape(shape: string, config: { index: number; color: string }) {
-  const x = 5;
-  const y = (config.index + 1) * 16 - x;
+function getLineShape(config: { index: number; color: string }) {
+  const x = 0;
+  const y = (config.index + 1) * 16 - x - 7;
+
+  return <rect x={x} y={y} width="20" height="3" fill={config.color} />;
+}
+
+function getMarkerShape(
+  shape: 'circle' | 'square' | 'triangle',
+  { index, color: fill }: { index: number; color: string },
+) {
+  const x = 10;
+  const y = (index + 1) * 16 - x + 5;
 
   switch (shape) {
     case 'circle': {
-      return <Circle x={x} y={y} size={5} style={{ fill: config.color }} />;
+      return <Circle x={x} y={y} size={5} style={{ fill }} />;
     }
     case 'square': {
-      return <Square x={x} y={y} size={5} style={{ fill: config.color }} />;
+      return <Square x={x} y={y} size={5} style={{ fill }} />;
     }
     case 'triangle': {
-      return <Triangle x={x} y={y} size={5} style={{ fill: config.color }} />;
+      return <Triangle x={x} y={y} size={5} style={{ fill }} />;
     }
     default:
       throw new Error('unreachable');

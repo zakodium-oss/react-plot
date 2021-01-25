@@ -10,8 +10,14 @@ import React, {
 
 interface LabelState {
   label: string;
-  shape?: string;
-  color: string;
+
+  shape?: {
+    figure: 'circle' | 'square' | 'triangle';
+    color: string;
+    hidden: boolean;
+  };
+
+  colorLine: string | null;
 }
 
 interface LegendState {
@@ -48,7 +54,7 @@ const legendReducer: Reducer<LegendState, LegendAction> = produce(
           return;
         }
 
-        draft.labels.push({ ...other, shape: shape || 'circle' });
+        draft.labels.push({ ...other, shape });
         return;
       }
       default:
