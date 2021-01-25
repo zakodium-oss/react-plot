@@ -94,7 +94,7 @@ export default function Plot({
               <rect width={plotWidth} height={plotHeight} />
             </clipPath>
 
-            <g style={{ clipPath: 'url(#squareClip)' }}>{series}</g>
+            <g style={{ clipPath: 'url(#viewportClip)' }}>{series}</g>
 
             {axes}
           </g>
