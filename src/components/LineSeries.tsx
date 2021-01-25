@@ -18,6 +18,8 @@ interface LineSeriesRenderProps {
 
 export default function LineSeries(props: LineSeriesProps) {
   const [, legendDispatch] = useLegend();
+  const { colorScaler } = usePlotContext();
+
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const lineProps = {
@@ -34,7 +36,10 @@ export default function LineSeries(props: LineSeriesProps) {
       payload: {
         label: otherProps.label,
 
-        colorLine: lineStyle?.stroke ? lineStyle?.stroke.toString() : 'red',
+        colorLine: lineStyle?.stroke
+          ? lineStyle?.stroke.toString()
+          : colorScaler(id),
+
         shape: {
           color: otherProps.markerStyle?.fill.toString() || 'red',
           figure: otherProps.markerShape || 'circle',
@@ -43,7 +48,9 @@ export default function LineSeries(props: LineSeriesProps) {
       },
     });
   }, [
+    colorScaler,
     displayMarker,
+    id,
     legendDispatch,
     lineStyle,
     lineStyle?.stroke,
