@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
+import { calculateTicksNumber } from '../../utils';
 
 import { Ticks } from './Ticks';
 
@@ -22,10 +23,14 @@ export default function BottomAxis({
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(
-    () => scale?.ticks(scientific ? plotWidth / 50 : undefined) || [],
-    [scale, scientific, plotWidth],
-  );
+  const ticks: number[] = useMemo(() => {
+    const ticksNumber = calculateTicksNumber(
+      plotWidth,
+      scientific,
+      scale?.domain(),
+    );
+    return scale?.ticks(ticksNumber) || [];
+  }, [scale, scientific, plotWidth]);
   const range = scale?.range() || [0, 0];
 
   // Create gridlines

@@ -121,3 +121,27 @@ export function functionalStyle<T>(
   }
   return style;
 }
+
+/**
+ * Calculate Ticks number to display
+ */
+export function calculateTicksNumber(
+  plotWidth: number,
+  scientific: boolean,
+  domaine: number[] | undefined,
+): number {
+  const fontSizeDefault = 16;
+  const scientificTickLength = 7;
+  let tickLength = domaine ? `${Math.trunc(domaine[1])}`.length : 1;
+  // if domaine too small => tickLength+2 for decimal values
+  tickLength =
+    domaine && Math.abs(domaine[1] - domaine[0]) < plotWidth * 0.05
+      ? tickLength + 2
+      : tickLength;
+
+  const ticksNumber = scientific
+    ? plotWidth / (scientificTickLength * fontSizeDefault)
+    : plotWidth / (tickLength * fontSizeDefault);
+
+  return ticksNumber;
+}
