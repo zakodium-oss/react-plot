@@ -163,13 +163,13 @@ function getMarkerShape(
 
   switch (shape) {
     case 'circle': {
-      return <Circle x={x} y={y} size={5} style={{ fill }} />;
+      return <Circle size={5} style={{ fill }} />;
     }
     case 'square': {
-      return <Square x={x} y={y} size={5} style={{ fill }} />;
+      return <Square size={5} style={{ fill }} />;
     }
     case 'triangle': {
-      return <Triangle x={x} y={y} size={5} style={{ fill }} />;
+      return <Triangle size={5} style={{ fill }} />;
     }
     default:
       throw new Error('unreachable');

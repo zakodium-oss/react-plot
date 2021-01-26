@@ -79,6 +79,7 @@ export function PCA() {
               data={data}
               label={klass}
               markerSize={2}
+              markerShape={'triangle'}
             />,
           );
           series.push(

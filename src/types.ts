@@ -87,8 +87,6 @@ export type LegendProps = {
 } & { [K in Vertical | Horizontal]?: number };
 
 export interface MarkersProps {
-  x: number;
-  y: number;
   size: number;
   style: CSSProperties;
 }

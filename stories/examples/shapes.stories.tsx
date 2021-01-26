@@ -3,20 +3,40 @@ import React from 'react';
 
 import {
   Circle,
+  Cross,
   Diamond,
+  Pentagon,
   Square,
   Star,
   Triangle,
   XMark,
 } from '../../src/components/Markers';
 
+const SIZE = 20;
+const DEBUG_COLOR = 'yellow';
+
 export default {
   title: 'Docs/Shapes',
   decorators: [
     (Story) => (
       <div>
-        <svg width={100} height={100}>
-          <Story />
+        <svg style={{ overflow: 'visible' }} width={100} height={100}>
+          <line x1={50} x2={50} y1={0} y2={100} stroke={DEBUG_COLOR} />
+          <line x1={0} x2={100} y1={50} y2={50} stroke={DEBUG_COLOR} />
+
+          <g transform="translate(50, 50)">
+            <circle r={SIZE / 2} stroke={DEBUG_COLOR} fillOpacity={0} />
+
+            <rect
+              x={-SIZE / 2}
+              y={-SIZE / 2}
+              width={SIZE}
+              height={SIZE}
+              fillOpacity={0}
+              stroke={DEBUG_COLOR}
+            />
+            <Story />
+          </g>
         </svg>
       </div>
     ),
@@ -24,25 +44,33 @@ export default {
 } as Meta;
 
 export function SquareShape() {
-  return <Square size={5} x={50} y={50} style={{ fill: 'blue' }} />;
+  return <Square size={SIZE} style={{ fill: 'blue' }} />;
 }
 
 export function CircleShape() {
-  return <Circle size={5} x={50} y={50} style={{ fill: 'blue' }} />;
+  return <Circle size={SIZE} style={{ fill: 'blue' }} />;
 }
 
 export function DiamondShape() {
-  return <Diamond size={5} x={50} y={10} style={{ fill: 'blue' }} />;
+  return <Diamond size={SIZE} style={{ fill: 'blue' }} />;
 }
 
 export function TriangleShape() {
-  return <Triangle size={5} x={50} y={50} style={{ fill: 'blue' }} />;
+  return <Triangle size={SIZE} style={{ fill: 'blue' }} />;
 }
 
-export function XMarkShape() {
-  return <XMark style={{ stroke: 'blue', strokeWidth: 3 }} />;
+export function CrossShape() {
+  return <Cross size={SIZE} style={{ stroke: 'blue' }} />;
+}
+
+export function XCrossShape() {
+  return <XMark size={SIZE} style={{ stroke: 'blue' }} />;
+}
+
+export function PentagonShape() {
+  return <Pentagon size={SIZE} style={{ fill: 'blue' }} />;
 }
 
 export function StarShape() {
-  return <Star style={{ fill: 'blue' }} />;
+  return <Star size={SIZE} style={{ fill: 'blue' }} />;
 }
