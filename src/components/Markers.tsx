@@ -30,44 +30,33 @@ export function Circle({ style, size }: MarkersProps) {
 }
 
 export function Square({ style, size }: MarkersProps) {
-  return (
-    <rect
-      x={-size / 2}
-      y={-size / 2}
-      width={size}
-      height={size}
-      style={style}
-    />
-  );
+  const x = size / 2;
+  return <rect x={-x} y={-x} width={size} height={size} style={style} />;
 }
 
 export function Diamond({ size, style }: MarkersProps) {
-  return (
-    <polygon
-      points={`0,${-size / 2} ${size / 2},0 0,${size / 2} ${-size / 2},0`}
-      style={style}
-    />
-  );
+  const x = size / 2;
+  return <polygon points={`0,${-x} ${x},0 0,${x} ${-x},0`} style={style} />;
 }
 
 export function Triangle({ style, size }: MarkersProps) {
   const height = (Math.sqrt(3) * size) / 2;
+  const x = size / 2;
   return (
     <polygon
       transform={`translate(0, -${(size - height) / 2})`}
-      points={`${-size / 2},${size / 2} ${size / 2},${size / 2} 0,${
-        size / 2 - height
-      }`}
+      points={`${-x},${x} ${x},${x} 0,${x - height}`}
       style={style}
     />
   );
 }
 
 export function Cross({ size, style }: MarkersProps) {
+  const x = size / 2;
   return (
     <g strokeWidth={3} style={style}>
-      <line x1={0} x2={0} y1={size / 2} y2={-size / 2} />
-      <line x1={-size / 2} x2={size / 2} y1={0} y2={0} />
+      <line x1={0} x2={0} y1={x} y2={-x} />
+      <line x1={-x} x2={x} y1={0} y2={0} />
     </g>
   );
 }
