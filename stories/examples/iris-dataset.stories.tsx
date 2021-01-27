@@ -78,7 +78,7 @@ export function PCA() {
               groupId={klass}
               data={data}
               label={klass}
-              markerShape="triangle"
+              markerShape="cross"
             />,
           );
           series.push(

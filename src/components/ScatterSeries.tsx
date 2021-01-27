@@ -42,7 +42,7 @@ function ScatterSeriesRender({
   xAxis,
   yAxis,
   markerShape = 'circle',
-  markerSize = 8,
+  markerSize = 5,
   markerStyle = {},
 }: ScatterSeriesRenderProps) {
   // Get scales from context
