@@ -128,14 +128,14 @@ export function functionalStyle<T>(
 export function calculateTicksNumber(
   plotWidth: number,
   scientific: boolean,
-  domaine: number[] | undefined,
+  domaine: number[] = [0, 1],
 ): number {
   const fontSizeDefault = 16;
   const scientificTickLength = 7;
-  let tickLength = domaine ? `${Math.trunc(domaine[1])}`.length : 1;
+  let tickLength = `${Math.trunc(domaine[1])}`.length;
   // if domaine too small => tickLength+2 for decimal values
   tickLength =
-    domaine && Math.abs(domaine[1] - domaine[0]) < plotWidth * 0.05
+    Math.abs(domaine[1] - domaine[0]) < plotWidth * 0.05
       ? tickLength + 2
       : tickLength;
 

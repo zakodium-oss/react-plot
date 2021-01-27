@@ -10,10 +10,11 @@ interface CoordinatesXY {
 
 export interface TickProps {
   style: CSSProperties;
-  children: ReactNode;
+  children?: ReactNode;
 
   line: CoordinatesXY;
   text: Omit<CoordinatesXY, 'x2' | 'y2'>;
+  secondary?: boolean;
 
   strokeColor?: string;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
@@ -42,7 +43,9 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
   } = props;
   if (hidden) return null;
 
-  const elements = ticks.map((tick) => {
+  const secondaryTicks = true;
+
+  let elements = ticks.map((tick) => {
     const { line, text } = getPositions(scale(tick));
     return (
       <Tick key={tick} line={line} text={text} {...otherProps}>
@@ -51,6 +54,25 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
+  if (secondaryTicks) {
+    const density = 5;
+    let secondaryTicks = scale?.ticks(ticks.length * density);
+    secondaryTicks = secondaryTicks?.filter((t) => !ticks.includes(t));
+    const secElements =
+      secondaryTicks?.map((tick) => {
+        const { line, text } = getPositions(scale(tick));
+        return (
+          <Tick
+            key={tick}
+            line={line}
+            text={text}
+            secondary={true}
+            {...otherProps}
+          />
+        );
+      }) || [];
+    elements = [...secElements, ...elements];
+  }
   return <>{elements}</>;
 }
 
@@ -62,26 +84,30 @@ export function Tick(props: TickProps) {
     children,
     strokeColor = 'black',
     anchor = 'end',
+    secondary = false,
   } = props;
 
   return (
     <g>
       <line
         x1={lineX1}
-        x2={lineX2}
+        x2={secondary && lineX1 !== lineX2 ? (lineX2 * 2) / 3 : lineX2}
         y1={lineY1}
-        y2={lineY2}
-        stroke={strokeColor}
+        y2={secondary && lineY1 !== lineY2 ? (lineY2 * 2) / 3 : lineY2}
+        stroke={secondary ? 'red' : strokeColor}
+        strokeWidth={secondary ? 0.8 : 1}
       />
-      <text
-        x={textX1}
-        y={textY1}
-        textAnchor={anchor}
-        dominantBaseline="middle"
-        style={{ userSelect: 'none', ...style }}
-      >
-        {children}
-      </text>
+      {!secondary && (
+        <text
+          x={textX1}
+          y={textY1}
+          textAnchor={anchor}
+          dominantBaseline="middle"
+          style={{ userSelect: 'none', ...style }}
+        >
+          {children}
+        </text>
+      )}
     </g>
   );
 }
