@@ -8,7 +8,7 @@ export default function TransparentRect(props: SVGProps<SVGRectElement>) {
   return (
     <rect
       {...props}
-      style={{ ...style, fillOpacity: style.fill ? undefined : 0 }}
+      style={{ fillOpacity: style.fill ? undefined : 0, ...style }}
     />
   );
 }
