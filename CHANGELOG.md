@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/zakodium/react-plot/compare/v0.4.0...v0.5.0) (2021-01-27)
+
+
+### Features
+
+* add more shapes ([#125](https://www.github.com/zakodium/react-plot/issues/125)) ([f5f4a18](https://www.github.com/zakodium/react-plot/commit/f5f4a185ddb7962f440a6938adb2939e1e00c6af)), closes [#113](https://www.github.com/zakodium/react-plot/issues/113)
+* add some features to the Legend (impl a Context) ([380b717](https://www.github.com/zakodium/react-plot/commit/380b717e3903e598427a6dd25fbc50cda2086d4a)), closes [#108](https://www.github.com/zakodium/react-plot/issues/108)
+* add style prop to Plot ([#117](https://www.github.com/zakodium/react-plot/issues/117)) ([ce9f3f2](https://www.github.com/zakodium/react-plot/commit/ce9f3f26d4f90a9190aba74fc6399721697c5bce))
+* export public types ([#112](https://www.github.com/zakodium/react-plot/issues/112)) ([f88277c](https://www.github.com/zakodium/react-plot/commit/f88277cf959c9b162bc2c8758441a31f4f76afdb))
+
+
+### Bug Fixes
+
+* add default color to not be "red" on Legend ([2ea34d2](https://www.github.com/zakodium/react-plot/commit/2ea34d2bf4dd350a04fe970f114b91d0bf8dce62))
+* add generated color to the shape too ([17192e4](https://www.github.com/zakodium/react-plot/commit/17192e454dfb29aa2e002b13fb8f3d347adeb9af)), closes [#108](https://www.github.com/zakodium/react-plot/issues/108)
+* apply fill-opacity before user styles ([fbd0ea9](https://www.github.com/zakodium/react-plot/commit/fbd0ea9857087e57367c33cf922cf36a9210b291))
+* avoid ticks overlap  ([#124](https://www.github.com/zakodium/react-plot/issues/124)) ([ee12c40](https://www.github.com/zakodium/react-plot/commit/ee12c401f90919f4114e98d6d51a50e3391e4769)), closes [#115](https://www.github.com/zakodium/react-plot/issues/115)
+* change the Legend to use the marker ([005f689](https://www.github.com/zakodium/react-plot/commit/005f6899fb798fc89682ee8f9da2a8d5d2be1e60)), closes [#108](https://www.github.com/zakodium/react-plot/issues/108)
+
 ## [0.4.0](https://www.github.com/zakodium/react-plot/compare/v0.3.0...v0.4.0) (2021-01-22)
 
 
