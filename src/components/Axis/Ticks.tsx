@@ -43,7 +43,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
   } = props;
   if (hidden) return null;
 
-  const secondaryTicks = true;
+  const secondaryTicksEnabled = true;
 
   let elements = ticks.map((tick) => {
     const { line, text } = getPositions(scale(tick));
@@ -54,10 +54,16 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
-  if (secondaryTicks) {
-    const density = 5;
+  if (secondaryTicksEnabled) {
+    // generate secondaryTicks according to the density of mainTicks
+    const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
+    //const diff = ticks.length > 1 ? Math.abs(ticks[1] - ticks[0]) : 1;
+    const mainTicksDensity = range / ticks.length;
+    const density = mainTicksDensity < 50 ? 5 : 10;
     let secondaryTicks = scale?.ticks(ticks.length * density);
+    // exclude the main ticks
     secondaryTicks = secondaryTicks?.filter((t) => !ticks.includes(t));
+    // add secondaryTicks to the elements array
     const secElements =
       secondaryTicks?.map((tick) => {
         const { line, text } = getPositions(scale(tick));
