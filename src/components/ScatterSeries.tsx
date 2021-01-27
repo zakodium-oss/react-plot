@@ -52,7 +52,9 @@ function ScatterSeriesRender({
   // calculates the path to display
   const markers = useMemo(() => {
     if ([xScale, yScale].includes(undefined)) return null;
-    const defaultColor = { fill: colorScaler(id) };
+
+    const color = colorScaler(id);
+    const defaultColor = { fill: color, stroke: color };
 
     // Show markers
     const Marker = markersComps[markerShape];

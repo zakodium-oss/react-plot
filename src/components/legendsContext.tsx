@@ -8,13 +8,13 @@ import React, {
   useReducer,
 } from 'react';
 
-import { Shapes } from './Markers';
+import { Shape } from '../types';
 
 interface LabelState {
   label: string;
 
   shape?: {
-    figure: Shapes;
+    figure: Shape;
     color: string;
     hidden: boolean;
   };

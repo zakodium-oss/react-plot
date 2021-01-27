@@ -131,7 +131,7 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
         return (
           <g
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
-            transform={`translate(${xPos}, ${yPos})`}
+            transform={`translate(${xPos}, ${0})`}
           >
             {getLineShape({ index, color: value.colorLine })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>

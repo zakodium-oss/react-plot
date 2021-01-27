@@ -2,17 +2,6 @@ import React from 'react';
 
 import type { MarkersProps } from '../types';
 
-export type Shapes =
-  | 'circle'
-  | 'square'
-  | 'diamond'
-  | 'triangle'
-  | 'cross'
-  | 'xmark'
-  | 'pentagon'
-  | 'star'
-  | 'hexagon';
-
 export const markersComps = {
   circle: Circle,
   square: Square,
@@ -24,6 +13,9 @@ export const markersComps = {
   star: Star,
   hexagon: Hexagon,
 };
+
+const halfPi = Math.PI / 2;
+const twoPi = Math.PI * 2;
 
 export function Circle({ style, size }: MarkersProps) {
   return <circle r={size / 2} style={style} />;
@@ -54,7 +46,7 @@ export function Triangle({ style, size }: MarkersProps) {
 export function Cross({ size, style }: MarkersProps) {
   const x = size / 2;
   return (
-    <g strokeWidth={3} style={style}>
+    <g strokeWidth={1} style={style}>
       <line x1={0} x2={0} y1={x} y2={-x} />
       <line x1={-x} x2={x} y1={0} y2={0} />
     </g>
@@ -106,8 +98,10 @@ function* getPolyPoints(diameter: number, k: number, angle = 0) {
   const r = diameter / 2;
 
   for (let i = 0; i < k; i++) {
-    const x = r * Math.cos((2 * Math.PI * i) / k - Math.PI / 2 + angle);
-    const y = r * Math.sin((2 * Math.PI * i) / k - Math.PI / 2 + angle);
+    const calculation = (twoPi * i) / k - halfPi + angle;
+
+    const x = r * Math.cos(calculation);
+    const y = r * Math.sin(calculation);
 
     yield `${x},${y}`;
   }
