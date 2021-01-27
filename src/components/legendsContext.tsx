@@ -8,11 +8,13 @@ import React, {
   useReducer,
 } from 'react';
 
+import { Shapes } from './Markers';
+
 interface LabelState {
   label: string;
 
   shape?: {
-    figure: 'circle' | 'square' | 'triangle';
+    figure: Shapes;
     color: string;
     hidden: boolean;
   };

@@ -2,6 +2,29 @@ import React from 'react';
 
 import type { MarkersProps } from '../types';
 
+export type Shapes =
+  | 'circle'
+  | 'square'
+  | 'diamond'
+  | 'triangle'
+  | 'cross'
+  | 'xmark'
+  | 'pentagon'
+  | 'star'
+  | 'hexagon';
+
+export const markersComps = {
+  circle: Circle,
+  square: Square,
+  diamond: Diamond,
+  triangle: Triangle,
+  cross: Cross,
+  xmark: XMark,
+  pentagon: Pentagon,
+  star: Star,
+  hexagon: Hexagon,
+};
+
 export function Circle({ style, size }: MarkersProps) {
   return <circle r={size / 2} style={style} />;
 }
@@ -76,6 +99,15 @@ export function Star({ style, size }: MarkersProps) {
   }
 
   return <polygon points={points.join(' ')} style={style} />;
+}
+
+export function Hexagon({ style, size }: MarkersProps) {
+  return (
+    <polygon
+      points={Array.from(getPolyPoints(size, 6)).join(' ')}
+      style={style}
+    />
+  );
 }
 
 /**

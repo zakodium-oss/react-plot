@@ -1,6 +1,8 @@
 import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
+import { Shapes } from './components/Markers';
+
 // Component props helpers
 export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
@@ -35,7 +37,7 @@ export interface ScatterSeriesProps {
   yAxis?: string;
   data: SeriesPointType[];
   label?: string;
-  markerShape?: 'circle' | 'square' | 'triangle';
+  markerShape?: Shapes;
   markerSize?: number;
   hidden?: boolean;
   markerStyle?: CSSFuncProps<SeriesPointType>;

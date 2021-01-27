@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Fragment, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { Horizontal, LegendProps, Vertical } from '../types';
 
-import { Circle, Square, Triangle } from './Markers';
+import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
 type Positions = { [K in Vertical | Horizontal]?: number };
@@ -123,26 +123,33 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
 
   return (
     <g className="legend" transform={`translate(${x}, ${y})`}>
-      {state.labels.map((value, index) => (
-        <Fragment
-          key={`${value.colorLine}/${value.shape.color}-${value.label}`}
-        >
-          {getLineShape({ index, color: value.colorLine })}
-          {!value.shape.hidden &&
-            getMarkerShape(value.shape.figure, {
-              color: value.shape.color,
-              index,
-            })}
+      {state.labels.map((value, index) => {
+        const xPos = 10;
+        const yPos = (index + 1) * 16 - xPos + 5;
+        const Marker = markersComps[value.shape.figure];
 
-          <text
-            key={`text-${value.label}-${index}`}
-            x={30}
-            y={`${index + 1}em`}
+        return (
+          <g
+            key={`${value.colorLine}/${value.shape.color}-${value.label}`}
+            transform={`translate(${xPos}, ${yPos})`}
           >
-            {value.label}
-          </text>
-        </Fragment>
-      ))}
+            {getLineShape({ index, color: value.colorLine })}
+            <g transform={`translate(${xPos - 1}, ${yPos})`}>
+              {!value.shape.hidden && (
+                <Marker size={10} style={{ fill: value.shape.color }} />
+              )}
+            </g>
+
+            <text
+              key={`text-${value.label}-${index}`}
+              x={30}
+              y={`${index + 1}em`}
+            >
+              {value.label}
+            </text>
+          </g>
+        );
+      })}
     </g>
   );
 }
@@ -152,26 +159,4 @@ function getLineShape(config: { index: number; color: string }) {
   const y = (config.index + 1) * 16 - x - 7;
 
   return <rect x={x} y={y} width="20" height="3" fill={config.color} />;
-}
-
-function getMarkerShape(
-  shape: 'circle' | 'square' | 'triangle',
-  { index, color: fill }: { index: number; color: string },
-) {
-  const x = 10;
-  const y = (index + 1) * 16 - x + 5;
-
-  switch (shape) {
-    case 'circle': {
-      return <Circle size={5} style={{ fill }} />;
-    }
-    case 'square': {
-      return <Square size={5} style={{ fill }} />;
-    }
-    case 'triangle': {
-      return <Triangle size={5} style={{ fill }} />;
-    }
-    default:
-      throw new Error('unreachable');
-  }
 }

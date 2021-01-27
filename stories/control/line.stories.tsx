@@ -34,7 +34,7 @@ export default {
     },
     markerSize: {
       control: 'number',
-      defaultValue: 5,
+      defaultValue: 10,
     },
     groupId: {
       table: {

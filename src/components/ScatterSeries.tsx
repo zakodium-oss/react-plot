@@ -5,17 +5,11 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
-import { Circle, Square, Triangle } from './Markers';
+import { markersComps } from './Markers';
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;
 }
-
-const markersComps = {
-  circle: Circle,
-  square: Square,
-  triangle: Triangle,
-};
 
 export default function ScatterSeries(props: ScatterSeriesProps) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -48,7 +42,7 @@ function ScatterSeriesRender({
   xAxis,
   yAxis,
   markerShape = 'circle',
-  markerSize = 3,
+  markerSize = 8,
   markerStyle = {},
 }: ScatterSeriesRenderProps) {
   // Get scales from context
@@ -64,14 +58,15 @@ function ScatterSeriesRender({
     const Marker = markersComps[markerShape];
     const markers = data.map((point, i) => {
       return (
-        <Marker
-          // eslint-disable-next-line react/no-array-index-key
+        <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
-          x={xScale(point.x)}
-          y={yScale(point.y)}
-          size={markerSize}
-          style={functionalStyle(defaultColor, markerStyle, point, i, data)}
-        />
+          transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
+        >
+          <Marker
+            size={markerSize}
+            style={functionalStyle(defaultColor, markerStyle, point, i, data)}
+          />
+        </g>
       );
     });
 

@@ -5,6 +5,7 @@ import {
   Circle,
   Cross,
   Diamond,
+  Hexagon,
   Pentagon,
   Square,
   Star,
@@ -73,4 +74,8 @@ export function PentagonShape() {
 
 export function StarShape() {
   return <Star size={SIZE} style={{ fill: 'blue' }} />;
+}
+
+export function HexagonShape() {
+  return <Hexagon size={SIZE} style={{ fill: 'blue' }} />;
 }
