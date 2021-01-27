@@ -28,7 +28,6 @@ export default function Axis({
   hiddenTicks,
   tickEmbedded,
   tickLength = 6,
-  scale = 'linear',
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
 
@@ -76,7 +75,6 @@ export default function Axis({
     hiddenTicks,
     tickEmbedded,
     tickLength,
-    scale,
   };
 
   switch (position) {
