@@ -34,7 +34,7 @@ export default function Plot({
     throw new Error('Only compound components of Plot are displayed');
   }
   if ([width, height].includes(undefined)) {
-    throw new Error('Width and heigth are mandatory');
+    throw new Error('Width and height are mandatory');
   }
 
   // Distances in plot
