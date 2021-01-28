@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.5.1](https://www.github.com/zakodium/react-plot/compare/v0.5.0...v0.5.1) (2021-01-28)
+
+
+### Bug Fixes
+
+* throw error if width or height are undefined ([#129](https://www.github.com/zakodium/react-plot/issues/129)) ([9f5cbaa](https://www.github.com/zakodium/react-plot/commit/9f5cbaa6db1135cb3f417f31bf14306564b0736c))
+
 ## [0.5.0](https://www.github.com/zakodium/react-plot/compare/v0.4.0...v0.5.0) (2021-01-27)
 
 
