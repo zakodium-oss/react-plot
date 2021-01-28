@@ -33,6 +33,9 @@ export default function Plot({
   if (hasInvalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
+  if ([width, height].includes(undefined)) {
+    throw new Error('Width and heigth are mandatory');
+  }
 
   // Distances in plot
   const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
