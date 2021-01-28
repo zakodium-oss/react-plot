@@ -7,6 +7,8 @@ import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
 import type { AxisContextType, CSSFuncProps, PlotChildren } from './types';
 
+import { BarSeries } from '.';
+
 let currentValue = 1;
 
 /**
@@ -32,7 +34,11 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
     }
 
     // Classifies the expected components
-    else if (child.type === LineSeries || child.type === ScatterSeries) {
+    else if (
+      child.type === LineSeries ||
+      child.type === ScatterSeries ||
+      child.type === BarSeries
+    ) {
       series.push(child);
     } else if (child.type === Axis) {
       axes.push(child);

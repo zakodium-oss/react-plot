@@ -1,7 +1,15 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, Legend, LineSeries, LineSeriesProps, Plot } from '../../src';
+import {
+  Axis,
+  Legend,
+  LineSeries,
+  LineSeriesProps,
+  Plot,
+  BarSeries,
+} from '../../src';
+import { DEFAULT_CONFIG } from '../utils';
 
 export default {
   title: 'API/LineSeries',
@@ -106,6 +114,32 @@ export function LineControl(props: LineSeriesProps) {
       />
 
       <Legend position="embedded" />
+    </Plot>
+  );
+}
+
+export function BarLineSeriesControl() {
+  return (
+    <Plot
+      {...DEFAULT_CONFIG}
+      viewportStyle={{ stroke: 'black' }}
+      margin={{
+        bottom: 45,
+        left: 40,
+        top: 40,
+        right: 40,
+      }}
+    >
+      <Legend position="embedded" />
+      <BarSeries data={data} xAxis="x" yAxis="y" label="Bar series" />
+      <Axis id="x" position="bottom" label="Label One" />
+      <Axis
+        id="y"
+        position="left"
+        label="Label two"
+        paddingStart={0.1}
+        paddingEnd={0.1}
+      />
     </Plot>
   );
 }

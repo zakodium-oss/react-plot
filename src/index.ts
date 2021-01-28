@@ -1,6 +1,7 @@
 import Plot from './Plot';
 import PlotObject from './PlotObject';
 import Axis from './components/Axis';
+import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
@@ -17,7 +18,16 @@ import type {
   PlotObjectType,
 } from './types';
 
-export { Plot, Axis, Heading, Legend, LineSeries, ScatterSeries, PlotObject };
+export {
+  Plot,
+  Axis,
+  Heading,
+  Legend,
+  LineSeries,
+  ScatterSeries,
+  PlotObject,
+  BarSeries,
+};
 export type {
   PlotProps,
   AxisProps,
