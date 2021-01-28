@@ -17,6 +17,7 @@ export interface TickProps {
   secondary?: boolean;
 
   strokeColor?: string;
+  strokeHight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
   alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
 }
@@ -26,6 +27,7 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   ticks: number[];
   scale: ScaleLinear<number, number, never>;
   scientific?: boolean;
+  secondaryTicks?: boolean;
 
   getPositions: (
     y: number,
@@ -39,12 +41,12 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     scale,
     getPositions,
     scientific = true,
+    secondaryTicks = true,
     ...otherProps
   } = props;
   if (hidden) return null;
 
-  const secondaryTicksEnabled = true;
-
+  // Main Ticks
   let elements = ticks.map((tick) => {
     const { line, text } = getPositions(scale(tick));
     return (
@@ -54,18 +56,41 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
-  if (secondaryTicksEnabled) {
-    // generate secondaryTicks according to the density of mainTicks
+  if (secondaryTicks) {
+    // generate secondary Ticks according to the density of mainTicks
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
-    //const diff = ticks.length > 1 ? Math.abs(ticks[1] - ticks[0]) : 1;
     const mainTicksDensity = range / ticks.length;
     const density = mainTicksDensity < 50 ? 5 : 10;
-    let secondaryTicks = scale?.ticks(ticks.length * density);
-    // exclude the main ticks
-    secondaryTicks = secondaryTicks?.filter((t) => !ticks.includes(t));
+    let secTicks = scale?.ticks(ticks.length * density) || [];
+
+    // calculate middle tick position ([0,1]=> middle tick == 0.5)
+    let middleTick = 0;
+    let secTicksPerInterval = 0;
+    if (ticks.length > 1) {
+      let i = 0;
+      while (secTicks[i] < ticks[1]) {
+        while (secTicks[i] < ticks[0]) {
+          i++;
+          middleTick++;
+        }
+        secTicksPerInterval++;
+        i++;
+      }
+    }
+    const middleTickEnabled =
+      secTicksPerInterval % 2 === 0 && secTicksPerInterval > 0;
+    middleTick = middleTick - secTicksPerInterval / 2 + 1;
+
     // add secondaryTicks to the elements array
     const secElements =
-      secondaryTicks?.map((tick) => {
+      secTicks.map((tick) => {
+        middleTick--;
+        let strokeHight = middleTickEnabled && middleTick === 0 ? 1 : 0.6;
+        // exclude the main ticks
+        if (ticks.includes(tick)) {
+          middleTick = secTicksPerInterval / 2;
+          return null;
+        }
         const { line, text } = getPositions(scale(tick));
         return (
           <Tick
@@ -73,6 +98,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
             line={line}
             text={text}
             secondary={true}
+            strokeHight={strokeHight}
             {...otherProps}
           />
         );
@@ -89,6 +115,7 @@ export function Tick(props: TickProps) {
     style,
     children,
     strokeColor = 'black',
+    strokeHight = 1,
     anchor = 'end',
     secondary = false,
   } = props;
@@ -97,11 +124,11 @@ export function Tick(props: TickProps) {
     <g>
       <line
         x1={lineX1}
-        x2={secondary && lineX1 !== lineX2 ? (lineX2 * 2) / 3 : lineX2}
+        x2={secondary && lineX1 !== lineX2 ? lineX2 * strokeHight : lineX2}
         y1={lineY1}
-        y2={secondary && lineY1 !== lineY2 ? (lineY2 * 2) / 3 : lineY2}
-        stroke={secondary ? 'red' : strokeColor}
-        strokeWidth={secondary ? 0.8 : 1}
+        y2={secondary && lineY1 !== lineY2 ? lineY2 * strokeHight : lineY2}
+        stroke={strokeColor}
+        strokeWidth={secondary ? 1 : 1.5}
       />
       {!secondary && (
         <text
