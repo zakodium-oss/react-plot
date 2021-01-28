@@ -1,4 +1,4 @@
-import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
+import type { ScaleLinear, ScaleOrdinal, ScaleTime } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode } from 'react';
 
 export type Shape =
@@ -80,6 +80,7 @@ export interface AxisParentProps {
   paddingEnd?: number;
 
   flip?: boolean;
+  scale?: 'linear' | 'time';
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
 
@@ -134,7 +135,7 @@ export interface SeriesType {
 }
 
 export interface AxisContextType {
-  scale: ScaleLinear<number, number>;
+  scale: ScaleLinear<number, number> | ScaleTime<number, number>;
   scientific: boolean;
   position: Horizontal | Vertical;
 }

@@ -76,7 +76,13 @@ export function NasdaqExample(props: Props) {
           yAxis="y"
           lineStyle={{ stroke: 'green', strokeWidth: 1.5 }}
         />
-        <Axis id="x" position="bottom" label="Timestamp (s)" labelSpace={40} />
+        <Axis
+          id="x"
+          position="bottom"
+          label="Timestamp (s)"
+          labelSpace={40}
+          scale="time"
+        />
         <Axis
           id="y"
           position="left"

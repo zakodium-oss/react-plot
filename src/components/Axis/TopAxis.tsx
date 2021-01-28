@@ -23,7 +23,7 @@ export default function TopAxis({
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(() => {
+  const ticks: any[] = useMemo(() => {
     const ticksNumber = calculateTicksNumber(
       plotWidth,
       scientific,

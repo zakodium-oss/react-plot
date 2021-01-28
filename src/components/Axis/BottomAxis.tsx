@@ -22,27 +22,27 @@ export default function BottomAxis({
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Calculates the main axis values
-  const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(() => {
+  const { scale: scaleFunction, scientific } = axisContext[id] || {};
+  const ticks: any = useMemo(() => {
     const ticksNumber = calculateTicksNumber(
       plotWidth,
       scientific,
-      scale?.domain(),
+      scaleFunction?.domain(),
     );
-    return scale?.ticks(ticksNumber) || [];
-  }, [scale, scientific, plotWidth]);
-  const range = scale?.range() || [0, 0];
+    return scaleFunction?.ticks(ticksNumber) || [];
+  }, [scaleFunction, scientific, plotWidth]);
+  const range = scaleFunction?.range() || [0, 0];
 
   // Create gridlines
   const gridlines = useMemo(() => {
-    if (!displayGridLines || !scale) return null;
+    if (!displayGridLines || !scaleFunction) return null;
     return (
       <g className="gridLines">
         {ticks.map((val) => (
           <line
             key={val}
-            x1={scale(val)}
-            x2={scale(val)}
+            x1={scaleFunction(val)}
+            x2={scaleFunction(val)}
             y1={plotHeight}
             y2="0"
             stroke="black"
@@ -52,7 +52,7 @@ export default function BottomAxis({
         ))}
       </g>
     );
-  }, [displayGridLines, ticks, scale, plotHeight]);
+  }, [displayGridLines, ticks, scaleFunction, plotHeight]);
 
   const tickDirection = tickEmbedded ? -1 : 1;
   const tickLen = tickDirection * tickLength;
@@ -64,7 +64,7 @@ export default function BottomAxis({
           <line x1={range[0]} x2={range[1]} stroke="black" />
           <Ticks
             scientific={scientific}
-            scale={scale}
+            scale={scaleFunction}
             hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}

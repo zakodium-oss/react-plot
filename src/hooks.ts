@@ -1,5 +1,5 @@
 import { max, min } from 'd3-array';
-import { scaleLinear } from 'd3-scale';
+import { scaleLinear, scaleTime } from 'd3-scale';
 import { createContext, useContext, useMemo } from 'react';
 
 import type {
@@ -75,13 +75,18 @@ export function useAxisContext(
       axisContext[id] = {
         position: axis.position,
         scientific: diff <= 0.01 || diff >= 1000,
-        scale: scaleLinear()
-          .domain([axisMin - minPad, axisMax + maxPad])
-          .range(axis.flip ? range.reverse() : range),
+        scale:
+          axis.scale === 'linear'
+            ? scaleLinear()
+                .domain([axisMin - minPad, axisMax + maxPad])
+                .range(axis.flip ? range.reverse() : range)
+            : scaleTime()
+                .domain([axisMin - minPad, axisMax + maxPad])
+                .range(axis.flip ? range.reverse() : range),
       };
     }
     return axisContext;
-  }, [state, plotWidth, plotHeight]);
+  }, [state.axis, state.series, plotWidth, plotHeight]);
 
   return context;
 }

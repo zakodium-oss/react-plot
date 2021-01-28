@@ -128,8 +128,16 @@ export function functionalStyle<T>(
 export function calculateTicksNumber(
   plotWidth: number,
   scientific: boolean,
-  domaine: number[] | undefined,
+  domaine: number[] | Date[] | undefined,
 ): number {
+  if (
+    domaine === undefined ||
+    domaine[0] instanceof Date ||
+    domaine[1] instanceof Date
+  ) {
+    return 5;
+  }
+
   const fontSizeDefault = 16;
   const scientificTickLength = 7;
   let tickLength = domaine ? `${Math.trunc(domaine[1])}`.length : 1;

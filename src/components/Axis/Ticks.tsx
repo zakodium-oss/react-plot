@@ -1,4 +1,4 @@
-import { ScaleLinear } from 'd3-scale';
+import { ScaleLinear, ScaleTime } from 'd3-scale';
 import React, { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
 interface CoordinatesXY {
@@ -22,8 +22,8 @@ export interface TickProps {
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   hidden: boolean;
-  ticks: number[];
-  scale: ScaleLinear<number, number, never>;
+  ticks: any[];
+  scale: ScaleLinear<number, number, never> | ScaleTime<number, number, never>;
   scientific?: boolean;
 
   getPositions: (
@@ -46,7 +46,11 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     const { line, text } = getPositions(scale(tick));
     return (
       <Tick key={tick} line={line} text={text} {...otherProps}>
-        {scientific ? tick.toExponential(2) : tick}
+        {tick instanceof Date
+          ? tick.toString()
+          : scientific
+          ? tick.toExponential(2)
+          : tick}
       </Tick>
     );
   });

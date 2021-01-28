@@ -28,6 +28,7 @@ export default function Axis({
   hiddenTicks,
   tickEmbedded,
   tickLength = 6,
+  scale = 'linear',
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
 
@@ -57,11 +58,23 @@ export default function Axis({
         paddingStart: minPadding,
         paddingEnd: maxPadding,
         flip,
+        scale,
       },
     });
 
     return () => dispatch({ type: 'removeAxis', value: { id: id || xY } });
-  }, [dispatch, xY, id, position, min, max, flip, paddingStart, paddingEnd]);
+  }, [
+    dispatch,
+    xY,
+    id,
+    position,
+    min,
+    max,
+    flip,
+    paddingStart,
+    paddingEnd,
+    scale,
+  ]);
 
   const childProps: AxisChildProps = {
     id: id || xY,
