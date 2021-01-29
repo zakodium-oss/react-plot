@@ -27,9 +27,15 @@ export default function Plot({
 }: PlotProps) {
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
-  const { hasInvalidChild, series, axes, heading, legend } = splitChildren(
-    children,
-  );
+  const {
+    hasInvalidChild,
+    series,
+    axes,
+    heading,
+    legend,
+    annotations,
+  } = splitChildren(children);
+
   if (hasInvalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -102,6 +108,8 @@ export default function Plot({
 
               {axes}
             </g>
+
+            {annotations !== undefined && annotations}
 
             {heading}
             {legend}

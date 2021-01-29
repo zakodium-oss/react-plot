@@ -173,4 +173,5 @@ export interface PlotChildren {
   axes: ReactElement<AxisProps>[];
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
+  annotations: ReactElement<LegendProps> | null;
 }

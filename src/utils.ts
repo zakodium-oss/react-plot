@@ -7,6 +7,8 @@ import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
 import type { AxisContextType, CSSFuncProps, PlotChildren } from './types';
 
+import { Annotation } from '.';
+
 let currentValue = 1;
 
 /**
@@ -25,6 +27,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
   let axes = [];
   let heading = null;
   let legend = null;
+  let annotations = null;
   for (let child of React.Children.toArray(children)) {
     // Base child validation
     if (typeof child !== 'object' || !React.isValidElement(child)) {
@@ -40,6 +43,8 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
       heading = child;
     } else if (child.type === Legend) {
       legend = child;
+    } else if (child.type === Annotation.Annotations) {
+      annotations = child;
     }
 
     // Default case
@@ -47,7 +52,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
       hasInvalidChild = true;
     }
   }
-  return { hasInvalidChild, series, axes, heading, legend };
+  return { hasInvalidChild, series, axes, heading, legend, annotations };
 }
 
 const horizontal = ['top', 'bottom'];
