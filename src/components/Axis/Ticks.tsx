@@ -17,7 +17,7 @@ export interface TickProps {
   secondary?: boolean;
 
   strokeColor?: string;
-  strokeHight?: number;
+  strokeHeight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
   alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
 }
@@ -85,7 +85,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     const secElements =
       secTicks.map((tick) => {
         middleTick--;
-        let strokeHight = middleTickEnabled && middleTick === 0 ? 1 : 0.6;
+        let strokeHeight = middleTickEnabled && middleTick === 0 ? 1 : 0.6;
         // exclude the main ticks
         if (ticks.includes(tick)) {
           middleTick = secTicksPerInterval / 2;
@@ -98,7 +98,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
             line={line}
             text={text}
             secondary={true}
-            strokeHight={strokeHight}
+            strokeHeight={strokeHeight}
             {...otherProps}
           />
         );
@@ -115,7 +115,7 @@ export function Tick(props: TickProps) {
     style,
     children,
     strokeColor = 'black',
-    strokeHight = 1,
+    strokeHeight = 1,
     anchor = 'end',
     secondary = false,
   } = props;
@@ -124,9 +124,9 @@ export function Tick(props: TickProps) {
     <g>
       <line
         x1={lineX1}
-        x2={secondary && lineX1 !== lineX2 ? lineX2 * strokeHight : lineX2}
+        x2={secondary && lineX1 !== lineX2 ? lineX2 * strokeHeight : lineX2}
         y1={lineY1}
-        y2={secondary && lineY1 !== lineY2 ? lineY2 * strokeHight : lineY2}
+        y2={secondary && lineY1 !== lineY2 ? lineY2 * strokeHeight : lineY2}
         stroke={strokeColor}
         strokeWidth={secondary ? 1 : 1.5}
       />
