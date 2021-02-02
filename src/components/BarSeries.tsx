@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
 import { LineSeriesProps, SeriesPointType } from '../types';
@@ -28,35 +28,31 @@ export default function BarSeries(props: LineSeriesProps) {
     lineStyle,
   };
 
+  const colorLine = lineStyle?.stroke
+    ? lineStyle?.stroke.toString()
+    : colorScaler(id);
+
+  const color = otherProps.markerStyle?.fill.toString() || colorScaler(id);
+  const figure = otherProps.markerShape || 'circle';
+
+  const shape = useMemo(() => {
+    return {
+      color,
+      figure,
+      hidden: !displayMarker,
+    };
+  }, [color, displayMarker, figure]);
+
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
         label: otherProps.label,
-
-        colorLine: lineStyle?.stroke
-          ? lineStyle?.stroke.toString()
-          : colorScaler(id),
-
-        shape: {
-          color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
-          figure: otherProps.markerShape || 'circle',
-          hidden: !displayMarker,
-        },
+        colorLine,
+        shape,
       },
     });
-  }, [
-    colorScaler,
-    displayMarker,
-    id,
-    legendDispatch,
-    lineStyle,
-    lineStyle?.stroke,
-    otherProps.label,
-    otherProps.markerShape,
-    otherProps.markerStyle,
-    otherProps.markerStyle?.fill,
-  ]);
+  }, [colorLine, legendDispatch, otherProps.label, shape]);
 
   return (
     <g>
@@ -81,7 +77,6 @@ function BarSeriesRender({
   const { axisContext, colorScaler } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
-  // calculates the path to display
   const color = colorScaler(id);
   if ([xScale, yScale].includes(undefined)) return null;
 
