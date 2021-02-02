@@ -68,6 +68,7 @@ export interface AxisChildProps {
   hidden?: boolean;
   hiddenTicks?: boolean;
   tickLength?: number;
+  hiddenSecondaryTicks?: boolean;
 }
 
 export interface AxisParentProps {

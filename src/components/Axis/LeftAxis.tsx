@@ -18,6 +18,7 @@ export default function LeftAxis({
   hiddenTicks = false,
   tickEmbedded,
   tickLength,
+  hiddenSecondaryTicks,
 }: AxisChildProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
 
@@ -61,6 +62,7 @@ export default function LeftAxis({
             hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
+            hiddenSecondaryTicks={hiddenSecondaryTicks}
             getPositions={(y) => ({
               line: { x2: tickLen, y1: y, y2: y },
               text: { x1: -8, y1: y },
