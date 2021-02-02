@@ -133,7 +133,16 @@ export function AnnotationGroupStories() {
 }
 
 export function AnnotationArrowStories() {
-  return <Annotation.Arrow x1={20} x2={90} y1={90} y2={250} />;
+  return (
+    <Annotation.Arrow
+      x1={20}
+      x2={90}
+      y1={90}
+      y2={250}
+      startPoint="circle"
+      endPoint="triangle"
+    />
+  );
 }
 
 export function AnnotationShapeStories(props: {

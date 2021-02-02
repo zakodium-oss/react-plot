@@ -14,6 +14,8 @@ const shapes = {
   square: Square,
 };
 
+export type AnnotationShapeList = 'triangle' | 'circle' | 'diamond' | 'square';
+
 interface IntAnnotationShape {
   size: number;
   style: CSSProperties;
@@ -38,7 +40,7 @@ function Square(props: IntAnnotationShape) {
 interface ShapeProps {
   x: number;
   y: number;
-  shape: 'triangle' | 'circle' | 'diamond' | 'square';
+  shape: AnnotationShapeList;
   size: number;
   style: CSSProperties;
 }
