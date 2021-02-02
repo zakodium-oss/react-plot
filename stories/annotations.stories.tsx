@@ -5,8 +5,23 @@ import { Axis, LineSeries, Plot, Legend, Annotation } from '../src';
 
 import { DEFAULT_CONFIG } from './utils';
 
+const shapes = ['circle', 'triangle', 'diamond', 'square'];
+
 export default {
   title: 'Docs/Annotations',
+  argTypes: {
+    size: {
+      control: 'number',
+      defaultValue: 5,
+    },
+    shape: {
+      defaultValue: shapes[0],
+      control: {
+        type: 'select',
+        options: shapes,
+      },
+    },
+  },
   decorators: [
     (Story) => (
       <Plot
@@ -114,5 +129,24 @@ export function AnnotationGroupStories() {
     <Annotation.Group x={50} y={150}>
       <Annotation.Text>Hello, World!</Annotation.Text>
     </Annotation.Group>
+  );
+}
+
+export function AnnotationArrowStories() {
+  return <Annotation.Arrow x1={20} x2={90} y1={90} y2={250} />;
+}
+
+export function AnnotationShapeStories(props: {
+  size: number;
+  shape: 'circle' | 'triangle' | 'diamond' | 'square';
+}) {
+  return (
+    <Annotation.Shape
+      x={50}
+      y={150}
+      shape={props.shape}
+      size={props.size}
+      style={{ fill: 'red' }}
+    />
   );
 }
