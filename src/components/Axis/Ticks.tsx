@@ -27,7 +27,7 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   ticks: number[];
   scale: ScaleLinear<number, number, never>;
   scientific?: boolean;
-  secondaryTicksHidden?: boolean;
+  hiddenSecondaryTicks?: boolean;
 
   getPositions: (
     y: number,
@@ -41,7 +41,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     scale,
     getPositions,
     scientific = true,
-    secondaryTicksHidden = false,
+    hiddenSecondaryTicks = false,
     ...otherProps
   } = props;
   if (hidden) return null;
@@ -56,7 +56,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
-  if (!secondaryTicksHidden) {
+  if (!hiddenSecondaryTicks) {
     // generate secondaryTicks according to the density of primaryTicks
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
     const mainTicksDensity = range / ticks.length;

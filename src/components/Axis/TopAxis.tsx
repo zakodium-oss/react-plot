@@ -18,7 +18,7 @@ export default function TopAxis({
   hiddenTicks = false,
   tickEmbedded,
   tickLength,
-  secondaryTicksHidden,
+  hiddenSecondaryTicks,
 }: AxisChildProps) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
@@ -70,7 +70,7 @@ export default function TopAxis({
             hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
-            secondaryTicksHidden={secondaryTicksHidden}
+            hiddenSecondaryTicks={hiddenSecondaryTicks}
             getPositions={(val) => ({
               line: { x1: val, x2: val, y2: tickLen },
               text: { x1: val, y1: -12 },
