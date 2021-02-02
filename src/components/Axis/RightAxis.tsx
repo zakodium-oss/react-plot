@@ -18,6 +18,7 @@ export default function RightAxis({
   hiddenTicks = false,
   tickEmbedded,
   tickLength,
+  secondaryTicksHidden,
 }: AxisChildProps) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
@@ -61,6 +62,7 @@ export default function RightAxis({
             hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
+            secondaryTicksHidden={secondaryTicksHidden}
             anchor="begin"
             getPositions={(y) => ({
               line: { x2: tickLen, y1: y, y2: y },

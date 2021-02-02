@@ -18,6 +18,7 @@ export default function BottomAxis({
   hiddenTicks = false,
   tickEmbedded,
   tickLength,
+  secondaryTicksHidden,
 }: AxisChildProps) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
@@ -68,6 +69,7 @@ export default function BottomAxis({
             hidden={hiddenTicks}
             ticks={ticks}
             style={tickStyle}
+            secondaryTicksHidden={secondaryTicksHidden}
             anchor="middle"
             getPositions={(val) => ({
               line: { x1: val, x2: val, y2: tickLen },
