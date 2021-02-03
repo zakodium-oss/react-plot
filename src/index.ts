@@ -1,4 +1,4 @@
-import Plot from './Plot';
+import Plot, { PlotProps } from './Plot';
 import PlotObject from './PlotObject';
 import Axis from './components/Axis';
 import BarSeries from './components/BarSeries';
@@ -7,7 +7,6 @@ import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
 import type {
-  PlotProps,
   AxisProps,
   HeadingProps,
   LegendProps,

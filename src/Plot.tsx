@@ -1,7 +1,7 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import React, { Reducer, useMemo, useReducer } from 'react';
+import React, { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
@@ -16,15 +16,27 @@ const initialState: State = {
   axis: {},
 };
 
-export default function Plot({
-  width,
-  height,
-  margin = {},
-  colorScheme,
-  children,
-  style = {},
-  viewportStyle = {},
-}: PlotProps) {
+const defaultSvgStyle: CSSProperties = {
+  fontFamily: 'Arial, Helvetica, sans-serif',
+};
+
+export type { PlotProps };
+
+/**
+ * Static plot with fixed dimensions.
+ */
+export default function Plot(props: PlotProps) {
+  const {
+    width,
+    height,
+    colorScheme = schemeSet1,
+    margin = {},
+    style = {},
+    svgStyle = {},
+    viewportStyle = {},
+    children,
+  } = props;
+
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
   const { hasInvalidChild, series, axes, heading, legend } = splitChildren(
@@ -56,9 +68,7 @@ export default function Plot({
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
 
   const colorScaler = useMemo(() => {
-    return scaleOrdinal<string>()
-      .range(colorScheme || schemeSet1)
-      .domain(ids);
+    return scaleOrdinal<string>().range(colorScheme).domain(ids);
   }, [colorScheme, ids]);
 
   return (
@@ -83,7 +93,7 @@ export default function Plot({
             xmlns="http://www.w3.org/2000/svg"
             width={width}
             height={height}
-            style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
+            style={{ ...defaultSvgStyle, ...svgStyle }}
           >
             {/* Main plot area */}
             <TransparentRect width={width} height={height} style={style} />

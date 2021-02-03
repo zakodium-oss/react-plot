@@ -31,12 +31,40 @@ export type CSSFuncProps<T> = {
 // Component props
 
 export interface PlotProps {
+  /**
+   * Width of the SVG in pixels.
+   */
   width: number;
+  /**
+   * Height of the SVG in pixels.
+   */
   height: number;
+  /**
+   * Color scheme used to pick colors for the series.
+   * Defaults to the "schemeSet1" from "d3-scale-chromatic".
+   */
   colorScheme?: Iterable<string>;
+  /**
+   * Margins around the main viewport.
+   * They are used to make space within the SVG to place elements that are
+   * external to the main viewport (axes, legend, headings, ...).
+   */
   margin?: Partial<Margins>;
+  /**
+   * Style applied to the rectangle around the entire plot.
+   */
   style?: CSSProperties;
+  /**
+   * Style applied to the SVG element.
+   */
+  svgStyle?: CSSProperties;
+  /**
+   * Style applied to the rectangle around the main viewport.
+   */
   viewportStyle?: CSSProperties;
+  /**
+   * All plot elements.
+   */
   children: ReactNode;
 }
 
