@@ -17,10 +17,7 @@ export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
 export type Margins = Record<Horizontal | Vertical, number | undefined>;
 
-export type SeriesPointErrorType =
-  | number
-  | [number | null, number | null]
-  | null;
+export type SeriesPointErrorType = number | number[] | null;
 
 export interface SeriesPointType {
   x: number;

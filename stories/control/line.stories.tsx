@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import React from 'react';
+import React, { SVGAttributes } from 'react';
 
 import { Axis, Legend, LineSeries, LineSeriesProps, Plot } from '../../src';
 
@@ -36,6 +36,41 @@ export default {
       control: 'number',
       defaultValue: 10,
     },
+    // ErrorBars props
+    hiddenErrorBars: {
+      control: 'boolean',
+      defaultValue: false,
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    ErrorBarsStyle: {
+      control: 'object',
+      defaultValue: { stroke: 'black', strokeWidth: 1 },
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    capSize: {
+      control: 'number',
+      defaultValue: 8,
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    capStyle: {
+      control: 'object',
+      defaultValue: { stroke: 'black', strokeWidth: 1 },
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    // Disable unnecessary controls
+    errorBars: {
+      table: {
+        disable: true,
+      },
+    },
     groupId: {
       table: {
         disable: true,
@@ -63,26 +98,50 @@ const data = [
   {
     x: 0,
     y: 10,
+    xError: 0.2,
+    yError: 1,
   },
   {
     x: 1,
     y: 12,
+    xError: [0.1, 0.1],
+    yError: [0.5, 0.5],
   },
   {
     x: 2,
     y: 14,
+    xError: [0.2, null],
+    yError: [0, 0.5],
   },
   {
     x: 3,
     y: 16,
+    xError: [0.1, 0.2],
+    yError: null,
   },
   {
     x: 4,
     y: 18,
+    xError: 0.2,
+    yError: 0.5,
   },
 ];
 
-export function LineControl(props: LineSeriesProps) {
+interface LineControlProps extends LineSeriesProps {
+  hiddenErrorBars?: boolean;
+  ErrorBarsStyle?: SVGAttributes<SVGLineElement>;
+  capSize?: number;
+  capStyle?: SVGAttributes<SVGLineElement>;
+}
+
+export function LineControl(props: LineControlProps) {
+  const { hiddenErrorBars, ErrorBarsStyle, capStyle, capSize } = props;
+  const errorBars = {
+    hidden: hiddenErrorBars,
+    style: ErrorBarsStyle,
+    capStyle: capStyle,
+    capSize: capSize,
+  };
   return (
     <Plot
       width={900}
@@ -95,7 +154,13 @@ export function LineControl(props: LineSeriesProps) {
         right: 40,
       }}
     >
-      <LineSeries {...props} data={data} xAxis="x" yAxis="y" />
+      <LineSeries
+        {...props}
+        data={data}
+        xAxis="x"
+        yAxis="y"
+        errorBars={errorBars}
+      />
       <Axis id="x" position="bottom" label="Label One" />
       <Axis
         id="y"
