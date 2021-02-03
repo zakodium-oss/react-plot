@@ -1,9 +1,9 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.cjs.json",
   "compilerOptions": {
     "declaration": true,
     "module": "esnext",
     "sourceMap": true,
-    "outDir": "lib-es"
+    "outDir": "lib-esm"
   }
 }

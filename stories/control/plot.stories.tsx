@@ -1,54 +1,12 @@
 import { Meta } from '@storybook/react';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 
-import { Axis, Legend, LineSeries, Plot } from '../../src';
+import { Axis, Legend, LineSeries, Plot, PlotProps } from '../../src';
 
 export default {
   title: 'API/Plot',
   component: Plot,
-  argTypes: {
-    marginBottom: {
-      control: 'number',
-      defaultValue: 45,
-    },
-    marginLeft: {
-      control: 'number',
-      defaultValue: 40,
-    },
-    marginTop: {
-      control: 'number',
-      defaultValue: 40,
-    },
-    marginRight: {
-      control: 'number',
-      defaultValue: 40,
-    },
-    viewportStyle: {
-      control: 'object',
-      defaultValue: { stroke: 'black' },
-    },
-    width: {
-      control: 'number',
-      defaultValue: 900,
-    },
-    height: {
-      control: 'number',
-      defaultValue: 540,
-    },
-  },
 } as Meta;
-
-interface PlotControlProps {
-  marginBottom: number;
-  marginLeft: number;
-  marginTop: number;
-  marginRight: number;
-
-  viewportStyle: CSSProperties;
-
-  width: number;
-  height: number;
-}
 
 const data = [
   {
@@ -73,27 +31,9 @@ const data = [
   },
 ];
 
-export function PlotControl(props: PlotControlProps) {
-  const {
-    marginBottom,
-    marginLeft,
-    marginRight,
-    marginTop,
-    viewportStyle,
-    ...other
-  } = props;
-
+export function PlotControl(args: PlotProps) {
   return (
-    <Plot
-      {...other}
-      viewportStyle={viewportStyle}
-      margin={{
-        bottom: marginBottom,
-        left: marginLeft,
-        top: marginTop,
-        right: marginRight,
-      }}
-    >
+    <Plot {...args}>
       <Legend position="embedded" />
       <LineSeries data={data} xAxis="x" yAxis="y" label="Line" />
       <Axis id="x" position="bottom" label="Label One" />
@@ -107,3 +47,15 @@ export function PlotControl(props: PlotControlProps) {
     </Plot>
   );
 }
+
+PlotControl.args = {
+  width: 900,
+  height: 540,
+  seriesViewportStyle: { stroke: 'black' },
+  margin: {
+    top: 40,
+    right: 40,
+    bottom: 45,
+    left: 40,
+  },
+} as PlotProps;

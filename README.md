@@ -3,7 +3,7 @@
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
-Render 2dplot partition in react.
+Library of React components to render SVG 2D plots.
 
 ## [Storybook](https://zakodium.github.io/react-plot/)
 

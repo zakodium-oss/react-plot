@@ -1,7 +1,7 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import React, { Reducer, useMemo, useReducer } from 'react';
+import React, { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import MarkerDefs from './components/Annotations/MarkerDefs';
 import TransparentRect from './components/TransparentRect';
@@ -17,15 +17,27 @@ const initialState: State = {
   axis: {},
 };
 
-export default function Plot({
-  width,
-  height,
-  margin = {},
-  colorScheme,
-  children,
-  style = {},
-  viewportStyle = {},
-}: PlotProps) {
+const defaultSvgStyle: CSSProperties = {
+  fontFamily: 'Arial, Helvetica, sans-serif',
+};
+
+export type { PlotProps };
+
+/**
+ * Static plot with fixed dimensions.
+ */
+export default function Plot(props: PlotProps) {
+  const {
+    width,
+    height,
+    colorScheme = schemeSet1,
+    margin = {},
+    svgStyle = {},
+    plotViewportStyle = {},
+    seriesViewportStyle = {},
+    children,
+  } = props;
+
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
   const {
@@ -39,6 +51,9 @@ export default function Plot({
 
   if (hasInvalidChild) {
     throw new Error('Only compound components of Plot are displayed');
+  }
+  if ([width, height].includes(undefined)) {
+    throw new Error('Width and height are mandatory');
   }
 
   // Distances in plot
@@ -60,9 +75,7 @@ export default function Plot({
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
 
   const colorScaler = useMemo(() => {
-    return scaleOrdinal<string>()
-      .range(colorScheme || schemeSet1)
-      .domain(ids);
+    return scaleOrdinal<string>().range(colorScheme).domain(ids);
   }, [colorScheme, ids]);
 
   return (
@@ -87,27 +100,31 @@ export default function Plot({
             xmlns="http://www.w3.org/2000/svg"
             width={width}
             height={height}
-            style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
+            style={{ ...defaultSvgStyle, ...svgStyle }}
           >
             <MarkerDefs />
 
-            {/* Main plot area */}
-            <TransparentRect width={width} height={height} style={style} />
+            {/* Plot viewport */}
+            <TransparentRect
+              width={width}
+              height={height}
+              style={plotViewportStyle}
+            />
 
-            {/* Viewport area */}
+            {/* Series viewport */}
             <g transform={`translate(${left}, ${top})`}>
               <TransparentRect
                 width={plotWidth}
                 height={plotHeight}
-                style={viewportStyle}
+                style={seriesViewportStyle}
               />
 
               {/* Prevents the chart from being drawn outside of the viewport */}
-              <clipPath id="viewportClip">
+              <clipPath id="seriesViewportClip">
                 <rect width={plotWidth} height={plotHeight} />
               </clipPath>
 
-              <g style={{ clipPath: 'url(#viewportClip)' }}>
+              <g style={{ clipPath: 'url(#seriesViewportClip)' }}>
                 {series}
                 {annotations}
               </g>

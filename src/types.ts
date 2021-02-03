@@ -31,12 +31,40 @@ export type CSSFuncProps<T> = {
 // Component props
 
 export interface PlotProps {
+  /**
+   * Width of the SVG in pixels.
+   */
   width: number;
+  /**
+   * Height of the SVG in pixels.
+   */
   height: number;
+  /**
+   * Color scheme used to pick colors for the series.
+   * Defaults to the "schemeSet1" from "d3-scale-chromatic".
+   */
   colorScheme?: Iterable<string>;
+  /**
+   * Margins around the series viewport.
+   * They are used to make space within the SVG to place elements that are
+   * external to the series viewport (axes, legend, headings, ...).
+   */
   margin?: Partial<Margins>;
-  style?: CSSProperties;
-  viewportStyle?: CSSProperties;
+  /**
+   * Style applied to the SVG element.
+   */
+  svgStyle?: CSSProperties;
+  /**
+   * Style applied to the rectangle around the entire plot.
+   */
+  plotViewportStyle?: CSSProperties;
+  /**
+   * Style applied to the rectangle around the series viewport.
+   */
+  seriesViewportStyle?: CSSProperties;
+  /**
+   * All plot elements.
+   */
   children: ReactNode;
 }
 
@@ -68,6 +96,7 @@ export interface AxisChildProps {
   hidden?: boolean;
   hiddenTicks?: boolean;
   tickLength?: number;
+  hiddenSecondaryTicks?: boolean;
 }
 
 export interface AxisParentProps {
@@ -112,7 +141,7 @@ export interface PlotObjectType {
   legend?: LegendProps;
   dimentions: Dimentions;
   colorScheme?: Iterable<string>;
-  viewportStyle?: CSSProperties;
+  seriesViewportStyle?: CSSProperties;
 }
 
 export interface PlotObjectProps {
