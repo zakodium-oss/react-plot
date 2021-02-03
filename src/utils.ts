@@ -6,7 +6,12 @@ import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import type { AxisContextType, CSSFuncProps, PlotChildren } from './types';
+import type {
+  AxisContextType,
+  CSSFuncProps,
+  PlotChildren,
+  SeriesPointErrorType,
+} from './types';
 
 let currentValue = 1;
 
@@ -147,4 +152,15 @@ export function calculateTicksNumber(
     : plotWidth / (tickLength * fontSizeDefault);
 
   return ticksNumber;
+}
+
+/**
+ * validate series point Error
+ */
+export function validateSeriesPointError(
+  error: SeriesPointErrorType,
+): SeriesPointErrorType {
+  if (typeof error === 'number') return [error, error];
+  else if (Array.isArray(error) && error.length >= 2) return error;
+  return null;
 }

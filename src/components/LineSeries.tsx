@@ -5,6 +5,7 @@ import { usePlotContext } from '../hooks';
 import type { LineSeriesProps, SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
+import ErrorBars from './ErrorBars';
 import ScatterSeries from './ScatterSeries';
 import { useLegend } from './legendsContext';
 
@@ -63,10 +64,17 @@ export default function LineSeries(props: LineSeriesProps) {
   return (
     <g>
       {props.hidden ? null : <LineSeriesRender {...lineProps} />}
+      <ErrorBars
+        xAxis={props.xAxis}
+        yAxis={props.yAxis}
+        data={props.data}
+        {...props.errorBars}
+      />
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker || props.hidden}
         groupId={id}
+        errorBars={{ hidden: true }}
       />
     </g>
   );

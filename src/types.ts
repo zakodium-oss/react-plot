@@ -1,5 +1,5 @@
 import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
-import { CSSProperties, ReactElement, ReactNode } from 'react';
+import { CSSProperties, ReactElement, ReactNode, SVGAttributes } from 'react';
 
 export type Shape =
   | 'circle'
@@ -17,9 +17,16 @@ export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
 export type Margins = Record<Horizontal | Vertical, number | undefined>;
 
+export type SeriesPointErrorType =
+  | number
+  | [number | null, number | null]
+  | null;
+
 export interface SeriesPointType {
   x: number;
   y: number;
+  xError?: SeriesPointErrorType;
+  yError?: SeriesPointErrorType;
 }
 
 export type CSSFuncProps<T> = {
@@ -68,6 +75,13 @@ export interface PlotProps {
   children: ReactNode;
 }
 
+export interface ErrorBarsProps {
+  hidden?: boolean;
+  style?: SVGAttributes<SVGLineElement>;
+  capSize?: number;
+  capStyle?: SVGAttributes<SVGLineElement>;
+}
+
 export interface ScatterSeriesProps {
   groupId?: string;
   xAxis?: string;
@@ -78,6 +92,7 @@ export interface ScatterSeriesProps {
   markerSize?: number;
   hidden?: boolean;
   markerStyle?: CSSFuncProps<SeriesPointType>;
+  errorBars?: ErrorBarsProps;
 }
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;

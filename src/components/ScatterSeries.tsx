@@ -5,6 +5,7 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
+import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
@@ -32,8 +33,13 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
   if (props.hidden) return null;
 
   // Render stateless plot component
-  const inheretedProps = { data, id, xAxis, yAxis };
-  return <ScatterSeriesRender {...otherProps} {...inheretedProps} id={id} />;
+  const inheritedProps = { data, xAxis, yAxis };
+  return (
+    <g>
+      <ErrorBars {...inheritedProps} {...otherProps.errorBars} />
+      <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
+    </g>
+  );
 }
 
 function ScatterSeriesRender({
