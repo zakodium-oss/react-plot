@@ -1,6 +1,6 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 
-import { usePlotContext } from '../hooks';
+import { useDispatchContext, usePlotContext } from '../hooks';
 import type { HeadingProps } from '../types';
 
 function yTranslation(position: 'top' | 'bottom', height: number) {
@@ -27,6 +27,12 @@ export default function Heading({
   position = 'top',
 }: HeadingProps) {
   const { width, height, bottom } = usePlotContext();
+  const { dispatch } = useDispatchContext();
+
+  useEffect(() => dispatch({ type: 'setHeadingPosition', payload: position }), [
+    dispatch,
+    position,
+  ]);
 
   const defaultTitleStyle: CSSProperties = {
     textAnchor: 'middle',

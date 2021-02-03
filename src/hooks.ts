@@ -5,12 +5,12 @@ import { createContext, useContext, useMemo } from 'react';
 import type {
   AxisContextType,
   PlotContextType,
-  ReducerActions,
-  State,
+  PlotReducerActions,
+  PlotState,
 } from './types';
 
 interface DispatchContextType {
-  dispatch: ((action: ReducerActions) => void) | null;
+  dispatch: ((action: PlotReducerActions) => void) | null;
 }
 
 export const PlotContext = createContext<PlotContextType>({
@@ -42,7 +42,7 @@ interface SizeProps {
 }
 
 export function useAxisContext(
-  state: State,
+  state: PlotState,
   { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {

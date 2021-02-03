@@ -13,9 +13,12 @@ export type Shape =
   | 'hexagon';
 
 // Component props helpers
-export type Horizontal = 'left' | 'right';
-export type Vertical = 'top' | 'bottom';
-export type Margins = Record<Horizontal | Vertical, number | undefined>;
+export type HorizontalPosition = 'left' | 'right';
+export type VerticalPosition = 'top' | 'bottom';
+export type Margins = Record<
+  HorizontalPosition | VerticalPosition,
+  number | undefined
+>;
 
 export type SeriesPointErrorType = number | number[] | null;
 
@@ -109,7 +112,7 @@ export interface AxisChildProps {
 
 export interface AxisParentProps {
   id?: string;
-  position: Horizontal | Vertical;
+  position: HorizontalPosition | VerticalPosition;
   min?: number;
   max?: number;
 
@@ -127,12 +130,12 @@ export interface HeadingProps {
   subtitle?: string;
   subtitleStyle?: CSSProperties;
   subtitleClass?: string;
-  position?: Vertical;
+  position?: VerticalPosition;
 }
 
 export type LegendProps = {
-  position: Horizontal | Vertical | 'embedded';
-} & { [K in Vertical | Horizontal]?: number };
+  position: HorizontalPosition | VerticalPosition | 'embedded';
+} & { [K in VerticalPosition | HorizontalPosition]?: number };
 
 export interface MarkersProps {
   size: number;
@@ -173,7 +176,7 @@ export interface SeriesType {
 export interface AxisContextType {
   scale: ScaleLinear<number, number>;
   scientific: boolean;
-  position: Horizontal | Vertical;
+  position: HorizontalPosition | VerticalPosition;
 }
 export interface PlotContextType {
   width?: number;
@@ -191,18 +194,20 @@ export interface PlotContextType {
 
 export type AxisType = Record<string, Omit<AxisParentProps, 'id'>>;
 
-export interface State {
+export interface PlotState {
   series: SeriesType[];
   axis: AxisType;
+  headingPosition: VerticalPosition;
 }
 
 // Util functions
 
-export type ReducerActions =
-  | { type: 'newData'; value: SeriesType }
-  | { type: 'removeData'; value: { id: string } }
-  | { type: 'newAxis'; value: AxisParentProps }
-  | { type: 'removeAxis'; value: { id: string } };
+export type PlotReducerActions =
+  | ActionType<'newData', SeriesType>
+  | ActionType<'removeData', { id: string }>
+  | ActionType<'newAxis', AxisParentProps>
+  | ActionType<'removeAxis', { id: string }>
+  | ActionType<'setHeadingPosition', VerticalPosition>;
 
 export interface PlotChildren {
   hasInvalidChild: boolean;
@@ -211,3 +216,7 @@ export interface PlotChildren {
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
 }
+
+export type ActionType<Action, Payload = void> = Payload extends void
+  ? { type: Action }
+  : { type: Action; payload: Payload };

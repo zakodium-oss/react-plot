@@ -50,7 +50,7 @@ export default function Axis({
 
     dispatch({
       type: 'newAxis',
-      value: {
+      payload: {
         id: id || xY,
         position,
         min,
@@ -61,7 +61,7 @@ export default function Axis({
       },
     });
 
-    return () => dispatch({ type: 'removeAxis', value: { id: id || xY } });
+    return () => dispatch({ type: 'removeAxis', payload: { id: id || xY } });
   }, [dispatch, xY, id, position, min, max, flip, paddingStart, paddingEnd]);
 
   const childProps: AxisChildProps = {

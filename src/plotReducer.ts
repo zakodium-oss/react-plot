@@ -1,20 +1,20 @@
-import type { ReducerActions, State } from './types';
+import type { PlotReducerActions, PlotState } from './types';
 import { validatePosition } from './utils';
 
-export function reducer(state: State, action: ReducerActions) {
+export function plotReducer(state: PlotState, action: PlotReducerActions) {
   switch (action.type) {
     case 'newData': {
-      state.series.push(action.value);
+      state.series.push(action.payload);
       break;
     }
     case 'removeData': {
-      const { id } = action.value;
+      const { id } = action.payload;
       const seriesFiltered = state.series.filter((series) => series.id !== id);
       state.series = seriesFiltered;
       break;
     }
     case 'newAxis': {
-      const { id, position, ...values } = action.value;
+      const { id, position, ...values } = action.payload;
       let currentAxis = state.axis[id];
       if (currentAxis) {
         validatePosition(currentAxis.position, position, id);
@@ -25,8 +25,12 @@ export function reducer(state: State, action: ReducerActions) {
       break;
     }
     case 'removeAxis': {
-      const { id } = action.value;
+      const { id } = action.payload;
       delete state.axis[id];
+      break;
+    }
+    case 'setHeadingPosition': {
+      state.headingPosition = action.payload;
       break;
     }
     default: {

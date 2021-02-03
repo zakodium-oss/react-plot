@@ -8,7 +8,7 @@ import {
   useReducer,
 } from 'react';
 
-import { Shape } from '../types';
+import { ActionType, Shape } from '../types';
 
 interface LabelState {
   label: string;
@@ -25,10 +25,6 @@ interface LabelState {
 interface LegendState {
   labels: Array<LabelState>;
 }
-
-export type ActionType<Action, Payload = void> = Payload extends void
-  ? { type: Action }
-  : { type: Action; payload: Payload };
 
 type LegendAction = ActionType<'ADD_LEGEND_LABEL', LabelState>;
 

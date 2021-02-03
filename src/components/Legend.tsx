@@ -1,15 +1,20 @@
 /* eslint-disable react/no-array-index-key */
+
 import { useMemo } from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { Horizontal, LegendProps, Vertical } from '../types';
+import type {
+  HorizontalPosition,
+  LegendProps,
+  VerticalPosition,
+} from '../types';
 
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
-type Positions = { [K in Vertical | Horizontal]?: number };
+type Positions = { [K in VerticalPosition | HorizontalPosition]?: number };
 interface ValidatedPosition {
-  key?: Vertical | Horizontal;
+  key?: VerticalPosition | HorizontalPosition;
   value?: number;
 }
 export function exclusiveProps(
@@ -30,7 +35,7 @@ export function exclusiveProps(
 }
 
 function translation(
-  position: Horizontal | Vertical | 'embedded',
+  position: HorizontalPosition | VerticalPosition | 'embedded',
   legendMargins: Positions,
   plotMargins: Required<Positions>,
   width: number,

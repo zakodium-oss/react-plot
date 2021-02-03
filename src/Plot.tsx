@@ -6,14 +6,17 @@ import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
-import { reducer } from './plotReducer';
-import type { PlotProps, ReducerActions, State } from './types';
+import { plotReducer } from './plotReducer';
+import type { PlotProps, PlotReducerActions, PlotState } from './types';
 import { splitChildren } from './utils';
 
-const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
-const initialState: State = {
+const reducerCurr: Reducer<PlotState, PlotReducerActions> = produce(
+  plotReducer,
+);
+const initialState: PlotState = {
   series: [],
   axis: {},
+  headingPosition: 'top',
 };
 
 const defaultSvgStyle: CSSProperties = {
@@ -120,7 +123,18 @@ export default function Plot(props: PlotProps) {
               {axes}
             </g>
 
-            {heading}
+            {/* Top */}
+            <g>{state.headingPosition === 'top' ? heading : null}</g>
+
+            {/* Right */}
+            <g />
+
+            {/* Bottom */}
+            <g>{state.headingPosition === 'bottom' ? heading : null}</g>
+
+            {/* Left */}
+            <g />
+
             {legend}
           </svg>
         </LegendProvider>
