@@ -1,6 +1,13 @@
 import { max, min } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
-import { createContext, useContext, useMemo } from 'react';
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import type {
   AxisContextType,
@@ -84,4 +91,22 @@ export function useAxisContext(
   }, [state, plotWidth, plotHeight]);
 
   return context;
+}
+
+const emptySize = { width: 0, height: 0 };
+export function useMeasuredGroup() {
+  const ref = useRef<SVGGElement>(null);
+  const [{ width, height }, setSize] = useState(emptySize);
+  useLayoutEffect(() => {
+    if (!ref.current) {
+      setSize(emptySize);
+    } else {
+      const measure = ref.current.getBBox();
+      setSize({
+        width: measure.width,
+        height: measure.height,
+      });
+    }
+  }, []);
+  return { ref, width, height };
 }

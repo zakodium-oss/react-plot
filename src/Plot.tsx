@@ -5,7 +5,12 @@ import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
-import { PlotContext, DispatchContext, useAxisContext } from './hooks';
+import {
+  PlotContext,
+  DispatchContext,
+  useAxisContext,
+  useMeasuredGroup,
+} from './hooks';
 import { plotReducer } from './plotReducer';
 import type { PlotProps, PlotReducerActions, PlotState } from './types';
 import { splitChildren } from './utils';
@@ -21,6 +26,7 @@ const initialState: PlotState = {
 
 const defaultSvgStyle: CSSProperties = {
   fontFamily: 'Arial, Helvetica, sans-serif',
+  dominantBaseline: 'text-before-edge',
 };
 
 export type { PlotProps };
@@ -33,11 +39,19 @@ export default function Plot(props: PlotProps) {
     width,
     height,
     colorScheme = schemeSet1,
-    margin = {},
     svgStyle = {},
     plotViewportStyle = {},
     seriesViewportStyle = {},
     children,
+  } = props;
+
+  let {
+    margin: {
+      left: marginLeft = 0,
+      right: marginRight = 0,
+      top: marginTop = 'auto' as const,
+      bottom: marginBottom = 'auto' as const,
+    },
   } = props;
 
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
@@ -52,17 +66,6 @@ export default function Plot(props: PlotProps) {
     throw new Error('Width and height are mandatory');
   }
 
-  // Distances in plot
-  const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
-  const plotWidth = width - left - right;
-  const plotHeight = height - top - bottom;
-
-  // Set scales
-  const axisContext = useAxisContext(state, {
-    plotWidth,
-    plotHeight,
-  });
-
   const labels = useMemo(
     () => state.series.map(({ id, label }) => ({ id, label })),
     [state.series],
@@ -74,15 +77,42 @@ export default function Plot(props: PlotProps) {
     return scaleOrdinal<string>().range(colorScheme).domain(ids);
   }, [colorScheme, ids]);
 
+  const headingRef = useMeasuredGroup();
+  const headingElement = heading ? <g ref={headingRef.ref}>{heading}</g> : null;
+
+  if (marginTop === 'auto') {
+    marginTop = 0;
+    if (state.headingPosition === 'top') {
+      marginTop += headingRef.height;
+    }
+  }
+
+  if (marginBottom === 'auto') {
+    marginBottom = 0;
+    if (state.headingPosition === 'bottom') {
+      marginBottom += headingRef.height;
+    }
+  }
+
+  // Distances in plot
+  const plotWidth = width - marginLeft - marginRight;
+  const plotHeight = height - marginTop - marginBottom;
+
+  // Set scales
+  const axisContext = useAxisContext(state, {
+    plotWidth,
+    plotHeight,
+  });
+
   return (
     <PlotContext.Provider
       value={{
         width,
         height,
-        left,
-        right,
-        top,
-        bottom,
+        left: marginLeft,
+        right: marginRight,
+        top: marginTop,
+        bottom: marginBottom,
         plotWidth,
         plotHeight,
         labels,
@@ -106,7 +136,7 @@ export default function Plot(props: PlotProps) {
             />
 
             {/* Series viewport */}
-            <g transform={`translate(${left}, ${top})`}>
+            <g transform={`translate(${marginLeft}, ${marginTop})`}>
               <TransparentRect
                 width={plotWidth}
                 height={plotHeight}
@@ -124,13 +154,15 @@ export default function Plot(props: PlotProps) {
             </g>
 
             {/* Top */}
-            <g>{state.headingPosition === 'top' ? heading : null}</g>
+            <g>{state.headingPosition === 'top' ? headingElement : null}</g>
 
             {/* Right */}
             <g />
 
             {/* Bottom */}
-            <g>{state.headingPosition === 'bottom' ? heading : null}</g>
+            <g transform={`translate(0, ${marginTop + plotHeight})`}>
+              {state.headingPosition === 'bottom' ? headingElement : null}
+            </g>
 
             {/* Left */}
             <g />

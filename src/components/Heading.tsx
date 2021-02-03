@@ -3,20 +3,6 @@ import { CSSProperties, useEffect } from 'react';
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { HeadingProps } from '../types';
 
-function yTranslation(position: 'top' | 'bottom', height: number) {
-  switch (position) {
-    case 'top': {
-      return 20;
-    }
-    case 'bottom': {
-      return height + 64;
-    }
-    default: {
-      throw new Error(`Unknown ${JSON.stringify(position)} position`);
-    }
-  }
-}
-
 export default function Heading({
   title,
   titleStyle,
@@ -26,7 +12,7 @@ export default function Heading({
   subtitleClass,
   position = 'top',
 }: HeadingProps) {
-  const { width, height, bottom } = usePlotContext();
+  const { width } = usePlotContext();
   const { dispatch } = useDispatchContext();
 
   useEffect(() => dispatch({ type: 'setHeadingPosition', payload: position }), [
@@ -45,10 +31,8 @@ export default function Heading({
     color: 'gray',
   };
 
-  const bottomHeigth = height - bottom;
-  const y = yTranslation(position, bottomHeigth);
   return (
-    <g transform={`translate(${width / 2}, ${y})`}>
+    <g transform={`translate(${width / 2}, 0)`}>
       <text
         style={{ ...defaultTitleStyle, ...titleStyle }}
         className={titleClass}

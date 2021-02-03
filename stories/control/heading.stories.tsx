@@ -60,11 +60,12 @@ export function HeadingControl(props: HeadingControlProps) {
     <Plot
       width={900}
       height={540}
+      svgStyle={{ padding: '10px' }}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 100,
+        top: props.position === 'top' ? undefined : 40,
+        bottom: props.position === 'bottom' ? undefined : 40,
         left: 40,
-        top: 40,
         right: 40,
       }}
     >
