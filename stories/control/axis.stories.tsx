@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import { Axis, LineSeries, Plot, PlotProps } from '../../src';
 
 export default {
   title: 'API/Axis',
@@ -81,10 +81,10 @@ interface AxisControlProps {
   max: number;
 }
 
-const plot = {
+const plot: Omit<PlotProps, 'children'> = {
   width: 900,
   height: 540,
-  viewportStyle: {
+  seriesViewportStyle: {
     stroke: 'black',
   },
   margin: {

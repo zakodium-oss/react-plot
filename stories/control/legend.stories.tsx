@@ -64,7 +64,7 @@ export function HeadingControl(props: LegendProps) {
     <Plot
       width={900}
       height={540}
-      viewportStyle={{ stroke: 'black' }}
+      seriesViewportStyle={{ stroke: 'black' }}
       margin={{
         bottom: 100,
         left: 100,
@@ -85,7 +85,7 @@ export function HeaderTest() {
     <Plot
       width={900}
       height={540}
-      viewportStyle={{ stroke: 'black' }}
+      seriesViewportStyle={{ stroke: 'black' }}
       margin={{
         bottom: 100,
         left: 100,

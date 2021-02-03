@@ -10,7 +10,7 @@ export default {
 
 export function Control() {
   const plot: PlotObjectType = {
-    viewportStyle: {
+    seriesViewportStyle: {
       stroke: 'black',
       strokeWidth: '2px',
       fill: '#ddd',

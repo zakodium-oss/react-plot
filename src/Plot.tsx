@@ -31,9 +31,9 @@ export default function Plot(props: PlotProps) {
     height,
     colorScheme = schemeSet1,
     margin = {},
-    style = {},
     svgStyle = {},
-    viewportStyle = {},
+    plotViewportStyle = {},
+    seriesViewportStyle = {},
     children,
   } = props;
 
@@ -95,23 +95,27 @@ export default function Plot(props: PlotProps) {
             height={height}
             style={{ ...defaultSvgStyle, ...svgStyle }}
           >
-            {/* Main plot area */}
-            <TransparentRect width={width} height={height} style={style} />
+            {/* Plot viewport */}
+            <TransparentRect
+              width={width}
+              height={height}
+              style={plotViewportStyle}
+            />
 
-            {/* Viewport area */}
+            {/* Series viewport */}
             <g transform={`translate(${left}, ${top})`}>
               <TransparentRect
                 width={plotWidth}
                 height={plotHeight}
-                style={viewportStyle}
+                style={seriesViewportStyle}
               />
 
               {/* Prevents the chart from being drawn outside of the viewport */}
-              <clipPath id="viewportClip">
+              <clipPath id="seriesViewportClip">
                 <rect width={plotWidth} height={plotHeight} />
               </clipPath>
 
-              <g style={{ clipPath: 'url(#viewportClip)' }}>{series}</g>
+              <g style={{ clipPath: 'url(#seriesViewportClip)' }}>{series}</g>
 
               {axes}
             </g>

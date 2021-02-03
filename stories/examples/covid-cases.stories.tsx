@@ -14,7 +14,7 @@ export function Covid19Cases() {
     <Plot
       {...DEFAULT_CONFIG}
       margin={{ bottom: 50, left: 100, top: 50, right: 10 }}
-      viewportStyle={{
+      seriesViewportStyle={{
         stroke: 'black',
         strokeWidth: 0.3,
       }}
