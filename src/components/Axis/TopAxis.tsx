@@ -57,6 +57,7 @@ export default function TopAxis({
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
+  const tickTextPosition = tickEmbedded ? -12 : -12 + tickLen;
   return (
     <g className="axis">
       {gridlines}
@@ -73,7 +74,7 @@ export default function TopAxis({
             hiddenSecondaryTicks={hiddenSecondaryTicks}
             getPositions={(val) => ({
               line: { x1: val, x2: val, y2: tickLen },
-              text: { x1: val, y1: -12 },
+              text: { x1: val, y1: tickTextPosition },
             })}
           />
         </g>
