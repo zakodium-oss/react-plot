@@ -2,26 +2,25 @@
   "name": "react-plot",
   "version": "0.5.0",
   "description": "Render 2dplot partition in react",
-  "main": "lib/src/index.js",
-  "module": "lib-es/src/index.js",
-  "types": "lib-es/src/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib-esm/index.js",
+  "types": "lib-esm/index.d.ts",
   "files": [
-    "lib/src",
-    "lib-es/src"
+    "lib",
+    "lib-esm"
   ],
   "scripts": {
-    "build": "npm run clean && npm run build:ts",
-    "build:ts": "tsc && tsc -p tsconfig.es.json",
+    "build": "npm run clean && npm run build-ts",
     "build-storybook": "build-storybook",
-    "clean": "rimraf lib lib-es",
+    "build-ts": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf lib lib-esm",
     "dev": "start-storybook -p 6006",
     "eslint": "eslint --ext ts,tsx src stories",
     "eslint-fix": "npm run eslint -- --fix",
-    "npm:publish": "npm t && npm publish --access public && git push --follow-tags",
     "prepublishOnly": "npm run build",
     "start": "npm run dev",
-    "test": "npm run eslint && tsc --noEmit",
-    "watch": "tsc -p tsconfig.es.json -w"
+    "test": "npm run eslint && npm run check-types"
   },
   "repository": {
     "type": "git",
@@ -40,27 +39,23 @@
     "url": "https://github.com/zakodium/react-plot/issues"
   },
   "homepage": "https://github.com/zakodium/react-plot#readme",
-  "peerDependencies": {
-    "react": ">=16.0.0",
-    "react-dom": ">=16.0.0"
-  },
   "prettier": {
     "trailingComma": "all",
     "arrowParens": "always",
     "singleQuote": true
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^6.1.15",
-    "@storybook/addon-links": "^6.1.15",
-    "@storybook/addon-storysource": "^6.1.15",
-    "@storybook/react": "^6.1.15",
-    "@types/d3-array": "^2.8.0",
+    "@storybook/addon-essentials": "^6.1.16",
+    "@storybook/addon-links": "^6.1.16",
+    "@storybook/addon-storysource": "^6.1.16",
+    "@storybook/react": "^6.1.16",
+    "@types/d3-array": "^2.9.0",
     "@types/d3-scale": "^3.2.2",
     "@types/d3-scale-chromatic": "^2.0.0",
     "@types/d3-shape": "^2.0.0",
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.1",
     "@zakodium/eslint-config": "^2.2.2",
-    "eslint": "^7.18.0",
+    "eslint": "^7.19.0",
     "ml-dataset-iris": "^1.1.1",
     "ml-pca": "^4.0.1",
     "ml-regression-simple-linear": "^2.0.3",
