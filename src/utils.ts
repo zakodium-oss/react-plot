@@ -27,7 +27,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
   let axes = [];
   let heading = null;
   let legend = null;
-  let annotations = null;
+  let annotations = [];
   for (let child of React.Children.toArray(children)) {
     // Base child validation
     if (typeof child !== 'object' || !React.isValidElement(child)) {
@@ -44,7 +44,7 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
     } else if (child.type === Legend) {
       legend = child;
     } else if (child.type === Annotation.Annotations) {
-      annotations = child;
+      annotations.push(child);
     }
 
     // Default case

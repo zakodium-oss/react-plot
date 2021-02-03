@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Shape, { AnnotationShapeList } from './Shape';
+type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
 interface ArrowProps {
   x1: number;
@@ -9,35 +9,29 @@ interface ArrowProps {
   x2: number;
   y2: number;
 
-  startPoint: AnnotationShapeList | 'none';
-  endPoint: AnnotationShapeList | 'none';
+  startPoint?: AnnotationShapeList;
+  endPoint?: AnnotationShapeList;
 }
 
 export default function Arrow(props: ArrowProps) {
-  const { x1, y1, x2, y2, startPoint, endPoint } = props;
+  const { x1, y1, x2, y2, startPoint = 'none', endPoint = 'none' } = props;
+
+  const startMarker =
+    startPoint !== 'none' ? `url(#marker-${startPoint})` : undefined;
+  const endMarker =
+    endPoint !== 'none' ? `url(#marker-${endPoint})` : undefined;
+
   return (
     <g>
-      {startPoint !== 'none' && (
-        <Shape
-          x={x1}
-          y={y1}
-          shape={startPoint}
-          size={10}
-          style={{ fill: 'black' }}
-        />
-      )}
-
-      <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="black" />
-
-      {endPoint !== 'none' && (
-        <Shape
-          x={x2}
-          y={y2}
-          shape={endPoint}
-          size={10}
-          style={{ fill: 'black' }}
-        />
-      )}
+      <line
+        x1={x1}
+        y1={y1}
+        x2={x2}
+        y2={y2}
+        stroke="black"
+        markerStart={startMarker}
+        markerEnd={endMarker}
+      />
     </g>
   );
 }

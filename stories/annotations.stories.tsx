@@ -9,19 +9,6 @@ const shapes = ['circle', 'triangle', 'diamond', 'square'];
 
 export default {
   title: 'Docs/Annotations',
-  argTypes: {
-    size: {
-      control: 'number',
-      defaultValue: 5,
-    },
-    shape: {
-      defaultValue: shapes[0],
-      control: {
-        type: 'select',
-        options: shapes,
-      },
-    },
-  },
   decorators: [
     (Story) => (
       <Plot
@@ -84,7 +71,13 @@ const data = [
 
 export function AnnotationRectangleStories() {
   return (
-    <Annotation.Rectangle x={20} y={270} width={550} height={50} fill="red" />
+    <Annotation.Rectangle x="20" y="270" width="550" height="50" fill="red" />
+  );
+}
+
+export function AnnotationRectangleValuesStories() {
+  return (
+    <Annotation.Rectangle x={1} y={15} width="100px" height={3} fill="red" />
   );
 }
 
@@ -139,7 +132,7 @@ export function AnnotationArrowStories() {
       x2={90}
       y1={90}
       y2={250}
-      startPoint="circle"
+      startPoint="line"
       endPoint="triangle"
     />
   );
@@ -159,3 +152,17 @@ export function AnnotationShapeStories(props: {
     />
   );
 }
+
+AnnotationShapeStories.argTypes = {
+  size: {
+    control: 'number',
+    defaultValue: 5,
+  },
+  shape: {
+    defaultValue: shapes[0],
+    control: {
+      type: 'select',
+      options: shapes,
+    },
+  },
+};

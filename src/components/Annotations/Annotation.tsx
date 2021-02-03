@@ -1,14 +1,11 @@
 import React, { ReactNode } from 'react';
 
-import { usePlotContext } from '../../hooks';
-
 interface AnnotationsProps {
   children: ReactNode;
 }
 
 export function Annotations(props: AnnotationsProps): JSX.Element {
-  const { top, left } = usePlotContext();
-  return <g transform={`translate(${left}, ${top})`}>{props.children}</g>;
+  return <>{props.children}</>;
 }
 
 export { default as Rectangle } from './Rectangle';

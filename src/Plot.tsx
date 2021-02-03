@@ -3,6 +3,7 @@ import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import React, { Reducer, useMemo, useReducer } from 'react';
 
+import MarkerDefs from './components/Annotations/MarkerDefs';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
@@ -88,6 +89,8 @@ export default function Plot({
             height={height}
             style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}
           >
+            <MarkerDefs />
+
             {/* Main plot area */}
             <TransparentRect width={width} height={height} style={style} />
 
@@ -104,12 +107,13 @@ export default function Plot({
                 <rect width={plotWidth} height={plotHeight} />
               </clipPath>
 
-              <g style={{ clipPath: 'url(#viewportClip)' }}>{series}</g>
+              <g style={{ clipPath: 'url(#viewportClip)' }}>
+                {series}
+                {annotations}
+              </g>
 
               {axes}
             </g>
-
-            {annotations !== undefined && annotations}
 
             {heading}
             {legend}

@@ -1,5 +1,5 @@
 import { max, min } from 'd3-array';
-import { scaleLinear } from 'd3-scale';
+import { ScaleLinear, scaleLinear } from 'd3-scale';
 import { createContext, useContext, useMemo } from 'react';
 
 import type {
@@ -8,6 +8,7 @@ import type {
   ReducerActions,
   State,
 } from './types';
+import { validateAxis } from './utils';
 
 interface DispatchContextType {
   dispatch: ((action: ReducerActions) => void) | null;
@@ -47,6 +48,7 @@ export function useAxisContext(
 ) {
   const context = useMemo(() => {
     let axisContext: Record<string, AxisContextType> = {};
+
     for (const id in state.axis) {
       const axis = state.axis[id];
       const isHorizontal = ['top', 'bottom'].includes(axis.position);
@@ -84,4 +86,47 @@ export function useAxisContext(
   }, [state, plotWidth, plotHeight]);
 
   return context;
+}
+
+type NumberString = number | string;
+
+interface usePositionProps {
+  x: NumberString;
+  y: NumberString;
+
+  width: NumberString;
+  height: NumberString;
+}
+
+/*
+  x1, x2, xXXX => Coordonnées => xScale sans xScale(0)
+  r, rx, ry => Calcul => xScale avec xScale(0)
+*/
+export function usePosition(config: usePositionProps) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const { x, y, width, height } = config;
+
+  return {
+    x: convertValue(x, xScale),
+    y: convertValue(y, yScale),
+    width: convertValueAbs(width, xScale),
+    height: convertValueAbs(height, yScale),
+  };
+}
+
+function convertValue(
+  value: string | number,
+  scale?: ScaleLinear<number, number>,
+) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number' ? scale(value) : value;
+}
+
+function convertValueAbs(
+  value: string | number,
+  scale?: ScaleLinear<number, number>,
+) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number' ? Math.abs(scale(0) - scale(value)) : value;
 }
