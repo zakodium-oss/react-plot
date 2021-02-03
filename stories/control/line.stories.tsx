@@ -87,7 +87,7 @@ export function LineControl(props: LineSeriesProps) {
     <Plot
       width={900}
       height={540}
-      viewportStyle={{ stroke: 'black' }}
+      seriesViewportStyle={{ stroke: 'black' }}
       margin={{
         bottom: 45,
         left: 40,

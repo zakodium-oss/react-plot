@@ -51,7 +51,7 @@ export function PlotControl(args: PlotProps) {
 PlotControl.args = {
   width: 900,
   height: 540,
-  viewportStyle: { stroke: 'black' },
+  seriesViewportStyle: { stroke: 'black' },
   margin: {
     top: 40,
     right: 40,

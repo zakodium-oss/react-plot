@@ -8,12 +8,12 @@ import ScatterSeries from './components/ScatterSeries';
 import { PlotObjectProps } from './types';
 
 export default function PlotObject({
-  plot: { dimentions, viewportStyle, axes, series, legend, colorScheme },
+  plot: { dimentions, seriesViewportStyle, axes, series, legend, colorScheme },
 }: PlotObjectProps) {
   return (
     <Plot
       colorScheme={colorScheme}
-      viewportStyle={viewportStyle}
+      seriesViewportStyle={seriesViewportStyle}
       {...dimentions}
     >
       {axes.map((props) => (

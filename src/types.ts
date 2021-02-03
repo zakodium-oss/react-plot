@@ -45,23 +45,23 @@ export interface PlotProps {
    */
   colorScheme?: Iterable<string>;
   /**
-   * Margins around the main viewport.
+   * Margins around the series viewport.
    * They are used to make space within the SVG to place elements that are
-   * external to the main viewport (axes, legend, headings, ...).
+   * external to the series viewport (axes, legend, headings, ...).
    */
   margin?: Partial<Margins>;
-  /**
-   * Style applied to the rectangle around the entire plot.
-   */
-  style?: CSSProperties;
   /**
    * Style applied to the SVG element.
    */
   svgStyle?: CSSProperties;
   /**
-   * Style applied to the rectangle around the main viewport.
+   * Style applied to the rectangle around the entire plot.
    */
-  viewportStyle?: CSSProperties;
+  plotViewportStyle?: CSSProperties;
+  /**
+   * Style applied to the rectangle around the series viewport.
+   */
+  seriesViewportStyle?: CSSProperties;
   /**
    * All plot elements.
    */
@@ -141,7 +141,7 @@ export interface PlotObjectType {
   legend?: LegendProps;
   dimentions: Dimentions;
   colorScheme?: Iterable<string>;
-  viewportStyle?: CSSProperties;
+  seriesViewportStyle?: CSSProperties;
 }
 
 export interface PlotObjectProps {
