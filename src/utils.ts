@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react';
 
 import Axis from './components/Axis';
+import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
@@ -32,7 +33,11 @@ export function splitChildren(children: React.ReactNode): PlotChildren {
     }
 
     // Classifies the expected components
-    else if (child.type === LineSeries || child.type === ScatterSeries) {
+    else if (
+      child.type === LineSeries ||
+      child.type === ScatterSeries ||
+      child.type === BarSeries
+    ) {
       series.push(child);
     } else if (child.type === Axis) {
       axes.push(child);
