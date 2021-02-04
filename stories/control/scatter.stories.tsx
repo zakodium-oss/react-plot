@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import React, { SVGAttributes } from 'react';
+import React from 'react';
 
 import {
   Axis,
@@ -36,25 +36,43 @@ export default {
         category: 'Error Bars',
       },
     },
-    ErrorBarsStyle: {
-      control: 'object',
-      defaultValue: { stroke: 'black', strokeWidth: 1 },
-      table: {
-        category: 'Error Bars',
-      },
-    },
     capSize: {
       control: 'number',
-      defaultValue: 8,
+      defaultValue: 10,
       table: {
         category: 'Error Bars',
       },
     },
-    capStyle: {
-      control: 'object',
-      defaultValue: { stroke: 'black', strokeWidth: 1 },
+    barStroke: {
+      control: 'color',
+      defaultValue: 'black',
       table: {
         category: 'Error Bars',
+        subcategory: 'Bars Style',
+      },
+    },
+    barWidth: {
+      control: 'number',
+      defaultValue: 1,
+      table: {
+        category: 'Error Bars',
+        subcategory: 'Bars Style',
+      },
+    },
+    capStroke: {
+      control: 'color',
+      defaultValue: 'blue',
+      table: {
+        category: 'Error Bars',
+        subcategory: 'Cap Style',
+      },
+    },
+    capWidth: {
+      control: 'number',
+      defaultValue: 2,
+      table: {
+        category: 'Error Bars',
+        subcategory: 'Cap Style',
       },
     },
     // Disable unnecessary controls
@@ -121,19 +139,30 @@ const data = [
 
 interface ScatterControlProps extends ScatterSeriesProps {
   hiddenErrorBars?: boolean;
-  ErrorBarsStyle?: SVGAttributes<SVGLineElement>;
   capSize?: number;
-  capStyle?: SVGAttributes<SVGLineElement>;
+  barStroke?: string;
+  barWidth?: number;
+  capStroke?: string;
+  capWidth?: number;
 }
 
 export function ScatterControl(props: ScatterControlProps) {
-  const { hiddenErrorBars, ErrorBarsStyle, capStyle, capSize } = props;
+  const {
+    hiddenErrorBars,
+    capSize,
+    barStroke,
+    barWidth,
+    capStroke,
+    capWidth,
+  } = props;
+
   const errorBars = {
     hidden: hiddenErrorBars,
-    style: ErrorBarsStyle,
-    capStyle: capStyle,
     capSize: capSize,
+    style: { stroke: barStroke, strokeWidth: barWidth },
+    capStyle: { stroke: capStroke, strokeWidth: capWidth },
   };
+
   return (
     <Plot
       width={900}

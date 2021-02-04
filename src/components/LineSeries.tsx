@@ -65,10 +65,11 @@ export default function LineSeries(props: LineSeriesProps) {
     <g>
       {props.hidden ? null : <LineSeriesRender {...lineProps} />}
       <ErrorBars
+        {...props.errorBars}
         xAxis={props.xAxis}
         yAxis={props.yAxis}
         data={props.data}
-        {...props.errorBars}
+        hidden={props.errorBars?.hidden || props.hidden}
       />
       <ScatterSeries
         {...otherProps}

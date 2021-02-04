@@ -62,7 +62,7 @@ function PointBars(props: PointBarsProps) {
 
   return (
     <g>
-      {!(top == null) && (
+      {top != null && (
         <g>
           <line
             x1={origin.x}
@@ -78,12 +78,13 @@ function PointBars(props: PointBarsProps) {
             y1={top}
             y2={top}
             stroke={defaultColor}
+            {...style}
             {...capStyle}
           />
         </g>
       )}
 
-      {!(bottom == null) && (
+      {bottom != null && (
         <g>
           <line
             x1={origin.x}
@@ -99,12 +100,13 @@ function PointBars(props: PointBarsProps) {
             y1={bottom}
             y2={bottom}
             stroke={defaultColor}
+            {...style}
             {...capStyle}
           />
         </g>
       )}
 
-      {!(left == null) && (
+      {left != null && (
         <g>
           <line
             x1={origin.x}
@@ -120,12 +122,13 @@ function PointBars(props: PointBarsProps) {
             y1={origin.y - capSize / 2}
             y2={origin.y + capSize / 2}
             stroke={defaultColor}
+            {...style}
             {...capStyle}
           />
         </g>
       )}
 
-      {!(right == null) && (
+      {right != null && (
         <g>
           <line
             x1={origin.x}
@@ -141,6 +144,7 @@ function PointBars(props: PointBarsProps) {
             y1={origin.y - capSize / 2}
             y2={origin.y + capSize / 2}
             stroke={defaultColor}
+            {...style}
             {...capStyle}
           />
         </g>
