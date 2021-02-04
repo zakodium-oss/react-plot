@@ -22,7 +22,12 @@ export default function LineSeries(props: LineSeriesProps) {
   const { colorScaler } = usePlotContext();
 
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
-  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
+  const {
+    lineStyle = {},
+    displayMarker = false,
+    hidden,
+    ...otherProps
+  } = props;
   const lineProps = {
     id,
     data: props.data,
@@ -61,19 +66,19 @@ export default function LineSeries(props: LineSeriesProps) {
     otherProps.markerStyle?.fill,
   ]);
 
+  if (hidden) return null;
   return (
     <g>
-      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
+      <LineSeriesRender {...lineProps} />
       <ErrorBars
         {...props.errorBars}
         xAxis={props.xAxis}
         yAxis={props.yAxis}
         data={props.data}
-        hidden={props.errorBars?.hidden || props.hidden}
       />
       <ScatterSeries
         {...otherProps}
-        hidden={!displayMarker || props.hidden}
+        hidden={!displayMarker}
         groupId={id}
         errorBars={{ hidden: true }}
       />

@@ -15,7 +15,14 @@ interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
 export default function ScatterSeries(props: ScatterSeriesProps) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
 
-  const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    data,
+    label,
+    hidden,
+    ...otherProps
+  } = props;
 
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
@@ -30,7 +37,7 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     return () => dispatch({ type: 'removeData', value: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
-  if (props.hidden) return null;
+  if (hidden) return null;
 
   // Render stateless plot component
   const inheritedProps = { data, xAxis, yAxis };
