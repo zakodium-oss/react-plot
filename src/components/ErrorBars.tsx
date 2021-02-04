@@ -1,24 +1,31 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, SVGAttributes } from 'react';
 
 import { usePlotContext } from '../hooks';
-import { SeriesPointType, ErrorBarsProps } from '../types';
+import { SeriesPointType } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 
-interface ErrorBarsComponentProps extends ErrorBarsProps {
+export interface ErrorBarsProps {
   data: SeriesPointType[];
   xAxis?: string;
   yAxis?: string;
+  hidden?: boolean;
+  style?: SVGAttributes<SVGLineElement>;
+  capSize?: number;
+  capStyle?: SVGAttributes<SVGLineElement>;
 }
 
-interface PointBarsProps extends Omit<ErrorBarsProps, 'hidden'> {
+interface PointBarsProps {
   origin: { x: number; y: number };
   top: number | null;
   bottom: number | null;
   left: number | null;
   right: number | null;
+  style?: SVGAttributes<SVGLineElement>;
+  capSize?: number;
+  capStyle?: SVGAttributes<SVGLineElement>;
 }
 
-export default function ErrorBars(props: ErrorBarsComponentProps) {
+export default function ErrorBars(props: ErrorBarsProps) {
   const { xAxis = 'x', yAxis = 'y', data, hidden, ...otherProps } = props;
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);

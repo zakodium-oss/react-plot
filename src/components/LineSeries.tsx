@@ -25,16 +25,10 @@ export default function LineSeries(props: LineSeriesProps) {
   const {
     lineStyle = {},
     displayMarker = false,
+    displayErrorBars = false,
     hidden,
     ...otherProps
   } = props;
-  const lineProps = {
-    id,
-    data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
-    lineStyle,
-  };
 
   useEffect(() => {
     legendDispatch({
@@ -67,20 +61,33 @@ export default function LineSeries(props: LineSeriesProps) {
   ]);
 
   if (hidden) return null;
+
+  const lineProps = {
+    id,
+    data: props.data,
+    xAxis: props.xAxis || 'x',
+    yAxis: props.yAxis || 'y',
+    lineStyle,
+  };
+  const errorBarsProps = {
+    data: props.data,
+    xAxis: props.xAxis || 'x',
+    yAxis: props.yAxis || 'y',
+    hidden: !displayErrorBars,
+    style: props.errorBarsStyle,
+    capStyle: props.errorBarsCapStyle,
+    capSize: props.errorBarsCapSize,
+  };
+
   return (
     <g>
       <LineSeriesRender {...lineProps} />
-      <ErrorBars
-        {...props.errorBars}
-        xAxis={props.xAxis}
-        yAxis={props.yAxis}
-        data={props.data}
-      />
+      <ErrorBars {...errorBarsProps} />
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker}
         groupId={id}
-        errorBars={{ hidden: true }}
+        displayErrorBars={false}
       />
     </g>
   );

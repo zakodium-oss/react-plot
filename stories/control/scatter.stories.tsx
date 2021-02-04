@@ -29,58 +29,33 @@ export default {
       defaultValue: 5,
     },
     // ErrorBars props
-    hiddenErrorBars: {
+    displayErrorBars: {
       control: 'boolean',
-      defaultValue: false,
+      defaultValue: true,
       table: {
         category: 'Error Bars',
       },
     },
-    capSize: {
+    errorBarsCapSize: {
       control: 'number',
       defaultValue: 10,
       table: {
         category: 'Error Bars',
       },
     },
-    barStroke: {
-      control: 'color',
-      defaultValue: 'black',
+    errorBarsStyle: {
+      defaultValue: { strokeWidth: 1 },
       table: {
         category: 'Error Bars',
-        subcategory: 'Bars Style',
       },
     },
-    barWidth: {
-      control: 'number',
-      defaultValue: 1,
+    errorBarsCapStyle: {
+      defaultValue: { stroke: 'blue' },
       table: {
         category: 'Error Bars',
-        subcategory: 'Bars Style',
-      },
-    },
-    capStroke: {
-      control: 'color',
-      defaultValue: 'blue',
-      table: {
-        category: 'Error Bars',
-        subcategory: 'Cap Style',
-      },
-    },
-    capWidth: {
-      control: 'number',
-      defaultValue: 2,
-      table: {
-        category: 'Error Bars',
-        subcategory: 'Cap Style',
       },
     },
     // Disable unnecessary controls
-    errorBars: {
-      table: {
-        disable: true,
-      },
-    },
     groupId: {
       table: {
         disable: true,
@@ -137,32 +112,7 @@ const data = [
   },
 ];
 
-interface ScatterControlProps extends ScatterSeriesProps {
-  hiddenErrorBars?: boolean;
-  capSize?: number;
-  barStroke?: string;
-  barWidth?: number;
-  capStroke?: string;
-  capWidth?: number;
-}
-
-export function ScatterControl(props: ScatterControlProps) {
-  const {
-    hiddenErrorBars,
-    capSize,
-    barStroke,
-    barWidth,
-    capStroke,
-    capWidth,
-  } = props;
-
-  const errorBars = {
-    hidden: hiddenErrorBars,
-    capSize: capSize,
-    style: { stroke: barStroke, strokeWidth: barWidth },
-    capStyle: { stroke: capStroke, strokeWidth: capWidth },
-  };
-
+export function ScatterControl(props: ScatterSeriesProps) {
   return (
     <Plot
       width={900}
@@ -177,13 +127,7 @@ export function ScatterControl(props: ScatterControlProps) {
     >
       <Legend position="embedded" />
 
-      <ScatterSeries
-        data={data}
-        xAxis="x"
-        yAxis="y"
-        {...props}
-        errorBars={errorBars}
-      />
+      <ScatterSeries data={data} xAxis="x" yAxis="y" {...props} />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>

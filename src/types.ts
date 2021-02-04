@@ -72,13 +72,6 @@ export interface PlotProps {
   children: ReactNode;
 }
 
-export interface ErrorBarsProps {
-  hidden?: boolean;
-  style?: SVGAttributes<SVGLineElement>;
-  capSize?: number;
-  capStyle?: SVGAttributes<SVGLineElement>;
-}
-
 export interface ScatterSeriesProps {
   groupId?: string;
   xAxis?: string;
@@ -89,7 +82,10 @@ export interface ScatterSeriesProps {
   markerSize?: number;
   hidden?: boolean;
   markerStyle?: CSSFuncProps<SeriesPointType>;
-  errorBars?: ErrorBarsProps;
+  displayErrorBars?: boolean;
+  errorBarsStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapSize?: number;
 }
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;

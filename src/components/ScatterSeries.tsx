@@ -21,6 +21,7 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     data,
     label,
     hidden,
+    displayErrorBars = false,
     ...otherProps
   } = props;
 
@@ -41,9 +42,16 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
 
   // Render stateless plot component
   const inheritedProps = { data, xAxis, yAxis };
+  const errorBarsProps = {
+    hidden: !displayErrorBars,
+    style: props.errorBarsStyle,
+    capStyle: props.errorBarsCapStyle,
+    capSize: props.errorBarsCapSize,
+  };
+
   return (
     <g>
-      <ErrorBars {...inheritedProps} {...otherProps.errorBars} />
+      <ErrorBars {...inheritedProps} {...errorBarsProps} />
       <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
     </g>
   );

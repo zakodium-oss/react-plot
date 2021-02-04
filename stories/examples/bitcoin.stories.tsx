@@ -30,6 +30,9 @@ export function BitcoinPrice() {
         lineStyle={{ stroke: 'green', strokeWidth: 2 }}
         displayMarker={true}
         markerStyle={{ fill: 'green', stroke: 'none' }}
+        displayErrorBars={true}
+        errorBarsCapSize={8}
+        errorBarsCapStyle={{ stroke: 'blue', strokeWidth: 1.5 }}
       />
       <Axis id="x" position="bottom" label="Days" labelSpace={30} />
       <Axis
