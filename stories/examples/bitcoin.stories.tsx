@@ -28,9 +28,9 @@ export function BitcoinPrice() {
         xAxis="x"
         yAxis="y"
         lineStyle={{ stroke: 'green', strokeWidth: 2 }}
-        displayMarker={true}
+        displayMarker
+        displayErrorBars
         markerStyle={{ fill: 'green', stroke: 'none' }}
-        displayErrorBars={true}
         errorBarsCapSize={8}
         errorBarsCapStyle={{ stroke: 'blue', strokeWidth: 1.5 }}
       />

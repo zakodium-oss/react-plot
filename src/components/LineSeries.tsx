@@ -83,12 +83,7 @@ export default function LineSeries(props: LineSeriesProps) {
     <g>
       <LineSeriesRender {...lineProps} />
       <ErrorBars {...errorBarsProps} />
-      <ScatterSeries
-        {...otherProps}
-        hidden={!displayMarker}
-        groupId={id}
-        displayErrorBars={false}
-      />
+      <ScatterSeries {...otherProps} hidden={!displayMarker} groupId={id} />
     </g>
   );
 }
