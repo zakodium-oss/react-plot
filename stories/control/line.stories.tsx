@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Axis, Legend, LineSeries, LineSeriesProps, Plot } from '../../src';
+import { Axis, Legend, LineSeries, Plot, LineSeriesProps } from '../../src';
 
 export default {
   title: 'API/LineSeries',
@@ -36,6 +36,34 @@ export default {
       control: 'number',
       defaultValue: 10,
     },
+    // ErrorBars props
+    displayErrorBars: {
+      control: 'boolean',
+      defaultValue: true,
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    errorBarsCapSize: {
+      control: 'number',
+      defaultValue: 10,
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    errorBarsStyle: {
+      defaultValue: { strokeWidth: 1 },
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    errorBarsCapStyle: {
+      defaultValue: { stroke: 'blue' },
+      table: {
+        category: 'Error Bars',
+      },
+    },
+    // Disable unnecessary controls
     groupId: {
       table: {
         disable: true,
@@ -63,22 +91,32 @@ const data = [
   {
     x: 0,
     y: 10,
+    xError: 0.2,
+    yError: 1,
   },
   {
     x: 1,
     y: 12,
+    xError: [0.1, 0.1],
+    yError: [0.5, 0.5],
   },
   {
     x: 2,
     y: 14,
+    xError: [0.2, null],
+    yError: [0, 0.5],
   },
   {
     x: 3,
     y: 16,
+    xError: [0.1, 0.2],
+    yError: null,
   },
   {
     x: 4,
     y: 18,
+    xError: 0.2,
+    yError: 0.5,
   },
 ];
 

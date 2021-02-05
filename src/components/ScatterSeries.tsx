@@ -5,6 +5,7 @@ import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
+import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
@@ -14,7 +15,15 @@ interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
 export default function ScatterSeries(props: ScatterSeriesProps) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
 
-  const { xAxis = 'x', yAxis = 'y', data, label, ...otherProps } = props;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    data,
+    label,
+    hidden,
+    displayErrorBars = false,
+    ...otherProps
+  } = props;
 
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
@@ -29,11 +38,23 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     return () => dispatch({ type: 'removeData', value: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
-  if (props.hidden) return null;
+  if (hidden) return null;
 
   // Render stateless plot component
-  const inheretedProps = { data, id, xAxis, yAxis };
-  return <ScatterSeriesRender {...otherProps} {...inheretedProps} id={id} />;
+  const inheritedProps = { data, xAxis, yAxis };
+  const errorBarsProps = {
+    hidden: !displayErrorBars,
+    style: props.errorBarsStyle,
+    capStyle: props.errorBarsCapStyle,
+    capSize: props.errorBarsCapSize,
+  };
+
+  return (
+    <g>
+      <ErrorBars {...inheritedProps} {...errorBarsProps} />
+      <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
+    </g>
+  );
 }
 
 function ScatterSeriesRender({
