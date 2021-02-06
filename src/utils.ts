@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { Children, CSSProperties, isValidElement, ReactNode } from 'react';
 
 import Axis from './components/Axis';
 import BarSeries from './components/BarSeries';
@@ -25,15 +25,15 @@ export function getNextId() {
 /**
  * Validates that all the items inside Plot are supported and organizes by kind
  */
-export function splitChildren(children: React.ReactNode): PlotChildren {
+export function splitChildren(children: ReactNode): PlotChildren {
   let hasInvalidChild = false;
   let series = [];
   let axes = [];
   let heading = null;
   let legend = null;
-  for (let child of React.Children.toArray(children)) {
+  for (let child of Children.toArray(children)) {
     // Base child validation
-    if (typeof child !== 'object' || !React.isValidElement(child)) {
+    if (typeof child !== 'object' || !isValidElement(child)) {
       hasInvalidChild = true;
     }
 

@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import React, {
+import {
   createContext,
   Dispatch,
   ReactNode,

@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import React from 'react';
 
 import { Axis, LineSeries, Plot, Heading } from '../../src';
 import data from '../data/bitcoin.json';

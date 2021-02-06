@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { Horizontal, LegendProps, Vertical } from '../types';

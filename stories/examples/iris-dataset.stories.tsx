@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 import { getClasses, getNumbers, getDistinctClasses } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import {
   LineSeries,

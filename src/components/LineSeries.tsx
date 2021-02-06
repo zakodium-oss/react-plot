@@ -1,5 +1,5 @@
 import { line } from 'd3-shape';
-import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { LineSeriesProps, SeriesPointType } from '../types';

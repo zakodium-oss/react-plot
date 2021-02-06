@@ -1,5 +1,5 @@
 import { ScaleLinear } from 'd3-scale';
-import React, { CSSProperties, ReactNode, SVGAttributes } from 'react';
+import { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
 interface CoordinatesXY {
   x1?: number;

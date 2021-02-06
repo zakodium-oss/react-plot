@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { Axis, LineSeries, Plot, Heading, SeriesPointType } from '../../src';
 import srcData from '../data/nasdaq.json';

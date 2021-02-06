@@ -1,4 +1,4 @@
-import React, { useMemo, SVGAttributes } from 'react';
+import { useMemo, SVGAttributes } from 'react';
 
 import { usePlotContext } from '../hooks';
 import { SeriesPointType } from '../types';

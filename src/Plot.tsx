@@ -1,7 +1,7 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import React, { CSSProperties, Reducer, useMemo, useReducer } from 'react';
+import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';

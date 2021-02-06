@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import React from 'react';
 
 import { Axis, Legend, LineSeries, Plot, PlotProps } from '../../src';
 

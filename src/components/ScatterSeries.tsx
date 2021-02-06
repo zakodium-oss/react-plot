@@ -1,5 +1,5 @@
 import { extent } from 'd3-array';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
 import type { ScatterSeriesProps } from '../types';

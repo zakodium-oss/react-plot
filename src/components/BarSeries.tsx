@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
 import { LineSeriesProps, SeriesPointType } from '../types';

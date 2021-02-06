@@ -1,5 +1,3 @@
-import React from 'react';
-
 import type { MarkersProps } from '../types';
 
 export const markersComps = {
