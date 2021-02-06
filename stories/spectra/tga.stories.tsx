@@ -13,7 +13,7 @@ export function TgaExample() {
   return (
     <Plot
       {...DEFAULT_CONFIG}
-      margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
+      margin={{ left: 40, right: 40 }}
       seriesViewportStyle={{ stroke: 'black' }}
     >
       <LineSeries

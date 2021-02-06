@@ -118,9 +118,7 @@ export function ScatterControl(props: ScatterSeriesProps) {
       height={540}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 100,
         left: 40,
-        top: 40,
         right: 40,
       }}
     >

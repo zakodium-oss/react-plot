@@ -65,9 +65,7 @@ export function HeadingControl(props: LegendProps) {
       height={540}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 100,
         left: 100,
-        top: 100,
         right: 200,
       }}
     >
@@ -86,9 +84,7 @@ export function HeaderTest() {
       height={540}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 100,
         left: 100,
-        top: 100,
         right: 200,
       }}
     >

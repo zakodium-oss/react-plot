@@ -17,7 +17,7 @@ export function Control() {
     dimentions: {
       width: 550,
       height: 500,
-      margin: { bottom: 50, left: 50, top: 60, right: 50 },
+      margin: { left: 50, right: 50 },
     },
     axes: [
       { id: 'x', label: 'My X axis', position: 'bottom', min: 0, max: 10 },

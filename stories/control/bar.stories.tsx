@@ -95,9 +95,7 @@ export function BarControl(props: LineSeriesProps) {
       height={540}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        bottom: 45,
         left: 40,
-        top: 40,
         right: 40,
       }}
     >

@@ -12,7 +12,7 @@ export function RamanExample() {
   return (
     <Plot
       {...DEFAULT_CONFIG}
-      margin={{ bottom: 45, left: 50, top: 40, right: 40 }}
+      margin={{ left: 50, right: 40 }}
       seriesViewportStyle={{ stroke: 'black' }}
     >
       <LineSeries

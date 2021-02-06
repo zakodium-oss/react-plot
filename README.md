@@ -9,11 +9,7 @@ Library of React components to render SVG 2D plots.
 
 ```tsx
 const Example = () => (
-  <Plot
-    width={550}
-    height={500}
-    margin={{ bottom: 50, left: 90, top: 50, right: 100 }}
-  >
+  <Plot width={550} height={500} margin={{ left: 90, right: 100 }}>
     <Heading
       title="Electrical characterization"
       subtitle="current vs voltage"

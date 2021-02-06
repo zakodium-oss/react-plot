@@ -63,7 +63,7 @@ export function NasdaqExample(props: Props) {
     return (
       <Plot
         {...DEFAULT_CONFIG}
-        margin={{ bottom: 70, left: 70, top: 50, right: 10 }}
+        margin={{ left: 70, right: 10 }}
         seriesViewportStyle={{
           stroke: 'black',
           strokeWidth: 0.3,

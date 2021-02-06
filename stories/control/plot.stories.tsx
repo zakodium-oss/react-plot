@@ -52,9 +52,7 @@ PlotControl.args = {
   height: 540,
   seriesViewportStyle: { stroke: 'black' },
   margin: {
-    top: 40,
     right: 40,
-    bottom: 45,
     left: 40,
   },
 } as PlotProps;

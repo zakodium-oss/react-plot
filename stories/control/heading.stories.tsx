@@ -63,8 +63,6 @@ export function HeadingControl(props: HeadingControlProps) {
       svgStyle={{ padding: '10px' }}
       seriesViewportStyle={{ stroke: 'black' }}
       margin={{
-        top: props.position === 'top' ? undefined : 40,
-        bottom: props.position === 'bottom' ? undefined : 40,
         left: 40,
         right: 40,
       }}
