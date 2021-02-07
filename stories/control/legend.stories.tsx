@@ -92,7 +92,7 @@ export function HeaderTest() {
         right: 200,
       }}
     >
-      <Legend position={'embedded'} />
+      <Legend position="embedded" />
 
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
 

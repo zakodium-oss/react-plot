@@ -105,7 +105,7 @@ export function Control(props: Props) {
         label="Drain current [mA]"
       />
       <Axis id="x" position="top" tickEmbedded={allTicksInside} />
-      <Legend position="embedded" bottom={50} right={90} />
+      <Legend position="embedded" bottom={10} right={10} />
     </Plot>
   );
 }

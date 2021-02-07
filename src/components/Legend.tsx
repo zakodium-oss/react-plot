@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useMemo } from 'react';
+import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
 import type { Horizontal, LegendProps, Vertical } from '../types';
@@ -35,7 +36,7 @@ function translation(
   plotMargins: Required<Positions>,
   width: number,
   height: number,
-) {
+): Omit<AlignGroupProps, 'children'> {
   const plotHeight = height - plotMargins.top - plotMargins.bottom;
   const plotWidth = width - plotMargins.left - plotMargins.right;
   switch (position) {
@@ -56,7 +57,12 @@ function translation(
         verticalKey === 'bottom'
           ? height - plotMargins.bottom - verticalValue
           : plotMargins.top + verticalValue;
-      return [x, y];
+      return {
+        x,
+        y,
+        horizontalAlign: horizontalKey === 'left' ? 'start' : 'end',
+        verticalAlign: verticalKey === 'top' ? 'start' : 'end',
+      };
     }
     case 'top': {
       const {
@@ -68,7 +74,7 @@ function translation(
           ? width - plotMargins.right + horizontalValue
           : plotMargins.left + horizontalValue;
       const y = plotMargins.top - (legendMargins.bottom || 50);
-      return [x, y];
+      return { x, y };
     }
     case 'bottom': {
       const {
@@ -80,7 +86,7 @@ function translation(
           ? width - plotMargins.right + horizontalValue
           : plotMargins.left + horizontalValue;
       const y = height - plotMargins.bottom + (legendMargins.top || 25);
-      return [x, y];
+      return { x, y };
     }
     case 'left': {
       const {
@@ -92,7 +98,7 @@ function translation(
           ? height - plotMargins.bottom - verticalValue
           : plotMargins.top + verticalValue;
       const x = plotMargins.left - (legendMargins.right || 100);
-      return [x, y];
+      return { x, y };
     }
     case 'right': {
       const {
@@ -104,7 +110,7 @@ function translation(
           ? height - plotMargins.bottom - verticalValue
           : plotMargins.top + verticalValue;
       const x = width - plotMargins.right + (legendMargins.left || 40);
-      return [x, y];
+      return { x, y };
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
@@ -116,13 +122,13 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
   const { right, left, top, bottom, height, width } = usePlotContext();
   const [state] = useLegend();
 
-  const [x, y] = useMemo(() => {
+  const alignGroupProps = useMemo(() => {
     const plotMargins = { right, left, top, bottom };
     return translation(position, legendMargins, plotMargins, width, height);
   }, [position, legendMargins, right, left, top, bottom, width, height]);
 
   return (
-    <g className="legend" transform={`translate(${x}, ${y})`}>
+    <AlignGroup {...alignGroupProps}>
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
@@ -150,7 +156,7 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
           </g>
         );
       })}
-    </g>
+    </AlignGroup>
   );
 }
 
