@@ -1,8 +1,9 @@
 import { Meta } from '@storybook/react';
 import React from 'react';
 
-import { Annotation } from '../../../src';
-import AnnotationData from '../annotation.data';
+import { Annotation } from '../../src';
+
+import AnnotationData from './annotation.data';
 
 export default {
   title: 'Docs/Annotations/Ellipse',
