@@ -38,19 +38,6 @@ export function Text() {
   );
 }
 
-export function Arrow() {
-  return (
-    <Annotation.Arrow
-      x1={20}
-      x2={90}
-      y1={90}
-      y2={250}
-      startPoint="line"
-      endPoint="triangle"
-    />
-  );
-}
-
 export function Shape(props: {
   size: number;
   shape: 'circle' | 'triangle' | 'diamond' | 'square';

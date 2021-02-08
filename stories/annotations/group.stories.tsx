@@ -20,6 +20,7 @@ export function AnnotationGroupStories() {
   return (
     <Annotation.Group x="50" y="150">
       <Annotation.Text>Hello, World!</Annotation.Text>
+      <Annotation.Arrow x1="0" x2="100" y1="10" y2="10" endPoint="triangle" />
     </Annotation.Group>
   );
 }
