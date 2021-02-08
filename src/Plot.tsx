@@ -3,6 +3,7 @@ import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
+import MarkerDefs from './components/Annotations/MarkerDefs';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
@@ -39,9 +40,15 @@ export default function Plot(props: PlotProps) {
 
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
-  const { hasInvalidChild, series, axes, heading, legend } = splitChildren(
-    children,
-  );
+  const {
+    hasInvalidChild,
+    series,
+    axes,
+    heading,
+    legend,
+    annotations,
+  } = splitChildren(children);
+
   if (hasInvalidChild) {
     throw new Error('Only compound components of Plot are displayed');
   }
@@ -95,6 +102,8 @@ export default function Plot(props: PlotProps) {
             height={height}
             style={{ ...defaultSvgStyle, ...svgStyle }}
           >
+            <MarkerDefs />
+
             {/* Plot viewport */}
             <TransparentRect
               width={width}
@@ -115,7 +124,10 @@ export default function Plot(props: PlotProps) {
                 <rect width={plotWidth} height={plotHeight} />
               </clipPath>
 
-              <g style={{ clipPath: 'url(#seriesViewportClip)' }}>{series}</g>
+              <g style={{ clipPath: 'url(#seriesViewportClip)' }}>
+                {series}
+                {annotations}
+              </g>
 
               {axes}
             </g>

@@ -71,7 +71,7 @@ export function Control(props: Props) {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker={true}
+        displayMarker
         markerShape="circle"
         label="Vg = 3V"
       />
@@ -79,7 +79,7 @@ export function Control(props: Props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        displayGridLines={true}
+        displayGridLines
         min={xMin}
         max={xMax}
         paddingStart={paddingLeft}
@@ -90,7 +90,7 @@ export function Control(props: Props) {
         id="y"
         position="left"
         label="Drain current [mA]"
-        displayGridLines={true}
+        displayGridLines
         labelSpace={40}
         min={yMin}
         max={yMax}

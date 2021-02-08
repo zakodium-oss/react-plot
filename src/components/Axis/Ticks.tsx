@@ -97,7 +97,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
             key={tick}
             line={line}
             text={text}
-            secondary={true}
+            secondary
             strokeHeight={strokeHeight}
             {...otherProps}
           />

@@ -1,5 +1,6 @@
 import Plot, { PlotProps } from './Plot';
 import PlotObject from './PlotObject';
+import * as Annotation from './components/Annotations/Annotation';
 import Axis from './components/Axis';
 import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
@@ -18,6 +19,7 @@ import type {
 } from './types';
 
 export {
+  Annotation,
   Plot,
   Axis,
   Heading,
