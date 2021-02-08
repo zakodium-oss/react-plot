@@ -98,10 +98,13 @@ interface usePositionProps {
   height: NumberString;
 }
 
-/*
-  x1, x2, xXXX => Coordonnées => xScale sans xScale(0)
-  r, rx, ry => Calcul => xScale avec xScale(0)
-*/
+interface useEllipsePositionProps {
+  cx: NumberString;
+  cy: NumberString;
+  rx: NumberString;
+  ry: NumberString;
+}
+
 export function usePosition(config: usePositionProps) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
@@ -112,6 +115,19 @@ export function usePosition(config: usePositionProps) {
     y: convertValue(y, yScale),
     width: convertValueAbs(width, xScale),
     height: convertValueAbs(height, yScale),
+  };
+}
+
+export function useEllipsePosition(props: useEllipsePositionProps) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const { cx, cy, rx, ry } = props;
+
+  return {
+    cx: convertValue(cx, xScale),
+    cy: convertValue(cy, yScale),
+    rx: convertValue(rx, xScale),
+    ry: convertValue(ry, yScale),
   };
 }
 

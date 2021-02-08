@@ -84,17 +84,33 @@ export function AnnotationRectangleValuesStories() {
 export function AnnotationEllipseStories() {
   return (
     <Annotation.Ellipse
-      cx={300}
-      cy={270}
-      rx={90}
-      ry={20}
+      cx="300"
+      cy="270"
+      rx="90"
+      ry="20"
+      style={{ fill: 'red' }}
+    />
+  );
+}
+
+export function AnnotationEllipseValuesStories() {
+  return (
+    <Annotation.Ellipse
+      cx={2}
+      cy={12}
+      rx={1}
+      ry="20px"
       style={{ fill: 'red' }}
     />
   );
 }
 
 export function AnnotationCircleStories() {
-  return <Annotation.Circle cx={100} cy={100} r={20} style={{ fill: 'red' }} />;
+  return <Annotation.Circle cx="100" cy="100" r="20" style={{ fill: 'red' }} />;
+}
+
+export function AnnotationCircleValuesStories() {
+  return <Annotation.Circle cx={1} cy={14} r={0.5} style={{ fill: 'red' }} />;
 }
 
 export function AnnotationLineStories() {
@@ -119,7 +135,15 @@ export function AnnotationTextStories() {
 
 export function AnnotationGroupStories() {
   return (
-    <Annotation.Group x={50} y={150}>
+    <Annotation.Group x="50" y="150">
+      <Annotation.Text>Hello, World!</Annotation.Text>
+    </Annotation.Group>
+  );
+}
+
+export function AnnotationGroupValuesStories() {
+  return (
+    <Annotation.Group x={1} y={15}>
       <Annotation.Text>Hello, World!</Annotation.Text>
     </Annotation.Group>
   );
