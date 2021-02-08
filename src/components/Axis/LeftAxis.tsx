@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
@@ -50,6 +50,7 @@ export default function LeftAxis({
 
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
+  const tickTextPosition = tickEmbedded ? -8 : -8 + tickLen;
   return (
     <g className="axis">
       {gridlines}
@@ -65,7 +66,7 @@ export default function LeftAxis({
             hiddenSecondaryTicks={hiddenSecondaryTicks}
             getPositions={(y) => ({
               line: { x2: tickLen, y1: y, y2: y },
-              text: { x1: -8, y1: y },
+              text: { x1: tickTextPosition, y1: y },
             })}
           />
         </g>

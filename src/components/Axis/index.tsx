@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { useDispatchContext } from '../../hooks';
 import type { AxisChildProps, AxisProps } from '../../types';

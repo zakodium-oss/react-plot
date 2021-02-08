@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { Children, CSSProperties, isValidElement, ReactNode } from 'react';
 
 import Axis from './components/Axis';
 import BarSeries from './components/BarSeries';
@@ -6,7 +6,12 @@ import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
-import type { AxisContextType, CSSFuncProps, PlotChildren } from './types';
+import type {
+  AxisContextType,
+  CSSFuncProps,
+  PlotChildren,
+  SeriesPointErrorType,
+} from './types';
 
 import { Annotation } from '.';
 
@@ -22,16 +27,17 @@ export function getNextId() {
 /**
  * Validates that all the items inside Plot are supported and organizes by kind
  */
-export function splitChildren(children: React.ReactNode): PlotChildren {
+export function splitChildren(children: ReactNode): PlotChildren {
   let hasInvalidChild = false;
   let series = [];
   let axes = [];
   let heading = null;
   let legend = null;
   let annotations = [];
-  for (let child of React.Children.toArray(children)) {
+
+  for (let child of Children.toArray(children)) {
     // Base child validation
-    if (typeof child !== 'object' || !React.isValidElement(child)) {
+    if (typeof child !== 'object' || !isValidElement(child)) {
       hasInvalidChild = true;
     }
 
@@ -152,4 +158,15 @@ export function calculateTicksNumber(
     : plotWidth / (tickLength * fontSizeDefault);
 
   return ticksNumber;
+}
+
+/**
+ * validate series point Error
+ */
+export function validateSeriesPointError(
+  error: SeriesPointErrorType,
+): SeriesPointErrorType {
+  if (typeof error === 'number') return [error, error];
+  else if (Array.isArray(error) && error.length >= 2) return error;
+  return null;
 }

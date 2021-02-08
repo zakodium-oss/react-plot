@@ -1,10 +1,11 @@
 import { line } from 'd3-shape';
-import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
 import type { LineSeriesProps, SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
+import ErrorBars from './ErrorBars';
 import ScatterSeries from './ScatterSeries';
 import { useLegend } from './legendsContext';
 
@@ -21,14 +22,13 @@ export default function LineSeries(props: LineSeriesProps) {
   const { colorScaler } = usePlotContext();
 
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
-  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
-  const lineProps = {
-    id,
-    data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
-    lineStyle,
-  };
+  const {
+    lineStyle = {},
+    displayMarker = false,
+    displayErrorBars = false,
+    hidden,
+    ...otherProps
+  } = props;
 
   useEffect(() => {
     legendDispatch({
@@ -60,14 +60,30 @@ export default function LineSeries(props: LineSeriesProps) {
     otherProps.markerStyle?.fill,
   ]);
 
+  if (hidden) return null;
+
+  const lineProps = {
+    id,
+    data: props.data,
+    xAxis: props.xAxis || 'x',
+    yAxis: props.yAxis || 'y',
+    lineStyle,
+  };
+  const errorBarsProps = {
+    data: props.data,
+    xAxis: props.xAxis || 'x',
+    yAxis: props.yAxis || 'y',
+    hidden: !displayErrorBars,
+    style: props.errorBarsStyle,
+    capStyle: props.errorBarsCapStyle,
+    capSize: props.errorBarsCapSize,
+  };
+
   return (
     <g>
-      {props.hidden ? null : <LineSeriesRender {...lineProps} />}
-      <ScatterSeries
-        {...otherProps}
-        hidden={!displayMarker || props.hidden}
-        groupId={id}
-      />
+      <LineSeriesRender {...lineProps} />
+      <ErrorBars {...errorBarsProps} />
+      <ScatterSeries {...otherProps} hidden={!displayMarker} groupId={id} />
     </g>
   );
 }

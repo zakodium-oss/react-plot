@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps } from '../../types';
@@ -57,6 +57,7 @@ export default function BottomAxis({
 
   const tickDirection = tickEmbedded ? -1 : 1;
   const tickLen = tickDirection * tickLength;
+  const tickTextPosition = tickEmbedded ? 16 : 16 + tickLen;
   return (
     <g className="axis">
       {gridlines}
@@ -73,7 +74,7 @@ export default function BottomAxis({
             anchor="middle"
             getPositions={(val) => ({
               line: { x1: val, x2: val, y2: tickLen },
-              text: { x1: val, y1: 16 },
+              text: { x1: val, y1: tickTextPosition },
             })}
           />
         </g>

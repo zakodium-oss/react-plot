@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Plot from './Plot';
 import Axis from './components/Axis';
 import Legend from './components/Legend';
