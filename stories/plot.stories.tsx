@@ -103,7 +103,7 @@ export function Control(props) {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker={true}
+        displayMarker
         markerShape="circle"
         label="Vg = 3V"
       />
@@ -169,7 +169,7 @@ export function ScientificNotation() {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker={true}
+        displayMarker
         markerShape="circle"
         label="Vg = 3V"
       />
@@ -177,7 +177,7 @@ export function ScientificNotation() {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        displayGridLines={true}
+        displayGridLines
         max={6.1 / factor}
         tickStyle={{ fontSize: '0.8rem' }}
       />
@@ -185,7 +185,7 @@ export function ScientificNotation() {
         id="y"
         position="left"
         label="Drain current [mA]"
-        displayGridLines={true}
+        displayGridLines
         labelSpace={50}
         max={6.1 * factor}
         tickStyle={{ fontSize: '0.8rem' }}

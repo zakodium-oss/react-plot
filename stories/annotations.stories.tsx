@@ -13,7 +13,7 @@ export default {
     (Story) => (
       <Plot
         {...DEFAULT_CONFIG}
-        viewportStyle={{ stroke: 'black' }}
+        seriesViewportStyle={{ stroke: 'black' }}
         margin={{
           bottom: 100,
           left: 100,
