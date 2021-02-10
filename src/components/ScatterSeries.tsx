@@ -79,16 +79,16 @@ function ScatterSeriesRender({
 
     // Show markers
     const Marker = markersComps[markerShape];
+
     const markers = data.map((point, i) => {
+      const style = functionalStyle(defaultColor, markerStyle, point, i, data);
+
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
-          <Marker
-            size={markerSize}
-            style={functionalStyle(defaultColor, markerStyle, point, i, data)}
-          />
+          <Marker size={markerSize} style={{ ...style, stroke: style.fill }} />
         </g>
       );
     });
