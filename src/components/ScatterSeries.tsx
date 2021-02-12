@@ -88,7 +88,7 @@ function ScatterSeriesRender({
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
-          <Marker size={markerSize} style={{ ...style, stroke: style.fill }} />
+          <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
         </g>
       );
     });
