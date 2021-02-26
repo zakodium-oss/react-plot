@@ -34,11 +34,10 @@ export default function LineSeries(props: LineSeriesProps) {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
+        id,
         label: otherProps.label,
 
-        colorLine: lineStyle?.stroke
-          ? lineStyle?.stroke.toString()
-          : colorScaler(id),
+        colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
 
         shape: {
           color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
@@ -59,7 +58,12 @@ export default function LineSeries(props: LineSeriesProps) {
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
   ]);
-
+  useEffect(
+    () => () => {
+      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+    },
+    [id, legendDispatch],
+  );
   if (hidden) return null;
 
   const lineProps = {
