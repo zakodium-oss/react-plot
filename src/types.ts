@@ -139,7 +139,7 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
-type Dimentions = Omit<PlotProps, 'colorScheme' | 'children'>;
+type Dimensions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
   axes: AxisProps[];
   series: Array<
@@ -147,7 +147,7 @@ export interface PlotObjectType {
     | ({ type: 'scatter' } & ScatterSeriesProps)
   >;
   legend?: LegendProps;
-  dimentions: Dimentions;
+  dimensions: Dimensions;
   colorScheme?: Iterable<string>;
   seriesViewportStyle?: CSSProperties;
 }
