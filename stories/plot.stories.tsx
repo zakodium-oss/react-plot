@@ -22,6 +22,10 @@ export default {
       defaultValue: true,
       control: 'boolean',
     },
+    plotLabel: {
+      defaultValue: 'Vg = 5V',
+      control: 'text',
+    },
     displayGridLines: {
       defaultValue: true,
       control: 'boolean',
@@ -52,6 +56,7 @@ export default {
 export function Control(props) {
   const {
     displayPlot,
+    plotLabel,
     displayGridLines,
     width,
     height,
@@ -66,7 +71,7 @@ export function Control(props) {
   const bottom = headingPosition === 'top' ? 50 : 100;
   const left = legendPosition === 'right' ? 70 : 150;
   const top = headingPosition === 'top' ? 50 : 10;
-  const right = legendPosition === 'right' ? 100 : 10;
+  const right = legendPosition === 'right' ? 130 : 10;
 
   return (
     <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
@@ -106,6 +111,21 @@ export function Control(props) {
         displayMarker
         markerShape="circle"
         label="Vg = 3V"
+      />
+      <LineSeries
+        data={[
+          { x: 1, y: 2 },
+          { x: 2, y: 4 },
+          { x: 3, y: 8 },
+          { x: 4, y: 8 },
+          { x: 5, y: 8 },
+          { x: 6, y: 8 },
+        ]}
+        xAxis="x"
+        yAxis="y"
+        displayMarker
+        markerShape="circle"
+        label={plotLabel}
       />
       <Axis
         id="x"

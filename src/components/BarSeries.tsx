@@ -47,12 +47,15 @@ export default function BarSeries(props: LineSeriesProps) {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
+        id,
         label: otherProps.label,
         colorLine,
         shape,
       },
     });
-  }, [colorLine, legendDispatch, otherProps.label, shape]);
+    return () =>
+      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+  }, [colorLine, legendDispatch, otherProps.label, shape, id]);
 
   return (
     <g>

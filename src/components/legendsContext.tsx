@@ -11,6 +11,7 @@ import {
 import { Shape } from '../types';
 
 interface LabelState {
+  id: string;
   label: string;
 
   shape?: {
@@ -30,7 +31,9 @@ export type ActionType<Action, Payload = void> = Payload extends void
   ? { type: Action }
   : { type: Action; payload: Payload };
 
-type LegendAction = ActionType<'ADD_LEGEND_LABEL', LabelState>;
+type LegendAction =
+  | ActionType<'ADD_LEGEND_LABEL', LabelState>
+  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>;
 
 type LegendDispatch = Dispatch<LegendAction>;
 type LegendContext = [LegendState, LegendDispatch];
@@ -50,13 +53,22 @@ const legendReducer: Reducer<LegendState, LegendAction> = produce(
   (draft: LegendState, action: LegendAction) => {
     switch (action.type) {
       case 'ADD_LEGEND_LABEL': {
-        const { shape, ...other } = action.payload;
+        const { shape, ...newLegend } = action.payload;
 
-        if (draft.labels.some((element) => element.label === other.label)) {
-          return;
+        const index = draft.labels.findIndex(({ id }) => newLegend.id === id);
+        if (index < 0) {
+          draft.labels.push({ ...newLegend, shape });
+        } else {
+          draft.labels[index] = { ...newLegend, shape };
         }
-
-        draft.labels.push({ ...other, shape });
+        return;
+      }
+      case 'REMOVE_LEGEND_LABEL': {
+        const { id } = action.payload;
+        const index = draft.labels.findIndex((val) => val.id === id);
+        if (index !== -1) {
+          draft.labels.splice(index, 1);
+        }
         return;
       }
       default:
