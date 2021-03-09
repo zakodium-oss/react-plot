@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/zakodium/react-plot/compare/v0.5.0...v0.6.0) (2021-03-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* The PlotProps `style` and `viewportStyle` props were renamed to `plotViewportStyle` and `seriesViewportStyle`, respectively.
+
+### Features
+
+* add Annotation components ([#137](https://www.github.com/zakodium/react-plot/issues/137)) ([b56b734](https://www.github.com/zakodium/react-plot/commit/b56b73403735b59635756ed043fd6d225513dbc9))
+* add bar series component ([#130](https://www.github.com/zakodium/react-plot/issues/130)) ([6e3d213](https://www.github.com/zakodium/react-plot/commit/6e3d21329cbd867fb05cb5d85c0576d700be867a)), closes [#77](https://www.github.com/zakodium/react-plot/issues/77)
+* add error bars  ([#141](https://www.github.com/zakodium/react-plot/issues/141)) ([8a6688c](https://www.github.com/zakodium/react-plot/commit/8a6688c8c2868f89037e30e3fbab8f54723ce47b))
+* add secondary ticks  ([#128](https://www.github.com/zakodium/react-plot/issues/128)) ([2a8f0ac](https://www.github.com/zakodium/react-plot/commit/2a8f0ac4a79b4760d5a92ebb61121462712e9885)), closes [#116](https://www.github.com/zakodium/react-plot/issues/116)
+* improve documentation of Plot and add "svgStyle" prop ([be1c039](https://www.github.com/zakodium/react-plot/commit/be1c0398f7e0dcb52d80394506491ffbed487d2e))
+
+
+### Bug Fixes
+
+* remove legend on unmount ([#145](https://www.github.com/zakodium/react-plot/issues/145)) ([3002c11](https://www.github.com/zakodium/react-plot/commit/3002c11c2ba75873fd7c74c16270454e239aaaa8))
+* remove the stroke color from a Marker ([#144](https://www.github.com/zakodium/react-plot/issues/144)) ([aab12af](https://www.github.com/zakodium/react-plot/commit/aab12af970785ff451352dd515e2716cb1ea236a)), closes [#138](https://www.github.com/zakodium/react-plot/issues/138)
+* throw error if width or height are undefined ([#129](https://www.github.com/zakodium/react-plot/issues/129)) ([9f5cbaa](https://www.github.com/zakodium/react-plot/commit/9f5cbaa6db1135cb3f417f31bf14306564b0736c))
+* Tick text aligned according to ticks length ([#142](https://www.github.com/zakodium/react-plot/issues/142)) ([4bb9335](https://www.github.com/zakodium/react-plot/commit/4bb9335bc1df6b994e3275651a8f035efb6b354e)), closes [#139](https://www.github.com/zakodium/react-plot/issues/139)
+* typo on dimensions ([#146](https://www.github.com/zakodium/react-plot/issues/146)) ([0f8f1ce](https://www.github.com/zakodium/react-plot/commit/0f8f1ce132fa2e0921ee4f7738b27edcecb11db0))
+* use align group to align embedded legend ([ed6c1c2](https://www.github.com/zakodium/react-plot/commit/ed6c1c29d91ac2d53d01275ccd16ee6f2a37fd2f))
+
+
+### Code Refactoring
+
+* rename style and viewportStyle props ([ecdc727](https://www.github.com/zakodium/react-plot/commit/ecdc72736c554b5a5b1c56c6c9fd1b5350abad3f))
+
 ## [0.5.0](https://www.github.com/zakodium/react-plot/compare/v0.4.0...v0.5.0) (2021-01-27)
 
 
