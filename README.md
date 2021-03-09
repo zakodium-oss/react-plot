@@ -80,7 +80,7 @@ This code will result in this example
 
 ## Debugging
 
-- For major React hooks debugging use [`@simbathesailor/use-what-changed`](https://github.com/simbathesailor/use-what-changed)
+For major React hooks debugging use [`@simbathesailor/use-what-changed`](https://github.com/simbathesailor/use-what-changed)
 
 ```tsx
 import { useWhatChanged } from '@simbathesailor/use-what-changed';
