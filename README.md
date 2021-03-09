@@ -78,6 +78,25 @@ This code will result in this example
 
 `$ npm install --save react-plot`
 
+## Debugging
+
+- For major React hooks debugging use [`@simbathesailor/use-what-changed`](https://github.com/simbathesailor/use-what-changed)
+
+```tsx
+import { useWhatChanged } from '@simbathesailor/use-what-changed';
+
+function Example() {
+
+  // useEffect, useCallback or useMemo
+  useWhatChanged([a, b, c, d]); // debugs the below useEffect
+
+  // displays names of variables instead of index
+  // useWhatChanged([a, b, c, d], 'a, b, c, d', 'anysuffix-string');
+  React.useEffect(() => {
+    // console.log("some thing changed , need to figure out")
+  }, [a, b, c, d]);
+```
+
 ## License
 
 [MIT](./LICENSE)
