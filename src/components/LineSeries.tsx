@@ -46,24 +46,19 @@ export default function LineSeries(props: LineSeriesProps) {
         },
       },
     });
+    return () =>
+      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [
     colorScaler,
     displayMarker,
     id,
     legendDispatch,
-    lineStyle,
     lineStyle?.stroke,
     otherProps.label,
     otherProps.markerShape,
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
   ]);
-  useEffect(
-    () => () => {
-      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
-    },
-    [id, legendDispatch],
-  );
   if (hidden) return null;
 
   const lineProps = {

@@ -53,13 +53,14 @@ const legendReducer: Reducer<LegendState, LegendAction> = produce(
   (draft: LegendState, action: LegendAction) => {
     switch (action.type) {
       case 'ADD_LEGEND_LABEL': {
-        const { shape, ...other } = action.payload;
+        const { shape, ...newLegend } = action.payload;
 
-        if (draft.labels.some((element) => element.label === other.label)) {
-          return;
+        const index = draft.labels.findIndex(({ id }) => newLegend.id === id);
+        if (index < 0) {
+          draft.labels.push({ ...newLegend, shape });
+        } else {
+          draft.labels[index] = { ...newLegend, shape };
         }
-
-        draft.labels.push({ ...other, shape });
         return;
       }
       case 'REMOVE_LEGEND_LABEL': {
