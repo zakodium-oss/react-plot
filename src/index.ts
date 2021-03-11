@@ -6,6 +6,7 @@ import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
+import RangeSeries from './components/RangeSeries';
 import ScatterSeries from './components/ScatterSeries';
 import type {
   AxisProps,
@@ -16,6 +17,7 @@ import type {
   SeriesPointType,
   PlotObjectProps,
   PlotObjectType,
+  RangeSeriesProps,
 } from './types';
 
 export {
@@ -25,6 +27,7 @@ export {
   Heading,
   Legend,
   LineSeries,
+  RangeSeries,
   ScatterSeries,
   PlotObject,
   BarSeries,
@@ -35,6 +38,7 @@ export type {
   HeadingProps,
   LegendProps,
   LineSeriesProps,
+  RangeSeriesProps,
   ScatterSeriesProps,
   SeriesPointType,
   PlotObjectProps,
