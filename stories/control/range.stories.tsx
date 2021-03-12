@@ -14,6 +14,7 @@ export default {
       control: 'object',
       defaultValue: {
         stroke: 'black',
+        fill: 'gray',
       },
     },
     markerStyle: {
