@@ -26,13 +26,10 @@ export interface SeriesPointType {
   yError?: SeriesPointErrorType;
 }
 
-export interface SeriesRangePointType {
+export interface RangeSeriesPointType {
   x: number;
   y1: number;
   y2: number;
-
-  xError?: SeriesPointErrorType;
-  yError?: SeriesPointErrorType;
 }
 
 export type CSSFuncProps<T> = {
@@ -81,28 +78,33 @@ export interface PlotProps {
   children: ReactNode;
 }
 
-export interface ScatterSeriesProps<T = SeriesPointType> {
+export interface BaseSeriesProps<T = SeriesPointType> {
   groupId?: string;
   xAxis?: string;
   yAxis?: string;
   data: Array<T>;
   label?: string;
+  hidden?: boolean;
+}
+
+export interface ScatterSeriesProps<T = SeriesPointType>
+  extends BaseSeriesProps<T> {
   markerShape?: Shape;
   markerSize?: number;
-  hidden?: boolean;
   markerStyle?: CSSFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapSize?: number;
 }
+
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;
   displayMarker?: boolean;
 }
 
-export interface RangeSeriesProps
-  extends ScatterSeriesProps<SeriesRangePointType> {
+export interface RangeSeriesProps<T extends RangeSeriesPointType>
+  extends BaseSeriesProps<T> {
   lineStyle?: CSSProperties;
 }
 

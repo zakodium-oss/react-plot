@@ -15,6 +15,7 @@ import type {
   LineSeriesProps,
   ScatterSeriesProps,
   SeriesPointType,
+  RangeSeriesPointType,
   PlotObjectProps,
   PlotObjectType,
   RangeSeriesProps,
@@ -41,6 +42,7 @@ export type {
   RangeSeriesProps,
   ScatterSeriesProps,
   SeriesPointType,
+  RangeSeriesPointType as SeriesRangePointType,
   PlotObjectProps,
   PlotObjectType,
 };

@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 
 import { Axis, LineSeries, Plot, RangeSeries } from '../../src';
-import { SeriesRangePointType } from '../../src/types';
+import { RangeSeriesPointType } from '../../src/types';
 import data from '../data/absorb.json';
 import { DEFAULT_CONFIG } from '../utils';
 
@@ -17,12 +17,12 @@ lineData.pop();
 
 function getRangePosition(
   array: Array<{ x: number; y: number }>,
-): Array<SeriesRangePointType> {
+): Array<RangeSeriesPointType> {
   if (array.length % 2 !== 0) throw new Error('The array isnt correct');
   const one = array.slice(0, array.length / 2);
   const two = array.slice(array.length / 2, array.length).reverse();
 
-  const result: Array<SeriesRangePointType> = [];
+  const result: Array<RangeSeriesPointType> = [];
 
   for (let i = 0; i < one.length; i++) {
     result.push({
@@ -79,7 +79,7 @@ export function Absorbance() {
         label="Absorbance"
         labelSpace={50}
         displayGridLines
-        paddingStart={0.1}
+        paddingStart={0.02}
         paddingEnd={0.1}
       />
     </Plot>

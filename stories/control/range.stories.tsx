@@ -1,69 +1,28 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, RangeSeries, Plot, RangeSeriesProps } from '../../src';
+import {
+  Axis,
+  RangeSeries,
+  Plot,
+  RangeSeriesProps,
+  SeriesRangePointType,
+  Legend,
+  LineSeries,
+} from '../../src';
 
 export default {
   title: 'API/RangeSeries',
   component: RangeSeries,
-  argTypes: {
-    displayMarker: {
-      control: 'boolean',
-      defaultValue: true,
-    },
+  args: {
     lineStyle: {
-      control: 'object',
-      defaultValue: {
-        stroke: 'black',
-        fill: 'gray',
-      },
+      stroke: 'green',
+      fill: 'yellow',
     },
-    markerStyle: {
-      control: 'object',
-      defaultValue: { fill: 'black' },
-    },
-    hidden: {
-      control: 'boolean',
-      defaultValue: false,
-    },
-    label: {
-      control: 'text',
-      defaultValue: 'Label',
-    },
-    markerShape: {
-      defaultValue: 'circle',
-    },
-    markerSize: {
-      control: 'number',
-      defaultValue: 10,
-    },
-    // ErrorBars props
-    displayErrorBars: {
-      control: 'boolean',
-      defaultValue: true,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapSize: {
-      control: 'number',
-      defaultValue: 10,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsStyle: {
-      defaultValue: { strokeWidth: 1 },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapStyle: {
-      defaultValue: { stroke: 'blue' },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    // Disable unnecessary controls
+    hidden: false,
+    label: 'Label',
+  },
+  // Disable unnecessary controls
+  argTypes: {
     groupId: {
       table: {
         disable: true,
@@ -86,6 +45,24 @@ export default {
     },
   },
 } as Meta;
+
+const data2 = [
+  {
+    x: 1,
+    y1: 4,
+    y2: 6,
+  },
+  {
+    x: 2,
+    y1: 6,
+    y2: 8,
+  },
+  {
+    x: 3,
+    y1: 8,
+    y2: 12,
+  },
+];
 
 const data = [
   {
@@ -150,7 +127,7 @@ const data = [
   },
 ];
 
-export function RangeControl(props: RangeSeriesProps) {
+export function RangeControl(props: RangeSeriesProps<SeriesRangePointType>) {
   return (
     <Plot
       width={900}
@@ -163,7 +140,26 @@ export function RangeControl(props: RangeSeriesProps) {
         right: 40,
       }}
     >
+      <Legend position="embedded" />
+
       <RangeSeries {...props} data={data} xAxis="x" yAxis="y" />
+      <RangeSeries
+        lineStyle={{ fill: 'red', stroke: 'blue' }}
+        label="Data 2"
+        data={data2}
+        xAxis="x"
+        yAxis="y"
+      />
+
+      <LineSeries
+        data={[
+          { x: 1, y: 1 },
+          { x: 2, y: 5 },
+          { x: 3, y: 10 },
+        ]}
+        label="Data 3"
+      />
+
       <Axis id="x" position="bottom" label="Month" />
       <Axis id="y" position="left" label="Average temperatures" />
     </Plot>
