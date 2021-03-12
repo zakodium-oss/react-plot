@@ -40,11 +40,7 @@ export default function RangeSeries(props: RangeSeriesProps) {
     lineStyle,
   };
 
-  return (
-    <g>
-      <RangeSeriesRender {...lineProps} />
-    </g>
-  );
+  return <RangeSeriesRender {...lineProps} />;
 }
 
 function RangeSeriesRender({
