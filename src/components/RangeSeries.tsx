@@ -1,11 +1,10 @@
+import { extent } from 'd3-array';
 import { area } from 'd3-shape';
-import { CSSProperties, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { usePlotContext } from '../hooks';
+import { useDispatchContext, usePlotContext } from '../hooks';
 import type { RangeSeriesProps, SeriesRangePointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
-
-import ScatterRangeSeries from './ScatterRangeSeries';
 
 interface RangeSeriesRenderProps {
   data: SeriesRangePointType[];
@@ -16,7 +15,20 @@ interface RangeSeriesRenderProps {
 
 export default function RangeSeries(props: RangeSeriesProps) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
-  const { lineStyle = {}, hidden, ...otherProps } = props;
+  const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
+
+  // Update plot context with data description
+  const { dispatch } = useDispatchContext();
+  useEffect(() => {
+    const [xMin, xMax] = extent(data, (d) => d.x);
+    const [yMin, yMax] = extent(data, (d) => d.y2);
+    const x = { min: xMin, max: xMax, axisId: xAxis };
+    const y = { min: yMin, max: yMax, axisId: yAxis };
+    dispatch({ type: 'newData', value: { id, x, y, label } });
+
+    // Delete information on unmount
+    return () => dispatch({ type: 'removeData', value: { id } });
+  }, [dispatch, id, data, xAxis, yAxis, label]);
 
   if (hidden) return null;
 
@@ -31,7 +43,6 @@ export default function RangeSeries(props: RangeSeriesProps) {
   return (
     <g>
       <RangeSeriesRender {...lineProps} />
-      <ScatterRangeSeries {...otherProps} hidden={false} groupId={id} />
     </g>
   );
 }
