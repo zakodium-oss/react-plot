@@ -2,6 +2,7 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { Annotation } from '../../src';
+import { EllipseProps } from '../../src/components/Annotations/Ellipse';
 
 import AnnotationData from './annotation.data';
 
@@ -14,7 +15,28 @@ export default {
       </AnnotationData>
     ),
   ],
+  args: {
+    cx: 300,
+    cy: 270,
+    rx: 90,
+    ry: 20,
+    style: {
+      fill: 'red',
+    },
+  },
 } as Meta;
+
+export function EllipseControl(props: EllipseProps) {
+  return (
+    <Annotation.Ellipse
+      cx={String(props.cx)}
+      cy={String(props.cy)}
+      rx={String(props.rx)}
+      ry={String(props.ry)}
+      style={props.style}
+    />
+  );
+}
 
 export function AnnotationEllipseStories() {
   return (

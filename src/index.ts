@@ -18,8 +18,11 @@ import type {
   PlotObjectType,
 } from './types';
 
+const { Annotations } = Annotation;
+
 export {
   Annotation,
+  Annotations,
   Plot,
   Axis,
   Heading,

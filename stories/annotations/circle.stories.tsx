@@ -2,6 +2,7 @@ import { Meta } from '@storybook/react';
 import React from 'react';
 
 import { Annotation } from '../../src';
+import { CircleProps } from '../../src/components/Annotations/Circle';
 
 import AnnotationData from './annotation.data';
 
@@ -14,7 +15,24 @@ export default {
       </AnnotationData>
     ),
   ],
+  args: {
+    cx: 100,
+    cy: 100,
+    r: 20,
+    style: { fill: 'red' },
+  },
 } as Meta;
+
+export function CircleControl(props: CircleProps) {
+  return (
+    <Annotation.Circle
+      cx={String(props.cx)}
+      cy={String(props.cy)}
+      r={String(props.r)}
+      style={props.style}
+    />
+  );
+}
 
 export function AnnotationCircleStories() {
   return <Annotation.Circle cx="100" cy="100" r="20" style={{ fill: 'red' }} />;

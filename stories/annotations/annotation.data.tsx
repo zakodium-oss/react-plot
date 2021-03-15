@@ -1,9 +1,7 @@
 import { ReactNode } from 'react';
 
-import { Axis, Legend, LineSeries, Plot, Annotation } from '../../src';
+import { Axis, Legend, LineSeries, Plot, Annotations } from '../../src';
 import { DEFAULT_CONFIG } from '../utils';
-
-const { Annotations } = Annotation;
 
 export const data = [
   {
