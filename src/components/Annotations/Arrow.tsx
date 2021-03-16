@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { usePosition } from '../../hooks';
 
 type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
-interface ArrowProps {
+export interface ArrowProps {
   x1: number | string;
   y1: number | string;
 

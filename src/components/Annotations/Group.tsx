@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { usePosition } from '../../hooks';
 
-interface GroupProps {
+export interface GroupProps {
   x: number | string;
   y: number | string;
 

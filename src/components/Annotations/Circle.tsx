@@ -1,9 +1,9 @@
-import React, { SVGProps } from 'react';
+import { SVGProps } from 'react';
 
 import { useEllipsePosition } from '../../hooks';
 
 type SvgCircleProps = SVGProps<SVGCircleElement>;
-type CircleProps = Omit<SvgCircleProps, 'x1' | 'x2' | 'y1' | 'y2'>;
+export type CircleProps = Omit<SvgCircleProps, 'x1' | 'x2' | 'y1' | 'y2'>;
 
 export default function Circle(props: CircleProps) {
   const { cx: oldCx, cy: oldCy, r: oldR, ...otherProps } = props;

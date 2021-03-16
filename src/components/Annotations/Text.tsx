@@ -1,4 +1,4 @@
-import React, { ReactNode, SVGProps } from 'react';
+import { ReactNode, SVGProps } from 'react';
 
 interface TextProps extends SVGProps<SVGTextElement> {
   children: ReactNode;

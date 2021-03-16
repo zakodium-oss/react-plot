@@ -1,9 +1,9 @@
-import React, { SVGProps } from 'react';
+import { SVGProps } from 'react';
 
 import { useEllipsePosition } from '../../hooks';
 
 type SvgEllipseProps = SVGProps<SVGEllipseElement>;
-type EllipseProps = Omit<SvgEllipseProps, 'x1' | 'x2' | 'y1' | 'y2'>;
+export type EllipseProps = Omit<SvgEllipseProps, 'x1' | 'x2' | 'y1' | 'y2'>;
 
 export default function Ellipse(props: EllipseProps) {
   const { cx: oldCx, cy: oldCy, rx: oldRx, ry: oldRy, ...otherProps } = props;

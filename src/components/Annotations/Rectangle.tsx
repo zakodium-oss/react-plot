@@ -1,9 +1,9 @@
-import React, { SVGProps } from 'react';
+import { SVGProps } from 'react';
 
 import { usePosition } from '../../hooks';
 
 type SvgRectProps = SVGProps<SVGRectElement>;
-type RectangleProps = Omit<
+export type RectangleProps = Omit<
   SvgRectProps,
   'x1' | 'x2' | 'y1' | 'y2' | 'transform'
 >;
