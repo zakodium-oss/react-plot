@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import React from 'react';
 
 import { Annotation } from '../../src';
 import { ArrowProps } from '../../src/components/Annotations/Arrow';
@@ -8,6 +7,7 @@ import AnnotationData from './annotation.data';
 
 export default {
   title: 'Docs/Annotations/Arrow',
+  component: Annotation.Arrow,
   decorators: [
     (Story) => (
       <AnnotationData>
@@ -16,36 +16,31 @@ export default {
     ),
   ],
   args: {
-    x1: 20,
-    x2: 500,
-    y1: 300,
-    y2: 300,
     endPoint: 'triangle',
-  },
+    startPoint: 'triangle',
+  } as ArrowProps,
 } as Meta;
 
-export function ArrowControl(props: ArrowProps) {
-  return (
-    <Annotation.Arrow
-      x1={String(props.x1)}
-      x2={String(props.x2)}
-      y1={String(props.y1)}
-      y2={String(props.y2)}
-      endPoint={props.endPoint}
-    />
-  );
+export function AnnotationArrowStories(props: ArrowProps) {
+  return <Annotation.Arrow {...props} />;
 }
 
-export function AnnotationArrowStories() {
-  return (
-    <Annotation.Arrow x1="20" x2="500" y1="300" y2="300" endPoint="triangle" />
-  );
-}
+AnnotationArrowStories.storyName = 'Annotation arrow with string value';
+AnnotationArrowStories.args = {
+  x1: '20',
+  x2: '500',
+  y1: '300',
+  y2: '300',
+};
 
-AnnotationArrowStories.storyName = 'Annotation string with number value';
-
-export function AnnotationArrowValuesStories() {
-  return <Annotation.Arrow x1={1} x2={2} y1={15} y2={12} endPoint="triangle" />;
+export function AnnotationArrowValuesStories(props: ArrowProps) {
+  return <Annotation.Arrow {...props} />;
 }
 
 AnnotationArrowStories.storyName = 'Annotation arrow with number value';
+AnnotationArrowValuesStories.args = {
+  x1: 1,
+  x2: 2,
+  y1: 15,
+  y2: 12,
+};

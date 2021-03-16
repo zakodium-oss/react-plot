@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { usePosition } from '../../hooks';
 
 type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
