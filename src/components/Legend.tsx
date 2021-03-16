@@ -132,8 +132,31 @@ export default function Legend({ position, ...legendMargins }: LegendProps) {
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-        const Marker = markersComps[value.shape.figure];
 
+        if (value.range) {
+          return (
+            <g
+              key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
+              transform={`translate(${xPos}, ${0})`}
+            >
+              {getRangeShape({
+                index,
+                rangeColor: value.range.rangeColor,
+                lineColor: value.colorLine,
+              })}
+
+              <text
+                key={`text-${value.label}-${index}`}
+                x={30}
+                y={`${index + 1}em`}
+              >
+                {value.label}
+              </text>
+            </g>
+          );
+        }
+
+        const Marker = markersComps[value.shape.figure];
         return (
           <g
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
@@ -165,4 +188,36 @@ function getLineShape(config: { index: number; color: string }) {
   const y = (config.index + 1) * 16 - x - 7;
 
   return <rect x={x} y={y} width="20" height="3" fill={config.color} />;
+}
+
+function getRangeShape(config: {
+  index: number;
+  rangeColor: string;
+  lineColor: string;
+}) {
+  const x = 0;
+  const y = (config.index + 1) * 16 - x - 12;
+
+  return (
+    <g transform={`translate(${x}, ${y})`}>
+      <rect width="20" height="10" fill={config.rangeColor} />
+      <line
+        x1={0}
+        y={0}
+        x2={20}
+        y2={0}
+        stroke={config.lineColor}
+        strokeWidth={3}
+      />
+
+      <line
+        x1={0}
+        y1={10}
+        x2={20}
+        y2={10}
+        stroke={config.lineColor}
+        strokeWidth={3}
+      />
+    </g>
+  );
 }

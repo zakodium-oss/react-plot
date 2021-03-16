@@ -20,6 +20,10 @@ interface LabelState {
     hidden: boolean;
   };
 
+  range?: {
+    rangeColor: string;
+  };
+
   colorLine: string | null;
 }
 
