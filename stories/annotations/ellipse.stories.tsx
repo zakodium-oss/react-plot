@@ -44,5 +44,5 @@ AnnotationEllipseValuesStories.args = {
   cx: 2,
   cy: 12,
   rx: 1,
-  ry: '20px',
+  ry: 1,
 };

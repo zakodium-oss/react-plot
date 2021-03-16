@@ -41,6 +41,6 @@ AnnotationRectangleValuesStories.storyName =
 AnnotationRectangleValuesStories.args = {
   x: 1,
   y: 15,
-  width: '100px',
+  width: 3,
   height: 3,
 };
