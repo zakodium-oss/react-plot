@@ -37,7 +37,7 @@ export function AnnotationArrowValuesStories(props: ArrowProps) {
   return <Annotation.Arrow {...props} />;
 }
 
-AnnotationArrowStories.storyName = 'Annotation arrow with number value';
+AnnotationArrowValuesStories.storyName = 'Annotation arrow with number value';
 AnnotationArrowValuesStories.args = {
   x1: 1,
   x2: 2,

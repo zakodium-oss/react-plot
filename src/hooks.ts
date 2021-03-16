@@ -126,8 +126,8 @@ export function useEllipsePosition(props: useEllipsePositionProps) {
   return {
     cx: convertValue(cx, xScale),
     cy: convertValue(cy, yScale),
-    rx: convertValue(rx, xScale),
-    ry: convertValue(ry, yScale),
+    rx: convertValueAbs(rx, xScale),
+    ry: convertValueAbs(ry, yScale),
   };
 }
 
