@@ -153,9 +153,9 @@ export function RangeControl(props: RangeSeriesProps<SeriesRangePointType>) {
 
       <LineSeries
         data={[
-          { x: 1, y: 1 },
-          { x: 2, y: 5 },
-          { x: 3, y: 10 },
+          { x: 4, y: 1 },
+          { x: 5, y: 5 },
+          { x: 6, y: 10 },
         ]}
         label="Data 3"
       />
