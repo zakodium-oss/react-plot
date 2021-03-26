@@ -34,20 +34,37 @@ export interface TicksLogProps extends Omit<TickLogProps, 'line' | 'text'> {
 }
 
 export function TicksLog(props: Omit<TicksLogProps, 'children'>) {
-  const { hidden, ticks, getPositions, ...otherProps } = props;
+  const {
+    hidden,
+    ticks,
+    getPositions,
+    hiddenSecondaryTicks,
+    ...otherProps
+  } = props;
   if (hidden) return null;
 
-  // Primary Ticks
-  let elements = ticks.map(({ label, position }) => {
-    const { line, text } = getPositions(position);
-    return (
-      <TickLog key={label + position} line={line} text={text} {...otherProps}>
-        {label}
-      </TickLog>
-    );
-  });
+  const displayedTicks = hiddenSecondaryTicks
+    ? ticks.filter(({ label }) => label !== '')
+    : ticks;
 
-  return <>{elements}</>;
+  // Primary and secondary Ticks
+  return (
+    <>
+      {displayedTicks.map(({ label, position }) => {
+        const { line, text } = getPositions(position);
+        return (
+          <TickLog
+            key={label + position}
+            line={line}
+            text={text}
+            {...otherProps}
+          >
+            {label}
+          </TickLog>
+        );
+      })}
+    </>
+  );
 }
 
 export function TickLog(props: TickLogProps) {

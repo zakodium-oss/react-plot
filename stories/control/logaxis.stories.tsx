@@ -6,6 +6,9 @@ export default {
   title: 'API/LogAxis',
   args: {
     label: 'Label',
+    hiddenSecondaryTicks: false,
+    hidden: false,
+    hiddenTicks: false,
   },
 } as Meta;
 
