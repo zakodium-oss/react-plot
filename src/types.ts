@@ -1,4 +1,9 @@
-import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
+import type {
+  ScaleContinuousNumeric,
+  ScaleLinear,
+  ScaleLogarithmic,
+  ScaleOrdinal,
+} from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode, SVGAttributes } from 'react';
 
 export type Shape =
@@ -37,6 +42,12 @@ export type CSSFuncProps<T> = {
     | ((point: T, index: number, data: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
+
+export interface TickType {
+  label: string;
+  position: number;
+  value: number;
+}
 
 // Component props
 
@@ -133,6 +144,7 @@ export interface AxisParentProps {
   paddingEnd?: number;
 
   flip?: boolean;
+  logScale?: boolean;
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
 
@@ -186,11 +198,17 @@ export interface SeriesType {
   label: string;
 }
 
-export interface AxisContextType {
-  scale: ScaleLinear<number, number>;
+export interface AxisContextGeneric<
+  Scale extends ScaleContinuousNumeric<number, number>
+> {
+  scale: Scale;
   scientific: boolean;
   position: Horizontal | Vertical;
 }
+export type AxisContextType =
+  | ({ type: 'linear' } & AxisContextGeneric<ScaleLinear<number, number>>)
+  | ({ type: 'log' } & AxisContextGeneric<ScaleLogarithmic<number, number>>);
+
 export interface PlotContextType {
   width?: number;
   height?: number;
