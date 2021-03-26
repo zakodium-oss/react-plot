@@ -15,14 +15,14 @@ export function Control() {
       fill: '#ddd',
     },
     dimensions: {
-      width: 550,
+      width: 650,
       height: 500,
-      margin: { bottom: 50, left: 50, top: 60, right: 50 },
+      margin: { bottom: 50, left: 50, top: 60, right: 80 },
     },
     axes: [
       { id: 'x', label: 'My X axis', position: 'bottom', min: 0, max: 10 },
       { id: 'y', label: 'My Y axis', position: 'left', min: 0, max: 10 },
-      { id: 'right', position: 'right', min: 1.5, max: 8.5 },
+      { id: 'right', position: 'right', min: 0.5, max: 180.5, logScale: true },
     ],
     series: [
       {
