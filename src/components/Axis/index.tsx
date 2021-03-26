@@ -4,10 +4,13 @@ import { useDispatchContext } from '../../hooks';
 import type { AxisChildProps, AxisProps } from '../../types';
 
 import BottomAxis from './BottomAxis';
+import BottomLogAxis from './BottomLogAxis';
 import LeftAxis from './LeftAxis';
 import LeftLogAxis from './LeftLogAxis';
 import RightAxis from './RightAxis';
+import RightLogAxis from './RightLogAxis';
 import TopAxis from './TopAxis';
+import TopLogAxis from './TopLogAxis';
 
 export default function Axis({
   id,
@@ -95,9 +98,17 @@ export default function Axis({
 
   switch (position) {
     case 'top':
-      return <TopAxis {...childProps} />;
+      return logScale ? (
+        <TopLogAxis {...childProps} />
+      ) : (
+        <TopAxis {...childProps} />
+      );
     case 'bottom':
-      return <BottomAxis {...childProps} />;
+      return logScale ? (
+        <BottomLogAxis {...childProps} />
+      ) : (
+        <BottomAxis {...childProps} />
+      );
     case 'left':
       return logScale ? (
         <LeftLogAxis {...childProps} />
@@ -105,7 +116,11 @@ export default function Axis({
         <LeftAxis {...childProps} />
       );
     case 'right':
-      return <RightAxis {...childProps} />;
+      return logScale ? (
+        <RightLogAxis {...childProps} />
+      ) : (
+        <RightAxis {...childProps} />
+      );
     default:
       return null;
   }
