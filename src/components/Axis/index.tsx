@@ -5,6 +5,7 @@ import type { AxisChildProps, AxisProps } from '../../types';
 
 import BottomAxis from './BottomAxis';
 import LeftAxis from './LeftAxis';
+import LeftLogAxis from './LeftLogAxis';
 import RightAxis from './RightAxis';
 import TopAxis from './TopAxis';
 
@@ -16,6 +17,7 @@ export default function Axis({
   paddingStart,
   paddingEnd,
   flip = false,
+  logScale = false,
 
   // children props
   label,
@@ -58,11 +60,23 @@ export default function Axis({
         paddingStart: minPadding,
         paddingEnd: maxPadding,
         flip,
+        logScale,
       },
     });
 
     return () => dispatch({ type: 'removeAxis', value: { id: id || xY } });
-  }, [dispatch, xY, id, position, min, max, flip, paddingStart, paddingEnd]);
+  }, [
+    dispatch,
+    xY,
+    id,
+    position,
+    min,
+    max,
+    flip,
+    paddingStart,
+    paddingEnd,
+    logScale,
+  ]);
 
   const childProps: AxisChildProps = {
     id: id || xY,
@@ -85,7 +99,11 @@ export default function Axis({
     case 'bottom':
       return <BottomAxis {...childProps} />;
     case 'left':
-      return <LeftAxis {...childProps} />;
+      return logScale ? (
+        <LeftLogAxis {...childProps} />
+      ) : (
+        <LeftAxis {...childProps} />
+      );
     case 'right':
       return <RightAxis {...childProps} />;
     default:
