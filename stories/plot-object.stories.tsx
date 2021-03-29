@@ -22,7 +22,7 @@ export function Control() {
     axes: [
       { id: 'x', label: 'My X axis', position: 'bottom', min: 0, max: 10 },
       { id: 'y', label: 'My Y axis', position: 'left', min: 0, max: 10 },
-      { id: 'right', position: 'right', min: 0.5, max: 180.5, logScale: true },
+      { id: 'right', position: 'right', min: 0.5, max: 180.5, scale: 'log' },
     ],
     series: [
       {

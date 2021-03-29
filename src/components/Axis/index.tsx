@@ -20,7 +20,7 @@ export default function Axis({
   paddingStart,
   paddingEnd,
   flip = false,
-  logScale = false,
+  scale = 'linear',
 
   // children props
   label,
@@ -63,7 +63,7 @@ export default function Axis({
         paddingStart: minPadding,
         paddingEnd: maxPadding,
         flip,
-        logScale,
+        scale,
       },
     });
 
@@ -78,7 +78,7 @@ export default function Axis({
     flip,
     paddingStart,
     paddingEnd,
-    logScale,
+    scale,
   ]);
 
   const childProps: AxisChildProps = {
@@ -96,31 +96,23 @@ export default function Axis({
     hiddenSecondaryTicks,
   };
 
-  switch (position) {
-    case 'top':
-      return logScale ? (
-        <TopLogAxis {...childProps} />
-      ) : (
-        <TopAxis {...childProps} />
-      );
-    case 'bottom':
-      return logScale ? (
-        <BottomLogAxis {...childProps} />
-      ) : (
-        <BottomAxis {...childProps} />
-      );
-    case 'left':
-      return logScale ? (
-        <LeftLogAxis {...childProps} />
-      ) : (
-        <LeftAxis {...childProps} />
-      );
-    case 'right':
-      return logScale ? (
-        <RightLogAxis {...childProps} />
-      ) : (
-        <RightAxis {...childProps} />
-      );
+  switch (`${position}-${scale}`) {
+    case 'top-log':
+      return <TopLogAxis {...childProps} />;
+    case 'top-linear':
+      return <TopAxis {...childProps} />;
+    case 'bottom-log':
+      return <BottomLogAxis {...childProps} />;
+    case 'bottom-linear':
+      return <BottomAxis {...childProps} />;
+    case 'left-log':
+      return <LeftLogAxis {...childProps} />;
+    case 'left-linear':
+      return <LeftAxis {...childProps} />;
+    case 'right-log':
+      return <RightLogAxis {...childProps} />;
+    case 'right-linear':
+      return <RightAxis {...childProps} />;
     default:
       return null;
   }

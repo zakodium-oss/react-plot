@@ -74,24 +74,31 @@ export function useAxisContext(
       const maxPad = diff * axis.paddingEnd;
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
-      if (axis.logScale) {
-        axisContext[id] = {
-          type: 'log' as const,
-          position: axis.position,
-          scientific: true,
-          scale: scaleLog()
-            .domain([axisMin - minPad, axisMax + maxPad])
-            .range(axis.flip ? range.reverse() : range),
-        };
-      } else {
-        axisContext[id] = {
-          type: 'linear' as const,
-          position: axis.position,
-          scientific: diff <= 0.01 || diff >= 1000,
-          scale: scaleLinear()
-            .domain([axisMin - minPad, axisMax + maxPad])
-            .range(axis.flip ? range.reverse() : range),
-        };
+
+      switch (axis.scale) {
+        case 'log': {
+          axisContext[id] = {
+            type: axis.scale,
+            position: axis.position,
+            scientific: true,
+            scale: scaleLog()
+              .domain([axisMin - minPad, axisMax + maxPad])
+              .range(axis.flip ? range.reverse() : range),
+          };
+          break;
+        }
+        case 'linear':
+        default: {
+          axisContext[id] = {
+            type: 'linear' as const,
+            position: axis.position,
+            scientific: diff <= 0.01 || diff >= 1000,
+            scale: scaleLinear()
+              .domain([axisMin - minPad, axisMax + maxPad])
+              .range(axis.flip ? range.reverse() : range),
+          };
+          break;
+        }
       }
     }
     return axisContext;
