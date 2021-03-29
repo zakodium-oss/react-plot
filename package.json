@@ -34,6 +34,12 @@
     "d3-react"
   ],
   "author": "Miguel Asencio",
+  "contributors": [
+    "Michaël Zasso",
+    "Sebastien Ahkrin",
+    "Nadjib Souab",
+    "Luc Patiny"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zakodium/react-plot/issues"
