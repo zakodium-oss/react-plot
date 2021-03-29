@@ -77,12 +77,19 @@ export function useAxisContext(
 
       switch (axis.scale) {
         case 'log': {
+          const axisMinPositive = min(state.series, (d) => d[xY].minPositive);
+          const minDomain = Math.max(
+            axisMin - minPad,
+            axisMin,
+            axisMinPositive,
+          );
           axisContext[id] = {
             type: axis.scale,
             position: axis.position,
             scientific: true,
             scale: scaleLog()
-              .domain([axisMin - minPad, axisMax + maxPad])
+              .clamp(true)
+              .domain([minDomain, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
           };
           break;

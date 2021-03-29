@@ -1,4 +1,4 @@
-import { extent } from 'd3-array';
+import { extent, min } from 'd3-array';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
@@ -30,8 +30,20 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
-    const x = { min: xMin, max: xMax, axisId: xAxis };
-    const y = { min: yMin, max: yMax, axisId: yAxis };
+    const xMinPositive = min(data, (d) => (d.x > 0 ? d.x : Infinity));
+    const yMinPositive = min(data, (d) => (d.y > 0 ? d.y : Infinity));
+    const x = {
+      min: xMin,
+      max: xMax,
+      axisId: xAxis,
+      minPositive: xMinPositive,
+    };
+    const y = {
+      min: yMin,
+      max: yMax,
+      axisId: yAxis,
+      minPositive: yMinPositive,
+    };
     dispatch({ type: 'newData', value: { id, x, y, label } });
 
     // Delete information on unmount

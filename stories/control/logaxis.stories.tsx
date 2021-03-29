@@ -71,3 +71,14 @@ export function AxisTopLogControl(props: AxisControlProps) {
     </Plot>
   );
 }
+
+export function AxisZeroLogControl() {
+  const zeroData = [{ x: -0.001, y: -1 }, { x: 0, y: 0 }, ...data];
+  return (
+    <Plot {...plot} margin={{ bottom: 45, left: 90, top: 40, right: 20 }}>
+      <LineSeries data={zeroData} xAxis="x" yAxis="y" />
+      <Axis id="y" position="left" scale="log" labelSpace={65} label="Y" />
+      <Axis id="x" position="bottom" label="X" />
+    </Plot>
+  );
+}

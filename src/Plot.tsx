@@ -62,10 +62,7 @@ export default function Plot(props: PlotProps) {
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const axisContext = useAxisContext(state, {
-    plotWidth,
-    plotHeight,
-  });
+  const axisContext = useAxisContext(state, { plotWidth, plotHeight });
 
   const labels = useMemo(
     () => state.series.map(({ id, label }) => ({ id, label })),

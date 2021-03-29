@@ -188,6 +188,7 @@ export interface PlotObjectProps {
 
 interface SeriesAxisType {
   min: number;
+  minPositive: number;
   max: number;
   axisId: string;
 }
