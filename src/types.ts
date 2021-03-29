@@ -144,7 +144,7 @@ export interface AxisParentProps {
   paddingEnd?: number;
 
   flip?: boolean;
-  logScale?: boolean;
+  scale?: 'linear' | 'log';
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
 
