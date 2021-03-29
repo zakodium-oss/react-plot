@@ -1,6 +1,8 @@
 import { ScaleLinear } from 'd3-scale';
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
+import { TickType } from '../../types';
+
 interface CoordinatesXY {
   x1?: number;
   x2?: number;
@@ -24,9 +26,8 @@ export interface TickProps {
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   hidden: boolean;
-  ticks: number[];
-  scale: ScaleLinear<number, number, never>;
-  scientific?: boolean;
+  scale: ScaleLinear<number, number>;
+  ticks: TickType[];
   hiddenSecondaryTicks?: boolean;
 
   getPositions: (
@@ -40,18 +41,17 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     ticks,
     scale,
     getPositions,
-    scientific = true,
     hiddenSecondaryTicks = false,
     ...otherProps
   } = props;
   if (hidden) return null;
 
   // Primary Ticks
-  let elements = ticks.map((tick) => {
-    const { line, text } = getPositions(scale(tick));
+  let elements = ticks.map(({ position, label }) => {
+    const { line, text } = getPositions(position);
     return (
-      <Tick key={tick} line={line} text={text} {...otherProps}>
-        {scientific ? tick.toExponential(2) : tick}
+      <Tick key={label} line={line} text={text} {...otherProps}>
+        {label}
       </Tick>
     );
   });
@@ -68,8 +68,8 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     let secTicksPerInterval = 0;
     if (ticks.length > 1) {
       let i = 0;
-      while (secTicks[i] < ticks[1]) {
-        while (secTicks[i] < ticks[0]) {
+      while (secTicks[i] < ticks[1].value) {
+        while (secTicks[i] < ticks[0].value) {
           i++;
           middleTick++;
         }
@@ -87,7 +87,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         middleTick--;
         let strokeHeight = middleTickEnabled && middleTick === 0 ? 1 : 0.6;
         // exclude the main ticks
-        if (ticks.includes(tick)) {
+        if (ticks.find(({ value }) => value === tick)) {
           middleTick = secTicksPerInterval / 2;
           return null;
         }

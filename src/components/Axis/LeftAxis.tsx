@@ -1,7 +1,9 @@
-import { useMemo } from 'react';
+import { scaleLinear } from 'd3-scale';
+import { useMemo, useRef } from 'react';
+import { useLinearPrimaryTicks } from 'react-d3-utils';
 
 import { usePlotContext } from '../../hooks';
-import type { AxisChildProps } from '../../types';
+import type { AxisChildProps, TickType } from '../../types';
 import VerticalText from '../VerticalText';
 
 import { Ticks } from './Ticks';
@@ -23,8 +25,15 @@ export default function LeftAxis({
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
 
   // Calculates the main axis values
-  const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(() => scale?.ticks() || [], [scale]);
+  const { scale = scaleLinear(), scientific } = axisContext[id] || {};
+  const groupRef = useRef<SVGGElement>(null);
+  const tickFormat = useMemo(
+    () => (scientific ? (x: number) => x.toExponential(2) : undefined),
+    [scientific],
+  );
+  const ticks: TickType[] = useLinearPrimaryTicks(scale, 'vertical', groupRef, {
+    tickFormat,
+  });
   const range = scale?.range() || [0, 0];
 
   // Create gridlines
@@ -32,13 +41,13 @@ export default function LeftAxis({
     if (!displayGridLines || !scale) return null;
     return (
       <g className="gridLines">
-        {ticks.map((val) => (
+        {ticks.map(({ position }) => (
           <line
-            key={val}
+            key={position}
             x1="0"
             x2={plotWidth}
-            y1={scale(val)}
-            y2={scale(val)}
+            y1={position}
+            y2={position}
             stroke="black"
             strokeDasharray="2,2"
             strokeOpacity={0.5}
@@ -58,7 +67,6 @@ export default function LeftAxis({
         <g className="ticks">
           <line y1={range[0]} y2={range[1]} stroke="black" />
           <Ticks
-            scientific={scientific}
             scale={scale}
             hidden={hiddenTicks}
             ticks={ticks}

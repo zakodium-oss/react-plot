@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { scaleLinear } from 'd3-scale';
+import { useMemo, useRef } from 'react';
+import { useLinearPrimaryTicks } from 'react-d3-utils';
 
 import { usePlotContext } from '../../hooks';
-import type { AxisChildProps } from '../../types';
-import { calculateTicksNumber } from '../../utils';
+import type { AxisChildProps, TickType } from '../../types';
 
 import { Ticks } from './Ticks';
 
@@ -24,14 +25,17 @@ export default function BottomAxis({
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
-  const ticks: number[] = useMemo(() => {
-    const ticksNumber = calculateTicksNumber(
-      plotWidth,
-      scientific,
-      scale?.domain(),
-    );
-    return scale?.ticks(ticksNumber) || [];
-  }, [scale, scientific, plotWidth]);
+  const groupRef = useRef<SVGGElement>(null);
+  const tickFormat = useMemo(
+    () => (scientific ? (x: number) => x.toExponential(2) : undefined),
+    [scientific],
+  );
+  const ticks: TickType[] = useLinearPrimaryTicks(
+    scale || scaleLinear(),
+    'horizontal',
+    groupRef,
+    { tickFormat },
+  );
   const range = scale?.range() || [0, 0];
 
   // Create gridlines
@@ -39,11 +43,11 @@ export default function BottomAxis({
     if (!displayGridLines || !scale) return null;
     return (
       <g className="gridLines">
-        {ticks.map((val) => (
+        {ticks.map(({ position }) => (
           <line
-            key={val}
-            x1={scale(val)}
-            x2={scale(val)}
+            key={position}
+            x1={position}
+            x2={position}
             y1={plotHeight}
             y2="0"
             stroke="black"
@@ -65,7 +69,6 @@ export default function BottomAxis({
         <g className="ticks" transform={`translate(0, ${plotHeight})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />
           <Ticks
-            scientific={scientific}
             scale={scale}
             hidden={hiddenTicks}
             ticks={ticks}

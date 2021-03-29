@@ -149,28 +149,6 @@ export function functionalStyle<T>(
 }
 
 /**
- * Calculate Ticks number to display
- */
-export function calculateTicksNumber(
-  plotWidth: number,
-  scientific: boolean,
-  domain: number[] = [0, 1],
-): number {
-  const fontSizeDefault = 16;
-  const scientificTickLength = 7;
-  let tickLength = `${Math.trunc(domain[1])}`.length;
-  // if domain too small => tickLength+2 for decimal values
-  tickLength =
-    domain[1] - domain[0] < plotWidth * 0.05 ? tickLength + 2 : tickLength;
-
-  const ticksNumber = scientific
-    ? plotWidth / (scientificTickLength * fontSizeDefault)
-    : plotWidth / (tickLength * fontSizeDefault);
-
-  return ticksNumber;
-}
-
-/**
  * validate series point Error
  */
 export function validateSeriesPointError(
