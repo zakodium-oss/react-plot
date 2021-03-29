@@ -1,4 +1,4 @@
-import { extent } from 'd3-array';
+import { extent, min } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
@@ -30,10 +30,19 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
     const [y1Min, y1Max] = extent(data, (d) => d.y1);
     const [y2Min, y2Max] = extent(data, (d) => d.y2);
 
-    const x = { min: xMin, max: xMax, axisId: xAxis };
+    const xMinPositive = min(data, (d) => (d.x > 0 ? d.x : Infinity));
+    const y1MinPositive = min(data, (d) => (d.y1 > 0 ? d.y1 : Infinity));
+    const y2MinPositive = min(data, (d) => (d.y2 > 0 ? d.y2 : Infinity));
+    const x = {
+      min: xMin,
+      max: xMax,
+      minPositive: xMinPositive,
+      axisId: xAxis,
+    };
     const y = {
       min: Math.min(y1Min, y2Min),
       max: Math.max(y1Max, y2Max),
+      minPositive: Math.min(y1MinPositive, y2MinPositive),
       axisId: yAxis,
     };
     dispatch({ type: 'newData', value: { id, x, y, label } });
@@ -49,9 +58,7 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
         id,
         label,
         colorLine: lineStyle.stroke,
-        range: {
-          rangeColor: lineStyle.fill,
-        },
+        range: { rangeColor: lineStyle.fill },
       },
     });
 
