@@ -14,6 +14,20 @@
 
 * add missing hiddensecondaryticks on logscale ([0ada873](https://www.github.com/zakodium/react-plot/commit/0ada8734179021616063cbd1374582ef2c792676))
 
+## [0.7.0](https://www.github.com/zakodium/react-plot/compare/v0.6.0...v0.7.0) (2021-03-29)
+
+
+### Features
+
+* add logscale to left axis ([056a605](https://www.github.com/zakodium/react-plot/commit/056a605a9361a56501dda7c75ffc5104287ef7aa))
+* add Range Series component ([#149](https://www.github.com/zakodium/react-plot/issues/149)) ([b7acda8](https://www.github.com/zakodium/react-plot/commit/b7acda8173e3e30985329ee2e5db96100afa2d8f))
+* initial implementation of log axis ([14acded](https://www.github.com/zakodium/react-plot/commit/14acded701e9310595e286bcf68bec48fa64f5d4))
+
+
+### Bug Fixes
+
+* add missing hiddensecondaryticks on logscale ([0ada873](https://www.github.com/zakodium/react-plot/commit/0ada8734179021616063cbd1374582ef2c792676))
+
 ## [0.6.0](https://www.github.com/zakodium/react-plot/compare/v0.5.0...v0.6.0) (2021-03-09)
 
 
