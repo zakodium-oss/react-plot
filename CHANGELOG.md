@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.7.1](https://www.github.com/zakodium/react-plot/compare/v0.7.0...v0.7.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* do not show legend if series is hidden ([#163](https://www.github.com/zakodium/react-plot/issues/163)) ([d1e57eb](https://www.github.com/zakodium/react-plot/commit/d1e57eb0765ab53bda67675de556265cc6bcfcff))
+
 ## [0.7.0](https://www.github.com/zakodium/react-plot/compare/v0.6.0...v0.7.0) (2021-03-29)
 
 
