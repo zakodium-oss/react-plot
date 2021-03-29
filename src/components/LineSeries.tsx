@@ -31,24 +31,27 @@ export default function LineSeries(props: LineSeriesProps) {
   } = props;
 
   useEffect(() => {
-    legendDispatch({
-      type: 'ADD_LEGEND_LABEL',
-      payload: {
-        id,
-        label: otherProps.label,
+    if (!hidden) {
+      legendDispatch({
+        type: 'ADD_LEGEND_LABEL',
+        payload: {
+          id,
+          label: otherProps.label,
 
-        colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
+          colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
 
-        shape: {
-          color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
-          figure: otherProps.markerShape || 'circle',
-          hidden: !displayMarker,
+          shape: {
+            color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
+            figure: otherProps.markerShape || 'circle',
+            hidden: !displayMarker,
+          },
         },
-      },
-    });
+      });
+    }
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [
+    hidden,
     colorScaler,
     displayMarker,
     id,
