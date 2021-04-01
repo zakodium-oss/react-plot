@@ -3,7 +3,7 @@
 Library of React components to render SVG 2D plots.
 
 <h3 align="center">
-  <img src="https://www.zakodium.com/zakodium.png" width="50" alt="Zakodium Logo" /> <p>Provided and maintained by <a href="https://www.zakodium.com/">Zakodium</a></p>
+  <img src="https://www.zakodium.com/brand/zakodium-logo-white.svg" width="50" alt="Zakodium Logo" /> <p>Provided and maintained by <a href="https://www.zakodium.com/">Zakodium</a></p>
 
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
