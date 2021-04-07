@@ -14,7 +14,7 @@ export function Control() {
       strokeWidth: '2px',
       fill: '#ddd',
     },
-    plotProps: {
+    dimensions: {
       width: 650,
       height: 500,
       margin: { bottom: 50, left: 50, top: 60, right: 80 },

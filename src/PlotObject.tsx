@@ -6,13 +6,24 @@ import ScatterSeries from './components/ScatterSeries';
 import { PlotObjectProps } from './types';
 
 export default function PlotObject({
-  plot: { dimensions, seriesViewportStyle, axes, series, legend, colorScheme },
+  plot: {
+    dimensions,
+    svg,
+    seriesViewportStyle,
+    axes,
+    series,
+    legend,
+    colorScheme,
+  },
 }: PlotObjectProps) {
+  const { class: className, ...svgProps } = svg;
   return (
     <Plot
       colorScheme={colorScheme}
       seriesViewportStyle={seriesViewportStyle}
       {...dimensions}
+      className={className}
+      {...svgProps}
     >
       {axes.map((props) => (
         <Axis key={props.position} {...props} />

@@ -76,6 +76,14 @@ export interface PlotProps {
    */
   svgStyle?: CSSProperties;
   /**
+   * Id of the SVG element
+   */
+  id?: string;
+  /**
+   * Class name of the SVG element
+   */
+  className?: string;
+  /**
    * Style applied to the rectangle around the entire plot.
    */
   plotViewportStyle?: CSSProperties;
@@ -167,7 +175,6 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
-type Dimensions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
   axes: AxisProps[];
   series: Array<
@@ -175,7 +182,11 @@ export interface PlotObjectType {
     | ({ type: 'scatter' } & ScatterSeriesProps)
   >;
   legend?: LegendProps;
-  dimensions: Dimensions;
+  dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
+  svg?: Pick<
+    PlotProps,
+    'plotViewportStyle' | 'svgStyle' | 'seriesViewportStyle'
+  > & { class?: string; id?: string };
   colorScheme?: Iterable<string>;
   seriesViewportStyle?: CSSProperties;
 }

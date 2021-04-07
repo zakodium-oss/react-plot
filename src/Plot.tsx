@@ -33,6 +33,8 @@ export default function Plot(props: PlotProps) {
     colorScheme = schemeSet1,
     margin = {},
     svgStyle = {},
+    id,
+    className,
     plotViewportStyle = {},
     seriesViewportStyle = {},
     children,
@@ -101,6 +103,8 @@ export default function Plot(props: PlotProps) {
             width={width}
             height={height}
             style={{ ...defaultSvgStyle, ...svgStyle }}
+            id={id}
+            className={className}
           >
             <MarkerDefs />
 
