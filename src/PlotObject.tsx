@@ -15,7 +15,7 @@ export default function PlotObject({
       {...dimensions}
     >
       {axes.map((props) => (
-        <Axis key={props.id} {...props} />
+        <Axis key={props.position} {...props} />
       ))}
       {legend !== undefined ? <Legend {...legend} /> : null}
       {series.map(({ type, ...props }, i) => {
