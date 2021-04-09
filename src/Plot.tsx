@@ -49,6 +49,7 @@ export default function Plot(props: PlotProps) {
     heading,
     legend,
     annotations,
+    tracking,
   } = splitChildren(children);
 
   if (hasInvalidChild) {
@@ -134,6 +135,7 @@ export default function Plot(props: PlotProps) {
               </g>
 
               {axes}
+              {tracking}
             </g>
 
             {heading}

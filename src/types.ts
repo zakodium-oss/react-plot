@@ -175,6 +175,24 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
+export interface ClosestInfo {
+  point: SeriesPointType;
+  axis: AxisContextType;
+}
+export interface TrackingResult {
+  event: MouseEvent;
+  coordinates: Record<string, number>;
+  series: Record<
+    string,
+    { closestX: ClosestInfo; closestY: ClosestInfo; closest: ClosestInfo }
+  >;
+}
+export interface TrackingProps {
+  onMouseMove?: (result: TrackingResult) => void;
+  onClick?: (result: TrackingResult) => void;
+}
+
+type Dimensions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
   axes: AxisProps[];
   series: Array<
@@ -257,4 +275,5 @@ export interface PlotChildren {
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
   annotations: Array<ReactElement<LegendProps>>;
+  tracking: ReactElement<TrackingProps> | null;
 }
