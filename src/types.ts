@@ -78,11 +78,11 @@ export interface PlotProps {
   /**
    * Id of the SVG element
    */
-  id?: string;
+  svgId?: string;
   /**
    * Class name of the SVG element
    */
-  className?: string;
+  svgClassName?: string;
   /**
    * Style applied to the rectangle around the entire plot.
    */

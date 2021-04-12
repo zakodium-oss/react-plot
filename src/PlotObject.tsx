@@ -16,13 +16,14 @@ export default function PlotObject({
     colorScheme,
   },
 }: PlotObjectProps) {
-  const { class: className, ...svgProps } = svg;
+  const { class: svgClassName, id: svgId, ...svgProps } = svg;
   return (
     <Plot
       colorScheme={colorScheme}
       seriesViewportStyle={seriesViewportStyle}
       {...dimensions}
-      className={className}
+      svgClassName={svgClassName}
+      svgId={svgId}
       {...svgProps}
     >
       {axes.map((props) => (
