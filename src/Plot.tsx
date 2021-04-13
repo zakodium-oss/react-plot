@@ -139,28 +139,30 @@ export default function Plot(props: PlotProps) {
 
               {axes}
 
-              <Tracking
-                onClick={(position) => {
-                  onClick?.(
-                    closestCalculation(
-                      position,
-                      closest,
-                      state.series,
-                      axisContext,
-                    ),
-                  );
-                }}
-                onMouseMove={(position) => {
-                  onMouseMove?.(
-                    closestCalculation(
-                      position,
-                      closest,
-                      state.series,
-                      axisContext,
-                    ),
-                  );
-                }}
-              />
+              {onClick || onMouseMove ? (
+                <Tracking
+                  onClick={(position) => {
+                    onClick?.(
+                      closestCalculation(
+                        position,
+                        closest,
+                        state.series,
+                        axisContext,
+                      ),
+                    );
+                  }}
+                  onMouseMove={(position) => {
+                    onMouseMove?.(
+                      closestCalculation(
+                        position,
+                        closest,
+                        state.series,
+                        axisContext,
+                      ),
+                    );
+                  }}
+                />
+              ) : null}
             </g>
 
             {heading}
