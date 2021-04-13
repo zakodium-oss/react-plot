@@ -7,7 +7,6 @@ import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import RangeSeries from './components/RangeSeries';
 import ScatterSeries from './components/ScatterSeries';
-import Tracking from './components/Tracking';
 import type {
   AxisContextType,
   CSSFuncProps,
@@ -36,7 +35,6 @@ export function splitChildren(children: ReactNode): PlotChildren {
   let heading = null;
   let legend = null;
   let annotations = [];
-  let tracking = null;
 
   for (let child of Children.toArray(children)) {
     // Base child validation
@@ -60,8 +58,6 @@ export function splitChildren(children: ReactNode): PlotChildren {
       legend = child;
     } else if (child.type === Annotation.Annotations) {
       annotations.push(child);
-    } else if (child.type === Tracking) {
-      tracking = child;
     }
 
     // Default case
@@ -76,7 +72,6 @@ export function splitChildren(children: ReactNode): PlotChildren {
     heading,
     legend,
     annotations,
-    tracking,
   };
 }
 
@@ -183,4 +178,23 @@ export function validateSeriesPointError(
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;
+}
+
+export function closestPoint<T, R>(
+  data: T[],
+  value: R,
+  distanceFun: (a: T, b: R) => number,
+): T {
+  let closest = {
+    index: 0,
+    distance: Infinity,
+  };
+  for (let i = 0; i < data.length; i++) {
+    const distance = distanceFun(data[i], value);
+    if (distance < closest.distance) {
+      closest.index = i;
+      closest.distance = distance;
+    }
+  }
+  return data[closest.index];
 }

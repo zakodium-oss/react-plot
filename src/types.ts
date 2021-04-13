@@ -204,7 +204,6 @@ export interface TrackingProps {
   onClick?: (result: TrackingResult) => void;
 }
 
-type Dimensions = Omit<PlotProps, 'colorScheme' | 'children'>;
 export interface PlotObjectType {
   axes: AxisProps[];
   series: Array<
