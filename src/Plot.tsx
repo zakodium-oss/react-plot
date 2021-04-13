@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import MarkerDefs from './components/Annotations/MarkerDefs';
+import Tracking, { closestCalculation } from './components/Tracking';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
@@ -24,7 +25,7 @@ const defaultSvgStyle: CSSProperties = {
 export type { PlotProps };
 
 /**
- * Static plot with fixed dimensions.
+ * Static plot with fixed dimension.
  */
 export default function Plot(props: PlotProps) {
   const {
@@ -37,6 +38,9 @@ export default function Plot(props: PlotProps) {
     svgClassName,
     plotViewportStyle = {},
     seriesViewportStyle = {},
+    onClick,
+    onMouseMove,
+    closest,
     children,
   } = props;
 
@@ -49,7 +53,6 @@ export default function Plot(props: PlotProps) {
     heading,
     legend,
     annotations,
-    tracking,
   } = splitChildren(children);
 
   if (hasInvalidChild) {
@@ -135,7 +138,29 @@ export default function Plot(props: PlotProps) {
               </g>
 
               {axes}
-              {tracking}
+
+              <Tracking
+                onClick={(position) => {
+                  onClick?.(
+                    closestCalculation(
+                      position,
+                      closest,
+                      state.series,
+                      axisContext,
+                    ),
+                  );
+                }}
+                onMouseMove={(position) => {
+                  onMouseMove?.(
+                    closestCalculation(
+                      position,
+                      closest,
+                      state.series,
+                      axisContext,
+                    ),
+                  );
+                }}
+              />
             </g>
 
             {heading}

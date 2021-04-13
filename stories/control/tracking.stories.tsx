@@ -1,11 +1,11 @@
 import { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 
-import { Axis, LineSeries, Plot, Tracking } from '../../src';
+import { Axis, LineSeries, Plot } from '../../src';
+import { SeriesPointType, TrackingResult } from '../../src/types';
 
 export default {
   title: 'API/Tracking',
-  component: Tracking,
 } as Meta;
 
 const data = [
@@ -26,19 +26,37 @@ interface Positions {
   coordinates: Record<string, number>;
   position: Record<'x' | 'y', number>;
 }
-export function TrackingControl() {
+
+interface TrackingProps {
+  data: SeriesPointType[][];
+  displayMarker?: boolean;
+}
+function Tracking({ data, displayMarker }: TrackingProps) {
   const [hover, setHover] = useState<Positions>(null);
+  const [closest, setClosest] = useState<TrackingResult['series']>(null);
   return (
     <div>
-      <Plot {...plot} margin={{ bottom: 45, left: 90, top: 40, right: 20 }}>
-        <LineSeries data={data} xAxis="x" yAxis="y" displayMarker />
+      <Plot
+        {...plot}
+        margin={{ bottom: 45, left: 90, top: 40, right: 20 }}
+        onMouseMove={({ coordinates, event: { clientX, clientY } }) =>
+          setHover({ coordinates, position: { x: clientX, y: clientY } })
+        }
+        onClick={({ series }) => setClosest(series)}
+        closest={{ euclidean: true }}
+      >
+        {data.map((subdata, i) => (
+          <LineSeries
+            // eslint-disable-next-line react/no-array-index-key
+            key={i}
+            data={subdata}
+            xAxis="x"
+            yAxis="y"
+            displayMarker={displayMarker}
+          />
+        ))}
         <Axis id="x" position="bottom" label="time [s]" />
         <Axis id="y" position="left" labelSpace={65} />
-        <Tracking
-          onMouseMove={({ coordinates, event: { clientX, clientY } }) =>
-            setHover({ coordinates, position: { x: clientX, y: clientY } })
-          }
-        />
       </Plot>
       {hover && (
         <div
@@ -59,6 +77,46 @@ export function TrackingControl() {
           ))}
         </div>
       )}
+      {closest && (
+        <div>
+          <b>Closest point</b>
+          {Object.keys(closest).map((key) => (
+            <p key={key}>
+              <b>{key}</b>
+              <span>
+                {' x: '}
+                {Math.round((closest[key]?.closest.point.x || 0) * 100) / 100}
+              </span>
+              <span>
+                {' y: '}
+                {Math.round((closest[key]?.closest.point.y || 0) * 100) / 100}
+              </span>
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+
+export function TrackingExample() {
+  return <Tracking data={[data]} displayMarker />;
+}
+
+export function TrackingBig() {
+  const len = 100000;
+  let data1: SeriesPointType[] = new Array(len);
+  let data2: SeriesPointType[] = new Array(len);
+  for (let i = 0; i < len; i++) {
+    data1[i] = {
+      x: i / 100 - 10,
+      y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
+    };
+    data2[i] = {
+      x: i / 100 - 10,
+      y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
+    };
+  }
+  return <Tracking data={[data1, data2]} />;
+}
+TrackingBig.storyName = 'Tracking on medium amount of data';

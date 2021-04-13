@@ -92,6 +92,18 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
+   * Track values on mouse move
+   */
+  onMouseMove?: (result: TrackingResult) => void;
+  /**
+   * Track values on mouse click
+   */
+  onClick?: (result: TrackingResult) => void;
+  /**
+   * Track closest values
+   */
+  closest?: { x?: boolean; y?: boolean; euclidean?: boolean };
+  /**
    * All plot elements.
    */
   children: ReactNode;
@@ -177,14 +189,14 @@ export interface MarkersProps {
 
 export interface ClosestInfo {
   point: SeriesPointType;
-  axis: AxisContextType;
+  axis: AxisContextType[];
 }
 export interface TrackingResult {
   event: MouseEvent;
   coordinates: Record<string, number>;
-  series: Record<
+  series?: Record<
     string,
-    { closestX: ClosestInfo; closestY: ClosestInfo; closest: ClosestInfo }
+    { closestX?: ClosestInfo; closestY?: ClosestInfo; closest?: ClosestInfo }
   >;
 }
 export interface TrackingProps {
@@ -226,6 +238,7 @@ export interface SeriesType {
   x: SeriesAxisType;
   y: SeriesAxisType;
   label: string;
+  data?: SeriesPointType[];
 }
 
 export interface AxisContextGeneric<
@@ -275,5 +288,4 @@ export interface PlotChildren {
   heading: ReactElement<HeadingProps> | null;
   legend: ReactElement<LegendProps> | null;
   annotations: Array<ReactElement<LegendProps>>;
-  tracking: ReactElement<TrackingProps> | null;
 }

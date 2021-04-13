@@ -8,7 +8,6 @@ import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import RangeSeries from './components/RangeSeries';
 import ScatterSeries from './components/ScatterSeries';
-import Tracking from './components/Tracking';
 import type {
   AxisProps,
   HeadingProps,
@@ -20,7 +19,6 @@ import type {
   PlotObjectProps,
   PlotObjectType,
   RangeSeriesProps,
-  TrackingProps,
 } from './types';
 
 const { Annotations } = Annotation;
@@ -37,7 +35,6 @@ export {
   ScatterSeries,
   PlotObject,
   BarSeries,
-  Tracking,
 };
 export type {
   PlotProps,
@@ -49,7 +46,6 @@ export type {
   ScatterSeriesProps,
   SeriesPointType,
   RangeSeriesPointType as SeriesRangePointType,
-  TrackingProps,
   PlotObjectProps,
   PlotObjectType,
 };
