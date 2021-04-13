@@ -183,10 +183,11 @@ export interface PlotObjectType {
   >;
   legend?: LegendProps;
   dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
-  svg?: Pick<
-    PlotProps,
-    'plotViewportStyle' | 'svgStyle' | 'seriesViewportStyle'
-  > & { class?: string; id?: string };
+  svg?: Pick<PlotProps, 'plotViewportStyle' | 'seriesViewportStyle'> & {
+    className?: string;
+    id?: string;
+    style: PlotProps['svgStyle'];
+  };
   colorScheme?: Iterable<string>;
   seriesViewportStyle?: CSSProperties;
 }

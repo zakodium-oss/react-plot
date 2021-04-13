@@ -16,7 +16,12 @@ export default function PlotObject({
     colorScheme,
   },
 }: PlotObjectProps) {
-  const { class: svgClassName, id: svgId, ...svgProps } = svg;
+  const {
+    className: svgClassName,
+    id: svgId,
+    style: svgStyle,
+    ...svgProps
+  } = svg;
   return (
     <Plot
       colorScheme={colorScheme}
@@ -24,6 +29,7 @@ export default function PlotObject({
       {...dimensions}
       svgClassName={svgClassName}
       svgId={svgId}
+      svgStyle={svgStyle}
       {...svgProps}
     >
       {axes.map((props) => (
