@@ -192,7 +192,7 @@ export interface ClosestInfo {
   axis: AxisContextType[];
 }
 export interface TrackingResult {
-  event: MouseEvent;
+  event: React.MouseEvent<SVGRectElement, MouseEvent>;
   coordinates: Record<string, number>;
   series?: Record<
     string,

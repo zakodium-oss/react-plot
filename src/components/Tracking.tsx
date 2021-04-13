@@ -1,5 +1,5 @@
 import { euclidean } from 'ml-distance-euclidean';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 import { usePlotContext } from '../hooks';
 import type {
@@ -14,12 +14,11 @@ import { closestPoint } from '../utils';
 const HORIZONTAL = ['bottom', 'top'];
 
 function infoFromMouse(
-  event: MouseEvent,
+  event: React.MouseEvent<SVGRectElement, MouseEvent>,
   axisContext: Record<string, AxisContextType>,
-  top: number,
-  left: number,
 ): TrackingResult {
   const { clientX, clientY } = event;
+  const { left, top } = event.currentTarget.getBoundingClientRect();
 
   // Calculate coordinates
   let coordinates: TrackingResult['coordinates'] = {};
@@ -97,30 +96,19 @@ export function closestCalculation(
 
 export default function Tracking({ onMouseMove, onClick }: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
-  const viewportRef = useRef<SVGRectElement>(null);
-
-  useEffect(() => {
-    const { left, top } = viewportRef.current.getBoundingClientRect();
-    if (onClick) {
-      viewportRef.current.onclick = (event) => {
-        onClick(infoFromMouse(event, axisContext, top, left));
-      };
-    }
-
-    if (onMouseMove) {
-      viewportRef.current.onmousemove = (event) => {
-        onMouseMove(infoFromMouse(event, axisContext, top, left));
-      };
-    }
-  }, [viewportRef, onClick, onMouseMove, axisContext]);
 
   return (
     <rect
       width={plotWidth}
       height={plotHeight}
       className="tracking"
-      ref={viewportRef}
       style={{ fillOpacity: 0 }}
+      onClick={(event) => {
+        onClick(infoFromMouse(event, axisContext));
+      }}
+      onMouseMove={(event) => {
+        onMouseMove(infoFromMouse(event, axisContext));
+      }}
     />
   );
 }
