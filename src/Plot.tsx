@@ -40,6 +40,8 @@ export default function Plot(props: PlotProps) {
     seriesViewportStyle = {},
     onClick,
     onMouseMove,
+    onMouseEnter,
+    onMouseLeave,
     closest,
     children,
   } = props;
@@ -161,6 +163,8 @@ export default function Plot(props: PlotProps) {
                       ),
                     );
                   }}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
                 />
               ) : null}
             </g>

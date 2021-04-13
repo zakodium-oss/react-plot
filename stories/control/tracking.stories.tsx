@@ -34,6 +34,7 @@ interface TrackingProps {
 function Tracking({ data, displayMarker }: TrackingProps) {
   const [hover, setHover] = useState<Positions>(null);
   const [closest, setClosest] = useState<TrackingResult['series']>(null);
+
   return (
     <div>
       <Plot
@@ -44,6 +45,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
         }
         onClick={({ series }) => setClosest(series)}
         closest={{ euclidean: true }}
+        onMouseLeave={() => setHover(null)}
       >
         {data.map((subdata, i) => (
           <LineSeries

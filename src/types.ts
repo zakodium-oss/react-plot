@@ -100,6 +100,14 @@ export interface PlotProps {
    */
   onClick?: (result: TrackingResult) => void;
   /**
+   * Mouse enter viewport
+   */
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   * Mouse leaves viewport
+   */
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
    * Track closest values
    */
   closest?: { x?: boolean; y?: boolean; euclidean?: boolean };
@@ -202,6 +210,8 @@ export interface TrackingResult {
 export interface TrackingProps {
   onMouseMove?: (result: TrackingResult) => void;
   onClick?: (result: TrackingResult) => void;
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 }
 
 export interface PlotObjectType {

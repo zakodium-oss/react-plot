@@ -94,7 +94,12 @@ export function closestCalculation(
   return { ...position, series };
 }
 
-export default function Tracking({ onMouseMove, onClick }: TrackingProps) {
+export default function Tracking({
+  onMouseMove,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+}: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
 
   return (
@@ -109,6 +114,8 @@ export default function Tracking({ onMouseMove, onClick }: TrackingProps) {
       onMouseMove={(event) => {
         onMouseMove(infoFromMouse(event, axisContext));
       }}
+      onMouseEnter={(event) => onMouseEnter?.(event)}
+      onMouseLeave={(event) => onMouseLeave?.(event)}
     />
   );
 }
