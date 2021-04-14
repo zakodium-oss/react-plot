@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import MarkerDefs from './components/Annotations/MarkerDefs';
-import Tracking, { closestCalculation } from './components/Tracking';
+import Tracking from './components/Tracking';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
@@ -42,7 +42,6 @@ export default function Plot(props: PlotProps) {
     onMouseMove,
     onMouseEnter,
     onMouseLeave,
-    closest,
     children,
   } = props;
 
@@ -143,26 +142,9 @@ export default function Plot(props: PlotProps) {
 
               {onClick || onMouseMove ? (
                 <Tracking
-                  onClick={(position) => {
-                    onClick?.(
-                      closestCalculation(
-                        position,
-                        closest,
-                        state.series,
-                        axisContext,
-                      ),
-                    );
-                  }}
-                  onMouseMove={(position) => {
-                    onMouseMove?.(
-                      closestCalculation(
-                        position,
-                        closest,
-                        state.series,
-                        axisContext,
-                      ),
-                    );
-                  }}
+                  stateSeries={state.series}
+                  onClick={(position) => onClick?.(position)}
+                  onMouseMove={(position) => onMouseMove?.(position)}
                   onMouseEnter={onMouseEnter}
                   onMouseLeave={onMouseLeave}
                 />

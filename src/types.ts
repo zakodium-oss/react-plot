@@ -108,10 +108,6 @@ export interface PlotProps {
    */
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   /**
-   * Track closest values
-   */
-  closest?: { x?: boolean; y?: boolean; euclidean?: boolean };
-  /**
    * All plot elements.
    */
   children: ReactNode;
@@ -202,16 +198,14 @@ export interface ClosestInfo {
 export interface TrackingResult {
   event: React.MouseEvent<SVGRectElement, MouseEvent>;
   coordinates: Record<string, number>;
-  series?: Record<
-    string,
-    { closestX?: ClosestInfo; closestY?: ClosestInfo; closest?: ClosestInfo }
-  >;
+  getClosest: (method: 'x' | 'y' | 'euclidean') => Record<string, ClosestInfo>;
 }
 export interface TrackingProps {
   onMouseMove?: (result: TrackingResult) => void;
   onClick?: (result: TrackingResult) => void;
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  stateSeries: SeriesType[];
 }
 
 export interface PlotObjectType {
@@ -222,7 +216,15 @@ export interface PlotObjectType {
   >;
   legend?: LegendProps;
   dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
-  svg?: Pick<PlotProps, 'plotViewportStyle' | 'seriesViewportStyle'> & {
+  svg?: Pick<
+    PlotProps,
+    | 'plotViewportStyle'
+    | 'seriesViewportStyle'
+    | 'onClick'
+    | 'onMouseMove'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+  > & {
     className?: string;
     id?: string;
     style: PlotProps['svgStyle'];

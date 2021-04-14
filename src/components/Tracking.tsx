@@ -4,7 +4,7 @@ import React from 'react';
 import { usePlotContext } from '../hooks';
 import type {
   AxisContextType,
-  PlotProps,
+  ClosestInfo,
   SeriesType,
   TrackingProps,
   TrackingResult,
@@ -16,6 +16,7 @@ const HORIZONTAL = ['bottom', 'top'];
 function infoFromMouse(
   event: React.MouseEvent<SVGRectElement, MouseEvent>,
   axisContext: Record<string, AxisContextType>,
+  stateSeries: SeriesType[],
 ): TrackingResult {
   const { clientX, clientY } = event;
   const { left, top } = event.currentTarget.getBoundingClientRect();
@@ -31,67 +32,70 @@ function infoFromMouse(
     }
   }
 
-  return { event, coordinates };
+  return {
+    event,
+    coordinates,
+    getClosest: (method) =>
+      closestCalculation(method, coordinates, stateSeries, axisContext),
+  };
 }
 
-export function closestCalculation(
-  position: TrackingResult,
-  closest: PlotProps['closest'],
+function closestCalculation(
+  method: 'x' | 'y' | 'euclidean',
+  coordinates: TrackingResult['coordinates'],
   stateSeries: SeriesType[],
   axisContext: Record<string, AxisContextType>,
-): TrackingResult {
-  if (!closest) return position;
+): Record<string, ClosestInfo> {
+  let series: Record<string, ClosestInfo> = {};
 
-  let series: TrackingResult['series'] = {};
-
-  // Closest point on X
-  if (closest?.x) {
-    for (const { id, x, data } of stateSeries) {
-      if (data) {
-        const point = closestPoint(data, position, (point, pos) => {
-          const xVal = pos.coordinates[x.axisId];
-          return xVal !== undefined ? Math.abs(point.x - xVal) : Infinity;
-        });
-        if (!series[id]) series[id] = {};
-        series[id].closestX = { point, axis: [axisContext[x.axisId]] };
+  switch (method) {
+    case 'x': {
+      for (const { id, x, data } of stateSeries) {
+        if (data) {
+          const point = closestPoint(data, coordinates, (point, pos) => {
+            const xVal = pos[x.axisId];
+            return xVal !== undefined ? Math.abs(point.x - xVal) : Infinity;
+          });
+          series[id] = { point, axis: [axisContext[x.axisId]] };
+        }
       }
+      break;
+    }
+    case 'y': {
+      for (const { id, y, data } of stateSeries) {
+        if (data) {
+          const point = closestPoint(data, coordinates, (point, pos) => {
+            const yVal = pos[y.axisId];
+            return yVal !== undefined ? Math.abs(point.y - yVal) : Infinity;
+          });
+          series[id] = { point, axis: [axisContext[y.axisId]] };
+        }
+      }
+      break;
+    }
+    case 'euclidean': {
+      for (const { id, x, y, data } of stateSeries) {
+        if (data) {
+          const point = closestPoint(data, coordinates, (point, pos) => {
+            const xVal = pos[x.axisId];
+            const yVal = pos[y.axisId];
+            return xVal !== undefined || yVal !== undefined
+              ? euclidean([point.x, point.y], [xVal, yVal])
+              : Infinity;
+          });
+          series[id] = {
+            point,
+            axis: [axisContext[x.axisId], axisContext[y.axisId]],
+          };
+        }
+      }
+      break;
+    }
+    default: {
+      throw new Error(`Unknown distance name: ${method as string}`);
     }
   }
-
-  // Closest point on Y
-  if (closest?.y) {
-    for (const { id, y, data } of stateSeries) {
-      if (data) {
-        const point = closestPoint(data, position, (point, pos) => {
-          const yVal = pos.coordinates[y.axisId];
-          return yVal !== undefined ? Math.abs(point.y - yVal) : Infinity;
-        });
-        if (!series[id]) series[id] = {};
-        series[id].closestY = { point, axis: [axisContext[y.axisId]] };
-      }
-    }
-  }
-
-  // Closest euclidean point
-  if (closest?.euclidean) {
-    for (const { id, x, y, data } of stateSeries) {
-      if (data) {
-        const point = closestPoint(data, position, (point, pos) => {
-          const xVal = pos.coordinates[x.axisId];
-          const yVal = pos.coordinates[y.axisId];
-          return xVal !== undefined || yVal !== undefined
-            ? euclidean([point.x, point.y], [xVal, yVal])
-            : Infinity;
-        });
-        if (!series[id]) series[id] = {};
-        series[id].closest = {
-          point,
-          axis: [axisContext[x.axisId], axisContext[y.axisId]],
-        };
-      }
-    }
-  }
-  return { ...position, series };
+  return series;
 }
 
 export default function Tracking({
@@ -99,6 +103,7 @@ export default function Tracking({
   onClick,
   onMouseEnter,
   onMouseLeave,
+  stateSeries,
 }: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
 
@@ -109,10 +114,10 @@ export default function Tracking({
       className="tracking"
       style={{ fillOpacity: 0 }}
       onClick={(event) => {
-        onClick(infoFromMouse(event, axisContext));
+        onClick(infoFromMouse(event, axisContext, stateSeries));
       }}
       onMouseMove={(event) => {
-        onMouseMove(infoFromMouse(event, axisContext));
+        onMouseMove(infoFromMouse(event, axisContext, stateSeries));
       }}
       onMouseEnter={(event) => onMouseEnter?.(event)}
       onMouseLeave={(event) => onMouseLeave?.(event)}

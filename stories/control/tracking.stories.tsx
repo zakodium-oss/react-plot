@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 import React, { useState } from 'react';
 
 import { Axis, LineSeries, Plot } from '../../src';
-import { SeriesPointType, TrackingResult } from '../../src/types';
+import { ClosestInfo, SeriesPointType } from '../../src/types';
 
 export default {
   title: 'API/Tracking',
@@ -33,7 +33,7 @@ interface TrackingProps {
 }
 function Tracking({ data, displayMarker }: TrackingProps) {
   const [hover, setHover] = useState<Positions>(null);
-  const [closest, setClosest] = useState<TrackingResult['series']>(null);
+  const [closest, setClosest] = useState<Record<string, ClosestInfo>>(null);
 
   return (
     <div>
@@ -43,8 +43,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
         onMouseMove={({ coordinates, event: { clientX, clientY } }) =>
           setHover({ coordinates, position: { x: clientX, y: clientY } })
         }
-        onClick={({ series }) => setClosest(series)}
-        closest={{ euclidean: true }}
+        onClick={({ getClosest }) => setClosest(getClosest('euclidean'))}
         onMouseLeave={() => setHover(null)}
       >
         {data.map((subdata, i) => (
@@ -87,11 +86,11 @@ function Tracking({ data, displayMarker }: TrackingProps) {
               <b>{key}</b>
               <span>
                 {' x: '}
-                {Math.round((closest[key]?.closest.point.x || 0) * 100) / 100}
+                {Math.round((closest[key].point.x || 0) * 100) / 100}
               </span>
               <span>
                 {' y: '}
-                {Math.round((closest[key]?.closest.point.y || 0) * 100) / 100}
+                {Math.round((closest[key].point.y || 0) * 100) / 100}
               </span>
             </p>
           ))}
