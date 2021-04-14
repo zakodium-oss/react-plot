@@ -92,6 +92,22 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
+   * Track values on mouse move
+   */
+  onMouseMove?: (result: TrackingResult) => void;
+  /**
+   * Track values on mouse click
+   */
+  onClick?: (result: TrackingResult) => void;
+  /**
+   * Mouse enter viewport
+   */
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   * Mouse leaves viewport
+   */
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
    * All plot elements.
    */
   children: ReactNode;
@@ -175,6 +191,23 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
+export interface ClosestInfo {
+  point: SeriesPointType;
+  axis: AxisContextType[];
+}
+export interface TrackingResult {
+  event: React.MouseEvent<SVGRectElement, MouseEvent>;
+  coordinates: Record<string, number>;
+  getClosest: (method: 'x' | 'y' | 'euclidean') => Record<string, ClosestInfo>;
+}
+export interface TrackingProps {
+  onMouseMove?: (result: TrackingResult) => void;
+  onClick?: (result: TrackingResult) => void;
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  stateSeries: SeriesType[];
+}
+
 export interface PlotObjectType {
   axes: AxisProps[];
   series: Array<
@@ -183,7 +216,15 @@ export interface PlotObjectType {
   >;
   legend?: LegendProps;
   dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
-  svg?: Pick<PlotProps, 'plotViewportStyle' | 'seriesViewportStyle'> & {
+  svg?: Pick<
+    PlotProps,
+    | 'plotViewportStyle'
+    | 'seriesViewportStyle'
+    | 'onClick'
+    | 'onMouseMove'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+  > & {
     className?: string;
     id?: string;
     style: PlotProps['svgStyle'];
@@ -208,6 +249,7 @@ export interface SeriesType {
   x: SeriesAxisType;
   y: SeriesAxisType;
   label: string;
+  data?: SeriesPointType[];
 }
 
 export interface AxisContextGeneric<

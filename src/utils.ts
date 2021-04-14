@@ -65,7 +65,14 @@ export function splitChildren(children: ReactNode): PlotChildren {
       hasInvalidChild = true;
     }
   }
-  return { hasInvalidChild, series, axes, heading, legend, annotations };
+  return {
+    hasInvalidChild,
+    series,
+    axes,
+    heading,
+    legend,
+    annotations,
+  };
 }
 
 const horizontal = ['top', 'bottom'];
@@ -171,4 +178,23 @@ export function validateSeriesPointError(
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;
+}
+
+export function closestPoint<T, R>(
+  data: T[],
+  value: R,
+  distanceFun: (a: T, b: R) => number,
+): T {
+  let closest = {
+    index: 0,
+    distance: Infinity,
+  };
+  for (let i = 0; i < data.length; i++) {
+    const distance = distanceFun(data[i], value);
+    if (distance < closest.distance) {
+      closest.index = i;
+      closest.distance = distance;
+    }
+  }
+  return data[closest.index];
 }
