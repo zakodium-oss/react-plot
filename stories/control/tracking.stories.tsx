@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import { Axis, LineSeries, Plot, Annotation, Annotations } from '../../src';
 import { ClosestInfo, SeriesPointType } from '../../src/types';
 
 export default {
@@ -58,6 +58,19 @@ function Tracking({ data, displayMarker }: TrackingProps) {
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
         <Axis id="y" position="left" labelSpace={65} />
+        {closest && (
+          <Annotations>
+            {Object.entries(closest).map(([id, info]) => (
+              <Annotation.Shape
+                key={id}
+                shape={'circle'}
+                x={'100'}
+                y={info.point.y}
+                size={5}
+              />
+            ))}
+          </Annotations>
+        )}
       </Plot>
       {hover && (
         <div

@@ -26,15 +26,11 @@ export default function Arrow(props: ArrowProps) {
   const { x: x1, y: y1 } = usePosition({
     x: x1Old,
     y: y1Old,
-    height: 0,
-    width: 0,
   });
 
   const { x: x2, y: y2 } = usePosition({
     x: x2Old,
     y: y2Old,
-    height: 0,
-    width: 0,
   });
 
   const startMarker =
