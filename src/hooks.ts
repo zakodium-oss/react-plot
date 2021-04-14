@@ -107,24 +107,29 @@ export function useAxisContext(
   return context;
 }
 
-type NumberString = number | string;
+type NumberOrString = number | string;
 
-interface usePositionProps {
-  x: NumberString;
-  y: NumberString;
-
-  width: NumberString;
-  height: NumberString;
+interface UsePositionConfig {
+  x: NumberOrString;
+  y: NumberOrString;
 }
 
-interface useEllipsePositionProps {
-  cx: NumberString;
-  cy: NumberString;
-  rx: NumberString;
-  ry: NumberString;
+export function usePosition(config: UsePositionConfig) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const { x, y } = config;
+  return {
+    x: convertValue(x, xScale),
+    y: convertValue(y, yScale),
+  };
 }
 
-export function usePosition(config: usePositionProps) {
+interface UsePositionAndSizeConfig extends UsePositionConfig {
+  width: NumberOrString;
+  height: NumberOrString;
+}
+
+export function usePositionAndSize(config: UsePositionAndSizeConfig) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { x, y, width, height } = config;
@@ -137,7 +142,14 @@ export function usePosition(config: usePositionProps) {
   };
 }
 
-export function useEllipsePosition(props: useEllipsePositionProps) {
+interface UseEllipsePositionConfig {
+  cx: NumberOrString;
+  cy: NumberOrString;
+  rx: NumberOrString;
+  ry: NumberOrString;
+}
+
+export function useEllipsePosition(props: UseEllipsePositionConfig) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { cx, cy, rx, ry } = props;

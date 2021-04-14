@@ -1,6 +1,6 @@
 import { SVGProps } from 'react';
 
-import { usePosition } from '../../hooks';
+import { usePositionAndSize } from '../../hooks';
 
 type SvgRectProps = SVGProps<SVGRectElement>;
 export type RectangleProps = Omit<
@@ -17,7 +17,7 @@ export default function Rectangle(props: RectangleProps) {
     ...otherProps
   } = props;
 
-  const { x, y, width, height } = usePosition({
+  const { x, y, width, height } = usePositionAndSize({
     x: oldX,
     y: oldY,
     width: oldWidth,
