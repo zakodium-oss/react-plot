@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://www.github.com/zakodium/react-plot/compare/v0.7.1...v0.8.0) (2021-04-14)
+
+
+### Features
+
+* add className to svg ([#169](https://www.github.com/zakodium/react-plot/issues/169)) ([008251c](https://www.github.com/zakodium/react-plot/commit/008251c36f737867f3dd06058e70c6478cfb8f26))
+* add tracking component ([#171](https://www.github.com/zakodium/react-plot/issues/171)) ([361bd03](https://www.github.com/zakodium/react-plot/commit/361bd0396c4f21821c19de1ea7861e0db41e9f8f))
+
 ### [0.7.1](https://www.github.com/zakodium/react-plot/compare/v0.7.0...v0.7.1) (2021-03-29)
 
 
