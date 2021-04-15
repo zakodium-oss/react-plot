@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
 import { Axis, LineSeries, Plot, Annotation, Annotations } from '../../src';
-import { ClosestInfo, SeriesPointType } from '../../src/types';
+import { ClosestInfoResult, SeriesPointType } from '../../src/types';
 
 export default {
   title: 'API/Tracking',
@@ -33,7 +33,7 @@ interface TrackingProps {
 }
 function Tracking({ data, displayMarker }: TrackingProps) {
   const [hover, setHover] = useState<Positions>(null);
-  const [closest, setClosest] = useState<Record<string, ClosestInfo>>(null);
+  const [closest, setClosest] = useState<ClosestInfoResult>(null);
 
   return (
     <div>
@@ -63,8 +63,8 @@ function Tracking({ data, displayMarker }: TrackingProps) {
             {Object.entries(closest).map(([id, info]) => (
               <Annotation.Shape
                 key={id}
-                shape={'circle'}
-                x={'100'}
+                shape="circle"
+                x={info.point.x}
                 y={info.point.y}
                 size={5}
               />
@@ -123,11 +123,11 @@ export function TrackingBig() {
   let data2: SeriesPointType[] = new Array(len);
   for (let i = 0; i < len; i++) {
     data1[i] = {
-      x: i / 100 - 10,
+      x: i - 100,
       y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
     };
     data2[i] = {
-      x: i / 100 - 10,
+      x: i - 100,
       y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
     };
   }

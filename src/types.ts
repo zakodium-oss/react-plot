@@ -191,14 +191,19 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
-export interface ClosestInfo {
+export interface ClosestInfo<T extends ClosestMethods> {
   point: SeriesPointType;
-  axis: AxisContextType[];
+  label: string;
+  axis: T extends 'euclidean'
+    ? Record<'x' | 'y', AxisContextType>
+    : AxisContextType;
 }
+export type ClosestMethods = 'x' | 'y' | 'euclidean';
+export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: React.MouseEvent<SVGRectElement, MouseEvent>;
   coordinates: Record<string, number>;
-  getClosest: (method: 'x' | 'y' | 'euclidean') => Record<string, ClosestInfo>;
+  getClosest: (method: ClosestMethods) => ClosestInfoResult;
 }
 export interface TrackingProps {
   onMouseMove?: (result: TrackingResult) => void;
@@ -227,7 +232,7 @@ export interface PlotObjectType {
   > & {
     className?: string;
     id?: string;
-    style: PlotProps['svgStyle'];
+    style?: PlotProps['svgStyle'];
   };
   colorScheme?: Iterable<string>;
   seriesViewportStyle?: CSSProperties;

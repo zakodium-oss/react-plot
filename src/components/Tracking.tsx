@@ -4,7 +4,8 @@ import React from 'react';
 import { usePlotContext } from '../hooks';
 import type {
   AxisContextType,
-  ClosestInfo,
+  ClosestInfoResult,
+  ClosestMethods,
   SeriesType,
   TrackingProps,
   TrackingResult,
@@ -41,8 +42,7 @@ function infoFromMouse(
 }
 
 function closestCalculation(
-  method: 'x' | 'y' | 'euclidean',
-  coordinates: TrackingResult['coordinates'],
+  method: ClosestMethods,
   stateSeries: SeriesType[],
   axisContext: Record<string, AxisContextType>,
 ): Record<string, ClosestInfo> {
@@ -50,31 +50,31 @@ function closestCalculation(
 
   switch (method) {
     case 'x': {
-      for (const { id, x, data } of stateSeries) {
+      for (const { id, x, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
             const xVal = pos[x.axisId];
             return xVal !== undefined ? Math.abs(point.x - xVal) : Infinity;
           });
-          series[id] = { point, axis: [axisContext[x.axisId]] };
+          series[id] = { point, label, axis: axisContext[x.axisId] };
         }
       }
       break;
     }
     case 'y': {
-      for (const { id, y, data } of stateSeries) {
+      for (const { id, y, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
             const yVal = pos[y.axisId];
             return yVal !== undefined ? Math.abs(point.y - yVal) : Infinity;
           });
-          series[id] = { point, axis: [axisContext[y.axisId]] };
+          series[id] = { point, label, axis: axisContext[y.axisId] };
         }
       }
       break;
     }
     case 'euclidean': {
-      for (const { id, x, y, data } of stateSeries) {
+      for (const { id, x, y, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
             const xVal = pos[x.axisId];
@@ -85,7 +85,8 @@ function closestCalculation(
           });
           series[id] = {
             point,
-            axis: [axisContext[x.axisId], axisContext[y.axisId]],
+            label,
+            axis: { x: axisContext[x.axisId], y: axisContext[y.axisId] },
           };
         }
       }
