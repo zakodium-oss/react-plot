@@ -23,13 +23,15 @@ function infoFromMouse(
   const { left, top } = event.currentTarget.getBoundingClientRect();
 
   // Calculate coordinates
+  const xPosition = clientX - left;
+  const yPosition = clientY - top;
   let coordinates: TrackingResult['coordinates'] = {};
   for (const key in axisContext) {
     const { scale, position } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
-      coordinates[key] = scale.invert(clientX - left);
+      coordinates[key] = scale.invert(xPosition);
     } else {
-      coordinates[key] = scale.invert(clientY - top);
+      coordinates[key] = scale.invert(yPosition);
     }
   }
 
@@ -37,24 +39,31 @@ function infoFromMouse(
     event,
     coordinates,
     getClosest: (method) =>
-      closestCalculation(method, coordinates, stateSeries, axisContext),
+      closestCalculation(
+        method,
+        { x: xPosition, y: yPosition },
+        stateSeries,
+        axisContext,
+      ),
   };
 }
 
 function closestCalculation(
   method: ClosestMethods,
+  coordinates: Record<'x' | 'y', number>,
   stateSeries: SeriesType[],
   axisContext: Record<string, AxisContextType>,
-): Record<string, ClosestInfo> {
-  let series: Record<string, ClosestInfo> = {};
+): ClosestInfoResult {
+  let series: ClosestInfoResult = {};
 
   switch (method) {
     case 'x': {
       for (const { id, x, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
+            const { scale } = axisContext[x.axisId];
             const xVal = pos[x.axisId];
-            return xVal !== undefined ? Math.abs(point.x - xVal) : Infinity;
+            return Math.abs(scale(point.x) - xVal);
           });
           series[id] = { point, label, axis: axisContext[x.axisId] };
         }
@@ -65,8 +74,9 @@ function closestCalculation(
       for (const { id, y, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
+            const { scale } = axisContext[y.axisId];
             const yVal = pos[y.axisId];
-            return yVal !== undefined ? Math.abs(point.y - yVal) : Infinity;
+            return Math.abs(scale(point.y) - yVal);
           });
           series[id] = { point, label, axis: axisContext[y.axisId] };
         }
@@ -77,11 +87,11 @@ function closestCalculation(
       for (const { id, x, y, data, label } of stateSeries) {
         if (data) {
           const point = closestPoint(data, coordinates, (point, pos) => {
+            const { scale: xScale } = axisContext[x.axisId];
+            const { scale: yScale } = axisContext[y.axisId];
             const xVal = pos[x.axisId];
             const yVal = pos[y.axisId];
-            return xVal !== undefined || yVal !== undefined
-              ? euclidean([point.x, point.y], [xVal, yVal])
-              : Infinity;
+            return euclidean([xScale(point.x), yScale(point.y)], [xVal, yVal]);
           });
           series[id] = {
             point,
