@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.8.1](https://www.github.com/zakodium/react-plot/compare/v0.8.0...v0.8.1) (2021-04-15)
+
+
+### Bug Fixes
+
+* correctly compute position of Annotation.Shape ([d4ee0d7](https://www.github.com/zakodium/react-plot/commit/d4ee0d79a69441c25879d02040ec832fe538b154))
+* uses pixels position to determine closest ([5e5042a](https://www.github.com/zakodium/react-plot/commit/5e5042a671e3b293089694f1c53f112ee19fb046))
+
 ## [0.8.0](https://www.github.com/zakodium/react-plot/compare/v0.7.1...v0.8.0) (2021-04-14)
 
 
