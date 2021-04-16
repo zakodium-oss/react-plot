@@ -8,7 +8,7 @@ import { PlotObjectProps } from './types';
 export default function PlotObject({
   plot: {
     dimensions,
-    svg,
+    svg = {},
     seriesViewportStyle,
     axes,
     series,
