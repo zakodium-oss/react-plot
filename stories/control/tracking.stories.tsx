@@ -40,9 +40,9 @@ function Tracking({ data, displayMarker }: TrackingProps) {
       <Plot
         {...plot}
         margin={{ bottom: 45, left: 90, top: 40, right: 20 }}
-        onMouseMove={({ coordinates, event: { clientX, clientY } }) =>
-          setHover({ coordinates, position: { x: clientX, y: clientY } })
-        }
+        onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
+          setHover({ coordinates, position: { x: pageX, y: pageY } });
+        }}
         onClick={({ getClosest }) => setClosest(getClosest('euclidean'))}
         onMouseLeave={() => setHover(null)}
       >
@@ -54,6 +54,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
             xAxis="x"
             yAxis="y"
             displayMarker={displayMarker}
+            label={`Series ${i + 1}`}
           />
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
@@ -96,7 +97,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
           <b>Closest point</b>
           {Object.keys(closest).map((key) => (
             <p key={key}>
-              <b>{key}</b>
+              <b>{closest[key].label}</b>
               <span>
                 {' x: '}
                 {Math.round((closest[key].point.x || 0) * 100) / 100}
