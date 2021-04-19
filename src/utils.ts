@@ -1,6 +1,7 @@
 import { Children, CSSProperties, isValidElement, ReactNode } from 'react';
 
 import Axis from './components/Axis';
+import ParallelAxis from './components/Axis/ParallelAxis';
 import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
@@ -50,7 +51,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       child.type === BarSeries
     ) {
       series.push(child);
-    } else if (child.type === Axis) {
+    } else if (child.type === Axis || child.type === ParallelAxis) {
       axes.push(child);
     } else if (child.type === Heading) {
       heading = child;
