@@ -171,6 +171,7 @@ export interface AxisParentProps {
   scale?: 'linear' | 'log';
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
+export type ParallelAxisProps = AxisChildProps;
 
 export interface HeadingProps {
   title: string;
