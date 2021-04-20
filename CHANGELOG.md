@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.9.0](https://www.github.com/zakodium/react-plot/compare/v0.8.0...v0.9.0) (2021-04-20)
+
+
+### Features
+
+* allow parallel axes in plotObject ([40f8889](https://www.github.com/zakodium/react-plot/commit/40f8889574a7927c7eb20d2f934352bc97bd6390))
+* create a parallel axis with style ([ca7596b](https://www.github.com/zakodium/react-plot/commit/ca7596b00d30353b37f82a7df316716456a9bfff))
+
+
+### Bug Fixes
+
+* allow empty svg configuration ([6c39095](https://www.github.com/zakodium/react-plot/commit/6c390950b58cc5414f0a515587bb9f971cbba6d2))
+* correctly compute position of Annotation.Shape ([d4ee0d7](https://www.github.com/zakodium/react-plot/commit/d4ee0d79a69441c25879d02040ec832fe538b154))
+* remove display gridlines from parallel axis ([3b3dba5](https://www.github.com/zakodium/react-plot/commit/3b3dba5576ec95b03f39d7db59cfd7258cf0198d))
+* uses pixels position to determine closest ([5e5042a](https://www.github.com/zakodium/react-plot/commit/5e5042a671e3b293089694f1c53f112ee19fb046))
+
 ## [0.8.0](https://www.github.com/zakodium/react-plot/compare/v0.7.1...v0.8.0) (2021-04-14)
 
 
