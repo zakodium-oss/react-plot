@@ -215,7 +215,9 @@ export interface TrackingProps {
 }
 
 export interface PlotObjectType {
-  axes: AxisProps[];
+  axes: Array<
+    ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
+  >;
   series: Array<
     | ({ type: 'line' } & LineSeriesProps)
     | ({ type: 'scatter' } & ScatterSeriesProps)
