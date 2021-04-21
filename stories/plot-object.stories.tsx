@@ -48,7 +48,7 @@ export function Control() {
       },
       { id: 'x', type: 'secondary', hiddenSecondaryTicks: true },
     ],
-    series: [
+    content: [
       {
         type: 'line',
         xAxis: 'x',
@@ -62,6 +62,27 @@ export function Control() {
           { x: 7, y: 8 },
         ],
         lineStyle: { strokeWidth: '2px' },
+      },
+      {
+        type: 'annotation',
+        children: [
+          {
+            type: 'group',
+            x: '50',
+            y: '150',
+            children: [
+              {
+                type: 'arrow',
+                x1: '0',
+                x2: '100',
+                y1: '10',
+                y2: '10',
+                endPoint: 'triangle',
+              },
+              { type: 'text', children: 'Test' },
+            ],
+          },
+        ],
       },
       {
         type: 'scatter',

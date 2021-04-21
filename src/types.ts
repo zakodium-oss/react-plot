@@ -6,6 +6,15 @@ import type {
 } from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode, SVGAttributes } from 'react';
 
+import { ArrowProps } from './components/Annotations/Arrow';
+import { CircleProps } from './components/Annotations/Circle';
+import { EllipseProps } from './components/Annotations/Ellipse';
+import { GroupProps } from './components/Annotations/Group';
+import { LineProps } from './components/Annotations/Line';
+import { RectangleProps } from './components/Annotations/Rectangle';
+import { ShapeProps } from './components/Annotations/Shape';
+import { TextProps } from './components/Annotations/Text';
+
 export type Shape =
   | 'circle'
   | 'square'
@@ -214,14 +223,33 @@ export interface TrackingProps {
   stateSeries: SeriesType[];
 }
 
+// Plot object related
+export type AnnotationsType =
+  // This for each annotation option
+  | ({ type: 'arrow' } & ArrowProps)
+  | ({ type: 'circle' } & CircleProps)
+  | ({ type: 'ellipse' } & EllipseProps)
+  | ({ type: 'line' } & LineProps)
+  | ({ type: 'rectangle' } & RectangleProps)
+  | ({ type: 'shape' } & ShapeProps)
+  | ({ type: 'text'; children: string } & Omit<TextProps, 'children'>)
+  // Group of annotations only
+  | ({ type: 'group'; children: AnnotationsType[] } & Omit<
+      GroupProps,
+      'children'
+    >);
+
+type ContentType =
+  | { type: 'annotation'; children: AnnotationsType[] }
+  // Different series
+  | ({ type: 'line' } & LineSeriesProps)
+  | ({ type: 'scatter' } & ScatterSeriesProps);
+
 export interface PlotObjectType {
   axes: Array<
     ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
   >;
-  series: Array<
-    | ({ type: 'line' } & LineSeriesProps)
-    | ({ type: 'scatter' } & ScatterSeriesProps)
-  >;
+  content: ContentType[];
   legend?: LegendProps;
   dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
   svg?: Pick<
