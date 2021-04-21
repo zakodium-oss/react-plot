@@ -3,16 +3,17 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 
 env:
-  NODE_VERSION: 14.x
-  PACKAGE_NAME: react-plot
+  NODE_VERSION: 16.x
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - name: Get package name
+        run: echo "PACKAGE_NAME=$(jq .name package.json | tr -d '"')" >> $GITHUB_ENV
       - uses: GoogleCloudPlatform/release-please-action@v2
         id: release
         with:
@@ -30,7 +31,7 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
       - run: npm install
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_BOT_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
