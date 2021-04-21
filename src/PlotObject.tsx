@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import Plot from './Plot';
 import {
   Annotations,
@@ -27,6 +28,7 @@ export default function PlotObject({
     legend,
     colorScheme,
   },
+  children,
 }: PlotObjectProps) {
   const {
     className: svgClassName,
@@ -64,17 +66,15 @@ export default function PlotObject({
         switch (contentProps.type) {
           case 'line': {
             const { type, ...props } = contentProps;
-            // eslint-disable-next-line react/no-array-index-key
-            return <LineSeries key={`lineseries-${i}`} {...props} />;
+            return <LineSeries key={`${type}-${i}`} {...props} />;
           }
           case 'scatter': {
             const { type, ...props } = contentProps;
-            // eslint-disable-next-line react/no-array-index-key
-            return <ScatterSeries key={`scatterseries-${i}`} {...props} />;
+            return <ScatterSeries key={`${type}-${i}`} {...props} />;
           }
           case 'annotation': {
             return (
-              <Annotations>
+              <Annotations key={`${contentProps.type}-${i}`}>
                 {contentProps.children.map(annotationMap)}
               </Annotations>
             );
@@ -84,43 +84,48 @@ export default function PlotObject({
           }
         }
       })}
+      {children && <Annotations>{children}</Annotations>}
     </Plot>
   );
 }
 
-function annotationMap(annotationProps: AnnotationsType) {
+function annotationMap(annotationProps: AnnotationsType, index: number) {
   switch (annotationProps.type) {
     case 'arrow': {
       const { type, ...props } = annotationProps;
-      return <Arrow {...props} />;
+      return <Arrow key={`${type}-${index}`} {...props} />;
     }
     case 'circle': {
       const { type, ...props } = annotationProps;
-      return <Circle {...props} />;
+      return <Circle key={`${type}-${index}`} {...props} />;
     }
     case 'ellipse': {
       const { type, ...props } = annotationProps;
-      return <Ellipse {...props} />;
+      return <Ellipse key={`${type}-${index}`} {...props} />;
     }
     case 'line': {
       const { type, ...props } = annotationProps;
-      return <Line {...props} />;
+      return <Line key={`${type}-${index}`} {...props} />;
     }
     case 'rectangle': {
       const { type, ...props } = annotationProps;
-      return <Rectangle {...props} />;
+      return <Rectangle key={`${type}-${index}`} {...props} />;
     }
     case 'shape': {
       const { type, ...props } = annotationProps;
-      return <Shape {...props} />;
+      return <Shape key={`${type}-${index}`} {...props} />;
     }
     case 'text': {
       const { type, ...props } = annotationProps;
-      return <Text {...props} />;
+      return <Text key={`${type}-${index}`} {...props} />;
     }
     case 'group': {
       const { type, children, ...props } = annotationProps;
-      return <Group {...props}>{children.map(annotationMap)}</Group>;
+      return (
+        <Group key={`${type}-${index}`} {...props}>
+          {children.map(annotationMap)}
+        </Group>
+      );
     }
     default: {
       return null;

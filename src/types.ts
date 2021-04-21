@@ -271,6 +271,7 @@ export interface PlotObjectType {
 
 export interface PlotObjectProps {
   plot: PlotObjectType;
+  children?: ReactNode;
 }
 
 // State related

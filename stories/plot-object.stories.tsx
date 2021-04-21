@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { PlotObject, PlotObjectType } from '../src';
+import { Annotation, PlotObject, PlotObjectType } from '../src';
 
 export default {
   title: 'Plot/Plot object',
@@ -102,5 +102,14 @@ export function Control() {
       },
     ],
   };
-  return <PlotObject plot={plot} />;
+  return (
+    <PlotObject plot={plot}>
+      <Annotation.Circle
+        cx={4}
+        cy={5}
+        r={0.2}
+        style={{ stroke: 'purple', fill: 'purple' }}
+      />
+    </PlotObject>
+  );
 }
