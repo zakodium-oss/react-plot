@@ -38,7 +38,7 @@ function Square(props: IntAnnotationShape) {
   return <SquareMarker size={props.size} style={props.style} />;
 }
 
-interface ShapeProps {
+export interface ShapeProps {
   x: string | number;
   y: string | number;
   shape: AnnotationShapeList;
