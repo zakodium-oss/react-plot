@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.10.0](https://www.github.com/zakodium/react-plot/compare/v0.9.0...v0.10.0) (2021-04-21)
+
+
+### Features
+
+* add annotations as children to PlotObject ([241c941](https://www.github.com/zakodium/react-plot/commit/241c941523e2be94e614b92efd21afdfb61f7d47))
+* add annotations to plotObject ([4a6ade9](https://www.github.com/zakodium/react-plot/commit/4a6ade945d57572117b5653020c1eba20345c67d))
+
+
+### Bug Fixes
+
+* shape story out of viewport ([a5a9c29](https://www.github.com/zakodium/react-plot/commit/a5a9c29cb6469f86a4d36417886f8bb42923d4e3))
+
 ## [0.9.0](https://www.github.com/zakodium/react-plot/compare/v0.8.0...v0.9.0) (2021-04-20)
 
 
