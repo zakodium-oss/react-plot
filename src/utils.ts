@@ -1,10 +1,12 @@
 import { Children, CSSProperties, isValidElement, ReactNode } from 'react';
 
 import Axis from './components/Axis';
+import ParallelAxis from './components/Axis/ParallelAxis';
 import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
+import RangeSeries from './components/RangeSeries';
 import ScatterSeries from './components/ScatterSeries';
 import type {
   AxisContextType,
@@ -45,10 +47,11 @@ export function splitChildren(children: ReactNode): PlotChildren {
     else if (
       child.type === LineSeries ||
       child.type === ScatterSeries ||
+      child.type === RangeSeries ||
       child.type === BarSeries
     ) {
       series.push(child);
-    } else if (child.type === Axis) {
+    } else if (child.type === Axis || child.type === ParallelAxis) {
       axes.push(child);
     } else if (child.type === Heading) {
       heading = child;
@@ -63,7 +66,14 @@ export function splitChildren(children: ReactNode): PlotChildren {
       hasInvalidChild = true;
     }
   }
-  return { hasInvalidChild, series, axes, heading, legend, annotations };
+  return {
+    hasInvalidChild,
+    series,
+    axes,
+    heading,
+    legend,
+    annotations,
+  };
 }
 
 const horizontal = ['top', 'bottom'];
@@ -169,4 +179,23 @@ export function validateSeriesPointError(
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;
+}
+
+export function closestPoint<T, R>(
+  data: T[],
+  value: R,
+  distanceFun: (a: T, b: R) => number,
+): T {
+  let closest = {
+    index: 0,
+    distance: Infinity,
+  };
+  for (let i = 0; i < data.length; i++) {
+    const distance = distanceFun(data[i], value);
+    if (distance < closest.distance) {
+      closest.index = i;
+      closest.distance = distance;
+    }
+  }
+  return data[closest.index];
 }

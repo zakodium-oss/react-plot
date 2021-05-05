@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 
 import MarkerDefs from './components/Annotations/MarkerDefs';
+import Tracking from './components/Tracking';
 import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
@@ -24,7 +25,7 @@ const defaultSvgStyle: CSSProperties = {
 export type { PlotProps };
 
 /**
- * Static plot with fixed dimensions.
+ * Static plot with fixed dimension.
  */
 export default function Plot(props: PlotProps) {
   const {
@@ -33,8 +34,14 @@ export default function Plot(props: PlotProps) {
     colorScheme = schemeSet1,
     margin = {},
     svgStyle = {},
+    svgId,
+    svgClassName,
     plotViewportStyle = {},
     seriesViewportStyle = {},
+    onClick,
+    onMouseMove,
+    onMouseEnter,
+    onMouseLeave,
     children,
   } = props;
 
@@ -62,10 +69,7 @@ export default function Plot(props: PlotProps) {
   const plotHeight = height - top - bottom;
 
   // Set scales
-  const axisContext = useAxisContext(state, {
-    plotWidth,
-    plotHeight,
-  });
+  const axisContext = useAxisContext(state, { plotWidth, plotHeight });
 
   const labels = useMemo(
     () => state.series.map(({ id, label }) => ({ id, label })),
@@ -101,6 +105,8 @@ export default function Plot(props: PlotProps) {
             width={width}
             height={height}
             style={{ ...defaultSvgStyle, ...svgStyle }}
+            id={svgId}
+            className={svgClassName}
           >
             <MarkerDefs />
 
@@ -130,6 +136,16 @@ export default function Plot(props: PlotProps) {
               </g>
 
               {axes}
+
+              {onClick || onMouseMove ? (
+                <Tracking
+                  stateSeries={state.series}
+                  onClick={(position) => onClick?.(position)}
+                  onMouseMove={(position) => onMouseMove?.(position)}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                />
+              ) : null}
             </g>
 
             {heading}

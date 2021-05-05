@@ -43,8 +43,8 @@ export function Shape(props: {
 }) {
   return (
     <Annotation.Shape
-      x={50}
-      y={150}
+      x={0.5}
+      y={14}
       shape={props.shape}
       size={props.size}
       style={{ fill: 'red' }}
@@ -55,13 +55,10 @@ export function Shape(props: {
 Shape.argTypes = {
   size: {
     control: 'number',
-    defaultValue: 5,
+    defaultValue: 50,
   },
   shape: {
     defaultValue: shapes[0],
-    control: {
-      type: 'select',
-      options: shapes,
-    },
+    control: { type: 'select', options: shapes },
   },
 };

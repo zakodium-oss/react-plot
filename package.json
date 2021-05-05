@@ -1,6 +1,6 @@
 {
   "name": "react-plot",
-  "version": "0.6.0",
+  "version": "0.10.0",
   "description": "Library of React components to render SVG 2D plots.",
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
@@ -34,6 +34,12 @@
     "d3-react"
   ],
   "author": "Miguel Asencio",
+  "contributors": [
+    "Michaël Zasso",
+    "Sebastien Ahkrin",
+    "Nadjib Souab",
+    "Luc Patiny"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/zakodium/react-plot/issues"
@@ -71,6 +77,7 @@
     "d3-scale-chromatic": "^2.0.0",
     "d3-shape": "^2.1.0",
     "immer": "^9.0.2",
+    "ml-distance-euclidean": "^2.0.0",
     "react-d3-utils": "^0.3.0"
   }
 }
