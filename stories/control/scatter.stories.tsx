@@ -126,7 +126,7 @@ export function ScatterControl(props: ScatterSeriesProps) {
     >
       <Legend position="embedded" />
 
-      <ScatterSeries data={data} xAxis="x" yAxis="y" {...props} />
+      <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>
