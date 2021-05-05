@@ -1,5 +1,63 @@
 # Changelog
 
+## [0.10.0](https://www.github.com/zakodium/react-plot/compare/v0.9.0...v0.10.0) (2021-04-21)
+
+
+### Features
+
+* add annotations as children to PlotObject ([241c941](https://www.github.com/zakodium/react-plot/commit/241c941523e2be94e614b92efd21afdfb61f7d47))
+* add annotations to plotObject ([4a6ade9](https://www.github.com/zakodium/react-plot/commit/4a6ade945d57572117b5653020c1eba20345c67d))
+
+
+### Bug Fixes
+
+* shape story out of viewport ([a5a9c29](https://www.github.com/zakodium/react-plot/commit/a5a9c29cb6469f86a4d36417886f8bb42923d4e3))
+
+## [0.9.0](https://www.github.com/zakodium/react-plot/compare/v0.8.0...v0.9.0) (2021-04-20)
+
+
+### Features
+
+* allow parallel axes in plotObject ([40f8889](https://www.github.com/zakodium/react-plot/commit/40f8889574a7927c7eb20d2f934352bc97bd6390))
+* create a parallel axis with style ([ca7596b](https://www.github.com/zakodium/react-plot/commit/ca7596b00d30353b37f82a7df316716456a9bfff))
+
+
+### Bug Fixes
+
+* allow empty svg configuration ([6c39095](https://www.github.com/zakodium/react-plot/commit/6c390950b58cc5414f0a515587bb9f971cbba6d2))
+* correctly compute position of Annotation.Shape ([d4ee0d7](https://www.github.com/zakodium/react-plot/commit/d4ee0d79a69441c25879d02040ec832fe538b154))
+* remove display gridlines from parallel axis ([3b3dba5](https://www.github.com/zakodium/react-plot/commit/3b3dba5576ec95b03f39d7db59cfd7258cf0198d))
+* uses pixels position to determine closest ([5e5042a](https://www.github.com/zakodium/react-plot/commit/5e5042a671e3b293089694f1c53f112ee19fb046))
+
+## [0.8.0](https://www.github.com/zakodium/react-plot/compare/v0.7.1...v0.8.0) (2021-04-14)
+
+
+### Features
+
+* add className to svg ([#169](https://www.github.com/zakodium/react-plot/issues/169)) ([008251c](https://www.github.com/zakodium/react-plot/commit/008251c36f737867f3dd06058e70c6478cfb8f26))
+* add tracking component ([#171](https://www.github.com/zakodium/react-plot/issues/171)) ([361bd03](https://www.github.com/zakodium/react-plot/commit/361bd0396c4f21821c19de1ea7861e0db41e9f8f))
+
+### [0.7.1](https://www.github.com/zakodium/react-plot/compare/v0.7.0...v0.7.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* do not show legend if series is hidden ([#163](https://www.github.com/zakodium/react-plot/issues/163)) ([d1e57eb](https://www.github.com/zakodium/react-plot/commit/d1e57eb0765ab53bda67675de556265cc6bcfcff))
+
+## [0.7.0](https://www.github.com/zakodium/react-plot/compare/v0.6.0...v0.7.0) (2021-03-29)
+
+
+### Features
+
+* add logscale to left axis ([056a605](https://www.github.com/zakodium/react-plot/commit/056a605a9361a56501dda7c75ffc5104287ef7aa))
+* add Range Series component ([#149](https://www.github.com/zakodium/react-plot/issues/149)) ([b7acda8](https://www.github.com/zakodium/react-plot/commit/b7acda8173e3e30985329ee2e5db96100afa2d8f))
+* initial implementation of log axis ([14acded](https://www.github.com/zakodium/react-plot/commit/14acded701e9310595e286bcf68bec48fa64f5d4))
+
+
+### Bug Fixes
+
+* add missing hiddensecondaryticks on logscale ([0ada873](https://www.github.com/zakodium/react-plot/commit/0ada8734179021616063cbd1374582ef2c792676))
+
 ## [0.6.0](https://www.github.com/zakodium/react-plot/compare/v0.5.0...v0.6.0) (2021-03-09)
 
 

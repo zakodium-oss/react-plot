@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { PlotObject, PlotObjectType } from '../src';
+import { Annotation, PlotObject, PlotObjectType } from '../src';
 
 export default {
   title: 'Plot/Plot object',
@@ -15,16 +15,40 @@ export function Control() {
       fill: '#ddd',
     },
     dimensions: {
-      width: 550,
+      width: 650,
       height: 500,
-      margin: { bottom: 50, left: 50, top: 60, right: 50 },
+      margin: { bottom: 50, left: 50, top: 60, right: 90 },
     },
     axes: [
-      { id: 'x', label: 'My X axis', position: 'bottom', min: 0, max: 10 },
-      { id: 'y', label: 'My Y axis', position: 'left', min: 0, max: 10 },
-      { id: 'right', position: 'right', min: 1.5, max: 8.5 },
+      {
+        id: 'x',
+        type: 'main',
+        label: 'My X axis',
+        position: 'bottom',
+        min: 0,
+        max: 10,
+      },
+      {
+        id: 'y',
+        type: 'main',
+        label: 'My Y axis',
+        position: 'left',
+        min: 0,
+        max: 10,
+      },
+      {
+        id: 'right',
+        type: 'main',
+        label: 'Logscale is cool',
+        position: 'right',
+        labelSpace: 40,
+        min: 0.5,
+        max: 180.5,
+        scale: 'log',
+      },
+      { id: 'x', type: 'secondary', hiddenSecondaryTicks: true },
     ],
-    series: [
+    content: [
       {
         type: 'line',
         xAxis: 'x',
@@ -38,6 +62,27 @@ export function Control() {
           { x: 7, y: 8 },
         ],
         lineStyle: { strokeWidth: '2px' },
+      },
+      {
+        type: 'annotation',
+        children: [
+          {
+            type: 'group',
+            x: '50',
+            y: '150',
+            children: [
+              {
+                type: 'arrow',
+                x1: '0',
+                x2: '100',
+                y1: '10',
+                y2: '10',
+                endPoint: 'triangle',
+              },
+              { type: 'text', children: 'Test' },
+            ],
+          },
+        ],
       },
       {
         type: 'scatter',
@@ -57,5 +102,14 @@ export function Control() {
       },
     ],
   };
-  return <PlotObject plot={plot} />;
+  return (
+    <PlotObject plot={plot}>
+      <Annotation.Circle
+        cx={4}
+        cy={5}
+        r={0.2}
+        style={{ stroke: 'purple', fill: 'purple' }}
+      />
+    </PlotObject>
+  );
 }

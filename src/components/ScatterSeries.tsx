@@ -32,7 +32,7 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     const [yMin, yMax] = extent(data, (d) => d.y);
     const x = { min: xMin, max: xMax, axisId: xAxis };
     const y = { min: yMin, max: yMax, axisId: yAxis };
-    dispatch({ type: 'newData', value: { id, x, y, label } });
+    dispatch({ type: 'newData', value: { id, x, y, label, data } });
 
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', value: { id } });

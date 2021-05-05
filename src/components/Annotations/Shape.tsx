@@ -1,5 +1,6 @@
 import { CSSProperties } from 'react';
 
+import { usePosition } from '../../hooks';
 import {
   Circle as CircleMarker,
   Triangle as TriangleMarker,
@@ -18,7 +19,7 @@ export type AnnotationShapeList = 'triangle' | 'circle' | 'diamond' | 'square';
 
 interface IntAnnotationShape {
   size: number;
-  style: CSSProperties;
+  style?: CSSProperties;
 }
 
 function Triangle(props: IntAnnotationShape) {
@@ -37,19 +38,20 @@ function Square(props: IntAnnotationShape) {
   return <SquareMarker size={props.size} style={props.style} />;
 }
 
-interface ShapeProps {
-  x: number;
-  y: number;
+export interface ShapeProps {
+  x: string | number;
+  y: string | number;
   shape: AnnotationShapeList;
   size: number;
-  style: CSSProperties;
+  style?: CSSProperties;
 }
 
 export default function Shape(props: ShapeProps) {
   const Figure = shapes[props.shape];
+  const { x, y } = usePosition({ x: props.x, y: props.y });
 
   return (
-    <g transform={`translate(${props.x}, ${props.y})`}>
+    <g transform={`translate(${x}, ${y})`}>
       <Figure size={props.size} style={props.style} />
     </g>
   );

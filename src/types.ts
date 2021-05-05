@@ -1,5 +1,19 @@
-import type { ScaleLinear, ScaleOrdinal } from 'd3-scale';
+import type {
+  ScaleContinuousNumeric,
+  ScaleLinear,
+  ScaleLogarithmic,
+  ScaleOrdinal,
+} from 'd3-scale';
 import { CSSProperties, ReactElement, ReactNode, SVGAttributes } from 'react';
+
+import { ArrowProps } from './components/Annotations/Arrow';
+import { CircleProps } from './components/Annotations/Circle';
+import { EllipseProps } from './components/Annotations/Ellipse';
+import { GroupProps } from './components/Annotations/Group';
+import { LineProps } from './components/Annotations/Line';
+import { RectangleProps } from './components/Annotations/Rectangle';
+import { ShapeProps } from './components/Annotations/Shape';
+import { TextProps } from './components/Annotations/Text';
 
 export type Shape =
   | 'circle'
@@ -26,11 +40,23 @@ export interface SeriesPointType {
   yError?: SeriesPointErrorType;
 }
 
+export interface RangeSeriesPointType {
+  x: number;
+  y1: number;
+  y2: number;
+}
+
 export type CSSFuncProps<T> = {
   [key in keyof CSSProperties]:
     | ((point: T, index: number, data: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
+
+export interface TickType {
+  label: string;
+  position: number;
+  value: number;
+}
 
 // Component props
 
@@ -59,6 +85,14 @@ export interface PlotProps {
    */
   svgStyle?: CSSProperties;
   /**
+   * Id of the SVG element
+   */
+  svgId?: string;
+  /**
+   * Class name of the SVG element
+   */
+  svgClassName?: string;
+  /**
    * Style applied to the rectangle around the entire plot.
    */
   plotViewportStyle?: CSSProperties;
@@ -67,29 +101,55 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
+   * Track values on mouse move
+   */
+  onMouseMove?: (result: TrackingResult) => void;
+  /**
+   * Track values on mouse click
+   */
+  onClick?: (result: TrackingResult) => void;
+  /**
+   * Mouse enter viewport
+   */
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   * Mouse leaves viewport
+   */
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
    * All plot elements.
    */
   children: ReactNode;
 }
 
-export interface ScatterSeriesProps {
+export interface BaseSeriesProps<T = SeriesPointType> {
   groupId?: string;
   xAxis?: string;
   yAxis?: string;
-  data: SeriesPointType[];
+  data: Array<T>;
   label?: string;
+  hidden?: boolean;
+}
+
+export interface ScatterSeriesProps<T = SeriesPointType>
+  extends BaseSeriesProps<T> {
   markerShape?: Shape;
   markerSize?: number;
-  hidden?: boolean;
-  markerStyle?: CSSFuncProps<SeriesPointType>;
+  markerStyle?: CSSFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapSize?: number;
 }
+
 export interface LineSeriesProps extends ScatterSeriesProps {
   lineStyle?: CSSProperties;
   displayMarker?: boolean;
+}
+
+export interface RangeSeriesProps<T extends RangeSeriesPointType>
+  extends BaseSeriesProps<T> {
+  lineStyle?: CSSProperties;
 }
 
 export interface AxisChildProps {
@@ -117,8 +177,10 @@ export interface AxisParentProps {
   paddingEnd?: number;
 
   flip?: boolean;
+  scale?: 'linear' | 'log';
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
+export type ParallelAxisProps = Omit<AxisChildProps, 'displayGridLines'>;
 
 export interface HeadingProps {
   title: string;
@@ -139,21 +201,77 @@ export interface MarkersProps {
   style: CSSProperties;
 }
 
-type Dimensions = Omit<PlotProps, 'colorScheme' | 'children'>;
+export interface ClosestInfo<T extends ClosestMethods> {
+  point: SeriesPointType;
+  label: string;
+  axis: T extends 'euclidean'
+    ? Record<'x' | 'y', AxisContextType>
+    : AxisContextType;
+}
+export type ClosestMethods = 'x' | 'y' | 'euclidean';
+export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
+export interface TrackingResult {
+  event: React.MouseEvent<SVGRectElement, MouseEvent>;
+  coordinates: Record<string, number>;
+  getClosest: (method: ClosestMethods) => ClosestInfoResult;
+}
+export interface TrackingProps {
+  onMouseMove?: (result: TrackingResult) => void;
+  onClick?: (result: TrackingResult) => void;
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  stateSeries: SeriesType[];
+}
+
+// Plot object related
+export type AnnotationsType =
+  // This for each annotation option
+  | ({ type: 'arrow' } & ArrowProps)
+  | ({ type: 'circle' } & CircleProps)
+  | ({ type: 'ellipse' } & EllipseProps)
+  | ({ type: 'line' } & LineProps)
+  | ({ type: 'rectangle' } & RectangleProps)
+  | ({ type: 'shape' } & ShapeProps)
+  | ({ type: 'text'; children: string } & Omit<TextProps, 'children'>)
+  // Group of annotations only
+  | ({ type: 'group'; children: AnnotationsType[] } & Omit<
+      GroupProps,
+      'children'
+    >);
+
+type ContentType =
+  | { type: 'annotation'; children: AnnotationsType[] }
+  // Different series
+  | ({ type: 'line' } & LineSeriesProps)
+  | ({ type: 'scatter' } & ScatterSeriesProps);
+
 export interface PlotObjectType {
-  axes: AxisProps[];
-  series: Array<
-    | ({ type: 'line' } & LineSeriesProps)
-    | ({ type: 'scatter' } & ScatterSeriesProps)
+  axes: Array<
+    ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
   >;
+  content: ContentType[];
   legend?: LegendProps;
-  dimensions: Dimensions;
+  dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
+  svg?: Pick<
+    PlotProps,
+    | 'plotViewportStyle'
+    | 'seriesViewportStyle'
+    | 'onClick'
+    | 'onMouseMove'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+  > & {
+    className?: string;
+    id?: string;
+    style?: PlotProps['svgStyle'];
+  };
   colorScheme?: Iterable<string>;
   seriesViewportStyle?: CSSProperties;
 }
 
 export interface PlotObjectProps {
   plot: PlotObjectType;
+  children?: ReactNode;
 }
 
 // State related
@@ -168,13 +286,20 @@ export interface SeriesType {
   x: SeriesAxisType;
   y: SeriesAxisType;
   label: string;
+  data?: SeriesPointType[];
 }
 
-export interface AxisContextType {
-  scale: ScaleLinear<number, number>;
+export interface AxisContextGeneric<
+  Scale extends ScaleContinuousNumeric<number, number>
+> {
+  scale: Scale;
   scientific: boolean;
   position: Horizontal | Vertical;
 }
+export type AxisContextType =
+  | ({ type: 'linear' } & AxisContextGeneric<ScaleLinear<number, number>>)
+  | ({ type: 'log' } & AxisContextGeneric<ScaleLogarithmic<number, number>>);
+
 export interface PlotContextType {
   width?: number;
   height?: number;
