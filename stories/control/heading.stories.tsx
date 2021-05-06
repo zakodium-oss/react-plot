@@ -49,7 +49,6 @@ export function Control(props: HeadingProps) {
       margin={{
         bottom: 100,
         left: 40,
-        top: 40,
         right: 40,
       }}
     >

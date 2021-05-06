@@ -2,6 +2,7 @@ import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
+import { useBBoxObserver } from 'react-d3-utils';
 
 import MarkerDefs from './components/Annotations/MarkerDefs';
 import Tracking from './components/Tracking';
@@ -55,10 +56,16 @@ export default function Plot(props: PlotProps) {
     throw new Error('Width and height are mandatory');
   }
 
+  const headingBbox = useBBoxObserver();
+  const headingHeight = headingBbox.height;
+  const headingPosition: 'top' | 'bottom' | null = heading
+    ? heading.props.position || 'top'
+    : null;
+
   // Distances in plot
   const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
   const plotWidth = width - left - right;
-  const plotHeight = height - top - bottom;
+  const plotHeight = height - top - bottom - headingHeight;
 
   // Set scales
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
@@ -110,7 +117,11 @@ export default function Plot(props: PlotProps) {
             />
 
             {/* Series viewport */}
-            <g transform={`translate(${left}, ${top})`}>
+            <g
+              transform={`translate(${left}, ${
+                top + (headingPosition === 'top' ? headingHeight : 0)
+              })`}
+            >
               <TransparentRect
                 width={plotWidth}
                 height={plotHeight}
@@ -139,7 +150,7 @@ export default function Plot(props: PlotProps) {
               ) : null}
             </g>
 
-            {heading}
+            <g ref={headingBbox.ref}>{heading}</g>
             {legend}
           </svg>
         </LegendProvider>
