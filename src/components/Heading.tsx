@@ -11,7 +11,7 @@ export default function Heading({
   subtitle,
   subtitleStyle,
   subtitleClass,
-  position = 'top',
+  position,
 }: HeadingProps) {
   const { width, height } = usePlotContext();
 
@@ -59,3 +59,7 @@ export default function Heading({
     </AlignGroup>
   );
 }
+
+Heading.defaultProps = {
+  position: 'top',
+};

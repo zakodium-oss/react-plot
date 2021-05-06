@@ -334,6 +334,7 @@ export type ReducerActions =
 export interface PlotChildren {
   seriesAndAnnotations: ReactElement[];
   axes: ReactElement[];
-  heading: ReactElement | null;
+  topHeading: ReactElement | null;
+  bottomHeading: ReactElement | null;
   legend: ReactElement | null;
 }

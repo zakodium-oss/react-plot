@@ -48,9 +48,13 @@ export default function Plot(props: PlotProps) {
 
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
-  const { seriesAndAnnotations, axes, heading, legend } = splitChildren(
-    children,
-  );
+  const {
+    seriesAndAnnotations,
+    axes,
+    topHeading,
+    bottomHeading,
+    legend,
+  } = splitChildren(children);
 
   if ([width, height].includes(undefined)) {
     throw new Error('Width and height are mandatory');
@@ -58,9 +62,6 @@ export default function Plot(props: PlotProps) {
 
   const headingBbox = useBBoxObserver();
   const headingHeight = headingBbox.height;
-  const headingPosition: 'top' | 'bottom' | null = heading
-    ? heading.props.position || 'top'
-    : null;
 
   // Distances in plot
   const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
@@ -119,7 +120,7 @@ export default function Plot(props: PlotProps) {
             {/* Series viewport */}
             <g
               transform={`translate(${left}, ${
-                top + (headingPosition === 'top' ? headingHeight : 0)
+                top + (topHeading ? headingHeight : 0)
               })`}
             >
               <TransparentRect
@@ -150,7 +151,7 @@ export default function Plot(props: PlotProps) {
               ) : null}
             </g>
 
-            <g ref={headingBbox.ref}>{heading}</g>
+            <g ref={headingBbox.ref}>{topHeading || bottomHeading}</g>
             {legend}
           </svg>
         </LegendProvider>

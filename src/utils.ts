@@ -30,7 +30,8 @@ export function getNextId() {
  */
 export function splitChildren(children: ReactNode): PlotChildren {
   const axes = [];
-  let heading = null;
+  let topHeading = null;
+  let bottomHeading = null;
   let legend = null;
   let seriesAndAnnotations = [];
 
@@ -50,10 +51,14 @@ export function splitChildren(children: ReactNode): PlotChildren {
     } else if (child.type === Axis || child.type === ParallelAxis) {
       axes.push(child);
     } else if (child.type === Heading) {
-      if (heading !== null) {
+      if (topHeading !== null || bottomHeading !== null) {
         throw new Error('Plot can only have one Heading element');
       }
-      heading = child;
+      if (child.props.position === 'top') {
+        topHeading = child;
+      } else {
+        bottomHeading = child;
+      }
     } else if (child.type === Legend) {
       if (legend !== null) {
         throw new Error('Plot can only have one Legend element');
@@ -69,7 +74,8 @@ export function splitChildren(children: ReactNode): PlotChildren {
   return {
     seriesAndAnnotations,
     axes,
-    heading,
+    topHeading,
+    bottomHeading,
     legend,
   };
 }
