@@ -11,7 +11,7 @@ import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
-import { splitChildren } from './utils';
+import { splitChildren } from './utils/splitChildren';
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
 const initialState: State = {
