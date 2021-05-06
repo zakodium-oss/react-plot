@@ -51,7 +51,7 @@ export type {
   RangeSeriesProps,
   ScatterSeriesProps,
   SeriesPointType,
-  RangeSeriesPointType as SeriesRangePointType,
+  RangeSeriesPointType,
   PlotObjectProps,
   PlotObjectType,
 };

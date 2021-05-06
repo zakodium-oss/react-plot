@@ -5,7 +5,7 @@ import {
   RangeSeries,
   Plot,
   RangeSeriesProps,
-  SeriesRangePointType,
+  RangeSeriesPointType,
   Legend,
   LineSeries,
 } from '../../src';
@@ -127,7 +127,7 @@ const data = [
   },
 ];
 
-export function RangeControl(props: RangeSeriesProps<SeriesRangePointType>) {
+export function Control(props: RangeSeriesProps<RangeSeriesPointType>) {
   return (
     <Plot
       width={900}
