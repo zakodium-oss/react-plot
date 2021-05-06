@@ -1,17 +1,10 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Axis,
-  Legend,
-  LineSeries,
-  LineSeriesProps,
-  Plot,
-  BarSeries,
-} from '../../src';
+import { Axis, Legend, BarSeriesProps, Plot, BarSeries } from '../../src';
 
 export default {
   title: 'API/BarSeries',
-  component: LineSeries,
+  component: BarSeries,
   argTypes: {
     displayMarker: {
       control: 'boolean',
@@ -88,7 +81,7 @@ const data = [
   },
 ];
 
-export function BarControl(props: LineSeriesProps) {
+export function Control(props: BarSeriesProps) {
   return (
     <Plot
       width={900}

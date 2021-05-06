@@ -147,6 +147,8 @@ export interface LineSeriesProps extends ScatterSeriesProps {
   displayMarker?: boolean;
 }
 
+export type BarSeriesProps = LineSeriesProps;
+
 export interface RangeSeriesProps<T extends RangeSeriesPointType>
   extends BaseSeriesProps<T> {
   lineStyle?: CSSProperties;
