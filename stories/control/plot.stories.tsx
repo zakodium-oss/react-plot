@@ -30,7 +30,7 @@ const data = [
   },
 ];
 
-export function PlotControl(args: PlotProps) {
+export function Control(args: PlotProps) {
   return (
     <Plot {...args}>
       <Legend position="embedded" />
@@ -47,7 +47,7 @@ export function PlotControl(args: PlotProps) {
   );
 }
 
-PlotControl.args = {
+Control.args = {
   width: 900,
   height: 540,
   seriesViewportStyle: { stroke: 'black' },

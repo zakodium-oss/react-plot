@@ -119,7 +119,7 @@ const data = [
   },
 ];
 
-export function LineControl(props: LineSeriesProps) {
+export function Control(props: LineSeriesProps) {
   return (
     <Plot
       width={900}

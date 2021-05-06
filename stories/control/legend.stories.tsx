@@ -29,7 +29,7 @@ const data2 = [
   { x: 4, y: 28 },
 ];
 
-export function HeadingControl(props: TestProps) {
+export function Control(props: LegendProps) {
   return (
     <Plot
       width={900}
@@ -45,7 +45,7 @@ export function HeadingControl(props: TestProps) {
   );
 }
 
-export function HeaderTest(props: TestProps) {
+export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
   return (
     <Plot
@@ -75,3 +75,5 @@ export function HeaderTest(props: TestProps) {
     </Plot>
   );
 }
+
+WithTwoSeries.storyName = 'With two series';

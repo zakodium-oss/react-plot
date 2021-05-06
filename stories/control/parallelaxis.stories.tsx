@@ -40,7 +40,7 @@ const plot: Omit<PlotProps, 'children'> = {
   },
 };
 
-export function ParallelAxisControl(props: ParallelAxisProps) {
+export function Control(props: ParallelAxisProps) {
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />

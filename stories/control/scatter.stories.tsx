@@ -9,7 +9,7 @@ import {
 } from '../../src';
 
 export default {
-  title: 'API/Scatter',
+  title: 'API/ScatterSeries',
   component: ScatterSeries,
   argTypes: {
     hidden: {
@@ -111,7 +111,7 @@ const data = [
   },
 ];
 
-export function ScatterControl(props: ScatterSeriesProps) {
+export function Control(props: ScatterSeriesProps) {
   return (
     <Plot
       width={900}

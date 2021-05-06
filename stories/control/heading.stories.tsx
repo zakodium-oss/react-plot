@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Heading, LineSeries, Plot } from '../../src';
+import { Axis, Heading, HeadingProps, LineSeries, Plot } from '../../src';
 
 enum Position {
   'bottom' = 'bottom',
@@ -49,13 +49,7 @@ const data = [
   },
 ];
 
-interface HeadingControlProps {
-  title: string;
-  subtitle: string;
-  position: Position;
-}
-
-export function HeadingControl(props: HeadingControlProps) {
+export function Control(props: HeadingProps) {
   return (
     <Plot
       width={900}
