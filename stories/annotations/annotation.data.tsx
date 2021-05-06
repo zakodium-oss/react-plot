@@ -28,16 +28,7 @@ export const data = [
 
 export default function AnnotationData(props: { children: ReactNode }) {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 100,
-        left: 100,
-        top: 100,
-        right: 200,
-      }}
-    >
+    <Plot {...DEFAULT_CONFIG} seriesViewportStyle={{ stroke: 'black' }}>
       <Legend position="embedded" />
 
       <LineSeries

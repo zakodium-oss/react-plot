@@ -86,12 +86,6 @@ const plot: Omit<PlotProps, 'children'> = {
   seriesViewportStyle: {
     stroke: 'black',
   },
-  margin: {
-    bottom: 45,
-    left: 40,
-    top: 40,
-    right: 40,
-  },
 };
 
 function getProps(args: AxisControlProps) {

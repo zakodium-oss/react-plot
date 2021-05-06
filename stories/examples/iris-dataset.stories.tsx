@@ -98,7 +98,6 @@ export function PCA() {
             key={`${pcX}-${pcY}`}
             width={size / numFeatures}
             height={size / numFeatures}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
             <Axis
               id="x"

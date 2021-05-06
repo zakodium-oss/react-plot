@@ -26,7 +26,7 @@ const defaultSvgStyle: CSSProperties = {
 export type { PlotProps };
 
 /**
- * Static plot with fixed dimension.
+ * Static plot with fixed dimensions.
  */
 export default function Plot(props: PlotProps) {
   const {
@@ -50,7 +50,10 @@ export default function Plot(props: PlotProps) {
 
   const {
     seriesAndAnnotations,
-    axes,
+    topAxis,
+    rightAxis,
+    bottomAxis,
+    leftAxis,
     topHeading,
     bottomHeading,
     legend,
@@ -60,13 +63,29 @@ export default function Plot(props: PlotProps) {
     throw new Error('Width and height are mandatory');
   }
 
+  // Bounding boxes used to adapt viewport size.
   const headingBbox = useBBoxObserver();
-  const headingHeight = headingBbox.height;
+  const topAxisBbox = useBBoxObserver();
+  const rightAxisBbox = useBBoxObserver();
+  const bottomAxisBbox = useBBoxObserver();
+  const leftAxisBbox = useBBoxObserver();
 
   // Distances in plot
   const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
-  const plotWidth = width - left - right;
-  const plotHeight = height - top - bottom - headingHeight;
+
+  const plotWidth =
+    width - left - leftAxisBbox.width - right - rightAxisBbox.width;
+  const plotHeight =
+    height -
+    top -
+    headingBbox.height -
+    topAxisBbox.height -
+    bottom -
+    bottomAxisBbox.height;
+
+  const leftOffset = left + leftAxisBbox.width;
+  const topOffset =
+    top + (topHeading ? headingBbox.height : 0) + topAxisBbox.height;
 
   // Set scales
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
@@ -118,11 +137,7 @@ export default function Plot(props: PlotProps) {
             />
 
             {/* Series viewport */}
-            <g
-              transform={`translate(${left}, ${
-                top + (topHeading ? headingHeight : 0)
-              })`}
-            >
+            <g transform={`translate(${leftOffset}, ${topOffset})`}>
               <TransparentRect
                 width={plotWidth}
                 height={plotHeight}
@@ -138,7 +153,10 @@ export default function Plot(props: PlotProps) {
                 {seriesAndAnnotations}
               </g>
 
-              {axes}
+              <g ref={topAxisBbox.ref}>{topAxis}</g>
+              <g ref={rightAxisBbox.ref}>{rightAxis}</g>
+              <g ref={bottomAxisBbox.ref}>{bottomAxis}</g>
+              <g ref={leftAxisBbox.ref}>{leftAxis}</g>
 
               {onClick || onMouseMove ? (
                 <Tracking

@@ -12,7 +12,6 @@ export function BitcoinPrice() {
   return (
     <Plot
       {...DEFAULT_CONFIG}
-      margin={{ bottom: 50, left: 100, top: 50, right: 10 }}
       seriesViewportStyle={{
         stroke: 'black',
         strokeWidth: 0.3,

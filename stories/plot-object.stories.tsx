@@ -17,7 +17,6 @@ export function Control() {
     dimensions: {
       width: 650,
       height: 500,
-      margin: { bottom: 50, left: 50, top: 60, right: 90 },
     },
     axes: [
       {

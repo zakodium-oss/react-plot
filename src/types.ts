@@ -4,7 +4,7 @@ import type {
   ScaleLogarithmic,
   ScaleOrdinal,
 } from 'd3-scale';
-import { CSSProperties, ReactElement, ReactNode, SVGAttributes } from 'react';
+import { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
 import { ArrowProps } from './components/Annotations/Arrow';
 import { CircleProps } from './components/Annotations/Circle';
@@ -75,9 +75,7 @@ export interface PlotProps {
    */
   colorScheme?: Iterable<string>;
   /**
-   * Margins around the series viewport.
-   * They are used to make space within the SVG to place elements that are
-   * external to the series viewport (axes, legend, headings, ...).
+   * Margins around the plot.
    */
   margin?: Partial<Margins>;
   /**
@@ -330,11 +328,3 @@ export type ReducerActions =
   | { type: 'removeData'; value: { id: string } }
   | { type: 'newAxis'; value: AxisParentProps }
   | { type: 'removeAxis'; value: { id: string } };
-
-export interface PlotChildren {
-  seriesAndAnnotations: ReactElement[];
-  axes: ReactElement[];
-  topHeading: ReactElement | null;
-  bottomHeading: ReactElement | null;
-  legend: ReactElement | null;
-}

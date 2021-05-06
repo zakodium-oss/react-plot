@@ -113,17 +113,7 @@ const data = [
 
 export function Control(props: ScatterSeriesProps) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 100,
-        left: 40,
-        top: 40,
-        right: 40,
-      }}
-    >
+    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
       <Legend position="embedded" />
 
       <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />

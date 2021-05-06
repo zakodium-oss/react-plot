@@ -129,17 +129,7 @@ const data = [
 
 export function Control(props: RangeSeriesProps<RangeSeriesPointType>) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 45,
-        left: 40,
-        top: 40,
-        right: 40,
-      }}
-    >
+    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
       <Legend position="embedded" />
 
       <RangeSeries {...props} data={data} xAxis="x" yAxis="y" />

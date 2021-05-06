@@ -68,13 +68,8 @@ export function Control(props) {
     hiddenTicks,
   } = props;
 
-  const bottom = headingPosition === 'top' ? 50 : 100;
-  const left = legendPosition === 'right' ? 70 : 150;
-  const top = headingPosition === 'top' ? 50 : 10;
-  const right = legendPosition === 'right' ? 130 : 10;
-
   return (
-    <Plot width={width} height={height} margin={{ bottom, left, top, right }}>
+    <Plot width={width} height={height}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"
@@ -154,11 +149,7 @@ export function Control(props) {
 export function ScientificNotation() {
   const factor = 1000;
   return (
-    <Plot
-      width={550}
-      height={500}
-      margin={{ bottom: 50, left: 90, top: 50, right: 100 }}
-    >
+    <Plot width={550} height={500}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"

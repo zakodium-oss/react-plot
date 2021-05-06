@@ -10,11 +10,7 @@ export default {
 
 export function MassExample() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
-      seriesViewportStyle={{ stroke: 'black' }}
-    >
+    <Plot {...DEFAULT_CONFIG} seriesViewportStyle={{ stroke: 'black' }}>
       <BarSeries
         data={data}
         xAxis="x"

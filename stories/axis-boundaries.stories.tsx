@@ -36,11 +36,7 @@ export function Control(props: Props) {
     paddingBottom,
   } = props;
   return (
-    <Plot
-      width={width}
-      height={height}
-      margin={{ bottom: 50, left: 80, top: 80, right: 80 }}
-    >
+    <Plot width={width} height={height}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"

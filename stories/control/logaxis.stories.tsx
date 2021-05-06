@@ -34,7 +34,7 @@ const plot = {
 
 export function AxisLeftLogControl(props: AxisControlProps) {
   return (
-    <Plot {...plot} margin={{ bottom: 45, left: 90, top: 40, right: 20 }}>
+    <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="Label" />
       <Axis id="y" position="left" scale="log" labelSpace={65} {...props} />
@@ -44,7 +44,7 @@ export function AxisLeftLogControl(props: AxisControlProps) {
 
 export function AxisBottomLogControl(props: AxisControlProps) {
   return (
-    <Plot {...plot} margin={{ bottom: 45, left: 90, top: 40, right: 20 }}>
+    <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" scale="log" {...props} />
       <Axis id="y" position="left" labelSpace={65} label="Label" />
@@ -54,7 +54,7 @@ export function AxisBottomLogControl(props: AxisControlProps) {
 
 export function AxisRightLogControl(props: AxisControlProps) {
   return (
-    <Plot {...plot} margin={{ bottom: 45, left: 10, top: 20, right: 100 }}>
+    <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="Label" />
       <Axis id="y" position="right" labelSpace={50} scale="log" {...props} />
@@ -64,7 +64,7 @@ export function AxisRightLogControl(props: AxisControlProps) {
 
 export function AxisTopLogControl(props: AxisControlProps) {
   return (
-    <Plot {...plot} margin={{ bottom: 20, left: 90, top: 60, right: 40 }}>
+    <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="y" position="left" labelSpace={65} label="Label" />
       <Axis id="x" position="top" scale="log" {...props} />

@@ -39,7 +39,6 @@ function Tracking({ data, displayMarker }: TrackingProps) {
     <div>
       <Plot
         {...plot}
-        margin={{ bottom: 45, left: 90, top: 40, right: 20 }}
         onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
           setHover({ coordinates, position: { x: pageX, y: pageY } });
         }}

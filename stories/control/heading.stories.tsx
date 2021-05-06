@@ -42,18 +42,9 @@ const data = [
 
 export function Control(props: HeadingProps) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 100,
-        left: 40,
-        right: 40,
-      }}
-    >
+    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
       <Heading {...props} />
-      <LineSeries data={data} xAxis="x" yAxis="y" />
+      <LineSeries data={data} />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>

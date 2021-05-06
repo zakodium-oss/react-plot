@@ -32,12 +32,6 @@ const plot: Omit<PlotProps, 'children'> = {
   seriesViewportStyle: {
     stroke: 'black',
   },
-  margin: {
-    bottom: 45,
-    left: 60,
-    top: 60,
-    right: 60,
-  },
 };
 
 export function Control(props: ParallelAxisProps) {

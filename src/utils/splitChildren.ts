@@ -1,4 +1,4 @@
-import { Children, isValidElement, ReactNode } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 
 import { Annotations } from '../components/Annotations/Annotation';
 import Axis from '../components/Axis';
@@ -9,17 +9,32 @@ import Legend from '../components/Legend';
 import LineSeries from '../components/LineSeries';
 import RangeSeries from '../components/RangeSeries';
 import ScatterSeries from '../components/ScatterSeries';
-import { PlotChildren } from '../types';
+
+export interface PlotChildren {
+  seriesAndAnnotations: ReactElement[];
+  topAxis: ReactElement | null;
+  rightAxis: ReactElement | null;
+  bottomAxis: ReactElement | null;
+  leftAxis: ReactElement | null;
+  topHeading: ReactElement | null;
+  bottomHeading: ReactElement | null;
+  legend: ReactElement | null;
+}
 
 /**
  * Validates that all the children inside Plot are supported and organizes them by kind.
  */
-
 export function splitChildren(children: ReactNode): PlotChildren {
-  const axes = [];
+  let topAxis = null;
+  let rightAxis = null;
+  let bottomAxis = null;
+  let leftAxis = null;
+
   let topHeading = null;
   let bottomHeading = null;
+
   let legend = null;
+
   let seriesAndAnnotations = [];
 
   for (let child of Children.toArray(children)) {
@@ -36,7 +51,38 @@ export function splitChildren(children: ReactNode): PlotChildren {
     ) {
       seriesAndAnnotations.push(child);
     } else if (child.type === Axis || child.type === ParallelAxis) {
-      axes.push(child);
+      switch (child.props.position) {
+        case 'top': {
+          if (topAxis !== null) {
+            throw new Error('Plot can only have one top axis');
+          }
+          topAxis = child;
+          break;
+        }
+        case 'right': {
+          if (rightAxis !== null) {
+            throw new Error('Plot can only have one right axis');
+          }
+          rightAxis = child;
+          break;
+        }
+        case 'bottom': {
+          if (bottomAxis !== null) {
+            throw new Error('Plot can only have one bottom axis');
+          }
+          bottomAxis = child;
+          break;
+        }
+        case 'left': {
+          if (leftAxis !== null) {
+            throw new Error('Plot can only have one left axis');
+          }
+          leftAxis = child;
+          break;
+        }
+        default:
+          throw new Error('unreachable');
+      }
     } else if (child.type === Heading) {
       if (topHeading !== null || bottomHeading !== null) {
         throw new Error('Plot can only have one Heading element');
@@ -59,10 +105,13 @@ export function splitChildren(children: ReactNode): PlotChildren {
   }
 
   return {
-    seriesAndAnnotations,
-    axes,
+    topAxis,
+    rightAxis,
+    bottomAxis,
+    leftAxis,
     topHeading,
     bottomHeading,
     legend,
+    seriesAndAnnotations,
   };
 }
