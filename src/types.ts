@@ -330,10 +330,8 @@ export type ReducerActions =
   | { type: 'removeAxis'; value: { id: string } };
 
 export interface PlotChildren {
-  hasInvalidChild: boolean;
-  series: ReactElement<LineSeriesProps | ScatterSeriesProps>[];
-  axes: ReactElement<AxisProps>[];
-  heading: ReactElement<HeadingProps> | null;
-  legend: ReactElement<LegendProps> | null;
-  annotations: Array<ReactElement<LegendProps>>;
+  seriesAndAnnotations: ReactElement[];
+  axes: ReactElement[];
+  heading: ReactElement | null;
+  legend: ReactElement | null;
 }

@@ -47,18 +47,10 @@ export default function Plot(props: PlotProps) {
 
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
-  const {
-    hasInvalidChild,
-    series,
-    axes,
-    heading,
-    legend,
-    annotations,
-  } = splitChildren(children);
+  const { seriesAndAnnotations, axes, heading, legend } = splitChildren(
+    children,
+  );
 
-  if (hasInvalidChild) {
-    throw new Error('Only compound components of Plot are displayed');
-  }
   if ([width, height].includes(undefined)) {
     throw new Error('Width and height are mandatory');
   }
@@ -131,8 +123,7 @@ export default function Plot(props: PlotProps) {
               </clipPath>
 
               <g style={{ clipPath: 'url(#seriesViewportClip)' }}>
-                {series}
-                {annotations}
+                {seriesAndAnnotations}
               </g>
 
               {axes}
