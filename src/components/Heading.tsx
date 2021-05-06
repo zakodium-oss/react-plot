@@ -1,21 +1,8 @@
 import { CSSProperties } from 'react';
+import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
 import type { HeadingProps } from '../types';
-
-function yTranslation(position: 'top' | 'bottom', height: number) {
-  switch (position) {
-    case 'top': {
-      return 20;
-    }
-    case 'bottom': {
-      return height + 64;
-    }
-    default: {
-      throw new Error(`Unknown ${JSON.stringify(position)} position`);
-    }
-  }
-}
 
 export default function Heading({
   title,
@@ -26,24 +13,32 @@ export default function Heading({
   subtitleClass,
   position = 'top',
 }: HeadingProps) {
-  const { width, height, bottom } = usePlotContext();
+  const { width, height } = usePlotContext();
 
   const defaultTitleStyle: CSSProperties = {
+    dominantBaseline: 'hanging',
     textAnchor: 'middle',
     fontSize: '16px',
     fontWeight: 'bold',
   };
   const defaultSubtitleStyle: CSSProperties = {
+    dominantBaseline: 'hanging',
     textAnchor: 'middle',
     fontSize: '14px',
     color: 'gray',
   };
 
-  const bottomHeigth = height - bottom;
-  const y = yTranslation(position, bottomHeigth);
+  const headingBbox = useBBoxObserver();
+
   return (
-    <g transform={`translate(${width / 2}, ${y})`}>
+    <AlignGroup
+      x={width / 2}
+      y={position === 'top' ? 0 : height}
+      horizontalAlign="middle"
+      verticalAlign={position === 'top' ? 'start' : 'end'}
+    >
       <text
+        ref={headingBbox.ref}
         style={{ ...defaultTitleStyle, ...titleStyle }}
         className={titleClass}
       >
@@ -51,13 +46,16 @@ export default function Heading({
       </text>
       {subtitle && (
         <text
-          transform="translate(0, 20)"
-          style={{ ...defaultSubtitleStyle, ...subtitleStyle }}
+          style={{
+            ...defaultSubtitleStyle,
+            ...subtitleStyle,
+            transform: `translateY(${headingBbox.height}px)`,
+          }}
           className={subtitleClass}
         >
           {subtitle}
         </text>
       )}
-    </g>
+    </AlignGroup>
   );
 }

@@ -10,19 +10,10 @@ enum Position {
 export default {
   title: 'API/Heading',
   component: Heading,
-  argTypes: {
-    title: {
-      control: 'text',
-      defaultValue: 'Header Label',
-    },
-    subtitle: {
-      control: 'text',
-      defaultValue: 'Subtitle text',
-    },
-    position: {
-      control: { type: 'select', options: Position },
-      defaultValue: Position.top,
-    },
+  args: {
+    title: 'Title',
+    subtitle: 'Subtitle',
+    position: Position.top,
   },
 } as Meta;
 
