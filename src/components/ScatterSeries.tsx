@@ -7,12 +7,18 @@ import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
+import { useLegend } from './legendsContext';
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;
 }
 
 export default function ScatterSeries(props: ScatterSeriesProps) {
+  // Update plot context with data description
+  const { dispatch } = useDispatchContext();
+  const { colorScaler } = usePlotContext();
+  const [, legendDispatch] = useLegend();
+
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
 
   const {
@@ -25,8 +31,35 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     ...otherProps
   } = props;
 
-  // Update plot context with data description
-  const { dispatch } = useDispatchContext();
+  useEffect(() => {
+    if (!hidden) {
+      legendDispatch({
+        type: 'ADD_LEGEND_LABEL',
+        payload: {
+          id,
+          label,
+          colorLine: 'white',
+
+          shape: {
+            color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
+            figure: 'circle',
+            hidden: false,
+          },
+        },
+      });
+    }
+    return () =>
+      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+  }, [
+    colorScaler,
+    hidden,
+    id,
+    label,
+    legendDispatch,
+    otherProps.markerShape,
+    otherProps.markerStyle?.fill,
+  ]);
+
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
