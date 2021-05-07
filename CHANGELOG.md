@@ -1,5 +1,15 @@
 # Changelog
 
+### [0.10.1](https://www.github.com/zakodium/react-plot/compare/v0.10.0...v0.10.1) (2021-05-07)
+
+
+### Bug Fixes
+
+* add Legend on ScatterSeries ([7ee85e3](https://www.github.com/zakodium/react-plot/commit/7ee85e3f63355312ab490d2da85b288ce33c165b))
+* correctly export RangeSeriesPointType ([ccbb433](https://www.github.com/zakodium/react-plot/commit/ccbb4338bc17ddda0e57576b7453414ed47fb925))
+* export BarSeriesProps ([b97cda9](https://www.github.com/zakodium/react-plot/commit/b97cda9a57e30c728dfe1c3e3b0e75585188bd7a))
+* improve validation of Plot children ([0e7db4b](https://www.github.com/zakodium/react-plot/commit/0e7db4bc8c3f74fa581d58303217baaa36dc9b2a))
+
 ## [0.10.0](https://www.github.com/zakodium/react-plot/compare/v0.9.0...v0.10.0) (2021-04-21)
 
 
