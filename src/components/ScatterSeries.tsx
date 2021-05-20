@@ -2,12 +2,13 @@ import { extent } from 'd3-array';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { ScatterSeriesProps } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
+
+import type { ScatterSeriesProps } from '../types';
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;

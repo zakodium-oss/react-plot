@@ -2,6 +2,7 @@ import { CSSProperties } from 'react';
 import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
+
 import type { HeadingProps } from '../types';
 
 export default function Heading({

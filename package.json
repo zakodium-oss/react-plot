@@ -18,7 +18,9 @@
     "dev": "start-storybook -p 6006",
     "eslint": "eslint src stories",
     "eslint-fix": "npm run eslint -- --fix",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
+    "prettier": "prettier --check .",
+    "prettier-write": "prettier --write .",
     "start": "npm run dev",
     "test": "npm run eslint && npm run check-types"
   },
@@ -45,11 +47,6 @@
     "url": "https://github.com/zakodium/react-plot/issues"
   },
   "homepage": "https://github.com/zakodium/react-plot#readme",
-  "prettier": {
-    "trailingComma": "all",
-    "arrowParens": "always",
-    "singleQuote": true
-  },
   "peerDependencies": {
     "@types/react": "*",
     "react": "*"

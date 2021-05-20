@@ -3,10 +3,12 @@ import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-import type { Horizontal, LegendProps, Vertical } from '../types';
+
 
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
+
+import type { Horizontal, LegendProps, Vertical } from '../types';
 
 type Positions = { [K in Vertical | Horizontal]?: number };
 interface ValidatedPosition {
@@ -41,14 +43,10 @@ function translation(
   const plotWidth = width - plotMargins.left - plotMargins.right;
   switch (position) {
     case 'embedded': {
-      const {
-        key: verticalKey = 'top',
-        value: verticalValue = 10,
-      } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = 10,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
+      const { key: verticalKey = 'top', value: verticalValue = 10 } =
+        exclusiveProps(legendMargins, 'top', 'bottom', position);
+      const { key: horizontalKey = 'left', value: horizontalValue = 10 } =
+        exclusiveProps(legendMargins, 'left', 'right', position);
       const x =
         horizontalKey === 'right'
           ? width - plotMargins.right - horizontalValue

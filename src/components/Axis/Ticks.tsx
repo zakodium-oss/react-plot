@@ -26,9 +26,10 @@ export interface TickProps {
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
   hiddenSecondaryTicks?: boolean;
-  getPositions: (
-    y: number,
-  ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
+  getPositions: (y: number) => {
+    line: CoordinatesXY;
+    text: Omit<CoordinatesXY, 'x2' | 'y2'>;
+  };
 }
 
 export function Ticks(props: Omit<TicksProps, 'children'>) {

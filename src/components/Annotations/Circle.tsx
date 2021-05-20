@@ -8,7 +8,11 @@ export type CircleProps = Omit<SvgCircleProps, 'x1' | 'x2' | 'y1' | 'y2'>;
 export default function Circle(props: CircleProps) {
   const { cx: oldCx, cy: oldCy, r: oldR, ...otherProps } = props;
 
-  const { cx, cy, rx: r } = useEllipsePosition({
+  const {
+    cx,
+    cy,
+    rx: r,
+  } = useEllipsePosition({
     cx: oldCx,
     cy: oldCy,
     rx: oldR,

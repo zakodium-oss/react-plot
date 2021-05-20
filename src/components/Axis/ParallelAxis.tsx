@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { usePlotContext } from '../../hooks';
-import type { Horizontal, ParallelAxisProps, Vertical } from '../../types';
+
 
 import BottomAxis from './BottomAxis';
 import BottomLogAxis from './BottomLogAxis';
@@ -11,6 +11,8 @@ import RightAxis from './RightAxis';
 import RightLogAxis from './RightLogAxis';
 import TopAxis from './TopAxis';
 import TopLogAxis from './TopLogAxis';
+
+import type { Horizontal, ParallelAxisProps, Vertical } from '../../types';
 
 function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   switch (position) {

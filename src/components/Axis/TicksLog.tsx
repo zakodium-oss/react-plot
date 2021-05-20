@@ -28,19 +28,15 @@ export interface TicksLogProps extends Omit<TickLogProps, 'line' | 'text'> {
   ticks: TickType[];
   hiddenSecondaryTicks?: boolean;
 
-  getPositions: (
-    y: number,
-  ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
+  getPositions: (y: number) => {
+    line: CoordinatesXY;
+    text: Omit<CoordinatesXY, 'x2' | 'y2'>;
+  };
 }
 
 export function TicksLog(props: Omit<TicksLogProps, 'children'>) {
-  const {
-    hidden,
-    ticks,
-    getPositions,
-    hiddenSecondaryTicks,
-    ...otherProps
-  } = props;
+  const { hidden, ticks, getPositions, hiddenSecondaryTicks, ...otherProps } =
+    props;
   if (hidden) return null;
 
   const displayedTicks = hiddenSecondaryTicks

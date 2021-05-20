@@ -2,6 +2,8 @@ import { euclidean } from 'ml-distance-euclidean';
 import React from 'react';
 
 import { usePlotContext } from '../hooks';
+import { closestPoint } from '../utils';
+
 import type {
   AxisContextType,
   ClosestInfoResult,
@@ -10,7 +12,6 @@ import type {
   TrackingProps,
   TrackingResult,
 } from '../types';
-import { closestPoint } from '../utils';
 
 const HORIZONTAL = ['bottom', 'top'];
 

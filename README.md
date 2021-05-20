@@ -12,8 +12,8 @@ Library of React components to render SVG 2D plots.
     Maintained by <a href="https://www.zakodium.com">Zakodium</a>
   </p>
 
-  [![NPM version][npm-image]][npm-url]
-  [![npm download][download-image]][download-url]
+[![NPM version][npm-image]][npm-url]
+[![npm download][download-image]][download-url]
 
 </h3>
 

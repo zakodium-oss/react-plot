@@ -2,12 +2,13 @@ import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { LineSeriesProps, SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import ScatterSeries from './ScatterSeries';
 import { useLegend } from './legendsContext';
+
+import type { LineSeriesProps, SeriesPointType } from '../types';
 
 interface LineSeriesRenderProps {
   id: string;

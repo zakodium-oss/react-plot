@@ -2,11 +2,13 @@ import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { useEffect } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../../hooks';
-import type { AxisProps } from '../../types';
+
 
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
 import { AxisChildProps } from './types';
+
+import type { AxisProps } from '../../types';
 
 export default function Axis({
   id,

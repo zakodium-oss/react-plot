@@ -1,9 +1,3 @@
-import type {
-  ScaleContinuousNumeric,
-  ScaleLinear,
-  ScaleLogarithmic,
-  ScaleOrdinal,
-} from 'd3-scale';
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
 import { ArrowProps } from './components/Annotations/Arrow';
@@ -14,6 +8,13 @@ import { LineProps } from './components/Annotations/Line';
 import { RectangleProps } from './components/Annotations/Rectangle';
 import { ShapeProps } from './components/Annotations/Shape';
 import { TextProps } from './components/Annotations/Text';
+
+import type {
+  ScaleContinuousNumeric,
+  ScaleLinear,
+  ScaleLogarithmic,
+  ScaleOrdinal,
+} from 'd3-scale';
 
 export type Shape =
   | 'circle'

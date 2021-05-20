@@ -16,6 +16,7 @@ import ParallelAxis from './components/Axis/ParallelAxis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';
 import ScatterSeries from './components/ScatterSeries';
+
 import type { AnnotationsType, PlotObjectProps } from './types';
 
 export default function PlotObject({

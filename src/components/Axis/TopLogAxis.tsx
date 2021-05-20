@@ -3,9 +3,11 @@ import { useMemo, useRef } from 'react';
 import { useLogTicks } from 'react-d3-utils';
 
 import { usePlotContext } from '../../hooks';
-import type { AxisChildProps, TickType } from '../../types';
 
 import { TicksLog } from './TicksLog';
+
+import type { AxisChildProps, TickType } from '../../types';
+
 
 export default function TopLogAxis({
   id,

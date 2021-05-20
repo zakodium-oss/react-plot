@@ -3,10 +3,11 @@ import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { RangeSeriesProps, RangeSeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import { useLegend } from './legendsContext';
+
+import type { RangeSeriesProps, RangeSeriesPointType } from '../types';
 
 interface RangeSeriesRenderProps {
   data: RangeSeriesPointType[];
