@@ -49,7 +49,7 @@ export default function Heading({
           style={{
             ...defaultSubtitleStyle,
             ...subtitleStyle,
-            transform: `translateY(${headingBbox.height}px)`,
+            transform: `translate(0, ${headingBbox.height})`,
           }}
           className={subtitleClass}
         >

@@ -11,7 +11,7 @@ import {
   Shape,
   Text,
 } from './components/Annotations/Annotation';
-import Axis from './components/Axis';
+import Axis from './components/Axis/Axis';
 import ParallelAxis from './components/Axis/ParallelAxis';
 import Legend from './components/Legend';
 import LineSeries from './components/LineSeries';

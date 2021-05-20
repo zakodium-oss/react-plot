@@ -1,5 +1,6 @@
 import { ScaleLinear } from 'd3-scale';
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
+import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
 interface CoordinatesXY {
   x1?: number;
@@ -9,7 +10,7 @@ interface CoordinatesXY {
 }
 
 export interface TickProps {
-  style: CSSProperties;
+  style?: CSSProperties;
   children?: ReactNode;
 
   line: CoordinatesXY;
@@ -23,12 +24,8 @@ export interface TickProps {
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
-  hidden: boolean;
-  ticks: number[];
-  scale: ScaleLinear<number, number, never>;
-  scientific?: boolean;
+  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
   hiddenSecondaryTicks?: boolean;
-
   getPositions: (
     y: number,
   ) => { line: CoordinatesXY; text: Omit<CoordinatesXY, 'x2' | 'y2'> };
@@ -36,40 +33,35 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
 
 export function Ticks(props: Omit<TicksProps, 'children'>) {
   const {
-    hidden,
-    ticks,
-    scale,
+    primaryTicks,
     getPositions,
-    scientific = true,
     hiddenSecondaryTicks = false,
     ...otherProps
   } = props;
-  if (hidden) return null;
-
   // Primary Ticks
-  let elements = ticks.map((tick) => {
-    const { line, text } = getPositions(scale(tick));
+  let elements = primaryTicks.map((tick) => {
+    const { line, text } = getPositions(tick.position);
     return (
-      <Tick key={tick} line={line} text={text} {...otherProps}>
-        {scientific ? tick.toExponential(2) : tick}
+      <Tick key={tick.position} line={line} text={text} {...otherProps}>
+        {tick.label}
       </Tick>
     );
   });
 
-  if (!hiddenSecondaryTicks) {
+  /*if (!hiddenSecondaryTicks) {
     // generate secondaryTicks according to the density of primaryTicks
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
-    const mainTicksDensity = range / ticks.length;
+    const mainTicksDensity = range / primaryTicks.length;
     const density = mainTicksDensity < 50 ? 5 : 10;
-    let secTicks = scale?.ticks(ticks.length * density) || [];
+    let secTicks = scale?.ticks(primaryTicks.length * density) || [];
 
     // calculate middle tick position ([0,1]=> middle tick == 0.5)
     let middleTick = 0;
     let secTicksPerInterval = 0;
-    if (ticks.length > 1) {
+    if (primaryTicks.length > 1) {
       let i = 0;
-      while (secTicks[i] < ticks[1]) {
-        while (secTicks[i] < ticks[0]) {
+      while (secTicks[i] < primaryTicks[1]) {
+        while (secTicks[i] < primaryTicks[0]) {
           i++;
           middleTick++;
         }
@@ -87,7 +79,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         middleTick--;
         let strokeHeight = middleTickEnabled && middleTick === 0 ? 1 : 0.6;
         // exclude the main ticks
-        if (ticks.includes(tick)) {
+        if (primaryTicks.includes(tick)) {
           middleTick = secTicksPerInterval / 2;
           return null;
         }
@@ -104,7 +96,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         );
       }) || [];
     elements = [...secElements, ...elements];
-  }
+  }*/
   return <>{elements}</>;
 }
 

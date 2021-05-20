@@ -8,7 +8,6 @@ import { Ticks } from './Ticks';
 
 export default function TopAxis({
   id,
-  displayGridLines,
   hidden = false,
   label,
   labelSpace,
@@ -20,7 +19,7 @@ export default function TopAxis({
   tickLength,
   hiddenSecondaryTicks,
 }: AxisChildProps) {
-  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const { axisContext, plotWidth } = usePlotContext();
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
@@ -34,33 +33,11 @@ export default function TopAxis({
   }, [scale, scientific, plotWidth]);
   const range = scale?.range() || [0, 0];
 
-  // Create gridlines
-  const gridlines = useMemo(() => {
-    if (!displayGridLines || !scale) return null;
-    return (
-      <g className="gridLines">
-        {ticks.map((val) => (
-          <line
-            key={val}
-            x1={scale(val)}
-            x2={scale(val)}
-            y1={plotHeight}
-            y2="0"
-            stroke="black"
-            strokeDasharray="2,2"
-            strokeOpacity={0.5}
-          />
-        ))}
-      </g>
-    );
-  }, [displayGridLines, ticks, scale, plotHeight]);
-
   const tickDirection = tickEmbedded ? 1 : -1;
   const tickLen = tickDirection * tickLength;
   const tickTextPosition = tickEmbedded ? -12 : -12 + tickLen;
   return (
     <g className="axis">
-      {gridlines}
       {!hidden && (
         <g className="ticks">
           <line x1={range[0]} x2={range[1]} stroke="black" />
@@ -69,7 +46,7 @@ export default function TopAxis({
             scale={scale}
             anchor="middle"
             hidden={hiddenTicks}
-            ticks={ticks}
+            primaryTicks={ticks}
             style={tickStyle}
             hiddenSecondaryTicks={hiddenSecondaryTicks}
             getPositions={(val) => ({

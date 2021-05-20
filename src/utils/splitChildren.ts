@@ -1,7 +1,7 @@
 import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 
 import { Annotations } from '../components/Annotations/Annotation';
-import Axis from '../components/Axis';
+import Axis from '../components/Axis/Axis';
 import ParallelAxis from '../components/Axis/ParallelAxis';
 import BarSeries from '../components/BarSeries';
 import Heading from '../components/Heading';

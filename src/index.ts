@@ -1,7 +1,7 @@
 import Plot, { PlotProps } from './Plot';
 import PlotObject from './PlotObject';
 import * as Annotation from './components/Annotations/Annotation';
-import Axis from './components/Axis';
+import Axis from './components/Axis/Axis';
 import ParallelAxis from './components/Axis/ParallelAxis';
 import BarSeries from './components/BarSeries';
 import Heading from './components/Heading';

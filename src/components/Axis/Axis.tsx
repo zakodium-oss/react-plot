@@ -1,16 +1,12 @@
+import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { useEffect } from 'react';
 
-import { useDispatchContext } from '../../hooks';
-import type { AxisChildProps, AxisProps } from '../../types';
+import { useDispatchContext, usePlotContext } from '../../hooks';
+import type { AxisProps } from '../../types';
 
-import BottomAxis from './BottomAxis';
-import BottomLogAxis from './BottomLogAxis';
-import LeftAxis from './LeftAxis';
-import LeftLogAxis from './LeftLogAxis';
-import RightAxis from './RightAxis';
-import RightLogAxis from './RightLogAxis';
-import TopAxis from './TopAxis';
-import TopLogAxis from './TopLogAxis';
+import LinearAxis from './LinearAxis';
+import LogAxis from './LogAxis';
+import { AxisChildProps } from './types';
 
 export default function Axis({
   id,
@@ -36,6 +32,7 @@ export default function Axis({
   hiddenSecondaryTicks,
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
   useEffect(() => {
@@ -81,39 +78,35 @@ export default function Axis({
     scale,
   ]);
 
+  const currentAxis = axisContext[id || xY];
+  if (!currentAxis) return null;
+
   const childProps: AxisChildProps = {
-    id: id || xY,
-    displayGridLines,
     hidden,
+    plotWidth,
+    plotHeight,
+    displayGridLines,
     label,
     labelSpace,
     labelStyle,
-    fontSize,
-    tickStyle,
-    hiddenTicks,
     tickEmbedded,
-    tickLength,
-    hiddenSecondaryTicks,
+    position,
+    scientific: currentAxis.scientific,
   };
 
-  switch (`${position}-${scale}`) {
-    case 'top-log':
-      return <TopLogAxis {...childProps} />;
-    case 'top-linear':
-      return <TopAxis {...childProps} />;
-    case 'bottom-log':
-      return <BottomLogAxis {...childProps} />;
-    case 'bottom-linear':
-      return <BottomAxis {...childProps} />;
-    case 'left-log':
-      return <LeftLogAxis {...childProps} />;
-    case 'left-linear':
-      return <LeftAxis {...childProps} />;
-    case 'right-log':
-      return <RightLogAxis {...childProps} />;
-    case 'right-linear':
-      return <RightAxis {...childProps} />;
-    default:
-      return null;
+  if (scale === 'linear') {
+    return (
+      <LinearAxis
+        {...childProps}
+        scale={currentAxis.scale as ScaleLinear<number, number>}
+      />
+    );
+  } else {
+    return (
+      <LogAxis
+        {...childProps}
+        scale={currentAxis.scale as ScaleLogarithmic<number, number>}
+      />
+    );
   }
 }

@@ -9,7 +9,6 @@ import { TicksLog } from './TicksLog';
 
 export default function BottomLogAxis({
   id,
-  displayGridLines,
   hidden = false,
   label,
   labelSpace,
@@ -35,33 +34,11 @@ export default function BottomLogAxis({
   });
   const range = scale?.range() || [0, 0];
 
-  // Create gridlines
-  const gridlines = useMemo(() => {
-    if (!displayGridLines || !scale) return null;
-    return (
-      <g className="gridLines">
-        {ticks.map(({ position }) => (
-          <line
-            key={position}
-            x1={position}
-            x2={position}
-            y1={plotHeight}
-            y2="0"
-            stroke="black"
-            strokeDasharray="2,2"
-            strokeOpacity={0.5}
-          />
-        ))}
-      </g>
-    );
-  }, [displayGridLines, ticks, scale, plotHeight]);
-
   const tickDirection = tickEmbedded ? -1 : 1;
   const tickLen = tickDirection * tickLength;
   const tickTextPosition = tickEmbedded ? 16 : 16 + tickLen;
   return (
     <g className="axis">
-      {gridlines}
       {!hidden && (
         <g className="ticks" transform={`translate(0, ${plotHeight})`}>
           <line x1={range[0]} x2={range[1]} stroke="black" />

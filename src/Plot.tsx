@@ -11,6 +11,7 @@ import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
+import { sizeContext, useSize } from './utils/sizeContext';
 import { splitChildren } from './utils/splitChildren';
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
@@ -20,6 +21,9 @@ const initialState: State = {
 };
 
 const defaultSvgStyle: CSSProperties = {
+  overflow: 'visible',
+  margin: '5em',
+  border: '2px solid gold',
   fontFamily: 'Arial, Helvetica, sans-serif',
 };
 
@@ -65,7 +69,7 @@ export default function Plot(props: PlotProps) {
 
   // Bounding boxes used to adapt viewport size.
   const headingBbox = useBBoxObserver();
-  const topAxisBbox = useBBoxObserver();
+  const [topAxisSize, setTopAxisSize] = useSize();
   const rightAxisBbox = useBBoxObserver();
   const bottomAxisBbox = useBBoxObserver();
   const leftAxisBbox = useBBoxObserver();
@@ -79,13 +83,12 @@ export default function Plot(props: PlotProps) {
     height -
     top -
     headingBbox.height -
-    topAxisBbox.height -
+    topAxisSize -
     bottom -
     bottomAxisBbox.height;
 
   const leftOffset = left + leftAxisBbox.width;
-  const topOffset =
-    top + (topHeading ? headingBbox.height : 0) + topAxisBbox.height;
+  const topOffset = top + (topHeading ? headingBbox.height : 0) + topAxisSize;
 
   // Set scales
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
@@ -153,10 +156,12 @@ export default function Plot(props: PlotProps) {
                 {seriesAndAnnotations}
               </g>
 
-              <g ref={topAxisBbox.ref}>{topAxis}</g>
-              <g ref={rightAxisBbox.ref}>{rightAxis}</g>
-              <g ref={bottomAxisBbox.ref}>{bottomAxis}</g>
-              <g ref={leftAxisBbox.ref}>{leftAxis}</g>
+              <sizeContext.Provider value={setTopAxisSize}>
+                {topAxis}
+              </sizeContext.Provider>
+              <g>{rightAxis}</g>
+              <g>{bottomAxis}</g>
+              <g>{leftAxis}</g>
 
               {onClick || onMouseMove ? (
                 <Tracking
