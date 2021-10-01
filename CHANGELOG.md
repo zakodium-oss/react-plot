@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.10.2](https://www.github.com/zakodium/react-plot/compare/v0.10.1...v0.10.2) (2021-10-01)
+
+
+### Bug Fixes
+
+* update dependencies and add react as peer dependency ([f935942](https://www.github.com/zakodium/react-plot/commit/f9359429a0498df88f733e318aa32068680116a8))
+
 ### [0.10.1](https://www.github.com/zakodium/react-plot/compare/v0.10.0...v0.10.1) (2021-05-07)
 
 
