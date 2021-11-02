@@ -11,10 +11,7 @@ export interface GroupProps {
 
 export default function Group(props: GroupProps) {
   const { x: oldX, y: oldY, children } = props;
-  const { x, y } = usePosition({
-    x: oldX,
-    y: oldY,
-  });
+  const { x, y } = usePosition({ x: oldX, y: oldY });
 
   return <g transform={`translate(${x}, ${y})`}>{children}</g>;
 }
