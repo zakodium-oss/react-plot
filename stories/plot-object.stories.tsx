@@ -110,6 +110,13 @@ export function Control() {
         r={0.2}
         style={{ stroke: 'purple', fill: 'purple' }}
       />
+      <Annotation.Line
+        x1={2}
+        x2={3}
+        y1={2}
+        y2={3}
+        style={{ stroke: 'purple', strokeWidth: '2px' }}
+      />
     </PlotObject>
   );
 }
