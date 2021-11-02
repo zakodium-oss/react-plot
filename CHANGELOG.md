@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://www.github.com/zakodium/react-plot/compare/v0.10.2...v0.11.0) (2021-11-02)
+
+
+### Features
+
+* add relative position to line annotation ([#195](https://www.github.com/zakodium/react-plot/issues/195)) ([f1ce10c](https://www.github.com/zakodium/react-plot/commit/f1ce10c2d0e1dcc795eb2e8864624c309e003dbb))
+
 ### [0.10.2](https://www.github.com/zakodium/react-plot/compare/v0.10.1...v0.10.2) (2021-10-01)
 
 
