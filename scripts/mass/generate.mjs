@@ -22,13 +22,18 @@ const isotopicDistributionProfile = new IsotopicDistribution(mf, {
   maxLines: 1e5,
 });
 result.profile = xyToXYObject(
-  isotopicDistributionProfile.getGaussian({ maxLength: 1e8 }),
+  isotopicDistributionProfile.getGaussian({
+    maxLength: 1e8,
+    maxValue: 100,
+  }),
 );
+
 // we get the best peaks
 const isotopicDistribution = new IsotopicDistribution(mf, { fwhm: 0 });
-result.centroid = xyToXYObject(isotopicDistribution.getXY());
 
-const peaks = isotopicDistribution.getDistribution().array;
+const peaks = isotopicDistribution.getPeaks({ maxValue: 100 });
+result.centroid = peaks.map((peak) => ({ x: peak.x, y: peak.y }));
+
 result.bestPeaks = getBestPeaks(peaks).map((peak) => ({
   x: peak.x,
   y: peak.y,

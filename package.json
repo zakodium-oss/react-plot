@@ -67,7 +67,7 @@
     "@types/react": "^17.0.5",
     "@zakodium/eslint-config": "^3.0.3",
     "eslint": "^7.32.0",
-    "mass-tools": "^0.60.16",
+    "mass-tools": "^0.60.17",
     "ml-dataset-iris": "^1.2.1",
     "ml-pca": "^4.0.2",
     "ml-regression-simple-linear": "^2.0.3",
