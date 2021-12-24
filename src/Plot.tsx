@@ -10,10 +10,10 @@ import TransparentRect from './components/TransparentRect';
 import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
+import type { PlotProps, ReducerActions, State } from './types';
 import { sizeContext, useSize } from './utils/sizeContext';
 import { splitChildren } from './utils/splitChildren';
 
-import type { PlotProps, ReducerActions, State } from './types';
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
 const initialState: State = {

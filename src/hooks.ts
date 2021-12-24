@@ -2,14 +2,13 @@ import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear, scaleLog } from 'd3-scale';
 import { createContext, useContext, useMemo } from 'react';
 
-import { validateAxis } from './utils';
-
 import type {
   AxisContextType,
   PlotContextType,
   ReducerActions,
   State,
 } from './types';
+import { validateAxis } from './utils';
 
 interface DispatchContextType {
   dispatch: ((action: ReducerActions) => void) | null;

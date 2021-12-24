@@ -1,6 +1,6 @@
+import type { ReducerActions, State } from './types';
 import { validatePosition } from './utils';
 
-import type { ReducerActions, State } from './types';
 
 export function reducer(state: State, action: ReducerActions) {
   switch (action.type) {

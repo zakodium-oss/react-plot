@@ -3,12 +3,11 @@ import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-
+import type { Horizontal, LegendProps, Vertical } from '../types';
 
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
-import type { Horizontal, LegendProps, Vertical } from '../types';
 
 type Positions = { [K in Vertical | Horizontal]?: number };
 interface ValidatedPosition {

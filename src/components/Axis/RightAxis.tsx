@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
+import type { AxisChildProps } from '../../types';
 import VerticalText from '../VerticalText';
 
 import { Ticks } from './Ticks';
 
-import type { AxisChildProps } from '../../types';
 
 export default function RightAxis({
   id,

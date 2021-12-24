@@ -1,4 +1,3 @@
-import { ScaleLinear } from 'd3-scale';
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
 import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
@@ -36,7 +35,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
   const {
     primaryTicks,
     getPositions,
-    hiddenSecondaryTicks = false,
+    // hiddenSecondaryTicks = false,
     ...otherProps
   } = props;
   // Primary Ticks

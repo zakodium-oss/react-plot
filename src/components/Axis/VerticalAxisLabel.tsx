@@ -1,15 +1,13 @@
-import { CSSProperties, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { AlignGroup } from 'react-d3-utils';
 
 interface VerticalAxisLabelProps {
   plotWidth: number;
   label: ReactNode;
-  labelSpace: number;
-  labelStyle: CSSProperties;
 }
 
 export default function VerticalAxisLabel(props: VerticalAxisLabelProps) {
-  const { plotWidth, label, labelStyle } = props;
+  const { plotWidth, label } = props;
   return (
     <AlignGroup
       x={0}

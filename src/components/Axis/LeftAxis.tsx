@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
 
 import { usePlotContext } from '../../hooks';
+import type { AxisChildProps } from '../../types';
 import VerticalText from '../VerticalText';
 
 import { Ticks } from './Ticks';
-
-import type { AxisChildProps } from '../../types';
 
 export default function LeftAxis({
   id,
@@ -20,7 +19,7 @@ export default function LeftAxis({
   tickLength,
   hiddenSecondaryTicks,
 }: AxisChildProps) {
-  const { axisContext, plotHeight, plotWidth } = usePlotContext();
+  const { axisContext, plotHeight } = usePlotContext();
 
   // Calculates the main axis values
   const { scale, scientific } = axisContext[id] || {};
