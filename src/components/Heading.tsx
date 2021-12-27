@@ -46,10 +46,10 @@ export default function Heading({
       </text>
       {subtitle && (
         <text
+          transform={`translate(0, ${headingBbox.height})`}
           style={{
             ...defaultSubtitleStyle,
             ...subtitleStyle,
-            transform: `translate(0, ${headingBbox.height})`,
           }}
           className={subtitleClass}
         >

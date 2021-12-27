@@ -6,14 +6,11 @@ import { calculateTicksNumber } from '../../utils';
 
 import { Ticks } from './Ticks';
 
-
 export default function TopAxis({
   id,
   hidden = false,
   label,
-  labelSpace,
   labelStyle,
-  fontSize,
   tickStyle,
   hiddenTicks = false,
   tickEmbedded,
@@ -58,13 +55,7 @@ export default function TopAxis({
         </g>
       )}
       {label && !hidden && (
-        <text
-          x={plotWidth / 2}
-          y={0 - labelSpace - fontSize}
-          fontSize={fontSize}
-          textAnchor="middle"
-          style={labelStyle}
-        >
+        <text x={plotWidth / 2} y={0} textAnchor="middle" style={labelStyle}>
           {label}
         </text>
       )}

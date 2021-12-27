@@ -15,7 +15,6 @@ import { RectangleProps } from './components/Annotations/Rectangle';
 import { ShapeProps } from './components/Annotations/Shape';
 import { TextProps } from './components/Annotations/Text';
 
-
 export type Shape =
   | 'circle'
   | 'square'
@@ -155,17 +154,38 @@ export interface RangeSeriesProps<T extends RangeSeriesPointType>
 
 export interface AxisChildProps {
   id: string;
-  fontSize?: number;
-  label?: ReactNode;
-  displayGridLines?: boolean;
-  labelStyle?: CSSProperties;
-  tickStyle?: CSSProperties;
-  tickEmbedded?: boolean;
-  labelSpace?: number;
+
+  /**
+   * Hide all axis elements.
+   */
   hidden?: boolean;
+
+  /**
+   * Hide the line.
+   */
+  hiddenLine?: boolean;
+  lineStyle?: CSSProperties;
+
+  label?: ReactNode;
+  labelStyle?: CSSProperties;
+
+  displayPrimaryGridLines?: boolean;
+  primaryGridLineStyle?: CSSProperties;
+
+  displaySecondaryGridLines?: boolean;
+  secondaryGridLineStyle?: CSSProperties;
+
   hiddenTicks?: boolean;
-  tickLength?: number;
-  hiddenSecondaryTicks?: boolean;
+  tickPosition?: 'inner' | 'outer' | 'center';
+  // TODO: Precise this.
+  tickLabelFormat?: () => string;
+  tickLabelStyle?: CSSProperties;
+
+  primaryTickLength?: number;
+  primaryTickStyle?: CSSProperties;
+
+  secondaryTickLength?: number;
+  secondaryTickStyle?: CSSProperties;
 }
 
 export interface AxisParentProps {
@@ -181,7 +201,7 @@ export interface AxisParentProps {
   scale?: 'linear' | 'log';
 }
 export type AxisProps = AxisChildProps & AxisParentProps;
-export type ParallelAxisProps = Omit<AxisChildProps, 'displayGridLines'>;
+export type ParallelAxisProps = Omit<AxisChildProps, 'displayPrimaryGridLines'>;
 
 export interface HeadingProps {
   title: string;
@@ -291,7 +311,7 @@ export interface SeriesType {
 }
 
 export interface AxisContextGeneric<
-  Scale extends ScaleContinuousNumeric<number, number>
+  Scale extends ScaleContinuousNumeric<number, number>,
 > {
   scale: Scale;
   scientific: boolean;

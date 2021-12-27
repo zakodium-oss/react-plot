@@ -28,6 +28,7 @@ export default function LinearAxis(props: LinearAxisProps) {
 
   const AxisComponent =
     direction === 'vertical' ? VerticalAxis : HorizontalAxis;
+
   return (
     <AxisComponent
       axisRef={axisRef}

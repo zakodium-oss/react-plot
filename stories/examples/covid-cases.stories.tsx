@@ -24,14 +24,8 @@ export function Covid19Cases() {
         yAxis="y"
         lineStyle={{ stroke: 'red', strokeWidth: 2 }}
       />
-      <Axis id="x" position="bottom" label="Week" labelSpace={30} />
-      <Axis
-        id="y"
-        position="left"
-        label="Number of cases"
-        labelSpace={68}
-        paddingEnd={0.1}
-      />
+      <Axis id="x" position="bottom" label="Week" />
+      <Axis id="y" position="left" label="Number of cases" paddingEnd={0.1} />
     </Plot>
   );
 }

@@ -1,21 +1,24 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { AlignGroup } from 'react-d3-utils';
 
 interface VerticalAxisLabelProps {
-  plotWidth: number;
+  plotHeight: number;
   label: ReactNode;
+  labelStyle: CSSProperties;
 }
 
 export default function VerticalAxisLabel(props: VerticalAxisLabelProps) {
-  const { plotWidth, label } = props;
+  const { plotHeight, label, labelStyle } = props;
   return (
     <AlignGroup
       x={0}
-      y={plotWidth / 2}
+      y={plotHeight / 2}
       horizontalAlign="middle"
       verticalAlign="middle"
     >
-      {label}
+      <text textAnchor="middle" style={labelStyle}>
+        {label}
+      </text>
     </AlignGroup>
   );
 }

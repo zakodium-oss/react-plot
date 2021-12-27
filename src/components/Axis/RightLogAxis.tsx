@@ -8,14 +8,11 @@ import VerticalText from '../VerticalText';
 
 import { TicksLog } from './TicksLog';
 
-
 export default function RightLogAxis({
   id,
   hidden = false,
   label,
-  labelSpace,
   labelStyle,
-  fontSize,
   tickStyle,
   hiddenTicks = false,
   tickEmbedded,
@@ -60,12 +57,11 @@ export default function RightLogAxis({
       {label && !hidden && (
         <VerticalText
           label={label}
-          dy={fontSize}
-          fontSize={fontSize}
+          dy={0}
           style={labelStyle}
-          transform={`translate(${
-            plotWidth + fontSize + labelSpace + (scientific ? 14 : 0)
-          }, ${plotHeight / 2})`}
+          transform={`translate(${plotWidth + (scientific ? 14 : 0)}, ${
+            plotHeight / 2
+          })`}
         />
       )}
     </g>

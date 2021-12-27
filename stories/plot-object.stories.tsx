@@ -40,7 +40,6 @@ export function Control() {
         type: 'main',
         label: 'Logscale is cool',
         position: 'right',
-        labelSpace: 40,
         min: 0.5,
         max: 180.5,
         scale: 'log',

@@ -10,9 +10,7 @@ export default function LeftAxis({
   id,
   hidden = false,
   label,
-  labelSpace,
   labelStyle,
-  fontSize,
   tickStyle,
   hiddenTicks = false,
   tickEmbedded,
@@ -51,11 +49,10 @@ export default function LeftAxis({
       {label && !hidden && (
         <VerticalText
           label={label}
-          transform={`translate(${
-            0 - fontSize - labelSpace - (scientific ? 14 : 0)
-          }, ${plotHeight / 2})`}
-          dy={fontSize}
-          fontSize={fontSize}
+          transform={`translate(${0 - (scientific ? 14 : 0)}, ${
+            plotHeight / 2
+          })`}
+          dy={0}
           style={labelStyle}
         />
       )}

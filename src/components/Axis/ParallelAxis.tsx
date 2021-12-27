@@ -32,8 +32,6 @@ function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
 
 export default function ParallelAxis({
   id,
-  fontSize = 16,
-  labelSpace = 24,
   hidden = false,
   tickStyle = {},
   tickLength = 6,
@@ -56,8 +54,6 @@ export default function ParallelAxis({
   const { type } = parentAxis;
   const childProps: ParallelAxisProps = {
     id,
-    fontSize,
-    labelSpace,
     hidden,
     tickStyle,
     tickLength,

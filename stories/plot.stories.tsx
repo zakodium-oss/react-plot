@@ -26,7 +26,7 @@ export default {
       defaultValue: 'Vg = 5V',
       control: 'text',
     },
-    displayGridLines: {
+    displayPrimaryGridLines: {
       defaultValue: true,
       control: 'boolean',
     },
@@ -57,7 +57,7 @@ export function Control(props) {
   const {
     displayPlot,
     plotLabel,
-    displayGridLines,
+    displayPrimaryGridLines,
     width,
     height,
     headingPosition,
@@ -126,7 +126,7 @@ export function Control(props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        displayGridLines={displayGridLines}
+        displayPrimaryGridLines={displayPrimaryGridLines}
         hidden={hidden}
         flip={xFlip}
         hiddenTicks={hiddenTicks}
@@ -135,8 +135,7 @@ export function Control(props) {
         id="y"
         position="left"
         label="Drain current [mA]"
-        displayGridLines={displayGridLines}
-        labelSpace={40}
+        displayPrimaryGridLines={displayPrimaryGridLines}
         hidden={hidden}
         flip={yFlip}
         hiddenTicks={hiddenTicks}
@@ -188,18 +187,15 @@ export function ScientificNotation() {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        displayGridLines
+        displayPrimaryGridLines
         max={6.1 / factor}
-        tickStyle={{ fontSize: '0.8rem' }}
       />
       <Axis
         id="y"
         position="left"
         label="Drain current [mA]"
-        displayGridLines
-        labelSpace={50}
+        displayPrimaryGridLines
         max={6.1 * factor}
-        tickStyle={{ fontSize: '0.8rem' }}
       />
       <Legend position="right" />
     </Plot>

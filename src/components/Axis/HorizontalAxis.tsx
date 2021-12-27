@@ -9,15 +9,15 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     hidden,
     plotWidth,
     plotHeight,
-    displayGridLines,
+    displayPrimaryGridLines,
     label,
-    labelSpace,
     labelStyle,
     tickEmbedded,
     axisRef,
     primaryTicks,
     position,
   } = props;
+
   const isBottom = position === 'bottom';
 
   const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
@@ -29,15 +29,20 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     };
   }
 
-  const gridLinesElement = displayGridLines ? (
+  const gridLinesElement = displayPrimaryGridLines ? (
     <HorizontalAxisGridLines
+      position={position}
       plotHeight={plotHeight}
       primaryTicks={primaryTicks}
     />
   ) : null;
 
   const primaryTicksElement = !hidden ? (
-    <Ticks primaryTicks={primaryTicks} getPositions={getTickPosition} />
+    <Ticks
+      anchor="middle"
+      primaryTicks={primaryTicks}
+      getPositions={getTickPosition}
+    />
   ) : null;
 
   const axisLineElement = !hidden ? (
@@ -49,7 +54,6 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       <HorizontalAxisLabel
         plotWidth={plotWidth}
         label={label}
-        labelSpace={labelSpace}
         labelStyle={labelStyle}
       />
     ) : null;

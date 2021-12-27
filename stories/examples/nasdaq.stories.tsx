@@ -75,13 +75,12 @@ export function NasdaqExample(props: Props) {
           yAxis="y"
           lineStyle={{ stroke: 'green', strokeWidth: 1.5 }}
         />
-        <Axis id="x" position="bottom" label="Timestamp (s)" labelSpace={40} />
+        <Axis id="x" position="bottom" label="Timestamp (s)" />
         <Axis
           id="y"
           position="left"
           label="Nasdaq value [USD]"
-          labelSpace={50}
-          displayGridLines
+          displayPrimaryGridLines
           paddingStart={0.1}
           paddingEnd={0.1}
         />

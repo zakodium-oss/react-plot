@@ -32,12 +32,11 @@ export function BitcoinPrice() {
         errorBarsCapSize={8}
         errorBarsCapStyle={{ stroke: 'blue', strokeWidth: 1.5 }}
       />
-      <Axis id="x" position="bottom" label="Days" labelSpace={30} />
+      <Axis id="x" position="bottom" label="Days" />
       <Axis
         id="y"
         position="left"
         label="$$$"
-        labelSpace={68}
         paddingStart={0.1}
         paddingEnd={0.1}
       />

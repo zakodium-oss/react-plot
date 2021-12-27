@@ -65,19 +65,12 @@ export function Absorbance() {
         lineStyle={{ stroke: 'red' }}
       />
 
-      <Axis
-        id="x"
-        position="bottom"
-        label="Wavelength [cm-1]"
-        labelSpace={40}
-        flip
-      />
+      <Axis id="x" position="bottom" label="Wavelength [cm-1]" flip />
       <Axis
         id="y"
         position="left"
         label="Absorbance"
-        labelSpace={50}
-        displayGridLines
+        displayPrimaryGridLines
         paddingStart={0.02}
         paddingEnd={0.1}
       />

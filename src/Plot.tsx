@@ -11,9 +11,7 @@ import { LegendProvider } from './components/legendsContext';
 import { PlotContext, DispatchContext, useAxisContext } from './hooks';
 import { reducer } from './plotReducer';
 import type { PlotProps, ReducerActions, State } from './types';
-import { sizeContext, useSize } from './utils/sizeContext';
 import { splitChildren } from './utils/splitChildren';
-
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
 const initialState: State = {
@@ -22,6 +20,7 @@ const initialState: State = {
 };
 
 const defaultSvgStyle: CSSProperties = {
+  // TODO: remove those three.
   overflow: 'visible',
   margin: '5em',
   border: '2px solid gold',
@@ -70,7 +69,7 @@ export default function Plot(props: PlotProps) {
 
   // Bounding boxes used to adapt viewport size.
   const headingBbox = useBBoxObserver();
-  const [topAxisSize, setTopAxisSize] = useSize();
+  const topAxisBbox = useBBoxObserver();
   const rightAxisBbox = useBBoxObserver();
   const bottomAxisBbox = useBBoxObserver();
   const leftAxisBbox = useBBoxObserver();
@@ -84,12 +83,13 @@ export default function Plot(props: PlotProps) {
     height -
     top -
     headingBbox.height -
-    topAxisSize -
+    topAxisBbox.height -
     bottom -
     bottomAxisBbox.height;
 
   const leftOffset = left + leftAxisBbox.width;
-  const topOffset = top + (topHeading ? headingBbox.height : 0) + topAxisSize;
+  const topOffset =
+    top + (topHeading ? headingBbox.height : 0) + topAxisBbox.height;
 
   // Set scales
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
@@ -157,9 +157,7 @@ export default function Plot(props: PlotProps) {
                 {seriesAndAnnotations}
               </g>
 
-              <sizeContext.Provider value={setTopAxisSize}>
-                {topAxis}
-              </sizeContext.Provider>
+              <g>{topAxis}</g>
               <g>{rightAxis}</g>
               <g>{bottomAxis}</g>
               <g>{leftAxis}</g>

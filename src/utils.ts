@@ -95,7 +95,6 @@ export function calculateTicksNumber(
   scientific: boolean,
   domain: number[] = [0, 1],
 ): number {
-  const fontSizeDefault = 16;
   const scientificTickLength = 7;
   let tickLength = `${Math.trunc(domain[1])}`.length;
   // if domain too small => tickLength+2 for decimal values
@@ -103,8 +102,8 @@ export function calculateTicksNumber(
     domain[1] - domain[0] < plotWidth * 0.05 ? tickLength + 2 : tickLength;
 
   const ticksNumber = scientific
-    ? plotWidth / (scientificTickLength * fontSizeDefault)
-    : plotWidth / (tickLength * fontSizeDefault);
+    ? plotWidth / (scientificTickLength * 16)
+    : plotWidth / (tickLength * 16);
 
   return ticksNumber;
 }

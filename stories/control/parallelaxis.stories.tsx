@@ -39,7 +39,7 @@ export function Control(props: ParallelAxisProps) {
     <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" labelSpace={35} label="Y" />
+      <Axis id="y" position="left" label="Y" />
       <ParallelAxis {...props} />
     </Plot>
   );

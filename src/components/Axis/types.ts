@@ -7,9 +7,8 @@ interface AxisCommonProps {
   hidden: boolean;
   plotWidth: number;
   plotHeight: number;
-  displayGridLines: boolean;
+  displayPrimaryGridLines: boolean;
   label: ReactNode;
-  labelSpace: number;
   labelStyle: CSSProperties;
   tickEmbedded: boolean;
   position: Horizontal | Vertical;

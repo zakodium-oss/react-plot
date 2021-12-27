@@ -64,18 +64,15 @@ const Example = () => (
       id="x"
       position="bottom"
       label="Drain voltage [V]"
-      displayGridLines={true}
+      displayPrimaryGridLines
       max={6.1 / factor}
-      tickStyle={{ fontSize: '0.8rem' }}
     />
     <Axis
       id="y"
       position="left"
       label="Drain current [mA]"
-      displayGridLines={true}
-      labelSpace={50}
+      displayPrimaryGridLines
       max={6.1 * factor}
-      tickStyle={{ fontSize: '0.8rem' }}
     />
     <Legend position="right" />
   </Plot>

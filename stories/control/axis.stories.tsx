@@ -1,48 +1,16 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, PlotProps } from '../../src';
+import { Axis, AxisProps, LineSeries, Plot, PlotProps } from '../../src';
 
 export default {
   title: 'API/Axis',
   component: Axis,
-  argTypes: {
-    label: {
-      control: 'text',
-      defaultValue: 'Axis label',
-    },
-    paddingStart: {
-      control: 'number',
-      defaultValue: 0.1,
-    },
-    paddingEnd: {
-      control: 'number',
-      defaultValue: 0.1,
-    },
-    flip: {
-      control: 'boolean',
-      defaultValue: false,
-    },
-    fontSize: {
-      control: 'number',
-      defaultValue: 8,
-    },
-    min: {
-      control: 'number',
-      defaultValue: 0,
-    },
-    max: {
-      control: 'number',
-      defaultValue: 20,
-    },
-    position: {
-      table: {
-        disable: true,
-      },
-    },
-    id: {
-      table: {
-        disable: true,
-      },
+  args: {
+    label: 'Axis label',
+  },
+  parameters: {
+    controls: {
+      exclude: ['id', 'position'],
     },
   },
 } as Meta;
@@ -70,15 +38,7 @@ const data = [
   },
 ];
 
-interface AxisControlProps {
-  label: string;
-  paddingStart: number;
-  paddingEnd: number;
-  flip: boolean;
-  fontSize: number;
-  min: number;
-  max: number;
-}
+type AxisControlProps = Omit<AxisProps, 'id' | 'position'>;
 
 const plot: Omit<PlotProps, 'children'> = {
   width: 900,
@@ -88,59 +48,42 @@ const plot: Omit<PlotProps, 'children'> = {
   },
 };
 
-function getProps(args: AxisControlProps) {
-  const { label, ...other } = args;
-
-  return {
-    label,
-    args: other,
-  };
-}
-
 export function AxisLeftControl(props: AxisControlProps) {
-  const { args, label } = getProps(props);
-
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
       <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="left" label={label} {...args} />
+      <Axis id="x" position="left" {...props} />
     </Plot>
   );
 }
 
 export function AxisBottomControl(props: AxisControlProps) {
-  const { args, label } = getProps(props);
-
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
-      <Axis id="y" position="bottom" label={label} {...args} />
+      <Axis id="y" position="bottom" {...props} />
       <Axis id="x" position="left" label="Label" />
     </Plot>
   );
 }
 
 export function AxisRightControl(props: AxisControlProps) {
-  const { args, label } = getProps(props);
-
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="y" yAxis="x" />
       <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="right" label={label} {...args} />
+      <Axis id="x" position="right" {...props} />
     </Plot>
   );
 }
 
 export function AxisTopControl(props: AxisControlProps) {
-  const { args, label } = getProps(props);
-
   return (
     <Plot {...plot}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="y" position="left" label="Label" />
-      <Axis id="x" position="top" label={label} {...args} />
+      <Axis id="x" position="top" {...props} />
     </Plot>
   );
 }

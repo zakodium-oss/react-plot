@@ -7,15 +7,11 @@ import type { AxisChildProps, TickType } from '../../types';
 
 import { TicksLog } from './TicksLog';
 
-
-
 export default function BottomLogAxis({
   id,
   hidden = false,
   label,
-  labelSpace,
   labelStyle,
-  fontSize,
   tickStyle,
   hiddenTicks = false,
   tickEmbedded,
@@ -60,8 +56,7 @@ export default function BottomLogAxis({
       {label && !hidden && (
         <text
           x={plotWidth / 2}
-          y={plotHeight + labelSpace + fontSize}
-          fontSize={fontSize}
+          y={plotHeight}
           textAnchor="middle"
           style={labelStyle}
         >

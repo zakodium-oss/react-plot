@@ -8,7 +8,6 @@ import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
 import { AxisChildProps } from './types';
 
-
 export default function Axis({
   id,
   position,
@@ -21,9 +20,7 @@ export default function Axis({
 
   // children props
   label,
-  fontSize = 16,
-  labelSpace = 24,
-  displayGridLines,
+  displayPrimaryGridLines,
   labelStyle,
   hidden = false,
   tickStyle = {},
@@ -86,9 +83,8 @@ export default function Axis({
     hidden,
     plotWidth,
     plotHeight,
-    displayGridLines,
+    displayPrimaryGridLines,
     label,
-    labelSpace,
     labelStyle,
     tickEmbedded,
     position,

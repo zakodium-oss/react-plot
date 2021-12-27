@@ -57,7 +57,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
           />
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
-        <Axis id="y" position="left" labelSpace={65} />
+        <Axis id="y" position="left" />
         {closest && (
           <Annotations>
             {Object.entries(closest).map(([id, info]) => (
