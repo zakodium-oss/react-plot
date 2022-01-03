@@ -1,3 +1,8 @@
+import { useContext } from 'react';
+import { useBBoxObserver } from 'react-d3-utils';
+
+import { bboxContext } from '../../bboxContext';
+
 import HorizontalAxisGridLines from './HorizontalAxisGridLines';
 import HorizontalAxisLabel from './HorizontalAxisLabel';
 import HorizontalAxisLine from './HorizontalAxisLine';
@@ -22,10 +27,16 @@ export default function HorizontalAxis(props: AxisRendererProps) {
 
   const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
 
+  const ticks = useBBoxObserver();
+
   function getTickPosition(value: number) {
     return {
-      line: { x1: value, x2: value, y2: tickEmbedded ? -5 : 5 },
-      text: { x1: value, y1: 16 },
+      line: {
+        x1: value,
+        x2: value,
+        y2: (tickEmbedded && isBottom) || !isBottom ? -5 : 5,
+      },
+      text: { x1: value, y1: isBottom ? 16 : -12 },
     };
   }
 
@@ -58,12 +69,16 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       />
     ) : null;
 
+  const bboxRef = useContext(bboxContext);
+
   return (
-    <g ref={axisRef} transform={transform}>
+    <g transform={transform}>
       {gridLinesElement}
-      {primaryTicksElement}
-      {axisLineElement}
-      {labelElement}
+      <g ref={bboxRef}>
+        <g ref={ticks.ref}>{primaryTicksElement}</g>
+        <g ref={axisRef}>{axisLineElement}</g>
+        <g transform={`translate(0, ${ticks.height})`}>{labelElement}</g>
+      </g>
     </g>
   );
 }

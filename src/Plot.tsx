@@ -4,6 +4,7 @@ import { produce } from 'immer';
 import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
+import { bboxContext } from './bboxContext';
 import MarkerDefs from './components/Annotations/MarkerDefs';
 import Tracking from './components/Tracking';
 import TransparentRect from './components/TransparentRect';
@@ -157,9 +158,16 @@ export default function Plot(props: PlotProps) {
                 {seriesAndAnnotations}
               </g>
 
-              <g>{topAxis}</g>
+              <bboxContext.Provider value={topAxisBbox.ref}>
+                <g>{topAxis}</g>
+              </bboxContext.Provider>
+
               <g>{rightAxis}</g>
-              <g>{bottomAxis}</g>
+
+              <bboxContext.Provider value={bottomAxisBbox.ref}>
+                <g>{bottomAxis}</g>
+              </bboxContext.Provider>
+
               <g>{leftAxis}</g>
 
               {onClick || onMouseMove ? (

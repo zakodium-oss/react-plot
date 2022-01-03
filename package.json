@@ -63,7 +63,7 @@
     "@types/d3-shape": "^3.0.2",
     "@types/react": "^17.0.38",
     "@zakodium/eslint-config": "^5.1.0",
-    "eslint": "^8.5.0",
+    "eslint": "^8.6.0",
     "mass-tools": "^0.60.17",
     "ml-dataset-iris": "^1.2.1",
     "ml-pca": "^4.0.2",
