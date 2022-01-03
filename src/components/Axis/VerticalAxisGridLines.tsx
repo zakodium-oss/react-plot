@@ -1,21 +1,24 @@
 import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
+import { Horizontal, Vertical } from '../../types';
+
 interface VerticalAxisGridlinesProps {
   plotWidth: number;
   primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  position: Horizontal | Vertical;
 }
 
 export default function VerticalAxisGridlines(
   props: VerticalAxisGridlinesProps,
 ) {
-  const { plotWidth, primaryTicks } = props;
+  const { plotWidth, primaryTicks, position: axisPosition } = props;
   return (
     <g>
       {primaryTicks.map(({ position }) => (
         <line
           key={position}
           x1="0"
-          x2={plotWidth}
+          x2={axisPosition === 'left' ? plotWidth : -plotWidth}
           y1={position}
           y2={position}
           stroke="black"

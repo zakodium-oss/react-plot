@@ -162,13 +162,17 @@ export default function Plot(props: PlotProps) {
                 <g>{topAxis}</g>
               </bboxContext.Provider>
 
-              <g>{rightAxis}</g>
+              <bboxContext.Provider value={rightAxisBbox.ref}>
+                <g>{rightAxis}</g>
+              </bboxContext.Provider>
 
               <bboxContext.Provider value={bottomAxisBbox.ref}>
                 <g>{bottomAxis}</g>
               </bboxContext.Provider>
 
-              <g>{leftAxis}</g>
+              <bboxContext.Provider value={leftAxisBbox.ref}>
+                <g>{leftAxis}</g>
+              </bboxContext.Provider>
 
               {onClick || onMouseMove ? (
                 <Tracking

@@ -1,3 +1,8 @@
+import { useContext } from 'react';
+import { useBBoxObserver } from 'react-d3-utils';
+
+import { bboxContext } from '../../bboxContext';
+
 import { Ticks } from './Ticks';
 import VerticalAxisGridLines from './VerticalAxisGridLines';
 import VerticalAxisLabel from './VerticalAxisLabel';
@@ -22,19 +27,33 @@ export default function VerticalAxis(props: AxisRendererProps) {
 
   const transform = isRight ? `translate(${plotWidth}, 0)` : undefined;
 
+  const ticks = useBBoxObserver();
+
   function getTickPosition(value: number) {
     return {
-      line: { y1: value, y2: value, x2: tickEmbedded ? -5 : 5 },
-      text: { y1: value, x1: 16 },
+      line: {
+        y1: value,
+        y2: value,
+        x2: (tickEmbedded && isRight) || !isRight ? -5 : 5,
+      },
+      text: { y1: value, x1: isRight ? 10 : -10 },
     };
   }
 
   const gridLinesElement = displayPrimaryGridLines ? (
-    <VerticalAxisGridLines plotWidth={plotWidth} primaryTicks={primaryTicks} />
+    <VerticalAxisGridLines
+      position={position}
+      plotWidth={plotWidth}
+      primaryTicks={primaryTicks}
+    />
   ) : null;
 
   const primaryTicksElement = !hidden ? (
-    <Ticks primaryTicks={primaryTicks} getPositions={getTickPosition} />
+    <Ticks
+      anchor={isRight ? 'start' : 'end'}
+      primaryTicks={primaryTicks}
+      getPositions={getTickPosition}
+    />
   ) : null;
 
   const axisLineElement = !hidden ? (
@@ -47,15 +66,22 @@ export default function VerticalAxis(props: AxisRendererProps) {
         plotHeight={plotHeight}
         label={label}
         labelStyle={labelStyle}
+        horizontalAlign={isRight ? 'start' : 'end'}
       />
     ) : null;
 
+  const bboxRef = useContext(bboxContext);
+
   return (
-    <g ref={axisRef} transform={transform}>
+    <g transform={transform}>
       {gridLinesElement}
-      {primaryTicksElement}
-      {axisLineElement}
-      {labelElement}
+      <g ref={bboxRef}>
+        <g ref={ticks.ref}>{primaryTicksElement}</g>
+        <g ref={axisRef}>{axisLineElement}</g>
+        <g transform={`translate(${ticks.width * (isRight ? 1 : -1)}, 0)`}>
+          {labelElement}
+        </g>
+      </g>
     </g>
   );
 }

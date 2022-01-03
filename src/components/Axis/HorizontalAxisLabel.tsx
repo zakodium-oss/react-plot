@@ -1,20 +1,21 @@
 import { CSSProperties, ReactNode } from 'react';
-import { AlignGroup } from 'react-d3-utils';
+import { Align, AlignGroup } from 'react-d3-utils';
 
 interface HorizontalAxisLabelProps {
   plotWidth: number;
   label: ReactNode;
   labelStyle: CSSProperties;
+  verticalAlign: Align;
 }
 
 export default function HorizontalAxisLabel(props: HorizontalAxisLabelProps) {
-  const { plotWidth, label, labelStyle } = props;
+  const { plotWidth, label, labelStyle, verticalAlign } = props;
   return (
     <AlignGroup
       x={plotWidth / 2}
       y={0}
       horizontalAlign="middle"
-      verticalAlign="start"
+      verticalAlign={verticalAlign}
     >
       <text textAnchor="middle" style={labelStyle}>
         {label}

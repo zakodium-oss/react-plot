@@ -66,6 +66,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         plotWidth={plotWidth}
         label={label}
         labelStyle={labelStyle}
+        verticalAlign={isBottom ? 'start' : 'end'}
       />
     ) : null;
 
@@ -77,7 +78,9 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g transform={`translate(0, ${ticks.height})`}>{labelElement}</g>
+        <g transform={`translate(0, ${ticks.height * (isBottom ? 1 : -1)})`}>
+          {labelElement}
+        </g>
       </g>
     </g>
   );
