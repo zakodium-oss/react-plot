@@ -11,6 +11,7 @@ interface AxisCommonProps {
   label: ReactNode;
   labelStyle: CSSProperties;
   tickEmbedded: boolean;
+  tickLabelStyle?: CSSProperties;
   position: Horizontal | Vertical;
 }
 

@@ -21,10 +21,10 @@ const initialState: State = {
 };
 
 const defaultSvgStyle: CSSProperties = {
-  // TODO: remove those three.
-  overflow: 'visible',
+  // TODO: remove those two.
   margin: '5em',
   border: '2px solid gold',
+  overflow: 'visible',
   fontFamily: 'Arial, Helvetica, sans-serif',
 };
 
@@ -174,6 +174,8 @@ export default function Plot(props: PlotProps) {
                 <g>{leftAxis}</g>
               </bboxContext.Provider>
 
+              {legend}
+
               {onClick || onMouseMove ? (
                 <Tracking
                   stateSeries={state.series}
@@ -186,7 +188,6 @@ export default function Plot(props: PlotProps) {
             </g>
 
             <g ref={headingBbox.ref}>{topHeading || bottomHeading}</g>
-            {legend}
           </svg>
         </LegendProvider>
       </DispatchContext.Provider>

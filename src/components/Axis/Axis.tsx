@@ -27,6 +27,7 @@ export default function Axis({
   hiddenTicks,
   tickEmbedded,
   tickLength = 6,
+  tickLabelStyle,
   hiddenSecondaryTicks,
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
@@ -87,6 +88,7 @@ export default function Axis({
     label,
     labelStyle,
     tickEmbedded,
+    tickLabelStyle,
     position,
     scientific: currentAxis.scientific,
   };

@@ -8,7 +8,6 @@ import type { Horizontal, LegendProps, Vertical } from '../types';
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
-
 type Positions = { [K in Vertical | Horizontal]?: number };
 interface ValidatedPosition {
   key?: Vertical | Horizontal;
@@ -34,26 +33,17 @@ export function exclusiveProps(
 function translation(
   position: Horizontal | Vertical | 'embedded',
   legendMargins: Positions,
-  plotMargins: Required<Positions>,
-  width: number,
-  height: number,
+  plotWidth: number,
+  plotHeight: number,
 ): Omit<AlignGroupProps, 'children'> {
-  const plotHeight = height - plotMargins.top - plotMargins.bottom;
-  const plotWidth = width - plotMargins.left - plotMargins.right;
   switch (position) {
     case 'embedded': {
       const { key: verticalKey = 'top', value: verticalValue = 10 } =
         exclusiveProps(legendMargins, 'top', 'bottom', position);
       const { key: horizontalKey = 'left', value: horizontalValue = 10 } =
         exclusiveProps(legendMargins, 'left', 'right', position);
-      const x =
-        horizontalKey === 'right'
-          ? width - plotMargins.right - horizontalValue
-          : plotMargins.left + horizontalValue;
-      const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
+      const x = horizontalKey === 'right' ? -horizontalValue : horizontalValue;
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
       return {
         x,
         y,
@@ -62,27 +52,25 @@ function translation(
       };
     }
     case 'top': {
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = plotWidth / 2,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
-      const x =
-        horizontalKey === 'right'
-          ? width - plotMargins.right + horizontalValue
-          : plotMargins.left + horizontalValue;
-      const y = plotMargins.top - (legendMargins.bottom || 50);
+      const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
+        legendMargins,
+        'left',
+        'right',
+        position,
+      );
+      const x = horizontalValue;
+      const y = -(legendMargins.bottom || 50);
       return { x, y };
     }
     case 'bottom': {
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = plotWidth / 2,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
-      const x =
-        horizontalKey === 'right'
-          ? width - plotMargins.right + horizontalValue
-          : plotMargins.left + horizontalValue;
-      const y = height - plotMargins.bottom + (legendMargins.top || 25);
+      const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
+        legendMargins,
+        'left',
+        'right',
+        position,
+      );
+      const x = horizontalValue;
+      const y = legendMargins.top || 25;
       return { x, y };
     }
     case 'left': {
@@ -90,11 +78,8 @@ function translation(
         key: verticalKey = 'top',
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
-      const x = plotMargins.left - (legendMargins.right || 100);
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x = -(legendMargins.right || 100);
       return { x, y };
     }
     case 'right': {
@@ -102,11 +87,8 @@ function translation(
         key: verticalKey = 'top',
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
-      const x = width - plotMargins.right + (legendMargins.left || 40);
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x = legendMargins.left || 40;
       return { x, y };
     }
     default: {
@@ -116,13 +98,12 @@ function translation(
 }
 
 export default function Legend({ position, ...legendMargins }: LegendProps) {
-  const { right, left, top, bottom, height, width } = usePlotContext();
+  const { plotWidth, plotHeight } = usePlotContext();
   const [state] = useLegend();
 
   const alignGroupProps = useMemo(() => {
-    const plotMargins = { right, left, top, bottom };
-    return translation(position, legendMargins, plotMargins, width, height);
-  }, [position, legendMargins, right, left, top, bottom, width, height]);
+    return translation(position, legendMargins, plotWidth, plotHeight);
+  }, [position, legendMargins, plotWidth, plotHeight]);
 
   return (
     <AlignGroup {...alignGroupProps}>
