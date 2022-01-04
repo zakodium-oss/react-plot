@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react';
 import { Axis, LineSeries, Plot } from '../../src';
 import data1 from '../data/tga1.json';
 import data2 from '../data/tga2.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/TGA',
@@ -11,7 +11,7 @@ export default {
 
 export function TgaExample() {
   return (
-    <Plot {...DEFAULT_CONFIG} seriesViewportStyle={{ stroke: 'black' }}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries
         data={data1}
         xAxis="x"

@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Heading, HeadingProps, LineSeries, Plot } from '../../src';
+import { Axis, Heading, HeadingProps, Plot } from '../../src';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 enum Position {
   'bottom' = 'bottom',
@@ -17,34 +18,11 @@ export default {
   },
 } as Meta;
 
-const data = [
-  {
-    x: 0,
-    y: 10,
-  },
-  {
-    x: 1,
-    y: 12,
-  },
-  {
-    x: 2,
-    y: 14,
-  },
-  {
-    x: 3,
-    y: 16,
-  },
-  {
-    x: 4,
-    y: 18,
-  },
-];
-
 export function Control(props: HeadingProps) {
   return (
-    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading {...props} />
-      <LineSeries data={data} />
+      {getInfraredSeries()}
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>

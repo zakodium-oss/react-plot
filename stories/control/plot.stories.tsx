@@ -35,14 +35,8 @@ export function Control(args: PlotProps) {
     <Plot {...args}>
       <Legend position="embedded" />
       <LineSeries data={data} xAxis="x" yAxis="y" label="Line" />
-      <Axis id="x" position="bottom" label="Label One" />
-      <Axis
-        id="y"
-        position="left"
-        label="Label two"
-        paddingStart={0.1}
-        paddingEnd={0.1}
-      />
+      <Axis id="x" position="bottom" />
+      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
     </Plot>
   );
 }

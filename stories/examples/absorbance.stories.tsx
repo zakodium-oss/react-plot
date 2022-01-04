@@ -8,7 +8,7 @@ import {
   RangeSeriesPointType,
 } from '../../src';
 import data from '../data/absorb.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Absorbance',
@@ -42,13 +42,7 @@ function getRangePosition(
 
 export function Absorbance() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      seriesViewportStyle={{
-        stroke: 'black',
-        strokeWidth: 0.3,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       {data.annotations.map((_, index) => (
         <RangeSeries
           // eslint-disable-next-line react/no-array-index-key

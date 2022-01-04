@@ -5,9 +5,9 @@ import {
   ParallelAxis,
   LineSeries,
   Plot,
-  PlotProps,
   ParallelAxisProps,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/ParallelAxis',
@@ -26,17 +26,9 @@ const data = [
   { x: 4, y: 18 },
 ];
 
-const plot: Omit<PlotProps, 'children'> = {
-  width: 900,
-  height: 540,
-  seriesViewportStyle: {
-    stroke: 'black',
-  },
-};
-
 export function Control(props: ParallelAxisProps) {
   return (
-    <Plot {...plot}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />

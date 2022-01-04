@@ -1,18 +1,12 @@
 import { ReactNode } from 'react';
 
-import { Axis, LineSeries, Plot, Annotations } from '../../src';
-import infrared from '../data/infrared.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { Axis, Plot, Annotations } from '../../src';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export function AnnotationPlot(props: { children: ReactNode }) {
   return (
-    <Plot {...DEFAULT_CONFIG}>
-      <LineSeries
-        data={infrared}
-        lineStyle={{ stroke: '#777' }}
-        xAxis="x"
-        yAxis="y"
-      />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
 
       <Annotations>{props.children}</Annotations>
 

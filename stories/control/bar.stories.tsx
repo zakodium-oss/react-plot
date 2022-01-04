@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
 import { Axis, Legend, BarSeriesProps, Plot, BarSeries } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/BarSeries',
@@ -83,16 +84,10 @@ const data = [
 
 export function Control(props: BarSeriesProps) {
   return (
-    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <BarSeries {...props} data={data} xAxis="x" yAxis="y" />
-      <Axis id="x" position="bottom" label="Label One" />
-      <Axis
-        id="y"
-        position="left"
-        label="Label two"
-        paddingStart={0.1}
-        paddingEnd={0.1}
-      />
+      <Axis id="x" position="bottom" />
+      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
 
       <Legend position="embedded" />
     </Plot>

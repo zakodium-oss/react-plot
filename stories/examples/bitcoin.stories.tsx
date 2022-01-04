@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import { Axis, LineSeries, Plot, Heading } from '../../src';
 import data from '../data/bitcoin.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Bitcoin prices',
@@ -10,13 +10,7 @@ export default {
 
 export function BitcoinPrice() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      seriesViewportStyle={{
-        stroke: 'black',
-        strokeWidth: 0.3,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading
         title="Bitcoin close price per day"
         subtitle={'With High & Low prices'}

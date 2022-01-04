@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import { Axis, LineSeries, Plot, Heading } from '../../src';
 import data from '../data/covid-cases.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Covid19 cases-USA',
@@ -10,13 +10,7 @@ export default {
 
 export function Covid19Cases() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      seriesViewportStyle={{
-        stroke: 'black',
-        strokeWidth: 0.3,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading title="COVID-19 cases in USA (2020)" />
       <LineSeries
         data={data}

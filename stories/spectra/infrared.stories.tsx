@@ -1,8 +1,7 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot } from '../../src';
-import data from '../data/infrared.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { Axis, Plot } from '../../src';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
   title: 'Experimental spectra/Infrared',
@@ -10,13 +9,8 @@ export default {
 
 export function InfraredExample() {
   return (
-    <Plot {...DEFAULT_CONFIG} seriesViewportStyle={{ stroke: 'black' }}>
-      <LineSeries
-        data={data}
-        xAxis="x"
-        yAxis="y"
-        lineStyle={{ stroke: 'black' }}
-      />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
       <Axis id="x" position="bottom" label="Wavenumber [cm⁻¹]" flip />
       <Axis
         id="y"

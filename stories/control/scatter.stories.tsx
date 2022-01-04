@@ -7,6 +7,7 @@ import {
   ScatterSeries,
   ScatterSeriesProps,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/ScatterSeries',
@@ -113,7 +114,7 @@ const data = [
 
 export function Control(props: ScatterSeriesProps) {
   return (
-    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
 
       <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />

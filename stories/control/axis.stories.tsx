@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, AxisProps, LineSeries, Plot, PlotProps } from '../../src';
+import { Axis, AxisProps, Plot } from '../../src';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
   title: 'API/Axis',
@@ -13,77 +14,44 @@ export default {
       exclude: ['id', 'position'],
     },
   },
-} as Meta;
+} as Meta<AxisProps>;
 
-const data = [
-  {
-    x: 0,
-    y: 10,
-  },
-  {
-    x: 1,
-    y: 12,
-  },
-  {
-    x: 2,
-    y: 14,
-  },
-  {
-    x: 3,
-    y: 16,
-  },
-  {
-    x: 4,
-    y: 18,
-  },
-];
-
-type AxisControlProps = Omit<AxisProps, 'id' | 'position'>;
-
-const plot: Omit<PlotProps, 'children'> = {
-  width: 900,
-  height: 540,
-  seriesViewportStyle: {
-    stroke: 'black',
-  },
-};
-
-export function AxisLeftControl(props: AxisControlProps) {
+export function AxisLeft(props: AxisProps) {
   return (
-    <Plot {...plot}>
-      <LineSeries data={data} xAxis="y" yAxis="x" />
-      <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="left" {...props} />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
+      <Axis id="x" position="bottom" />
+      <Axis id="y" position="left" {...props} />
     </Plot>
   );
 }
 
-export function AxisBottomControl(props: AxisControlProps) {
+export function AxisBottom(props: AxisProps) {
   return (
-    <Plot {...plot}>
-      <LineSeries data={data} xAxis="y" yAxis="x" />
-      <Axis id="y" position="bottom" {...props} />
-      <Axis id="x" position="left" label="Label" />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
+      <Axis id="x" position="bottom" {...props} />
+      <Axis id="y" position="left" />
     </Plot>
   );
 }
 
-export function AxisRightControl(props: AxisControlProps) {
+export function AxisRight(props: AxisProps) {
   return (
-    <Plot {...plot}>
-      <LineSeries data={data} xAxis="y" yAxis="x" />
-      <Axis id="y" position="bottom" label="Label" />
-      <Axis id="x" position="right" {...props} />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
+      <Axis id="x" position="bottom" />
+      <Axis id="y" position="right" {...props} />
     </Plot>
   );
 }
 
-export function AxisTopControl(props: AxisControlProps) {
+export function AxisTop(props: AxisProps) {
   return (
-    <Plot {...plot}>
-      <LineSeries data={data} xAxis="x" yAxis="y" />
-      <Axis id="y" position="left" label="Label" />
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
       <Axis id="x" position="top" {...props} />
+      <Axis id="y" position="left" />
     </Plot>
   );
 }

@@ -10,6 +10,7 @@ import {
   SeriesPointType,
 } from '../../src';
 import { ClosestInfoResult } from '../../src/types';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/Tracking',
@@ -22,12 +23,6 @@ const data = [
   { x: 4, y: 5 },
   { x: 5, y: 10 },
 ];
-
-const plot = {
-  width: 900,
-  height: 540,
-  seriesViewportStyle: { stroke: 'black' },
-};
 
 interface Positions {
   coordinates: Record<string, number>;
@@ -45,7 +40,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
   return (
     <div>
       <Plot
-        {...plot}
+        {...DEFAULT_PLOT_CONFIG}
         onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
           setHover({ coordinates, position: { x: pageX, y: pageY } });
         }}

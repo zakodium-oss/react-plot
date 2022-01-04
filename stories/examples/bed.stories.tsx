@@ -9,6 +9,7 @@ import {
   ScatterSeries,
   LineSeries,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Bed per 10^3 peoples',
@@ -20,7 +21,7 @@ const data = Array.from(generateNumbers(160))
 
 export function Covid19BedCases() {
   return (
-    <Plot width={900} height={540} seriesViewportStyle={{ stroke: 'black' }}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading title="(C) NCC=0.20 (***)" />
       <Legend position="top" />
 
