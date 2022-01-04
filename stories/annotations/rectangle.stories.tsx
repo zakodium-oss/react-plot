@@ -1,18 +1,17 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import { RectangleProps } from '../../src/components/Annotations/Rectangle';
+import { Annotation, AnnotationRectangleProps } from '../../src';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'Docs/Annotations/Rectangle',
   component: Annotation.Rectangle,
   decorators: [
     (Story) => (
-      <AnnotationData>
+      <AnnotationPlot>
         <Story />
-      </AnnotationData>
+      </AnnotationPlot>
     ),
   ],
   args: {
@@ -20,7 +19,7 @@ export default {
   },
 } as Meta;
 
-export function AnnotationRectangleStories(props: RectangleProps) {
+export function AnnotationRectangleStories(props: AnnotationRectangleProps) {
   return <Annotation.Rectangle {...props} />;
 }
 
@@ -32,7 +31,9 @@ AnnotationRectangleStories.args = {
   height: '50',
 };
 
-export function AnnotationRectangleValuesStories(props: RectangleProps) {
+export function AnnotationRectangleValuesStories(
+  props: AnnotationRectangleProps,
+) {
   return <Annotation.Rectangle {...props} />;
 }
 

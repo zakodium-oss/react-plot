@@ -15,7 +15,7 @@ const shapes = {
   square: Square,
 };
 
-export type AnnotationShapeList = 'triangle' | 'circle' | 'diamond' | 'square';
+export type AnnotationShapeName = 'triangle' | 'circle' | 'diamond' | 'square';
 
 interface IntAnnotationShape {
   size: number;
@@ -38,15 +38,15 @@ function Square(props: IntAnnotationShape) {
   return <SquareMarker size={props.size} style={props.style} />;
 }
 
-export interface ShapeProps {
+export interface AnnotationShapeProps {
   x: string | number;
   y: string | number;
-  shape: AnnotationShapeList;
+  shape: AnnotationShapeName;
   size: number;
   style?: CSSProperties;
 }
 
-export default function Shape(props: ShapeProps) {
+export function Shape(props: AnnotationShapeProps) {
   const Figure = shapes[props.shape];
   const { x, y } = usePosition({ x: props.x, y: props.y });
 

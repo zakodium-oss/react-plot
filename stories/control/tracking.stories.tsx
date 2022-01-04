@@ -1,8 +1,15 @@
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-import { Axis, LineSeries, Plot, Annotation, Annotations } from '../../src';
-import { ClosestInfoResult, SeriesPointType } from '../../src/types';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  Annotation,
+  Annotations,
+  SeriesPointType,
+} from '../../src';
+import { ClosestInfoResult } from '../../src/types';
 
 export default {
   title: 'API/Tracking',

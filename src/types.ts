@@ -4,16 +4,16 @@ import type {
   ScaleLogarithmic,
   ScaleOrdinal,
 } from 'd3-scale';
-import { CSSProperties, ReactNode, SVGAttributes } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
-import { ArrowProps } from './components/Annotations/Arrow';
-import { CircleProps } from './components/Annotations/Circle';
-import { EllipseProps } from './components/Annotations/Ellipse';
-import { GroupProps } from './components/Annotations/Group';
-import { LineProps } from './components/Annotations/Line';
-import { RectangleProps } from './components/Annotations/Rectangle';
-import { ShapeProps } from './components/Annotations/Shape';
-import { TextProps } from './components/Annotations/Text';
+import { AnnotationArrowProps } from './components/Annotations/Arrow';
+import { AnnotationCircleProps } from './components/Annotations/Circle';
+import { AnnotationEllipseProps } from './components/Annotations/Ellipse';
+import { AnnotationGroupProps } from './components/Annotations/Group';
+import { AnnotationLineProps } from './components/Annotations/Line';
+import { AnnotationRectangleProps } from './components/Annotations/Rectangle';
+import { AnnotationShapeProps } from './components/Annotations/Shape';
+import { AnnotationTextProps } from './components/Annotations/Text';
 
 export type Shape =
   | 'circle'
@@ -40,12 +40,6 @@ export interface SeriesPointType {
   yError?: SeriesPointErrorType;
 }
 
-export interface RangeSeriesPointType {
-  x: number;
-  y1: number;
-  y2: number;
-}
-
 export type CSSFuncProps<T> = {
   [key in keyof CSSProperties]:
     | ((point: T, index: number, data: T[]) => CSSProperties[key])
@@ -58,68 +52,6 @@ export interface TickType {
   value: number;
 }
 
-// Component props
-
-export interface PlotProps {
-  /**
-   * Width of the SVG in pixels.
-   */
-  width: number;
-  /**
-   * Height of the SVG in pixels.
-   */
-  height: number;
-  /**
-   * Color scheme used to pick colors for the series.
-   * Defaults to the "schemeSet1" from "d3-scale-chromatic".
-   */
-  colorScheme?: Iterable<string>;
-  /**
-   * Margins around the plot.
-   */
-  margin?: Partial<Margins>;
-  /**
-   * Style applied to the SVG element.
-   */
-  svgStyle?: CSSProperties;
-  /**
-   * Id of the SVG element
-   */
-  svgId?: string;
-  /**
-   * Class name of the SVG element
-   */
-  svgClassName?: string;
-  /**
-   * Style applied to the rectangle around the entire plot.
-   */
-  plotViewportStyle?: CSSProperties;
-  /**
-   * Style applied to the rectangle around the series viewport.
-   */
-  seriesViewportStyle?: CSSProperties;
-  /**
-   * Track values on mouse move
-   */
-  onMouseMove?: (result: TrackingResult) => void;
-  /**
-   * Track values on mouse click
-   */
-  onClick?: (result: TrackingResult) => void;
-  /**
-   * Mouse enter viewport
-   */
-  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  /**
-   * Mouse leaves viewport
-   */
-  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  /**
-   * All plot elements.
-   */
-  children: ReactNode;
-}
-
 export interface BaseSeriesProps<T = SeriesPointType> {
   groupId?: string;
   xAxis?: string;
@@ -127,29 +59,6 @@ export interface BaseSeriesProps<T = SeriesPointType> {
   data: Array<T>;
   label?: string;
   hidden?: boolean;
-}
-
-export interface ScatterSeriesProps<T = SeriesPointType>
-  extends BaseSeriesProps<T> {
-  markerShape?: Shape;
-  markerSize?: number;
-  markerStyle?: CSSFuncProps<T>;
-  displayErrorBars?: boolean;
-  errorBarsStyle?: SVGAttributes<SVGLineElement>;
-  errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
-  errorBarsCapSize?: number;
-}
-
-export interface LineSeriesProps extends ScatterSeriesProps {
-  lineStyle?: CSSProperties;
-  displayMarker?: boolean;
-}
-
-export type BarSeriesProps = LineSeriesProps;
-
-export interface RangeSeriesProps<T extends RangeSeriesPointType>
-  extends BaseSeriesProps<T> {
-  lineStyle?: CSSProperties;
 }
 
 export interface AxisChildProps {
@@ -200,23 +109,6 @@ export interface AxisParentProps {
   flip?: boolean;
   scale?: 'linear' | 'log';
 }
-export type AxisProps = AxisChildProps & AxisParentProps;
-export type ParallelAxisProps = Omit<AxisChildProps, 'displayPrimaryGridLines'>;
-
-export interface HeadingProps {
-  title: string;
-  titleStyle?: CSSProperties;
-  titleClass?: string;
-  subtitle?: string;
-  subtitleStyle?: CSSProperties;
-  subtitleClass?: string;
-  position?: Vertical;
-}
-
-export type LegendProps = {
-  position: Horizontal | Vertical | 'embedded';
-} & { [K in Vertical | Horizontal]?: number };
-
 export interface MarkersProps {
   size: number;
   style: CSSProperties;
@@ -247,53 +139,18 @@ export interface TrackingProps {
 // Plot object related
 export type AnnotationsType =
   // This for each annotation option
-  | ({ type: 'arrow' } & ArrowProps)
-  | ({ type: 'circle' } & CircleProps)
-  | ({ type: 'ellipse' } & EllipseProps)
-  | ({ type: 'line' } & LineProps)
-  | ({ type: 'rectangle' } & RectangleProps)
-  | ({ type: 'shape' } & ShapeProps)
-  | ({ type: 'text'; children: string } & Omit<TextProps, 'children'>)
+  | ({ type: 'arrow' } & AnnotationArrowProps)
+  | ({ type: 'circle' } & AnnotationCircleProps)
+  | ({ type: 'ellipse' } & AnnotationEllipseProps)
+  | ({ type: 'line' } & AnnotationLineProps)
+  | ({ type: 'rectangle' } & AnnotationRectangleProps)
+  | ({ type: 'shape' } & AnnotationShapeProps)
+  | ({ type: 'text'; children: string } & Omit<AnnotationTextProps, 'children'>)
   // Group of annotations only
   | ({ type: 'group'; children: AnnotationsType[] } & Omit<
-      GroupProps,
+      AnnotationGroupProps,
       'children'
     >);
-
-type ContentType =
-  | { type: 'annotation'; children: AnnotationsType[] }
-  // Different series
-  | ({ type: 'line' } & LineSeriesProps)
-  | ({ type: 'scatter' } & ScatterSeriesProps);
-
-export interface PlotObjectType {
-  axes: Array<
-    ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
-  >;
-  content: ContentType[];
-  legend?: LegendProps;
-  dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
-  svg?: Pick<
-    PlotProps,
-    | 'plotViewportStyle'
-    | 'seriesViewportStyle'
-    | 'onClick'
-    | 'onMouseMove'
-    | 'onMouseEnter'
-    | 'onMouseLeave'
-  > & {
-    className?: string;
-    id?: string;
-    style?: PlotProps['svgStyle'];
-  };
-  colorScheme?: Iterable<string>;
-  seriesViewportStyle?: CSSProperties;
-}
-
-export interface PlotObjectProps {
-  plot: PlotObjectType;
-  children?: ReactNode;
-}
 
 // State related
 

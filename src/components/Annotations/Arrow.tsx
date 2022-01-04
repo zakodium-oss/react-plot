@@ -2,7 +2,7 @@ import { usePosition } from '../../hooks';
 
 type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
-export interface ArrowProps {
+export interface AnnotationArrowProps {
   x1: number | string;
   y1: number | string;
 
@@ -13,7 +13,7 @@ export interface ArrowProps {
   endPoint?: AnnotationShapeList;
 }
 
-export default function Arrow(props: ArrowProps) {
+export function Arrow(props: AnnotationArrowProps) {
   const {
     x1: x1Old,
     y1: y1Old,

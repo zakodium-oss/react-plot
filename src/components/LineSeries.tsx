@@ -2,23 +2,19 @@ import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { LineSeriesProps, SeriesPointType } from '../types';
+import type { SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
-import ScatterSeries from './ScatterSeries';
+import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 import { useLegend } from './legendsContext';
 
-
-interface LineSeriesRenderProps {
-  id: string;
-  data: SeriesPointType[];
-  xAxis: string;
-  yAxis: string;
-  lineStyle: CSSProperties;
+export interface LineSeriesProps extends ScatterSeriesProps {
+  lineStyle?: CSSProperties;
+  displayMarker?: boolean;
 }
 
-export default function LineSeries(props: LineSeriesProps) {
+export function LineSeries(props: LineSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
@@ -89,6 +85,14 @@ export default function LineSeries(props: LineSeriesProps) {
       <ScatterSeries {...otherProps} hidden={!displayMarker} groupId={id} />
     </g>
   );
+}
+
+interface LineSeriesRenderProps {
+  id: string;
+  data: SeriesPointType[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
 }
 
 function LineSeriesRender({

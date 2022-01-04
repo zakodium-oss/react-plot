@@ -2,9 +2,19 @@ import { CSSProperties } from 'react';
 import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-import type { HeadingProps } from '../types';
+import { Vertical } from '../types';
 
-export default function Heading({
+export interface HeadingProps {
+  title: string;
+  titleStyle?: CSSProperties;
+  titleClass?: string;
+  subtitle?: string;
+  subtitleStyle?: CSSProperties;
+  subtitleClass?: string;
+  position?: Vertical;
+}
+
+export function Heading({
   title,
   titleStyle,
   titleClass,

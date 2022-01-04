@@ -1,21 +1,16 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import { LineSeriesProps, SeriesPointType } from '../types';
+import { SeriesPointType } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
-import ScatterSeries from './ScatterSeries';
+import { LineSeriesProps } from './LineSeries';
+import { ScatterSeries } from './ScatterSeries';
 import { useLegend } from './legendsContext';
 
-interface BarSeriesRenderProps {
-  id: string;
-  data: SeriesPointType[];
-  xAxis: string;
-  yAxis: string;
-  lineStyle: CSSProperties;
-}
+export interface BarSeriesProps extends LineSeriesProps {}
 
-export default function BarSeries(props: LineSeriesProps) {
+export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -67,6 +62,14 @@ export default function BarSeries(props: LineSeriesProps) {
       />
     </g>
   );
+}
+
+interface BarSeriesRenderProps {
+  id: string;
+  data: SeriesPointType[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
 }
 
 function BarSeriesRender({

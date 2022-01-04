@@ -1,18 +1,19 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import { CSSProperties, Reducer, useMemo, useReducer } from 'react';
+import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { bboxContext } from './bboxContext';
-import MarkerDefs from './components/Annotations/MarkerDefs';
-import Tracking from './components/Tracking';
-import TransparentRect from './components/TransparentRect';
-import { LegendProvider } from './components/legendsContext';
-import { PlotContext, DispatchContext, useAxisContext } from './hooks';
-import { reducer } from './plotReducer';
-import type { PlotProps, ReducerActions, State } from './types';
-import { splitChildren } from './utils/splitChildren';
+import { bboxContext } from '../bboxContext';
+import { PlotContext, DispatchContext, useAxisContext } from '../hooks';
+import { reducer } from '../plotReducer';
+import type { Margins, ReducerActions, State, TrackingResult } from '../types';
+import { splitChildren } from '../utils/splitChildren';
+
+import MarkerDefs from './Annotations/MarkerDefs';
+import Tracking from './Tracking';
+import TransparentRect from './TransparentRect';
+import { LegendProvider } from './legendsContext';
 
 const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
 const initialState: State = {
@@ -28,12 +29,67 @@ const defaultSvgStyle: CSSProperties = {
   fontFamily: 'Arial, Helvetica, sans-serif',
 };
 
-export type { PlotProps };
+export interface PlotProps {
+  /**
+   * Width of the SVG in pixels.
+   */
+  width: number;
+  /**
+   * Height of the SVG in pixels.
+   */
+  height: number;
+  /**
+   * Color scheme used to pick colors for the series.
+   * Defaults to the "schemeSet1" from "d3-scale-chromatic".
+   */
+  colorScheme?: Iterable<string>;
+  /**
+   * Margins around the plot.
+   */
+  margin?: Partial<Margins>;
+  /**
+   * Style applied to the SVG element.
+   */
+  svgStyle?: CSSProperties;
+  /**
+   * Id of the SVG element
+   */
+  svgId?: string;
+  /**
+   * Class name of the SVG element
+   */
+  svgClassName?: string;
+  /**
+   * Style applied to the rectangle around the entire plot.
+   */
+  plotViewportStyle?: CSSProperties;
+  /**
+   * Style applied to the rectangle around the series viewport.
+   */
+  seriesViewportStyle?: CSSProperties;
+  /**
+   * Track values on mouse move
+   */
+  onMouseMove?: (result: TrackingResult) => void;
+  /**
+   * Track values on mouse click
+   */
+  onClick?: (result: TrackingResult) => void;
+  /**
+   * Mouse enter viewport
+   */
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   * Mouse leaves viewport
+   */
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   * All plot elements.
+   */
+  children: ReactNode;
+}
 
-/**
- * Static plot with fixed dimensions.
- */
-export default function Plot(props: PlotProps) {
+export function Plot(props: PlotProps) {
   const {
     width,
     height,

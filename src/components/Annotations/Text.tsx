@@ -1,10 +1,10 @@
 import { ReactNode, SVGProps } from 'react';
 
-export interface TextProps extends SVGProps<SVGTextElement> {
+export interface AnnotationTextProps extends SVGProps<SVGTextElement> {
   children: ReactNode;
 }
 
-export default function Text(props: TextProps) {
+export function Text(props: AnnotationTextProps) {
   const { children, ...otherProps } = props;
   return <text {...otherProps}>{children}</text>;
 }

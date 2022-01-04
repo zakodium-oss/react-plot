@@ -1,20 +1,31 @@
 import { extent } from 'd3-array';
-import { useEffect, useMemo, useState } from 'react';
+import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { ScatterSeriesProps } from '../types';
+import {
+  BaseSeriesProps,
+  CSSFuncProps,
+  SeriesPointType,
+  Shape,
+} from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
-
-interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
-  id: string;
+export interface ScatterSeriesProps<T = SeriesPointType>
+  extends BaseSeriesProps<T> {
+  markerShape?: Shape;
+  markerSize?: number;
+  markerStyle?: CSSFuncProps<T>;
+  displayErrorBars?: boolean;
+  errorBarsStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapSize?: number;
 }
 
-export default function ScatterSeries(props: ScatterSeriesProps) {
+export function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
   const { dispatch } = useDispatchContext();
   const { colorScaler } = usePlotContext();
@@ -89,6 +100,10 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
       <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
     </g>
   );
+}
+
+interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
+  id: string;
 }
 
 function ScatterSeriesRender({

@@ -1,7 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, RangeSeries } from '../../src';
-import { RangeSeriesPointType } from '../../src/types';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  RangeSeries,
+  RangeSeriesPointType,
+} from '../../src';
 import data from '../data/absorb.json';
 import { DEFAULT_CONFIG } from '../utils';
 

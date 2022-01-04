@@ -1,9 +1,7 @@
-'use strict';
-
+import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { writeFileSync } from 'fs';
 import MassTools from 'mass-tools';
 import { xyToXYObject } from 'ml-spectra-processing';
 
@@ -16,7 +14,7 @@ const fwhm = 0.01;
 
 const result = {};
 
-// we generale a profile spectrum
+// Generale a profile spectrum
 const isotopicDistributionProfile = new IsotopicDistribution(mf, {
   fwhm,
   maxLines: 1e5,
@@ -28,7 +26,7 @@ result.profile = xyToXYObject(
   }),
 );
 
-// we get the best peaks
+// Get the best peaks
 const isotopicDistribution = new IsotopicDistribution(mf, { fwhm: 0 });
 
 const peaks = isotopicDistribution.getPeaks({ maxValue: 100 });
@@ -41,7 +39,4 @@ result.bestPeaks = getBestPeaks(peaks).map((peak) => ({
   shortLabel: peak.shortLabel,
 }));
 
-writeFileSync(
-  join(__dirname, mf + '_' + fwhm + '.json'),
-  JSON.stringify(result),
-);
+writeFileSync(join(__dirname, `${mf}_${fwhm}.json`), JSON.stringify(result));

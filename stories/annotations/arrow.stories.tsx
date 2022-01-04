@@ -1,27 +1,26 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import { ArrowProps } from '../../src/components/Annotations/Arrow';
+import { Annotation, AnnotationArrowProps } from '../../src';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'Docs/Annotations/Arrow',
   component: Annotation.Arrow,
   decorators: [
     (Story) => (
-      <AnnotationData>
+      <AnnotationPlot>
         <Story />
-      </AnnotationData>
+      </AnnotationPlot>
     ),
   ],
   args: {
     endPoint: 'triangle',
     startPoint: 'triangle',
-  } as ArrowProps,
+  } as AnnotationArrowProps,
 } as Meta;
 
-export function AnnotationArrowStories(props: ArrowProps) {
+export function AnnotationArrowStories(props: AnnotationArrowProps) {
   return <Annotation.Arrow {...props} />;
 }
 
@@ -33,7 +32,7 @@ AnnotationArrowStories.args = {
   y2: '300',
 };
 
-export function AnnotationArrowValuesStories(props: ArrowProps) {
+export function AnnotationArrowValuesStories(props: AnnotationArrowProps) {
   return <Annotation.Arrow {...props} />;
 }
 

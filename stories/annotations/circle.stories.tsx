@@ -1,18 +1,17 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import { CircleProps } from '../../src/components/Annotations/Circle';
+import { Annotation, CircleProps } from '../../src';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 export default {
-  title: 'Docs/Annotations/Circle',
+  title: 'API/Annotations',
   component: Annotation.Circle,
   decorators: [
     (Story) => (
-      <AnnotationData>
+      <AnnotationPlot>
         <Story />
-      </AnnotationData>
+      </AnnotationPlot>
     ),
   ],
   args: {
@@ -20,25 +19,21 @@ export default {
   },
 } as Meta;
 
-export function AnnotationCircleStories(props: CircleProps) {
+export function AnnotationCircleString(props: CircleProps) {
   return <Annotation.Circle {...props} />;
 }
 
-AnnotationCircleStories.storyName = 'Annotation circle with string value';
-AnnotationCircleStories.args = {
+AnnotationCircleString.storyName = 'Annotation.Circle (string)';
+AnnotationCircleString.args = {
   cx: '100',
   cy: '100',
   r: '20',
 };
 
-export function AnnotationCircleValuesStories(props: CircleProps) {
-  return <Annotation.Circle {...props} />;
-}
-
-AnnotationCircleValuesStories.args = {
-  cx: 1,
-  cy: 14,
-  r: 0.5,
+export const AnnotationCircleNumber = AnnotationCircleString.bind({});
+AnnotationCircleNumber.storyName = 'Annotation.Circle (number)';
+AnnotationCircleNumber.args = {
+  cx: 10345,
+  cy: 80,
+  r: 1,
 };
-
-AnnotationCircleValuesStories.storyName = 'Annotation circle with number value';

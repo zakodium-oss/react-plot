@@ -1,24 +1,52 @@
 /* eslint-disable react/no-array-index-key */
-import Plot from './Plot';
-import {
-  Annotations,
-  Arrow,
-  Circle,
-  Ellipse,
-  Group,
-  Line,
-  Rectangle,
-  Shape,
-  Text,
-} from './components/Annotations/Annotation';
-import Axis from './components/Axis/Axis';
-import ParallelAxis from './components/Axis/ParallelAxis';
-import Legend from './components/Legend';
-import LineSeries from './components/LineSeries';
-import ScatterSeries from './components/ScatterSeries';
-import type { AnnotationsType, PlotObjectProps } from './types';
+import { CSSProperties, ReactNode } from 'react';
 
-export default function PlotObject({
+import type { AnnotationsType } from '../types';
+
+import { Annotations, Annotation } from './Annotations/Annotation';
+import { Axis, AxisProps } from './Axis/Axis';
+import { ParallelAxis, ParallelAxisProps } from './Axis/ParallelAxis';
+import { Legend, LegendProps } from './Legend';
+import { LineSeries, LineSeriesProps } from './LineSeries';
+import { Plot, PlotProps } from './Plot';
+import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
+
+type ContentType =
+  | { type: 'annotation'; children: AnnotationsType[] }
+  // Different series
+  | ({ type: 'line' } & LineSeriesProps)
+  | ({ type: 'scatter' } & ScatterSeriesProps);
+
+export interface PlotObjectPlot {
+  axes: Array<
+    ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
+  >;
+  content: ContentType[];
+  legend?: LegendProps;
+  dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
+  svg?: Pick<
+    PlotProps,
+    | 'plotViewportStyle'
+    | 'seriesViewportStyle'
+    | 'onClick'
+    | 'onMouseMove'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+  > & {
+    className?: string;
+    id?: string;
+    style?: PlotProps['svgStyle'];
+  };
+  colorScheme?: Iterable<string>;
+  seriesViewportStyle?: CSSProperties;
+}
+
+export interface PlotObjectProps {
+  plot: PlotObjectPlot;
+  children?: ReactNode;
+}
+
+export function PlotObject({
   plot: {
     dimensions,
     svg = {},
@@ -93,38 +121,38 @@ function annotationMap(annotationProps: AnnotationsType, index: number) {
   switch (annotationProps.type) {
     case 'arrow': {
       const { type, ...props } = annotationProps;
-      return <Arrow key={`${type}-${index}`} {...props} />;
+      return <Annotation.Arrow key={`${type}-${index}`} {...props} />;
     }
     case 'circle': {
       const { type, ...props } = annotationProps;
-      return <Circle key={`${type}-${index}`} {...props} />;
+      return <Annotation.Circle key={`${type}-${index}`} {...props} />;
     }
     case 'ellipse': {
       const { type, ...props } = annotationProps;
-      return <Ellipse key={`${type}-${index}`} {...props} />;
+      return <Annotation.Ellipse key={`${type}-${index}`} {...props} />;
     }
     case 'line': {
       const { type, ...props } = annotationProps;
-      return <Line key={`${type}-${index}`} {...props} />;
+      return <Annotation.Line key={`${type}-${index}`} {...props} />;
     }
     case 'rectangle': {
       const { type, ...props } = annotationProps;
-      return <Rectangle key={`${type}-${index}`} {...props} />;
+      return <Annotation.Rectangle key={`${type}-${index}`} {...props} />;
     }
     case 'shape': {
       const { type, ...props } = annotationProps;
-      return <Shape key={`${type}-${index}`} {...props} />;
+      return <Annotation.Shape key={`${type}-${index}`} {...props} />;
     }
     case 'text': {
       const { type, ...props } = annotationProps;
-      return <Text key={`${type}-${index}`} {...props} />;
+      return <Annotation.Text key={`${type}-${index}`} {...props} />;
     }
     case 'group': {
       const { type, children, ...props } = annotationProps;
       return (
-        <Group key={`${type}-${index}`} {...props}>
+        <Annotation.Group key={`${type}-${index}`} {...props}>
           {children.map(annotationMap)}
-        </Group>
+        </Annotation.Group>
       );
     }
     default: {

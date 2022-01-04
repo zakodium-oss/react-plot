@@ -2,9 +2,9 @@ import { SVGProps } from 'react';
 
 import { usePosition } from '../../hooks';
 
-export type LineProps = SVGProps<SVGLineElement>;
+export type AnnotationLineProps = SVGProps<SVGLineElement>;
 
-export default function Line(props: LineProps) {
+export function Line(props: AnnotationLineProps) {
   const { x1: oldX1, x2: oldX2, y1: oldY1, y2: oldY2, ...lineProps } = props;
   const { x: x1, y: y1 } = usePosition({ x: oldX1, y: oldY1 });
   const { x: x2, y: y2 } = usePosition({ x: oldX2, y: oldY2 });

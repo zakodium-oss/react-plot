@@ -3,17 +3,19 @@ import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-import type { Horizontal, LegendProps, Vertical } from '../types';
+import type { Horizontal, Vertical } from '../types';
 
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
 type Positions = { [K in Vertical | Horizontal]?: number };
+
 interface ValidatedPosition {
   key?: Vertical | Horizontal;
   value?: number;
 }
-export function exclusiveProps(
+
+function exclusiveProps(
   margins: Positions,
   a: keyof Positions,
   b: keyof Positions,
@@ -97,7 +99,11 @@ function translation(
   }
 }
 
-export default function Legend({ position, ...legendMargins }: LegendProps) {
+export type LegendProps = {
+  position: Horizontal | Vertical | 'embedded';
+} & { [K in Vertical | Horizontal]?: number };
+
+export function Legend({ position, ...legendMargins }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
   const [state] = useLegend();
 

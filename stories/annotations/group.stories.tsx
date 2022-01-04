@@ -1,23 +1,22 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import { GroupProps } from '../../src/components/Annotations/Group';
+import { Annotation, AnnotationGroupProps } from '../../src';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'Docs/Annotations/Group',
   component: Annotation.Group,
   decorators: [
     (Story) => (
-      <AnnotationData>
+      <AnnotationPlot>
         <Story />
-      </AnnotationData>
+      </AnnotationPlot>
     ),
   ],
 } as Meta;
 
-export function AnnotationGroupStories(props: GroupProps) {
+export function AnnotationGroupStories(props: AnnotationGroupProps) {
   return (
     <Annotation.Group {...props}>
       <Annotation.Text>Hello, World!</Annotation.Text>
@@ -32,7 +31,7 @@ AnnotationGroupStories.args = {
   y: '150',
 };
 
-export function AnnotationGroupValuesStories(props: GroupProps) {
+export function AnnotationGroupValuesStories(props: AnnotationGroupProps) {
   return (
     <Annotation.Group {...props}>
       <Annotation.Text>Hello, World!</Annotation.Text>

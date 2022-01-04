@@ -1,5 +1,5 @@
 import { usePlotContext } from '../../hooks';
-import type { Horizontal, ParallelAxisProps, Vertical } from '../../types';
+import type { AxisChildProps, Horizontal, Vertical } from '../../types';
 
 import BottomAxis from './BottomAxis';
 import BottomLogAxis from './BottomLogAxis';
@@ -30,7 +30,9 @@ function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   }
 }
 
-export default function ParallelAxis({
+export type ParallelAxisProps = Omit<AxisChildProps, 'displayPrimaryGridLines'>;
+
+export function ParallelAxis({
   id,
   hidden = false,
   tickStyle = {},

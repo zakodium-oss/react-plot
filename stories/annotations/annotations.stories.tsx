@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import { Annotation } from '../../src';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 const shapes = ['circle', 'triangle', 'diamond', 'square'];
 
@@ -10,9 +10,9 @@ export default {
   title: 'Docs/Annotations',
   decorators: [
     (Story) => (
-      <AnnotationData>
+      <AnnotationPlot>
         <Story />
-      </AnnotationData>
+      </AnnotationPlot>
     ),
   ],
 } as Meta;

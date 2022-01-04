@@ -16,7 +16,7 @@
     "check-types": "tsc --noEmit",
     "clean": "rimraf lib lib-esm",
     "dev": "start-storybook -p 6006",
-    "eslint": "eslint src stories",
+    "eslint": "eslint .",
     "eslint-fix": "npm run eslint -- --fix",
     "prepack": "npm run build",
     "prettier": "prettier --check .",

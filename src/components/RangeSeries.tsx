@@ -3,20 +3,23 @@ import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../hooks';
-import type { RangeSeriesProps, RangeSeriesPointType } from '../types';
+import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import { useLegend } from './legendsContext';
 
-
-interface RangeSeriesRenderProps {
-  data: RangeSeriesPointType[];
-  xAxis: string;
-  yAxis: string;
-  lineStyle: CSSProperties;
+export interface RangeSeriesPointType {
+  x: number;
+  y1: number;
+  y2: number;
 }
 
-export default function RangeSeries<T extends RangeSeriesPointType>(
+export interface RangeSeriesProps<T extends RangeSeriesPointType>
+  extends BaseSeriesProps<T> {
+  lineStyle?: CSSProperties;
+}
+
+export function RangeSeries<T extends RangeSeriesPointType>(
   props: RangeSeriesProps<T>,
 ) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -74,6 +77,13 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
   };
 
   return <RangeSeriesRender {...lineProps} />;
+}
+
+interface RangeSeriesRenderProps {
+  data: RangeSeriesPointType[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
 }
 
 function RangeSeriesRender({

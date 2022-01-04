@@ -3,9 +3,13 @@ import { SVGProps } from 'react';
 import { useEllipsePosition } from '../../hooks';
 
 type SvgCircleProps = SVGProps<SVGCircleElement>;
-export type CircleProps = Omit<SvgCircleProps, 'x1' | 'x2' | 'y1' | 'y2'>;
 
-export default function Circle(props: CircleProps) {
+export type AnnotationCircleProps = Omit<
+  SvgCircleProps,
+  'x1' | 'x2' | 'y1' | 'y2'
+>;
+
+export function Circle(props: AnnotationCircleProps) {
   const { cx: oldCx, cy: oldCy, r: oldR, ...otherProps } = props;
 
   const {
