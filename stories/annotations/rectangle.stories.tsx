@@ -1,47 +1,30 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation, AnnotationRectangleProps } from '../../src';
+import {
+  Rectangle,
+  AnnotationRectangleProps,
+} from '../../src/components/Annotations/Rectangle';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
-  title: 'Docs/Annotations/Rectangle',
-  component: Annotation.Rectangle,
-  decorators: [
-    (Story) => (
-      <AnnotationPlot>
-        <Story />
-      </AnnotationPlot>
-    ),
-  ],
+  title: 'API/Annotations',
+  component: Rectangle,
   args: {
-    fill: 'red',
+    x: '300',
+    y: 45,
+    width: 500,
+    height: '50',
+    style: { fill: 'red' },
   },
-} as Meta;
+} as Meta<AnnotationRectangleProps>;
 
-export function AnnotationRectangleStories(props: AnnotationRectangleProps) {
-  return <Annotation.Rectangle {...props} />;
+export function AnnotationRectangle(props: AnnotationRectangleProps) {
+  return (
+    <AnnotationPlot>
+      <Rectangle {...props} />
+    </AnnotationPlot>
+  );
 }
 
-AnnotationRectangleStories.storyName = 'Annotation rectangle with string value';
-AnnotationRectangleStories.args = {
-  x: '20',
-  y: '270',
-  width: '550',
-  height: '50',
-};
-
-export function AnnotationRectangleValuesStories(
-  props: AnnotationRectangleProps,
-) {
-  return <Annotation.Rectangle {...props} />;
-}
-
-AnnotationRectangleValuesStories.storyName =
-  'Annotation rectangle with number value';
-AnnotationRectangleValuesStories.args = {
-  x: 1,
-  y: 15,
-  width: 3,
-  height: 3,
-};
+AnnotationRectangle.storyName = 'Annotation.Rectangle';

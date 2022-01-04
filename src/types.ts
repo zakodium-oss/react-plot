@@ -26,10 +26,9 @@ export type Shape =
   | 'star'
   | 'hexagon';
 
-// Component props helpers
 export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
-export type Margins = Record<Horizontal | Vertical, number | undefined>;
+export type Margins = Partial<Record<Horizontal | Vertical, number>>;
 
 export type SeriesPointErrorType = number | number[] | null;
 
@@ -136,7 +135,6 @@ export interface TrackingProps {
   stateSeries: SeriesType[];
 }
 
-// Plot object related
 export type AnnotationsType =
   // This for each annotation option
   | ({ type: 'arrow' } & AnnotationArrowProps)
@@ -151,8 +149,6 @@ export type AnnotationsType =
       AnnotationGroupProps,
       'children'
     >);
-
-// State related
 
 interface SeriesAxisType {
   min: number;
@@ -198,8 +194,6 @@ export interface State {
   series: SeriesType[];
   axis: AxisType;
 }
-
-// Util functions
 
 export type ReducerActions =
   | { type: 'newData'; value: SeriesType }

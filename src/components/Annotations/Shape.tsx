@@ -48,6 +48,11 @@ export interface AnnotationShapeProps {
 
 export function Shape(props: AnnotationShapeProps) {
   const Figure = shapes[props.shape];
+
+  if (!Figure) {
+    throw new Error(`Invalid shape: "${props.shape}"`);
+  }
+
   const { x, y } = usePosition({ x: props.x, y: props.y });
 
   return (

@@ -52,11 +52,11 @@ export interface PlotProps {
    */
   svgStyle?: CSSProperties;
   /**
-   * Id of the SVG element
+   * Id of the SVG element.
    */
   svgId?: string;
   /**
-   * Class name of the SVG element
+   * Class name of the SVG element.
    */
   svgClassName?: string;
   /**
@@ -68,19 +68,19 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
-   * Track values on mouse move
+   * Track values on mouse move.
    */
   onMouseMove?: (result: TrackingResult) => void;
   /**
-   * Track values on mouse click
+   * Track values on mouse click.
    */
   onClick?: (result: TrackingResult) => void;
   /**
-   * Mouse enter viewport
+   * Mouse enters the viewport.
    */
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   /**
-   * Mouse leaves viewport
+   * Mouse leaves the viewport.
    */
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   /**
@@ -100,8 +100,8 @@ export function Plot(props: PlotProps) {
     svgClassName,
     plotViewportStyle = {},
     seriesViewportStyle = {},
-    onClick,
     onMouseMove,
+    onClick,
     onMouseEnter,
     onMouseLeave,
     children,

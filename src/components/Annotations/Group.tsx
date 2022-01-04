@@ -5,7 +5,6 @@ import { usePosition } from '../../hooks';
 export interface AnnotationGroupProps {
   x: number | string;
   y: number | string;
-
   children: ReactNode;
 }
 
