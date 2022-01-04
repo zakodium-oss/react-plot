@@ -15,4 +15,4 @@ export * from './components/Heading';
 
 export * from './components/Annotations/Annotation';
 
-export { SeriesPointType } from './types';
+export type { SeriesPointType } from './types';

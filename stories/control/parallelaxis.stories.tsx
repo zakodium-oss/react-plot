@@ -12,11 +12,14 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 export default {
   title: 'API/ParallelAxis',
   component: ParallelAxis,
-  argTypes: {
-    id: { defaultValue: 'x', options: ['x', 'y'], control: { type: 'select' } },
-    label: { defaultValue: 'Duplicate', control: 'text' },
+  args: {
+    id: 'x',
+    label: 'Parallel axis',
   },
-} as Meta;
+  argTypes: {
+    id: { options: ['x', 'y'], control: { type: 'select' } },
+  },
+} as Meta<ParallelAxisProps>;
 
 const data = [
   { x: 0, y: 10 },

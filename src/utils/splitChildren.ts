@@ -30,6 +30,8 @@ export function splitChildren(children: ReactNode): PlotChildren {
   let bottomAxis = null;
   let leftAxis = null;
 
+  let parallelAxes = [];
+
   let topHeading = null;
   let bottomHeading = null;
 
@@ -50,7 +52,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       child.type === Annotations
     ) {
       seriesAndAnnotations.push(child);
-    } else if (child.type === Axis || child.type === ParallelAxis) {
+    } else if (child.type === Axis) {
       switch (child.props.position) {
         case 'top': {
           if (topAxis !== null) {
@@ -83,6 +85,11 @@ export function splitChildren(children: ReactNode): PlotChildren {
         default:
           throw new Error('unreachable');
       }
+    } else if (child.type === ParallelAxis) {
+      if (parallelAxes.length === 2) {
+        throw new Error('Plot can have at most two parallel axes');
+      }
+      parallelAxes.push(child);
     } else if (child.type === Heading) {
       if (topHeading !== null || bottomHeading !== null) {
         throw new Error('Plot can only have one Heading element');
@@ -101,6 +108,34 @@ export function splitChildren(children: ReactNode): PlotChildren {
       // eslint-disable-next-line no-console
       console.error('Invalid Plot child: ', child);
       throw new Error('invalid plot child');
+    }
+  }
+
+  for (const parallelAxis of parallelAxes) {
+    const id = parallelAxis.props.id;
+    if (topAxis?.props.id === id) {
+      if (bottomAxis !== null) {
+        throw new Error('Plot can only have one bottom axis');
+      }
+      bottomAxis = parallelAxis;
+    }
+    if (rightAxis?.props.id === id) {
+      if (leftAxis !== null) {
+        throw new Error('Plot can only have one left axis');
+      }
+      leftAxis = parallelAxis;
+    }
+    if (bottomAxis?.props.id === id) {
+      if (topAxis !== null) {
+        throw new Error('Plot can only have one top axis');
+      }
+      topAxis = parallelAxis;
+    }
+    if (leftAxis?.props.id === id) {
+      if (rightAxis !== null) {
+        throw new Error('Plot can only have one right axis');
+      }
+      rightAxis = parallelAxis;
     }
   }
 

@@ -1,14 +1,10 @@
+import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
+
 import { usePlotContext } from '../../hooks';
 import type { AxisChildProps, Horizontal, Vertical } from '../../types';
 
-import BottomAxis from './BottomAxis';
-import BottomLogAxis from './BottomLogAxis';
-import LeftAxis from './LeftAxis';
-import LeftLogAxis from './LeftLogAxis';
-import RightAxis from './RightAxis';
-import RightLogAxis from './RightLogAxis';
-import TopAxis from './TopAxis';
-import TopLogAxis from './TopLogAxis';
+import LinearAxis from './LinearAxis';
+import LogAxis from './LogAxis';
 
 function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   switch (position) {
@@ -45,15 +41,11 @@ export function ParallelAxis({
   const parentAxis = axisContext[id];
   if (!parentAxis) return null;
 
-  // Get position oposite to parent axis
+  // Get position opposite to parent axis
   const position = parallelPosition(parentAxis.position);
-  const existing = Object.values(axisContext).find(
-    (axis) => axis.position === position,
-  );
-  if (existing) throw new Error(`Position ${position} was already declared`);
 
-  // Renders accordly to position and scale
-  const { type } = parentAxis;
+  // Renders according to position and scale
+  const { type, scale, scientific } = parentAxis;
   const childProps: ParallelAxisProps = {
     id,
     hidden,
@@ -61,24 +53,24 @@ export function ParallelAxis({
     tickLength,
     ...props,
   };
-  switch (`${position}-${type}`) {
-    case 'top-log':
-      return <TopLogAxis {...childProps} />;
-    case 'top-linear':
-      return <TopAxis {...childProps} />;
-    case 'bottom-log':
-      return <BottomLogAxis {...childProps} />;
-    case 'bottom-linear':
-      return <BottomAxis {...childProps} />;
-    case 'left-log':
-      return <LeftLogAxis {...childProps} />;
-    case 'left-linear':
-      return <LeftAxis {...childProps} />;
-    case 'right-log':
-      return <RightLogAxis {...childProps} />;
-    case 'right-linear':
-      return <RightAxis {...childProps} />;
-    default:
-      return null;
+
+  if (type === 'linear') {
+    return (
+      <LinearAxis
+        {...childProps}
+        scale={scale as ScaleLinear<number, number>}
+        scientific={scientific}
+        position={position}
+      />
+    );
+  } else {
+    return (
+      <LogAxis
+        {...childProps}
+        scale={scale as ScaleLogarithmic<number, number>}
+        scientific={scientific}
+        position={position}
+      />
+    );
   }
 }
