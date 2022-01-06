@@ -44,8 +44,12 @@ function translation(
         exclusiveProps(legendMargins, 'top', 'bottom', position);
       const { key: horizontalKey = 'left', value: horizontalValue = 10 } =
         exclusiveProps(legendMargins, 'left', 'right', position);
-      const x = horizontalKey === 'right' ? -horizontalValue : horizontalValue;
-      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x =
+        horizontalKey === 'right'
+          ? plotWidth - horizontalValue
+          : horizontalValue;
+      const y =
+        verticalKey === 'bottom' ? plotHeight - verticalValue : verticalValue;
       return {
         x,
         y,
@@ -61,8 +65,8 @@ function translation(
         position,
       );
       const x = horizontalValue;
-      const y = -(legendMargins.bottom || 50);
-      return { x, y };
+      const y = -legendMargins.bottom || 0;
+      return { x, y, horizontalAlign: 'middle', verticalAlign: 'end' };
     }
     case 'bottom': {
       const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
@@ -72,8 +76,8 @@ function translation(
         position,
       );
       const x = horizontalValue;
-      const y = legendMargins.top || 25;
-      return { x, y };
+      const y = plotHeight + (legendMargins.top || 0);
+      return { x, y, horizontalAlign: 'middle', verticalAlign: 'start' };
     }
     case 'left': {
       const {
@@ -81,8 +85,8 @@ function translation(
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
       const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = -(legendMargins.right || 100);
-      return { x, y };
+      const x = -legendMargins.right || 0;
+      return { x, y, horizontalAlign: 'end', verticalAlign: 'middle' };
     }
     case 'right': {
       const {
@@ -90,8 +94,8 @@ function translation(
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
       const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = legendMargins.left || 40;
-      return { x, y };
+      const x = plotWidth + (legendMargins.left || 0);
+      return { x, y, horizontalAlign: 'start', verticalAlign: 'middle' };
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
