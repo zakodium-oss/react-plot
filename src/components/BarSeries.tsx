@@ -27,7 +27,7 @@ export function BarSeries(props: BarSeriesProps) {
     ? lineStyle?.stroke.toString()
     : colorScaler(id);
 
-  const color = otherProps.markerStyle?.fill.toString() || colorScaler(id);
+  const color = otherProps.markerStyle?.fill?.toString() || colorScaler(id);
   const figure = otherProps.markerShape || 'circle';
 
   const shape = useMemo(() => {
@@ -84,7 +84,9 @@ function BarSeriesRender({
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
   const color = colorScaler(id);
-  if ([xScale, yScale].includes(undefined)) return null;
+  if (xScale === undefined || yScale === undefined) {
+    return null;
+  }
 
   // default style
   const style = {

@@ -32,7 +32,9 @@ export default function ErrorBars(props: ErrorBarsProps) {
 
   const points = useMemo(() => {
     if (hidden) return null;
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     const pointBars = data.map((point, i) => {
       const xError = validateSeriesPointError(point.xError);

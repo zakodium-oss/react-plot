@@ -6,6 +6,7 @@ import {
   Plot,
   RangeSeries,
   RangeSeriesPointType,
+  SeriesPointType,
 } from '../../src';
 import data from '../data/absorb.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -14,14 +15,14 @@ export default {
   title: 'Examples/Absorbance',
 } as Meta;
 
-const lineData = [];
+const lineData: SeriesPointType[] = [];
 for (let x = 0; x <= data.data[0].x.length; x++) {
   lineData.push({ x: data.data[0].x[x], y: data.data[0].y[x] });
 }
 lineData.pop();
 
 function getRangePosition(
-  array: Array<{ x: number; y: number }>,
+  array: SeriesPointType[],
 ): Array<RangeSeriesPointType> {
   if (array.length % 2 !== 0) throw new Error('The array isnt correct');
   const one = array.slice(0, array.length / 2);

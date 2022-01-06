@@ -1,13 +1,58 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
-import { useEffect } from 'react';
+import { CSSProperties, ReactNode, useEffect } from 'react';
 
 import { useDispatchContext, usePlotContext } from '../../hooks';
-import { AxisParentProps, AxisChildProps } from '../../types';
+import { Horizontal, Vertical } from '../../types';
 
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
 
-export type AxisProps = AxisChildProps & AxisParentProps;
+export interface AxisProps {
+  id?: string;
+
+  position: Horizontal | Vertical;
+
+  min?: number;
+  max?: number;
+
+  paddingStart?: number;
+  paddingEnd?: number;
+
+  flip?: boolean;
+  scale?: 'linear' | 'log';
+
+  /**
+   * Hide all axis elements.
+   */
+  hidden?: boolean;
+
+  /**
+   * Hide the line.
+   */
+  hiddenLine?: boolean;
+  lineStyle?: CSSProperties;
+
+  label?: ReactNode;
+  labelStyle?: CSSProperties;
+
+  displayPrimaryGridLines?: boolean;
+  primaryGridLineStyle?: CSSProperties;
+
+  displaySecondaryGridLines?: boolean;
+  secondaryGridLineStyle?: CSSProperties;
+
+  hiddenTicks?: boolean;
+  tickPosition?: 'inner' | 'outer' | 'center';
+  // TODO: Precise this.
+  tickLabelFormat?: () => string;
+  tickLabelStyle?: CSSProperties;
+
+  primaryTickLength?: number;
+  primaryTickStyle?: CSSProperties;
+
+  secondaryTickLength?: number;
+  secondaryTickStyle?: CSSProperties;
+}
 
 export function Axis({
   id,
@@ -21,15 +66,10 @@ export function Axis({
 
   // children props
   label,
-  displayPrimaryGridLines,
+  displayPrimaryGridLines = false,
   labelStyle,
   hidden = false,
-  tickStyle = {},
-  hiddenTicks,
-  tickEmbedded,
-  tickLength = 6,
   tickLabelStyle,
-  hiddenSecondaryTicks,
 }: AxisProps) {
   const { dispatch } = useDispatchContext();
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
@@ -81,14 +121,13 @@ export function Axis({
   const currentAxis = axisContext[id || xY];
   if (!currentAxis) return null;
 
-  const childProps: AxisChildProps = {
+  const childProps = {
     hidden,
     plotWidth,
     plotHeight,
     displayPrimaryGridLines,
     label,
     labelStyle,
-    tickEmbedded,
     tickLabelStyle,
     position,
     scientific: currentAxis.scientific,

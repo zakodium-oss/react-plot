@@ -25,19 +25,19 @@ export interface PlotChildren {
  * Validates that all the children inside Plot are supported and organizes them by kind.
  */
 export function splitChildren(children: ReactNode): PlotChildren {
-  let topAxis = null;
-  let rightAxis = null;
-  let bottomAxis = null;
-  let leftAxis = null;
+  let topAxis: ReactElement | null = null;
+  let rightAxis: ReactElement | null = null;
+  let bottomAxis: ReactElement | null = null;
+  let leftAxis: ReactElement | null = null;
 
-  let parallelAxes = [];
+  let parallelAxes: ReactElement[] = [];
 
-  let topHeading = null;
-  let bottomHeading = null;
+  let topHeading: ReactElement | null = null;
+  let bottomHeading: ReactElement | null = null;
 
-  let legend = null;
+  let legend: ReactElement | null = null;
 
-  let seriesAndAnnotations = [];
+  let seriesAndAnnotations: ReactElement[] = [];
 
   for (let child of Children.toArray(children)) {
     if (typeof child !== 'object' || !isValidElement(child)) {

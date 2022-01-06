@@ -1,5 +1,5 @@
 import { max, min } from 'd3-array';
-import { ScaleLinear, scaleLinear, scaleLog } from 'd3-scale';
+import { ScaleLinear, scaleLinear, scaleLog, scaleOrdinal } from 'd3-scale';
 import { createContext, useContext, useMemo } from 'react';
 
 import type {
@@ -11,14 +11,19 @@ import type {
 import { validateAxis } from './utils';
 
 interface DispatchContextType {
-  dispatch: ((action: ReducerActions) => void) | null;
+  dispatch: (action: ReducerActions) => void;
 }
 
 export const PlotContext = createContext<PlotContextType>({
+  plotWidth: 0,
+  plotHeight: 0,
+  colorScaler: scaleOrdinal<string>(),
   axisContext: {},
 });
 export const DispatchContext = createContext<DispatchContextType>({
-  dispatch: null,
+  dispatch: () => {
+    // No-op
+  },
 });
 
 export function usePlotContext() {
@@ -61,7 +66,9 @@ export function useAxisContext(
         axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
 
       // Limits validation
-      if ([axisMin, axisMax].includes(undefined)) return {};
+      if (axisMin === undefined || axisMax === undefined) {
+        return {};
+      }
       if (axisMin > axisMax) {
         throw new Error(
           `${id}: min (${axisMin}) is bigger than max (${axisMax})`,
@@ -70,8 +77,8 @@ export function useAxisContext(
 
       // Limits paddings
       const diff = axisMax - axisMin;
-      const minPad = diff * axis.paddingStart;
-      const maxPad = diff * axis.paddingEnd;
+      const minPad = diff * (axis.paddingStart || 0);
+      const maxPad = diff * (axis.paddingEnd || 0);
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
 

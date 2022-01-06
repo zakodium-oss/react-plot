@@ -34,8 +34,8 @@ interface TrackingProps {
   displayMarker?: boolean;
 }
 function Tracking({ data, displayMarker }: TrackingProps) {
-  const [hover, setHover] = useState<Positions>(null);
-  const [closest, setClosest] = useState<ClosestInfoResult>(null);
+  const [hover, setHover] = useState<Positions | null>(null);
+  const [closest, setClosest] = useState<ClosestInfoResult | null>(null);
 
   return (
     <div>

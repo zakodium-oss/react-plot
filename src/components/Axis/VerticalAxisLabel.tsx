@@ -6,7 +6,7 @@ import VerticalText from '../VerticalText';
 interface VerticalAxisLabelProps {
   plotHeight: number;
   label: ReactNode;
-  labelStyle: CSSProperties;
+  labelStyle?: CSSProperties;
   horizontalAlign: Align;
 }
 

@@ -120,8 +120,11 @@ export function Plot(props: PlotProps) {
     legend,
   } = splitChildren(children);
 
-  if ([width, height].includes(undefined)) {
-    throw new Error('Width and height are mandatory');
+  if (width === undefined) {
+    throw new Error('width is mandatory');
+  }
+  if (height === undefined) {
+    throw new Error('height is mandatory');
   }
 
   // Bounding boxes used to adapt viewport size.

@@ -17,10 +17,10 @@ export default function VerticalAxis(props: AxisRendererProps) {
     displayPrimaryGridLines,
     label,
     labelStyle,
-    tickEmbedded,
     axisRef,
     primaryTicks,
     position,
+    tickLabelStyle,
   } = props;
 
   const isRight = position === 'right';
@@ -34,7 +34,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
       line: {
         y1: value,
         y2: value,
-        x2: (tickEmbedded && isRight) || !isRight ? -5 : 5,
+        x2: !isRight ? -5 : 5,
       },
       text: { y1: value, x1: isRight ? 10 : -10 },
     };
@@ -53,6 +53,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
       anchor={isRight ? 'start' : 'end'}
       primaryTicks={primaryTicks}
       getPositions={getTickPosition}
+      labelStyle={tickLabelStyle}
     />
   ) : null;
 

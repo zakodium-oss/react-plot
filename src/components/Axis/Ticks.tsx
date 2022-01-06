@@ -9,7 +9,6 @@ interface CoordinatesXY {
 }
 
 export interface TickProps {
-  style?: CSSProperties;
   children?: ReactNode;
 
   line: CoordinatesXY;
@@ -20,6 +19,7 @@ export interface TickProps {
   strokeHeight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
   alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
+  labelStyle?: CSSProperties;
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
@@ -104,12 +104,12 @@ export function Tick(props: TickProps) {
   const {
     line: { x1: lineX1 = 0, x2: lineX2 = 0, y1: lineY1 = 0, y2: lineY2 = 0 },
     text: { x1: textX1 = 0, y1: textY1 = 0 },
-    style,
     children,
     strokeColor = 'black',
     strokeHeight = 1,
     anchor = 'end',
     secondary = false,
+    labelStyle,
   } = props;
 
   return (
@@ -128,7 +128,7 @@ export function Tick(props: TickProps) {
           y={textY1}
           textAnchor={anchor}
           dominantBaseline="middle"
-          style={{ userSelect: 'none', ...style }}
+          style={{ userSelect: 'none', ...labelStyle }}
         >
           {children}
         </text>

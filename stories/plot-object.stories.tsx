@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation, PlotObject, PlotObjectType } from '../src';
+import { Annotation, PlotObject, PlotObjectPlot } from '../src';
 
 export default {
   title: 'Plot/Plot object',
@@ -8,7 +8,7 @@ export default {
 } as Meta;
 
 export function Control() {
-  const plot: PlotObjectType = {
+  const plot: PlotObjectPlot = {
     seriesViewportStyle: {
       stroke: 'black',
       strokeWidth: '2px',
@@ -44,7 +44,7 @@ export function Control() {
         max: 180.5,
         scale: 'log',
       },
-      { id: 'x', type: 'secondary', hiddenSecondaryTicks: true },
+      { id: 'x', type: 'secondary', secondaryTickLength: 0 },
     ],
     content: [
       {
@@ -77,7 +77,7 @@ export function Control() {
                 y2: '10',
                 endPoint: 'triangle',
               },
-              { type: 'text', children: 'Test' },
+              { type: 'text', children: 'Test', x: 0, y: 0 },
             ],
           },
         ],

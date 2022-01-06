@@ -27,7 +27,7 @@ export function PCA() {
   const explainedVariance = pca.getExplainedVariance();
   const predicted = pca.predict(dataset);
 
-  const children = [];
+  const children: JSX.Element[] = [];
   for (let pcY = 0; pcY < numFeatures; pcY++) {
     for (let pcX = 0; pcX < numFeatures; pcX++) {
       if (pcY === pcX) {
@@ -49,7 +49,7 @@ export function PCA() {
         const series: ReactElement[] = [];
 
         for (const klass of distinctClasses) {
-          const indices = [];
+          const indices: number[] = [];
           for (let i = 0; i < classes.length; i++) {
             if (classes[i] === klass) {
               indices.push(i);

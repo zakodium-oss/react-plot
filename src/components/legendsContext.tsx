@@ -12,7 +12,7 @@ import { Shape } from '../types';
 
 interface LabelState {
   id: string;
-  label: string;
+  label?: string;
 
   shape?: {
     figure: Shape;

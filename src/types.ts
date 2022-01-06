@@ -4,16 +4,17 @@ import type {
   ScaleLogarithmic,
   ScaleOrdinal,
 } from 'd3-scale';
-import { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties } from 'react';
 
-import { AnnotationArrowProps } from './components/Annotations/Arrow';
-import { AnnotationCircleProps } from './components/Annotations/Circle';
-import { AnnotationEllipseProps } from './components/Annotations/Ellipse';
-import { AnnotationGroupProps } from './components/Annotations/Group';
-import { AnnotationLineProps } from './components/Annotations/Line';
-import { AnnotationRectangleProps } from './components/Annotations/Rectangle';
-import { AnnotationShapeProps } from './components/Annotations/Shape';
-import { AnnotationTextProps } from './components/Annotations/Text';
+import type { AnnotationArrowProps } from './components/Annotations/Arrow';
+import type { AnnotationCircleProps } from './components/Annotations/Circle';
+import type { AnnotationEllipseProps } from './components/Annotations/Ellipse';
+import type { AnnotationGroupProps } from './components/Annotations/Group';
+import type { AnnotationLineProps } from './components/Annotations/Line';
+import type { AnnotationRectangleProps } from './components/Annotations/Rectangle';
+import type { AnnotationShapeProps } from './components/Annotations/Shape';
+import type { AnnotationTextProps } from './components/Annotations/Text';
+import type { AxisProps } from './components/Axis/Axis';
 
 export type Shape =
   | 'circle'
@@ -30,7 +31,10 @@ export type Horizontal = 'left' | 'right';
 export type Vertical = 'top' | 'bottom';
 export type Margins = Partial<Record<Horizontal | Vertical, number>>;
 
-export type SeriesPointErrorType = number | number[] | null;
+export type SeriesPointErrorType =
+  | number
+  | [number | null, number | null]
+  | null;
 
 export interface SeriesPointType {
   x: number;
@@ -60,54 +64,6 @@ export interface BaseSeriesProps<T = SeriesPointType> {
   hidden?: boolean;
 }
 
-export interface AxisChildProps {
-  id: string;
-
-  /**
-   * Hide all axis elements.
-   */
-  hidden?: boolean;
-
-  /**
-   * Hide the line.
-   */
-  hiddenLine?: boolean;
-  lineStyle?: CSSProperties;
-
-  label?: ReactNode;
-  labelStyle?: CSSProperties;
-
-  displayPrimaryGridLines?: boolean;
-  primaryGridLineStyle?: CSSProperties;
-
-  displaySecondaryGridLines?: boolean;
-  secondaryGridLineStyle?: CSSProperties;
-
-  hiddenTicks?: boolean;
-  tickPosition?: 'inner' | 'outer' | 'center';
-  // TODO: Precise this.
-  tickLabelFormat?: () => string;
-  tickLabelStyle?: CSSProperties;
-
-  primaryTickLength?: number;
-  primaryTickStyle?: CSSProperties;
-
-  secondaryTickLength?: number;
-  secondaryTickStyle?: CSSProperties;
-}
-
-export interface AxisParentProps {
-  id?: string;
-  position: Horizontal | Vertical;
-  min?: number;
-  max?: number;
-
-  paddingStart?: number;
-  paddingEnd?: number;
-
-  flip?: boolean;
-  scale?: 'linear' | 'log';
-}
 export interface MarkersProps {
   size: number;
   style: CSSProperties;
@@ -181,22 +137,25 @@ export interface PlotContextType {
   right?: number;
   top?: number;
   bottom?: number;
-  plotWidth?: number;
-  plotHeight?: number;
+  plotWidth: number;
+  plotHeight: number;
   labels?: Array<{ id: string; label: string }>;
-  colorScaler?: ScaleOrdinal<string, string>;
+  colorScaler: ScaleOrdinal<string, string>;
   axisContext: Record<string, AxisContextType>;
 }
 
-export type AxisType = Record<string, Omit<AxisParentProps, 'id'>>;
+type StateAxisType = Pick<
+  AxisProps,
+  'position' | 'min' | 'max' | 'paddingStart' | 'paddingEnd' | 'flip' | 'scale'
+>;
 
 export interface State {
   series: SeriesType[];
-  axis: AxisType;
+  axis: Record<string, StateAxisType>;
 }
 
 export type ReducerActions =
   | { type: 'newData'; value: SeriesType }
   | { type: 'removeData'; value: { id: string } }
-  | { type: 'newAxis'; value: AxisParentProps }
+  | { type: 'newAxis'; value: { id: string } & StateAxisType }
   | { type: 'removeAxis'; value: { id: string } };

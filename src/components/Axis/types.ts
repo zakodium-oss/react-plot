@@ -3,14 +3,13 @@ import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
 import { Horizontal, Vertical } from '../../types';
 
-interface AxisCommonProps {
+export interface AxisCommonProps {
   hidden: boolean;
   plotWidth: number;
   plotHeight: number;
   displayPrimaryGridLines: boolean;
-  label: ReactNode;
-  labelStyle: CSSProperties;
-  tickEmbedded: boolean;
+  label?: ReactNode;
+  labelStyle?: CSSProperties;
   tickLabelStyle?: CSSProperties;
   position: Horizontal | Vertical;
 }

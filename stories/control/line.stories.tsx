@@ -1,6 +1,13 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Legend, LineSeries, Plot, LineSeriesProps } from '../../src';
+import {
+  Axis,
+  Legend,
+  LineSeries,
+  Plot,
+  LineSeriesProps,
+  SeriesPointType,
+} from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -87,7 +94,7 @@ export default {
   },
 } as Meta;
 
-const data = [
+const data: SeriesPointType[] = [
   {
     x: 0,
     y: 10,

@@ -1,10 +1,12 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 
 import { usePlotContext } from '../../hooks';
-import type { AxisChildProps, Horizontal, Vertical } from '../../types';
+import type { Horizontal, Vertical } from '../../types';
 
+import { AxisProps } from './Axis';
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
+import { AxisChildProps } from './types';
 
 function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   switch (position) {
@@ -26,16 +28,23 @@ function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   }
 }
 
-export type ParallelAxisProps = Omit<AxisChildProps, 'displayPrimaryGridLines'>;
+export type ParallelAxisProps = Omit<
+  AxisProps,
+  | 'id'
+  | 'position'
+  | 'min'
+  | 'max'
+  | 'paddingStart'
+  | 'paddingEnd'
+  | 'flip'
+  | 'scale'
+  | 'displayPrimaryGridLines'
+  | 'displaySecondaryGridLines'
+> & { id: string };
 
-export function ParallelAxis({
-  id,
-  hidden = false,
-  tickStyle = {},
-  tickLength = 6,
-  ...props
-}: ParallelAxisProps) {
-  const { axisContext } = usePlotContext();
+export function ParallelAxis(props: ParallelAxisProps) {
+  const { id, hidden = false, ...otherProps } = props;
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Don't display axis if parent id not in context
   const parentAxis = axisContext[id];
@@ -46,12 +55,14 @@ export function ParallelAxis({
 
   // Renders according to position and scale
   const { type, scale, scientific } = parentAxis;
-  const childProps: ParallelAxisProps = {
-    id,
+  const childProps: AxisChildProps = {
+    plotWidth,
+    plotHeight,
+    position,
+    scientific,
+    displayPrimaryGridLines: false,
     hidden,
-    tickStyle,
-    tickLength,
-    ...props,
+    ...otherProps,
   };
 
   if (type === 'linear') {
@@ -59,8 +70,6 @@ export function ParallelAxis({
       <LinearAxis
         {...childProps}
         scale={scale as ScaleLinear<number, number>}
-        scientific={scientific}
-        position={position}
       />
     );
   } else {
@@ -68,8 +77,6 @@ export function ParallelAxis({
       <LogAxis
         {...childProps}
         scale={scale as ScaleLogarithmic<number, number>}
-        scientific={scientific}
-        position={position}
       />
     );
   }

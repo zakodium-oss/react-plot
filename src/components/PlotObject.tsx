@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { CSSProperties, ReactNode } from 'react';
 
-import type { AnnotationsType } from '../types';
+import type { AnnotationsType, Margins } from '../types';
 
 import { Annotations, Annotation } from './Annotations/Annotation';
 import { Axis, AxisProps } from './Axis/Axis';
@@ -23,7 +23,11 @@ export interface PlotObjectPlot {
   >;
   content: ContentType[];
   legend?: LegendProps;
-  dimensions?: Pick<PlotProps, 'width' | 'height' | 'margin'>;
+  dimensions: {
+    width: number;
+    height: number;
+    margin?: Partial<Margins>;
+  };
   svg?: Pick<
     PlotProps,
     | 'plotViewportStyle'

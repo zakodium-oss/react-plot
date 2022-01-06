@@ -38,7 +38,7 @@ export function LineSeries(props: LineSeriesProps) {
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
 
           shape: {
-            color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
+            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
             hidden: !displayMarker,
           },
@@ -109,7 +109,9 @@ function LineSeriesRender({
   // calculates the path to display
   const color = colorScaler(id);
   const path = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     // Calculate line from D3
     const lineGenerator = line<SeriesPointType>()

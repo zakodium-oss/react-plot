@@ -4,7 +4,7 @@ import { Align, AlignGroup } from 'react-d3-utils';
 interface HorizontalAxisLabelProps {
   plotWidth: number;
   label: ReactNode;
-  labelStyle: CSSProperties;
+  labelStyle?: CSSProperties;
   verticalAlign: Align;
 }
 

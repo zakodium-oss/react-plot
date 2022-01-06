@@ -17,10 +17,10 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     displayPrimaryGridLines,
     label,
     labelStyle,
-    tickEmbedded,
     axisRef,
     primaryTicks,
     position,
+    tickLabelStyle,
   } = props;
 
   const isBottom = position === 'bottom';
@@ -34,7 +34,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       line: {
         x1: value,
         x2: value,
-        y2: (tickEmbedded && isBottom) || !isBottom ? -5 : 5,
+        y2: !isBottom ? -5 : 5,
       },
       text: { x1: value, y1: isBottom ? 16 : -12 },
     };
@@ -53,6 +53,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       anchor="middle"
       primaryTicks={primaryTicks}
       getPositions={getTickPosition}
+      labelStyle={tickLabelStyle}
     />
   ) : null;
 

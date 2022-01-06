@@ -12,7 +12,6 @@ import type {
 } from '../types';
 import { closestPoint } from '../utils';
 
-
 const HORIZONTAL = ['bottom', 'top'];
 
 function infoFromMouse(
@@ -126,10 +125,10 @@ export default function Tracking({
       className="tracking"
       style={{ fillOpacity: 0 }}
       onClick={(event) => {
-        onClick(infoFromMouse(event, axisContext, stateSeries));
+        onClick?.(infoFromMouse(event, axisContext, stateSeries));
       }}
       onMouseMove={(event) => {
-        onMouseMove(infoFromMouse(event, axisContext, stateSeries));
+        onMouseMove?.(infoFromMouse(event, axisContext, stateSeries));
       }}
       onMouseEnter={(event) => onMouseEnter?.(event)}
       onMouseLeave={(event) => onMouseLeave?.(event)}

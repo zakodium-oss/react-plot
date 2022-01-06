@@ -53,7 +53,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
           colorLine: 'white',
 
           shape: {
-            color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
+            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',
             hidden: false,
           },
@@ -121,7 +121,9 @@ function ScatterSeriesRender({
 
   // calculates the path to display
   const markers = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     const color = colorScaler(id);
     const defaultColor = { fill: color, stroke: color };

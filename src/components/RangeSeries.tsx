@@ -98,7 +98,9 @@ function RangeSeriesRender({
 
   // calculates the path to display
   const path = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     // Calculate area from D3
     const areaGenerator = area<RangeSeriesPointType>()
