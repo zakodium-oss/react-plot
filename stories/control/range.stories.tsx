@@ -5,7 +5,7 @@ import {
   RangeSeries,
   Plot,
   RangeSeriesProps,
-  RangeSeriesPointType,
+  RangeSeriesPoint,
   Legend,
   LineSeries,
 } from '../../src';
@@ -128,7 +128,7 @@ const data = [
   },
 ];
 
-export function Control(props: RangeSeriesProps<RangeSeriesPointType>) {
+export function Control(props: RangeSeriesProps<RangeSeriesPoint>) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />

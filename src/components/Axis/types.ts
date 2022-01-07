@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode, Ref } from 'react';
 import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
-import { Horizontal, Vertical } from '../../types';
+import type { Position } from '../../types';
 
 export interface AxisCommonProps {
   hidden: boolean;
@@ -11,7 +11,7 @@ export interface AxisCommonProps {
   label?: ReactNode;
   labelStyle?: CSSProperties;
   tickLabelStyle?: CSSProperties;
-  position: Horizontal | Vertical;
+  position: Position;
 }
 
 export interface AxisRendererProps extends AxisCommonProps {

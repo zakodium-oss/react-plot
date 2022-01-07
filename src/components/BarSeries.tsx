@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import { SeriesPointType } from '../types';
+import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import { LineSeriesProps } from './LineSeries';
@@ -66,7 +66,7 @@ export function BarSeries(props: BarSeriesProps) {
 
 interface BarSeriesRenderProps {
   id: string;
-  data: SeriesPointType[];
+  data: SeriesPoint[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

@@ -1,14 +1,14 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 
 import { usePlotContext } from '../../hooks';
-import type { Horizontal, Vertical } from '../../types';
+import type { Position } from '../../types';
 
 import { AxisProps } from './Axis';
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
 import { AxisChildProps } from './types';
 
-function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
+function parallelPosition<T extends Position>(position: T): T {
   switch (position) {
     case 'bottom': {
       return 'top' as T;

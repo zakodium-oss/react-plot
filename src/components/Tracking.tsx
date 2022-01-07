@@ -3,10 +3,10 @@ import React from 'react';
 
 import { usePlotContext } from '../hooks';
 import type {
-  AxisContextType,
+  AxisContext,
   ClosestInfoResult,
   ClosestMethods,
-  SeriesType,
+  Series,
   TrackingProps,
   TrackingResult,
 } from '../types';
@@ -16,8 +16,8 @@ const HORIZONTAL = ['bottom', 'top'];
 
 function infoFromMouse(
   event: React.MouseEvent<SVGRectElement, MouseEvent>,
-  axisContext: Record<string, AxisContextType>,
-  stateSeries: SeriesType[],
+  axisContext: Record<string, AxisContext>,
+  stateSeries: Series[],
 ): TrackingResult {
   const { clientX, clientY } = event;
   const { left, top } = event.currentTarget.getBoundingClientRect();
@@ -51,8 +51,8 @@ function infoFromMouse(
 function closestCalculation(
   method: ClosestMethods,
   coordinates: Record<'x' | 'y', number>,
-  stateSeries: SeriesType[],
-  axisContext: Record<string, AxisContextType>,
+  stateSeries: Series[],
+  axisContext: Record<string, AxisContext>,
 ): ClosestInfoResult {
   let series: ClosestInfoResult = {};
 

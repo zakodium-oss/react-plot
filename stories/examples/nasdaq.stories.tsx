@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import { useState, useEffect } from 'react';
 
-import { Axis, LineSeries, Plot, Heading, SeriesPointType } from '../../src';
+import { Axis, LineSeries, Plot, Heading, SeriesPoint } from '../../src';
 import srcData from '../data/nasdaq.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -16,10 +16,7 @@ export default {
 
 /** Util functions *****************/
 
-const generateNewXY = (
-  serie: SeriesPointType,
-  step: number,
-): [number, number] => {
+const generateNewXY = (serie: SeriesPoint, step: number): [number, number] => {
   const x = serie.x + step;
   const rand = Math.floor(Math.random() * 10);
   const y = rand % 2 === 0 ? serie.y + rand * 0.1 : serie.y - rand * 0.1; // generate a new Y by + or - a random value to the last point.y
@@ -27,9 +24,9 @@ const generateNewXY = (
 };
 
 const getLastData = (
-  data: Array<SeriesPointType>,
+  data: Array<SeriesPoint>,
   displayInterval: number,
-): Array<SeriesPointType> => {
+): Array<SeriesPoint> => {
   const lastTimestamp = data[data.length - 1].x;
   const firstIndex = data.findIndex(
     (serie) => serie.x >= lastTimestamp - displayInterval,

@@ -1,10 +1,6 @@
 import { CSSProperties } from 'react';
 
-import type {
-  AxisContextType,
-  CSSFuncProps,
-  SeriesPointErrorType,
-} from './types';
+import type { AxisContext, CSSFuncProps, SeriesPointError } from './types';
 
 let currentValue = 1;
 
@@ -37,7 +33,7 @@ export function validatePosition(
  * Validates that two axes are orthogonal between them
  */
 export function validateAxis(
-  axisContext: Record<string, AxisContextType>,
+  axisContext: Record<string, AxisContext>,
   xKey: string,
   yKey: string,
 ) {
@@ -112,8 +108,8 @@ export function calculateTicksNumber(
  * validate series point Error
  */
 export function validateSeriesPointError(
-  error: SeriesPointErrorType,
-): SeriesPointErrorType {
+  error: SeriesPointError,
+): SeriesPointError {
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;

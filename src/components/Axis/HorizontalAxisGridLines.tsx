@@ -1,9 +1,11 @@
-import { Horizontal, TickType, Vertical } from '../../types';
+import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
+
+import { Position } from '../../types';
 
 interface HorizontalAxisGridLinesProps {
   plotHeight: number;
-  primaryTicks: TickType[];
-  position: Horizontal | Vertical;
+  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  position: Position;
 }
 
 export default function HorizontalAxisGridLines(

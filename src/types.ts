@@ -19,20 +19,19 @@ export type Shape =
   | 'star'
   | 'hexagon';
 
-export type Horizontal = 'left' | 'right';
-export type Vertical = 'top' | 'bottom';
-export type Margins = Partial<Record<Horizontal | Vertical, number>>;
+export type HorizontalPosition = 'left' | 'right';
+export type VerticalPosition = 'top' | 'bottom';
+export type Position = HorizontalPosition | VerticalPosition;
 
-export type SeriesPointErrorType =
-  | number
-  | [number | null, number | null]
-  | null;
+export type Margins = Partial<Record<Position, number>>;
 
-export interface SeriesPointType {
+export type SeriesPointError = number | [number | null, number | null] | null;
+
+export interface SeriesPoint {
   x: number;
   y: number;
-  xError?: SeriesPointErrorType;
-  yError?: SeriesPointErrorType;
+  xError?: SeriesPointError;
+  yError?: SeriesPointError;
 }
 
 export type CSSFuncProps<T> = {
@@ -41,13 +40,7 @@ export type CSSFuncProps<T> = {
     | CSSProperties[key];
 };
 
-export interface TickType {
-  label: string;
-  position: number;
-  value: number;
-}
-
-export interface BaseSeriesProps<T = SeriesPointType> {
+export interface BaseSeriesProps<T = SeriesPoint> {
   groupId?: string;
   xAxis?: string;
   yAxis?: string;
@@ -62,11 +55,9 @@ export interface MarkersProps {
 }
 
 export interface ClosestInfo<T extends ClosestMethods> {
-  point: SeriesPointType;
+  point: SeriesPoint;
   label: string;
-  axis: T extends 'euclidean'
-    ? Record<'x' | 'y', AxisContextType>
-    : AxisContextType;
+  axis: T extends 'euclidean' ? Record<'x' | 'y', AxisContext> : AxisContext;
 }
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
@@ -80,20 +71,20 @@ export interface TrackingProps {
   onClick?: (result: TrackingResult) => void;
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  stateSeries: SeriesType[];
+  stateSeries: Series[];
 }
 
-interface SeriesAxisType {
+interface SeriesAxis {
   min: number;
   max: number;
   axisId: string;
 }
-export interface SeriesType {
+export interface Series {
   id: string;
-  x: SeriesAxisType;
-  y: SeriesAxisType;
+  x: SeriesAxis;
+  y: SeriesAxis;
   label: string;
-  data?: SeriesPointType[];
+  data?: SeriesPoint[];
 }
 
 export interface AxisContextGeneric<
@@ -101,13 +92,13 @@ export interface AxisContextGeneric<
 > {
   scale: Scale;
   scientific: boolean;
-  position: Horizontal | Vertical;
+  position: Position;
 }
-export type AxisContextType =
+export type AxisContext =
   | ({ type: 'linear' } & AxisContextGeneric<ScaleLinear<number, number>>)
   | ({ type: 'log' } & AxisContextGeneric<ScaleLogarithmic<number, number>>);
 
-export interface PlotContextType {
+export interface PlotContext {
   width?: number;
   height?: number;
   left?: number;
@@ -118,21 +109,21 @@ export interface PlotContextType {
   plotHeight: number;
   labels?: Array<{ id: string; label: string }>;
   colorScaler: ScaleOrdinal<string, string>;
-  axisContext: Record<string, AxisContextType>;
+  axisContext: Record<string, AxisContext>;
 }
 
-type StateAxisType = Pick<
+type StateAxis = Pick<
   AxisProps,
   'position' | 'min' | 'max' | 'paddingStart' | 'paddingEnd' | 'flip' | 'scale'
 >;
 
 export interface State {
-  series: SeriesType[];
-  axis: Record<string, StateAxisType>;
+  series: Series[];
+  axis: Record<string, StateAxis>;
 }
 
 export type ReducerActions =
-  | { type: 'newData'; value: SeriesType }
+  | { type: 'newData'; value: Series }
   | { type: 'removeData'; value: { id: string } }
-  | { type: 'newAxis'; value: { id: string } & StateAxisType }
+  | { type: 'newAxis'; value: { id: string } & StateAxis }
   | { type: 'removeAxis'; value: { id: string } };

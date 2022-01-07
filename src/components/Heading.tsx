@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-import { Vertical } from '../types';
+import type { VerticalPosition } from '../types';
 
 export interface HeadingProps {
   title: string;
@@ -11,7 +11,7 @@ export interface HeadingProps {
   subtitle?: string;
   subtitleStyle?: CSSProperties;
   subtitleClass?: string;
-  position?: Vertical;
+  position?: VerticalPosition;
 }
 
 export function Heading({

@@ -7,7 +7,7 @@ import {
   Plot,
   Annotation,
   Annotations,
-  SeriesPointType,
+  SeriesPoint,
 } from '../../src';
 import { ClosestInfoResult } from '../../src/types';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -30,7 +30,7 @@ interface Positions {
 }
 
 interface TrackingProps {
-  data: SeriesPointType[][];
+  data: SeriesPoint[][];
   displayMarker?: boolean;
 }
 function Tracking({ data, displayMarker }: TrackingProps) {
@@ -121,8 +121,8 @@ export function TrackingExample() {
 
 export function TrackingBig() {
   const len = 100000;
-  let data1: SeriesPointType[] = new Array(len);
-  let data2: SeriesPointType[] = new Array(len);
+  let data1: SeriesPoint[] = new Array(len);
+  let data2: SeriesPoint[] = new Array(len);
   for (let i = 0; i < len; i++) {
     data1[i] = {
       x: i - 100,

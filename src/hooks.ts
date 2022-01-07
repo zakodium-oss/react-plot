@@ -2,32 +2,23 @@ import { max, min } from 'd3-array';
 import { ScaleLinear, scaleLinear, scaleLog, scaleOrdinal } from 'd3-scale';
 import { createContext, useContext, useMemo } from 'react';
 
-import type {
-  AxisContextType,
-  PlotContextType,
-  ReducerActions,
-  State,
-} from './types';
+import type { AxisContext, PlotContext, ReducerActions, State } from './types';
 import { validateAxis } from './utils';
 
-interface DispatchContextType {
-  dispatch: (action: ReducerActions) => void;
-}
+type Dispatch = (action: ReducerActions) => void;
 
-export const PlotContext = createContext<PlotContextType>({
+export const plotContext = createContext<PlotContext>({
   plotWidth: 0,
   plotHeight: 0,
   colorScaler: scaleOrdinal<string>(),
   axisContext: {},
 });
-export const DispatchContext = createContext<DispatchContextType>({
-  dispatch: () => {
-    // No-op
-  },
+export const dispatchContext = createContext<Dispatch>(() => {
+  // No-op
 });
 
 export function usePlotContext() {
-  const context = useContext(PlotContext);
+  const context = useContext(plotContext);
   if (!context) {
     throw new Error('Plot compound component outside Plot context');
   }
@@ -35,7 +26,7 @@ export function usePlotContext() {
 }
 
 export function useDispatchContext() {
-  const context = useContext(DispatchContext);
+  const context = useContext(dispatchContext);
   if (!context) {
     throw new Error('Plot compound component outside Dispatch context');
   }
@@ -52,7 +43,7 @@ export function useAxisContext(
   { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {
-    let axisContext: Record<string, AxisContextType> = {};
+    let axisContext: Record<string, AxisContext> = {};
 
     for (const id in state.axis) {
       const axis = state.axis[id];

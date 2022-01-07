@@ -5,7 +5,7 @@ import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { bboxContext } from '../bboxContext';
-import { PlotContext, DispatchContext, useAxisContext } from '../hooks';
+import { plotContext, dispatchContext, useAxisContext } from '../hooks';
 import { reducer } from '../plotReducer';
 import type { Margins, ReducerActions, State, TrackingResult } from '../types';
 import { splitChildren } from '../utils/splitChildren';
@@ -163,7 +163,7 @@ export function Plot(props: PlotProps) {
   }, [colorScheme, ids]);
 
   return (
-    <PlotContext.Provider
+    <plotContext.Provider
       value={{
         width,
         height,
@@ -178,7 +178,7 @@ export function Plot(props: PlotProps) {
         axisContext,
       }}
     >
-      <DispatchContext.Provider value={{ dispatch }}>
+      <dispatchContext.Provider value={dispatch}>
         <LegendProvider>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +246,7 @@ export function Plot(props: PlotProps) {
             <g ref={headingBbox.ref}>{topHeading || bottomHeading}</g>
           </svg>
         </LegendProvider>
-      </DispatchContext.Provider>
-    </PlotContext.Provider>
+      </dispatchContext.Provider>
+    </plotContext.Provider>
   );
 }

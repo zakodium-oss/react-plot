@@ -8,7 +8,7 @@ import {
   useReducer,
 } from 'react';
 
-import { Shape } from '../types';
+import type { Shape } from '../types';
 
 interface LabelState {
   id: string;

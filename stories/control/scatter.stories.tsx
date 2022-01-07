@@ -6,7 +6,7 @@ import {
   Plot,
   ScatterSeries,
   ScatterSeriesProps,
-  SeriesPointType,
+  SeriesPoint,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -80,7 +80,7 @@ export default {
   },
 } as Meta;
 
-const data: SeriesPointType[] = [
+const data: SeriesPoint[] = [
   {
     x: 0,
     y: 10,

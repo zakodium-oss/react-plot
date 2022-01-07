@@ -19,7 +19,7 @@ import { LineSeries, LineSeriesProps } from './LineSeries';
 import { Plot, PlotProps } from './Plot';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
-export type AnnotationsType =
+export type PlotObjectAnnotations =
   // This for each annotation option
   | ({ type: 'arrow' } & AnnotationArrowProps)
   | ({ type: 'circle' } & AnnotationCircleProps)
@@ -29,13 +29,13 @@ export type AnnotationsType =
   | ({ type: 'shape' } & AnnotationShapeProps)
   | ({ type: 'text'; children: string } & Omit<AnnotationTextProps, 'children'>)
   // Group of annotations only
-  | ({ type: 'group'; children: AnnotationsType[] } & Omit<
+  | ({ type: 'group'; children: PlotObjectAnnotations[] } & Omit<
       AnnotationGroupProps,
       'children'
     >);
 
-type ContentType =
-  | { type: 'annotation'; children: AnnotationsType[] }
+type PlotObjectContent =
+  | { type: 'annotation'; children: PlotObjectAnnotations[] }
   // Different series
   | ({ type: 'line' } & LineSeriesProps)
   | ({ type: 'scatter' } & ScatterSeriesProps);
@@ -44,7 +44,7 @@ export interface PlotObjectPlot {
   axes: Array<
     ({ type: 'main' } & AxisProps) | ({ type: 'secondary' } & ParallelAxisProps)
   >;
-  content: ContentType[];
+  content: PlotObjectContent[];
   legend?: LegendProps;
   dimensions: {
     width: number;
@@ -144,7 +144,7 @@ export function PlotObject({
   );
 }
 
-function annotationMap(annotationProps: AnnotationsType, index: number) {
+function annotationMap(annotationProps: PlotObjectAnnotations, index: number) {
   switch (annotationProps.type) {
     case 'arrow': {
       const { type, ...props } = annotationProps;

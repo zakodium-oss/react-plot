@@ -2,7 +2,7 @@ import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { usePlotContext } from '../hooks';
-import type { SeriesPointType } from '../types';
+import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
@@ -89,7 +89,7 @@ export function LineSeries(props: LineSeriesProps) {
 
 interface LineSeriesRenderProps {
   id: string;
-  data: SeriesPointType[];
+  data: SeriesPoint[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
@@ -114,7 +114,7 @@ function LineSeriesRender({
     }
 
     // Calculate line from D3
-    const lineGenerator = line<SeriesPointType>()
+    const lineGenerator = line<SeriesPoint>()
       .x((d) => xScale(d.x))
       .y((d) => yScale(d.y));
 

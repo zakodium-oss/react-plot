@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, Heading, SeriesPointType } from '../../src';
+import { Axis, LineSeries, Plot, Heading, SeriesPoint } from '../../src';
 import data from '../data/bitcoin.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -16,7 +16,7 @@ export function BitcoinPrice() {
         subtitle={'With High & Low prices'}
       />
       <LineSeries
-        data={data as SeriesPointType[]}
+        data={data as SeriesPoint[]}
         xAxis="x"
         yAxis="y"
         lineStyle={{ stroke: 'green', strokeWidth: 2 }}

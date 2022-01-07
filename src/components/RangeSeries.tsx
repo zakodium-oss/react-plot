@@ -8,18 +8,18 @@ import { getNextId, validateAxis } from '../utils';
 
 import { useLegend } from './legendsContext';
 
-export interface RangeSeriesPointType {
+export interface RangeSeriesPoint {
   x: number;
   y1: number;
   y2: number;
 }
 
-export interface RangeSeriesProps<T extends RangeSeriesPointType>
+export interface RangeSeriesProps<T extends RangeSeriesPoint>
   extends BaseSeriesProps<T> {
   lineStyle?: CSSProperties;
 }
 
-export function RangeSeries<T extends RangeSeriesPointType>(
+export function RangeSeries<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -27,7 +27,7 @@ export function RangeSeries<T extends RangeSeriesPointType>(
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 
   // Update plot context with data description
-  const { dispatch } = useDispatchContext();
+  const dispatch = useDispatchContext();
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
 
@@ -80,7 +80,7 @@ export function RangeSeries<T extends RangeSeriesPointType>(
 }
 
 interface RangeSeriesRenderProps {
-  data: RangeSeriesPointType[];
+  data: RangeSeriesPoint[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
@@ -103,7 +103,7 @@ function RangeSeriesRender({
     }
 
     // Calculate area from D3
-    const areaGenerator = area<RangeSeriesPointType>()
+    const areaGenerator = area<RangeSeriesPoint>()
       .x((d) => xScale(d.x))
       .y0((d) => yScale(d.y1))
       .y1((d) => yScale(d.y2));

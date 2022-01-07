@@ -3,15 +3,15 @@ import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { usePlotContext } from '../hooks';
-import type { Horizontal, Vertical } from '../types';
+import type { Position } from '../types';
 
 import { markersComps } from './Markers';
 import { useLegend } from './legendsContext';
 
-type Positions = { [K in Vertical | Horizontal]?: number };
+type Positions = { [K in Position]?: number };
 
 interface ValidatedPosition {
-  key?: Vertical | Horizontal;
+  key?: Position;
   value?: number;
 }
 
@@ -33,7 +33,7 @@ function exclusiveProps(
 }
 
 function translation(
-  position: Horizontal | Vertical | 'embedded',
+  position: Position | 'embedded',
   legendMargins: Positions,
   plotWidth: number,
   plotHeight: number,
@@ -104,8 +104,8 @@ function translation(
 }
 
 export type LegendProps = {
-  position: Horizontal | Vertical | 'embedded';
-} & { [K in Vertical | Horizontal]?: number };
+  position: Position | 'embedded';
+} & { [K in Position]?: number };
 
 export function Legend({ position, ...legendMargins }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
