@@ -1,12 +1,12 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
+import { useLegend } from '../legendContext';
 import { usePlotContext } from '../plotContext';
 import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
 import { LineSeriesProps } from './LineSeries';
 import { ScatterSeries } from './ScatterSeries';
-import { useLegend } from './legendsContext';
 
 export interface BarSeriesProps extends LineSeriesProps {}
 

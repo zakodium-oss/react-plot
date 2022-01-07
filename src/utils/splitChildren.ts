@@ -10,7 +10,7 @@ import { LineSeries } from '../components/LineSeries';
 import { RangeSeries } from '../components/RangeSeries';
 import { ScatterSeries } from '../components/ScatterSeries';
 
-export interface PlotChildren {
+interface PlotChildren {
   seriesAndAnnotations: ReactElement[];
   topAxis: ReactElement | null;
   rightAxis: ReactElement | null;

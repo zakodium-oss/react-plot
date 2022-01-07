@@ -5,6 +5,7 @@ import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { bboxContext } from '../bboxContext';
+import { LegendProvider } from '../legendContext';
 import {
   plotContext,
   plotDispatchContext,
@@ -19,7 +20,6 @@ import { splitChildren } from '../utils/splitChildren';
 import MarkerDefs from './Annotations/MarkerDefs';
 import Tracking, { TrackingResult } from './Tracking';
 import TransparentRect from './TransparentRect';
-import { LegendProvider } from './legendsContext';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
   produce(plotReducer);

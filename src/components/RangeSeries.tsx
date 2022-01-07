@@ -2,11 +2,10 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
+import { useLegend } from '../legendContext';
 import { usePlotContext, usePlotDispatchContext } from '../plotContext';
 import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
-
-import { useLegend } from './legendsContext';
 
 export interface RangeSeriesPoint {
   x: number;
@@ -40,10 +39,10 @@ export function RangeSeries<T extends RangeSeriesPoint>(
       max: Math.max(y1Max, y2Max),
       axisId: yAxis,
     };
-    dispatch({ type: 'newData', value: { id, x, y, label } });
+    dispatch({ type: 'newData', payload: { id, x, y, label } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', value: { id } });
+    return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
   useEffect(() => {

@@ -2,11 +2,11 @@
 import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
+import { useLegend } from '../legendContext';
 import { usePlotContext } from '../plotContext';
 import type { Position } from '../types';
 
 import { markersComps } from './Markers';
-import { useLegend } from './legendsContext';
 
 type Positions = { [K in Position]?: number };
 

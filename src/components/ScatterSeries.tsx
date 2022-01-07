@@ -1,13 +1,13 @@
 import { extent } from 'd3-array';
 import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
+import { useLegend } from '../legendContext';
 import { usePlotContext, usePlotDispatchContext } from '../plotContext';
 import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
-import { useLegend } from './legendsContext';
 
 export interface ScatterSeriesProps<T = SeriesPoint>
   extends BaseSeriesProps<T> {
@@ -72,10 +72,10 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     const [yMin, yMax] = extent(data, (d) => d.y);
     const x = { min: xMin, max: xMax, axisId: xAxis };
     const y = { min: yMin, max: yMax, axisId: yAxis };
-    dispatch({ type: 'newData', value: { id, x, y, label, data } });
+    dispatch({ type: 'newData', payload: { id, x, y, label, data } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', value: { id } });
+    return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
   if (hidden) return null;

@@ -8,13 +8,13 @@ import {
   scaleLinear,
   scaleLog,
 } from 'd3-scale';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, Dispatch, useContext, useMemo } from 'react';
 
 import type { AxisProps } from './components/Axis/Axis';
-import type { Position, SeriesPoint } from './types';
+import type { ActionType, Position, SeriesPoint } from './types';
 import { validatePosition } from './utils';
 
-export interface PlotSeriesStateAxis {
+interface PlotSeriesStateAxis {
   min: number;
   max: number;
   axisId: string;
@@ -39,12 +39,12 @@ type PlotStateAxis = Pick<
 >;
 
 export type PlotReducerActions =
-  | { type: 'newData'; value: PlotSeriesState }
-  | { type: 'removeData'; value: { id: string } }
-  | { type: 'newAxis'; value: { id: string } & PlotStateAxis }
-  | { type: 'removeAxis'; value: { id: string } };
+  | ActionType<'newData', PlotSeriesState>
+  | ActionType<'removeData', { id: string }>
+  | ActionType<'newAxis', { id: string } & PlotStateAxis>
+  | ActionType<'removeAxis', { id: string }>;
 
-export interface PlotAxisContextGeneric<
+interface PlotAxisContextGeneric<
   Scale extends ScaleContinuousNumeric<number, number>,
 > {
   scale: Scale;
@@ -75,17 +75,17 @@ export interface PlotContext {
 export function plotReducer(state: PlotState, action: PlotReducerActions) {
   switch (action.type) {
     case 'newData': {
-      state.series.push(action.value);
+      state.series.push(action.payload);
       break;
     }
     case 'removeData': {
-      const { id } = action.value;
+      const { id } = action.payload;
       const seriesFiltered = state.series.filter((series) => series.id !== id);
       state.series = seriesFiltered;
       break;
     }
     case 'newAxis': {
-      const { id, position, ...values } = action.value;
+      const { id, position, ...values } = action.payload;
       let currentAxis = state.axis[id];
       if (currentAxis) {
         validatePosition(currentAxis.position, position, id);
@@ -96,7 +96,7 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
       break;
     }
     case 'removeAxis': {
-      const { id } = action.value;
+      const { id } = action.payload;
       delete state.axis[id];
       break;
     }
@@ -107,7 +107,7 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
   }
 }
 
-type PlotDispatch = (action: PlotReducerActions) => void;
+type PlotDispatch = Dispatch<PlotReducerActions>;
 
 export const plotContext = createContext<PlotContext>({
   plotWidth: 0,
