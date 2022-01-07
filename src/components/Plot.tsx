@@ -22,9 +22,6 @@ const initialState: State = {
 };
 
 const defaultSvgStyle: CSSProperties = {
-  // TODO: remove those two.
-  margin: '5em',
-  border: '2px solid gold',
   overflow: 'visible',
   fontFamily: 'Arial, Helvetica, sans-serif',
 };
