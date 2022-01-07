@@ -1,15 +1,38 @@
 /* eslint-disable react/no-array-index-key */
 import { CSSProperties, ReactNode } from 'react';
 
-import type { AnnotationsType, Margins } from '../types';
+import type { Margins } from '../types';
 
 import { Annotations, Annotation } from './Annotations/Annotation';
+import type { AnnotationArrowProps } from './Annotations/Arrow';
+import type { AnnotationCircleProps } from './Annotations/Circle';
+import type { AnnotationEllipseProps } from './Annotations/Ellipse';
+import type { AnnotationGroupProps } from './Annotations/Group';
+import type { AnnotationLineProps } from './Annotations/Line';
+import type { AnnotationRectangleProps } from './Annotations/Rectangle';
+import type { AnnotationShapeProps } from './Annotations/Shape';
+import type { AnnotationTextProps } from './Annotations/Text';
 import { Axis, AxisProps } from './Axis/Axis';
 import { ParallelAxis, ParallelAxisProps } from './Axis/ParallelAxis';
 import { Legend, LegendProps } from './Legend';
 import { LineSeries, LineSeriesProps } from './LineSeries';
 import { Plot, PlotProps } from './Plot';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
+
+export type AnnotationsType =
+  // This for each annotation option
+  | ({ type: 'arrow' } & AnnotationArrowProps)
+  | ({ type: 'circle' } & AnnotationCircleProps)
+  | ({ type: 'ellipse' } & AnnotationEllipseProps)
+  | ({ type: 'line' } & AnnotationLineProps)
+  | ({ type: 'rectangle' } & AnnotationRectangleProps)
+  | ({ type: 'shape' } & AnnotationShapeProps)
+  | ({ type: 'text'; children: string } & Omit<AnnotationTextProps, 'children'>)
+  // Group of annotations only
+  | ({ type: 'group'; children: AnnotationsType[] } & Omit<
+      AnnotationGroupProps,
+      'children'
+    >);
 
 type ContentType =
   | { type: 'annotation'; children: AnnotationsType[] }

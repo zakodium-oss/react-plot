@@ -6,14 +6,6 @@ import type {
 } from 'd3-scale';
 import type { CSSProperties } from 'react';
 
-import type { AnnotationArrowProps } from './components/Annotations/Arrow';
-import type { AnnotationCircleProps } from './components/Annotations/Circle';
-import type { AnnotationEllipseProps } from './components/Annotations/Ellipse';
-import type { AnnotationGroupProps } from './components/Annotations/Group';
-import type { AnnotationLineProps } from './components/Annotations/Line';
-import type { AnnotationRectangleProps } from './components/Annotations/Rectangle';
-import type { AnnotationShapeProps } from './components/Annotations/Shape';
-import type { AnnotationTextProps } from './components/Annotations/Text';
 import type { AxisProps } from './components/Axis/Axis';
 
 export type Shape =
@@ -90,21 +82,6 @@ export interface TrackingProps {
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   stateSeries: SeriesType[];
 }
-
-export type AnnotationsType =
-  // This for each annotation option
-  | ({ type: 'arrow' } & AnnotationArrowProps)
-  | ({ type: 'circle' } & AnnotationCircleProps)
-  | ({ type: 'ellipse' } & AnnotationEllipseProps)
-  | ({ type: 'line' } & AnnotationLineProps)
-  | ({ type: 'rectangle' } & AnnotationRectangleProps)
-  | ({ type: 'shape' } & AnnotationShapeProps)
-  | ({ type: 'text'; children: string } & Omit<AnnotationTextProps, 'children'>)
-  // Group of annotations only
-  | ({ type: 'group'; children: AnnotationsType[] } & Omit<
-      AnnotationGroupProps,
-      'children'
-    >);
 
 interface SeriesAxisType {
   min: number;
