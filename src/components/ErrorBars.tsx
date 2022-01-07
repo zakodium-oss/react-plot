@@ -1,6 +1,6 @@
 import { useMemo, SVGAttributes } from 'react';
 
-import { usePlotContext } from '../hooks';
+import { usePlotContext } from '../plotContext';
 import type { SeriesPoint } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 

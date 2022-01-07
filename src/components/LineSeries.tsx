@@ -1,7 +1,7 @@
 import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { usePlotContext } from '../hooks';
+import { usePlotContext } from '../plotContext';
 import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 

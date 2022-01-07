@@ -2,7 +2,7 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
+import { usePlotContext, usePlotDispatchContext } from '../plotContext';
 import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
@@ -27,7 +27,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 
   // Update plot context with data description
-  const dispatch = useDispatchContext();
+  const dispatch = usePlotDispatchContext();
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
 

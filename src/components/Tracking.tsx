@@ -1,23 +1,42 @@
 import { euclidean } from 'ml-distance-euclidean';
 import React from 'react';
 
-import { usePlotContext } from '../hooks';
-import type {
-  AxisContext,
-  ClosestInfoResult,
-  ClosestMethods,
-  Series,
-  TrackingProps,
-  TrackingResult,
-} from '../types';
+import {
+  PlotAxisContext,
+  PlotSeriesState,
+  usePlotContext,
+} from '../plotContext';
+import { SeriesPoint } from '../types';
 import { closestPoint } from '../utils';
+
+export interface ClosestInfo<T extends ClosestMethods> {
+  point: SeriesPoint;
+  label: string;
+  axis: T extends 'euclidean'
+    ? Record<'x' | 'y', PlotAxisContext>
+    : PlotAxisContext;
+}
+export type ClosestMethods = 'x' | 'y' | 'euclidean';
+export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
+export interface TrackingResult {
+  event: React.MouseEvent<SVGRectElement, MouseEvent>;
+  coordinates: Record<string, number>;
+  getClosest: (method: ClosestMethods) => ClosestInfoResult;
+}
+export interface TrackingProps {
+  onMouseMove?: (result: TrackingResult) => void;
+  onClick?: (result: TrackingResult) => void;
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  stateSeries: PlotSeriesState[];
+}
 
 const HORIZONTAL = ['bottom', 'top'];
 
 function infoFromMouse(
   event: React.MouseEvent<SVGRectElement, MouseEvent>,
-  axisContext: Record<string, AxisContext>,
-  stateSeries: Series[],
+  axisContext: Record<string, PlotAxisContext>,
+  stateSeries: PlotSeriesState[],
 ): TrackingResult {
   const { clientX, clientY } = event;
   const { left, top } = event.currentTarget.getBoundingClientRect();
@@ -51,8 +70,8 @@ function infoFromMouse(
 function closestCalculation(
   method: ClosestMethods,
   coordinates: Record<'x' | 'y', number>,
-  stateSeries: Series[],
-  axisContext: Record<string, AxisContext>,
+  stateSeries: PlotSeriesState[],
+  axisContext: Record<string, PlotAxisContext>,
 ): ClosestInfoResult {
   let series: ClosestInfoResult = {};
 

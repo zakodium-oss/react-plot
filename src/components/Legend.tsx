@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
-import { usePlotContext } from '../hooks';
+import { usePlotContext } from '../plotContext';
 import type { Position } from '../types';
 
 import { markersComps } from './Markers';

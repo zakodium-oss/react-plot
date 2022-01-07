@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 
-import type { AxisContext, CSSFuncProps, SeriesPointError } from './types';
+import { PlotAxisContext } from './plotContext';
+import type { CSSFuncProps, SeriesPointError } from './types';
 
 let currentValue = 1;
 
@@ -33,7 +34,7 @@ export function validatePosition(
  * Validates that two axes are orthogonal between them
  */
 export function validateAxis(
-  axisContext: Record<string, AxisContext>,
+  axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
 ) {
@@ -81,27 +82,6 @@ export function functionalStyle<T>(
     }
   }
   return style;
-}
-
-/**
- * Calculate Ticks number to display
- */
-export function calculateTicksNumber(
-  plotWidth: number,
-  scientific: boolean,
-  domain: number[] = [0, 1],
-): number {
-  const scientificTickLength = 7;
-  let tickLength = `${Math.trunc(domain[1])}`.length;
-  // if domain too small => tickLength+2 for decimal values
-  tickLength =
-    domain[1] - domain[0] < plotWidth * 0.05 ? tickLength + 2 : tickLength;
-
-  const ticksNumber = scientific
-    ? plotWidth / (scientificTickLength * 16)
-    : plotWidth / (tickLength * 16);
-
-  return ticksNumber;
 }
 
 /**

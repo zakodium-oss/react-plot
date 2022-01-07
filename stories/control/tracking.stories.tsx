@@ -9,7 +9,7 @@ import {
   Annotations,
   SeriesPoint,
 } from '../../src';
-import { ClosestInfoResult } from '../../src/types';
+import { ClosestInfoResult } from '../../src/components/Tracking';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {

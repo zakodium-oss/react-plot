@@ -1,7 +1,7 @@
 import { extent } from 'd3-array';
 import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
+import { usePlotContext, usePlotDispatchContext } from '../plotContext';
 import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
@@ -22,7 +22,7 @@ export interface ScatterSeriesProps<T = SeriesPoint>
 
 export function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
-  const dispatch = useDispatchContext();
+  const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
   const [, legendDispatch] = useLegend();
 

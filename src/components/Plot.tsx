@@ -5,18 +5,25 @@ import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { bboxContext } from '../bboxContext';
-import { plotContext, dispatchContext, useAxisContext } from '../hooks';
-import { reducer } from '../plotReducer';
-import type { Margins, ReducerActions, State, TrackingResult } from '../types';
+import {
+  plotContext,
+  plotDispatchContext,
+  plotReducer,
+  PlotReducerActions,
+  PlotState,
+  useAxisContext,
+} from '../plotContext';
+import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 
 import MarkerDefs from './Annotations/MarkerDefs';
-import Tracking from './Tracking';
+import Tracking, { TrackingResult } from './Tracking';
 import TransparentRect from './TransparentRect';
 import { LegendProvider } from './legendsContext';
 
-const reducerCurr: Reducer<State, ReducerActions> = produce(reducer);
-const initialState: State = {
+const reducerCurr: Reducer<PlotState, PlotReducerActions> =
+  produce(plotReducer);
+const initialState: PlotState = {
   series: [],
   axis: {},
 };
@@ -178,7 +185,7 @@ export function Plot(props: PlotProps) {
         axisContext,
       }}
     >
-      <dispatchContext.Provider value={dispatch}>
+      <plotDispatchContext.Provider value={dispatch}>
         <LegendProvider>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +253,7 @@ export function Plot(props: PlotProps) {
             <g ref={headingBbox.ref}>{topHeading || bottomHeading}</g>
           </svg>
         </LegendProvider>
-      </dispatchContext.Provider>
+      </plotDispatchContext.Provider>
     </plotContext.Provider>
   );
 }

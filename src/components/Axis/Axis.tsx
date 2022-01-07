@@ -1,7 +1,7 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { CSSProperties, ReactNode, useEffect } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../../hooks';
+import { usePlotContext, usePlotDispatchContext } from '../../plotContext';
 import { Position } from '../../types';
 
 import LinearAxis from './LinearAxis';
@@ -71,7 +71,7 @@ export function Axis({
   hidden = false,
   tickLabelStyle,
 }: AxisProps) {
-  const dispatch = useDispatchContext();
+  const dispatch = usePlotDispatchContext();
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
