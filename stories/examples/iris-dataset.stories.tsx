@@ -4,13 +4,7 @@ import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
 import { ReactElement } from 'react';
 
-import {
-  LineSeries,
-  Plot,
-  ScatterSeries,
-  SeriesPointType,
-  Axis,
-} from '../../src';
+import { LineSeries, Plot, ScatterSeries, SeriesPoint, Axis } from '../../src';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -27,7 +21,7 @@ export function PCA() {
   const explainedVariance = pca.getExplainedVariance();
   const predicted = pca.predict(dataset);
 
-  const children = [];
+  const children: JSX.Element[] = [];
   for (let pcY = 0; pcY < numFeatures; pcY++) {
     for (let pcX = 0; pcX < numFeatures; pcX++) {
       if (pcY === pcX) {
@@ -49,7 +43,7 @@ export function PCA() {
         const series: ReactElement[] = [];
 
         for (const klass of distinctClasses) {
-          const indices = [];
+          const indices: number[] = [];
           for (let i = 0; i < classes.length; i++) {
             if (classes[i] === klass) {
               indices.push(i);
@@ -63,8 +57,8 @@ export function PCA() {
           const regression = new LinearRegression(x, y);
           const yRegression = x.map((val: number) => regression.predict(val));
 
-          let data: SeriesPointType[] = new Array(x.length);
-          let dataRegression: SeriesPointType[] = new Array(x.length);
+          let data: SeriesPoint[] = new Array(x.length);
+          let dataRegression: SeriesPoint[] = new Array(x.length);
           for (let i = 0; i < x.length; i++) {
             data[i] = { x: x[i], y: y[i] };
             dataRegression[i] = { x: x[i], y: yRegression[i] };
@@ -98,7 +92,6 @@ export function PCA() {
             key={`${pcX}-${pcY}`}
             width={size / numFeatures}
             height={size / numFeatures}
-            margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           >
             <Axis
               id="x"

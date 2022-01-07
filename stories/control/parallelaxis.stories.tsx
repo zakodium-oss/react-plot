@@ -5,18 +5,21 @@ import {
   ParallelAxis,
   LineSeries,
   Plot,
-  PlotProps,
   ParallelAxisProps,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/ParallelAxis',
   component: ParallelAxis,
-  argTypes: {
-    id: { defaultValue: 'x', options: ['x', 'y'], control: { type: 'select' } },
-    label: { defaultValue: 'Duplicate', control: 'text' },
+  args: {
+    id: 'x',
+    label: 'Parallel axis',
   },
-} as Meta;
+  argTypes: {
+    id: { options: ['x', 'y'], control: { type: 'select' } },
+  },
+} as Meta<ParallelAxisProps>;
 
 const data = [
   { x: 0, y: 10 },
@@ -26,26 +29,12 @@ const data = [
   { x: 4, y: 18 },
 ];
 
-const plot: Omit<PlotProps, 'children'> = {
-  width: 900,
-  height: 540,
-  seriesViewportStyle: {
-    stroke: 'black',
-  },
-  margin: {
-    bottom: 45,
-    left: 60,
-    top: 60,
-    right: 60,
-  },
-};
-
 export function Control(props: ParallelAxisProps) {
   return (
-    <Plot {...plot}>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" labelSpace={35} label="Y" />
+      <Axis id="y" position="left" label="Y" />
       <ParallelAxis {...props} />
     </Plot>
   );

@@ -2,20 +2,23 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
-import type { RangeSeriesProps, RangeSeriesPointType } from '../types';
+import { useLegend } from '../legendContext';
+import { usePlotContext, usePlotDispatchContext } from '../plotContext';
+import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
-import { useLegend } from './legendsContext';
-
-interface RangeSeriesRenderProps {
-  data: RangeSeriesPointType[];
-  xAxis: string;
-  yAxis: string;
-  lineStyle: CSSProperties;
+export interface RangeSeriesPoint {
+  x: number;
+  y1: number;
+  y2: number;
 }
 
-export default function RangeSeries<T extends RangeSeriesPointType>(
+export interface RangeSeriesProps<T extends RangeSeriesPoint>
+  extends BaseSeriesProps<T> {
+  lineStyle?: CSSProperties;
+}
+
+export function RangeSeries<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -23,7 +26,7 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 
   // Update plot context with data description
-  const { dispatch } = useDispatchContext();
+  const dispatch = usePlotDispatchContext();
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
 
@@ -36,10 +39,10 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
       max: Math.max(y1Max, y2Max),
       axisId: yAxis,
     };
-    dispatch({ type: 'newData', value: { id, x, y, label } });
+    dispatch({ type: 'newData', payload: { id, x, y, label } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', value: { id } });
+    return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
   useEffect(() => {
@@ -75,6 +78,13 @@ export default function RangeSeries<T extends RangeSeriesPointType>(
   return <RangeSeriesRender {...lineProps} />;
 }
 
+interface RangeSeriesRenderProps {
+  data: RangeSeriesPoint[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
+}
+
 function RangeSeriesRender({
   data,
   xAxis,
@@ -87,10 +97,12 @@ function RangeSeriesRender({
 
   // calculates the path to display
   const path = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     // Calculate area from D3
-    const areaGenerator = area<RangeSeriesPointType>()
+    const areaGenerator = area<RangeSeriesPoint>()
       .x((d) => xScale(d.x))
       .y0((d) => yScale(d.y1))
       .y1((d) => yScale(d.y2));

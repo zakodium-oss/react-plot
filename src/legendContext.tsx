@@ -8,11 +8,11 @@ import {
   useReducer,
 } from 'react';
 
-import { Shape } from '../types';
+import type { ActionType, Shape } from './types';
 
-interface LabelState {
+interface LegendLabelState {
   id: string;
-  label: string;
+  label?: string;
 
   shape?: {
     figure: Shape;
@@ -28,18 +28,14 @@ interface LabelState {
 }
 
 interface LegendState {
-  labels: Array<LabelState>;
+  labels: Array<LegendLabelState>;
 }
 
-export type ActionType<Action, Payload = void> = Payload extends void
-  ? { type: Action }
-  : { type: Action; payload: Payload };
-
-type LegendAction =
-  | ActionType<'ADD_LEGEND_LABEL', LabelState>
+type LegendActions =
+  | ActionType<'ADD_LEGEND_LABEL', LegendLabelState>
   | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>;
 
-type LegendDispatch = Dispatch<LegendAction>;
+type LegendDispatch = Dispatch<LegendActions>;
 type LegendContext = [LegendState, LegendDispatch];
 
 const context = createContext<LegendContext | null>(null);
@@ -53,8 +49,8 @@ export function useLegend(): LegendContext {
   return ctx;
 }
 
-const legendReducer: Reducer<LegendState, LegendAction> = produce(
-  (draft: LegendState, action: LegendAction) => {
+const legendReducer: Reducer<LegendState, LegendActions> = produce(
+  (draft: LegendState, action: LegendActions) => {
     switch (action.type) {
       case 'ADD_LEGEND_LABEL': {
         const { shape, ...newLegend } = action.payload;

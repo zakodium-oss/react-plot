@@ -5,10 +5,11 @@ import {
   RangeSeries,
   Plot,
   RangeSeriesProps,
-  RangeSeriesPointType,
+  RangeSeriesPoint,
   Legend,
   LineSeries,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/RangeSeries',
@@ -127,19 +128,9 @@ const data = [
   },
 ];
 
-export function Control(props: RangeSeriesProps<RangeSeriesPointType>) {
+export function Control(props: RangeSeriesProps<RangeSeriesPoint>) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 45,
-        left: 40,
-        top: 40,
-        right: 40,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
 
       <RangeSeries {...props} data={data} xAxis="x" yAxis="y" />

@@ -12,8 +12,8 @@ Library of React components to render SVG 2D plots.
     Maintained by <a href="https://www.zakodium.com">Zakodium</a>
   </p>
 
-  [![NPM version][npm-image]][npm-url]
-  [![npm download][download-image]][download-url]
+[![NPM version][npm-image]][npm-url]
+[![npm download][download-image]][download-url]
 
 </h3>
 
@@ -64,18 +64,15 @@ const Example = () => (
       id="x"
       position="bottom"
       label="Drain voltage [V]"
-      displayGridLines={true}
+      displayPrimaryGridLines
       max={6.1 / factor}
-      tickStyle={{ fontSize: '0.8rem' }}
     />
     <Axis
       id="y"
       position="left"
       label="Drain current [mA]"
-      displayGridLines={true}
-      labelSpace={50}
+      displayPrimaryGridLines
       max={6.1 * factor}
-      tickStyle={{ fontSize: '0.8rem' }}
     />
     <Legend position="right" />
   </Plot>

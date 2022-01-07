@@ -2,18 +2,20 @@
 import { useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
-import { usePlotContext } from '../hooks';
-import type { Horizontal, LegendProps, Vertical } from '../types';
+import { useLegend } from '../legendContext';
+import { usePlotContext } from '../plotContext';
+import type { Position } from '../types';
 
 import { markersComps } from './Markers';
-import { useLegend } from './legendsContext';
 
-type Positions = { [K in Vertical | Horizontal]?: number };
+type Positions = { [K in Position]?: number };
+
 interface ValidatedPosition {
-  key?: Vertical | Horizontal;
+  key?: Position;
   value?: number;
 }
-export function exclusiveProps(
+
+function exclusiveProps(
   margins: Positions,
   a: keyof Positions,
   b: keyof Positions,
@@ -31,32 +33,23 @@ export function exclusiveProps(
 }
 
 function translation(
-  position: Horizontal | Vertical | 'embedded',
+  position: Position | 'embedded',
   legendMargins: Positions,
-  plotMargins: Required<Positions>,
-  width: number,
-  height: number,
+  plotWidth: number,
+  plotHeight: number,
 ): Omit<AlignGroupProps, 'children'> {
-  const plotHeight = height - plotMargins.top - plotMargins.bottom;
-  const plotWidth = width - plotMargins.left - plotMargins.right;
   switch (position) {
     case 'embedded': {
-      const {
-        key: verticalKey = 'top',
-        value: verticalValue = 10,
-      } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = 10,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
+      const { key: verticalKey = 'top', value: verticalValue = 10 } =
+        exclusiveProps(legendMargins, 'top', 'bottom', position);
+      const { key: horizontalKey = 'left', value: horizontalValue = 10 } =
+        exclusiveProps(legendMargins, 'left', 'right', position);
       const x =
         horizontalKey === 'right'
-          ? width - plotMargins.right - horizontalValue
-          : plotMargins.left + horizontalValue;
+          ? plotWidth - horizontalValue
+          : horizontalValue;
       const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
+        verticalKey === 'bottom' ? plotHeight - verticalValue : verticalValue;
       return {
         x,
         y,
@@ -65,52 +58,44 @@ function translation(
       };
     }
     case 'top': {
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = plotWidth / 2,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
-      const x =
-        horizontalKey === 'right'
-          ? width - plotMargins.right + horizontalValue
-          : plotMargins.left + horizontalValue;
-      const y = plotMargins.top - (legendMargins.bottom || 50);
-      return { x, y };
+      const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
+        legendMargins,
+        'left',
+        'right',
+        position,
+      );
+      const x = horizontalValue;
+      const y = -legendMargins.bottom || 0;
+      return { x, y, horizontalAlign: 'middle', verticalAlign: 'end' };
     }
     case 'bottom': {
-      const {
-        key: horizontalKey = 'left',
-        value: horizontalValue = plotWidth / 2,
-      } = exclusiveProps(legendMargins, 'left', 'right', position);
-      const x =
-        horizontalKey === 'right'
-          ? width - plotMargins.right + horizontalValue
-          : plotMargins.left + horizontalValue;
-      const y = height - plotMargins.bottom + (legendMargins.top || 25);
-      return { x, y };
+      const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
+        legendMargins,
+        'left',
+        'right',
+        position,
+      );
+      const x = horizontalValue;
+      const y = plotHeight + (legendMargins.top || 0);
+      return { x, y, horizontalAlign: 'middle', verticalAlign: 'start' };
     }
     case 'left': {
       const {
         key: verticalKey = 'top',
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
-      const x = plotMargins.left - (legendMargins.right || 100);
-      return { x, y };
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x = -legendMargins.right || 0;
+      return { x, y, horizontalAlign: 'end', verticalAlign: 'middle' };
     }
     case 'right': {
       const {
         key: verticalKey = 'top',
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const y =
-        verticalKey === 'bottom'
-          ? height - plotMargins.bottom - verticalValue
-          : plotMargins.top + verticalValue;
-      const x = width - plotMargins.right + (legendMargins.left || 40);
-      return { x, y };
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x = plotWidth + (legendMargins.left || 0);
+      return { x, y, horizontalAlign: 'start', verticalAlign: 'middle' };
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
@@ -118,14 +103,17 @@ function translation(
   }
 }
 
-export default function Legend({ position, ...legendMargins }: LegendProps) {
-  const { right, left, top, bottom, height, width } = usePlotContext();
+export type LegendProps = {
+  position: Position | 'embedded';
+} & { [K in Position]?: number };
+
+export function Legend({ position, ...legendMargins }: LegendProps) {
+  const { plotWidth, plotHeight } = usePlotContext();
   const [state] = useLegend();
 
   const alignGroupProps = useMemo(() => {
-    const plotMargins = { right, left, top, bottom };
-    return translation(position, legendMargins, plotMargins, width, height);
-  }, [position, legendMargins, right, left, top, bottom, width, height]);
+    return translation(position, legendMargins, plotWidth, plotHeight);
+  }, [position, legendMargins, plotWidth, plotHeight]);
 
   return (
     <AlignGroup {...alignGroupProps}>

@@ -1,6 +1,14 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Legend, LineSeries, Plot, LineSeriesProps } from '../../src';
+import {
+  Axis,
+  Legend,
+  LineSeries,
+  Plot,
+  LineSeriesProps,
+  SeriesPoint,
+} from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/LineSeries',
@@ -86,7 +94,7 @@ export default {
   },
 } as Meta;
 
-const data = [
+const data: SeriesPoint[] = [
   {
     x: 0,
     y: 10,
@@ -121,26 +129,10 @@ const data = [
 
 export function Control(props: LineSeriesProps) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 45,
-        left: 40,
-        top: 40,
-        right: 40,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries {...props} data={data} xAxis="x" yAxis="y" />
-      <Axis id="x" position="bottom" label="Label One" />
-      <Axis
-        id="y"
-        position="left"
-        label="Label two"
-        paddingStart={0.1}
-        paddingEnd={0.1}
-      />
+      <Axis id="x" position="bottom" />
+      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
 
       <Legend position="embedded" />
     </Plot>

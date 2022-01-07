@@ -1,8 +1,16 @@
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-import { Axis, LineSeries, Plot, Annotation, Annotations } from '../../src';
-import { ClosestInfoResult, SeriesPointType } from '../../src/types';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  Annotation,
+  Annotations,
+  SeriesPoint,
+} from '../../src';
+import { ClosestInfoResult } from '../../src/components/Tracking';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/Tracking',
@@ -16,30 +24,23 @@ const data = [
   { x: 5, y: 10 },
 ];
 
-const plot = {
-  width: 900,
-  height: 540,
-  seriesViewportStyle: { stroke: 'black' },
-};
-
 interface Positions {
   coordinates: Record<string, number>;
   position: Record<'x' | 'y', number>;
 }
 
 interface TrackingProps {
-  data: SeriesPointType[][];
+  data: SeriesPoint[][];
   displayMarker?: boolean;
 }
 function Tracking({ data, displayMarker }: TrackingProps) {
-  const [hover, setHover] = useState<Positions>(null);
-  const [closest, setClosest] = useState<ClosestInfoResult>(null);
+  const [hover, setHover] = useState<Positions | null>(null);
+  const [closest, setClosest] = useState<ClosestInfoResult | null>(null);
 
   return (
     <div>
       <Plot
-        {...plot}
-        margin={{ bottom: 45, left: 90, top: 40, right: 20 }}
+        {...DEFAULT_PLOT_CONFIG}
         onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
           setHover({ coordinates, position: { x: pageX, y: pageY } });
         }}
@@ -58,7 +59,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
           />
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
-        <Axis id="y" position="left" labelSpace={65} />
+        <Axis id="y" position="left" />
         {closest && (
           <Annotations>
             {Object.entries(closest).map(([id, info]) => (
@@ -120,8 +121,8 @@ export function TrackingExample() {
 
 export function TrackingBig() {
   const len = 100000;
-  let data1: SeriesPointType[] = new Array(len);
-  let data2: SeriesPointType[] = new Array(len);
+  let data1: SeriesPoint[] = new Array(len);
+  let data2: SeriesPoint[] = new Array(len);
   for (let i = 0; i < len; i++) {
     data1[i] = {
       x: i - 100,

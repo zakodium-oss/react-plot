@@ -6,7 +6,9 @@ import {
   Plot,
   ScatterSeries,
   ScatterSeriesProps,
+  SeriesPoint,
 } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'API/ScatterSeries',
@@ -78,7 +80,7 @@ export default {
   },
 } as Meta;
 
-const data = [
+const data: SeriesPoint[] = [
   {
     x: 0,
     y: 10,
@@ -113,17 +115,7 @@ const data = [
 
 export function Control(props: ScatterSeriesProps) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{
-        bottom: 100,
-        left: 40,
-        top: 40,
-        right: 40,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
 
       <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />

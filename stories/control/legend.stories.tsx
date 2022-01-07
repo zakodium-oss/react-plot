@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
 import { Axis, Legend, LegendProps, LineSeries, Plot } from '../../src';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 type TestProps = LegendProps & { hidden: boolean };
 
@@ -31,12 +32,7 @@ const data2 = [
 
 export function Control(props: LegendProps) {
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{ bottom: 100, left: 100, top: 100, right: 200 }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend {...props} />
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
       <Axis id="x" position="bottom" label="X" />
@@ -48,12 +44,7 @@ export function Control(props: LegendProps) {
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
   return (
-    <Plot
-      width={900}
-      height={540}
-      seriesViewportStyle={{ stroke: 'black' }}
-      margin={{ bottom: 100, left: 100, top: 100, right: 200 }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend {...otherProps} />
 
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />

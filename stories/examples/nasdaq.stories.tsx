@@ -1,9 +1,9 @@
 import { Meta } from '@storybook/react';
 import { useState, useEffect } from 'react';
 
-import { Axis, LineSeries, Plot, Heading, SeriesPointType } from '../../src';
+import { Axis, LineSeries, Plot, Heading, SeriesPoint } from '../../src';
 import srcData from '../data/nasdaq.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Nasdaq',
@@ -16,10 +16,7 @@ export default {
 
 /** Util functions *****************/
 
-const generateNewXY = (
-  serie: SeriesPointType,
-  step: number,
-): [number, number] => {
+const generateNewXY = (serie: SeriesPoint, step: number): [number, number] => {
   const x = serie.x + step;
   const rand = Math.floor(Math.random() * 10);
   const y = rand % 2 === 0 ? serie.y + rand * 0.1 : serie.y - rand * 0.1; // generate a new Y by + or - a random value to the last point.y
@@ -27,9 +24,9 @@ const generateNewXY = (
 };
 
 const getLastData = (
-  data: Array<SeriesPointType>,
+  data: Array<SeriesPoint>,
   displayInterval: number,
-): Array<SeriesPointType> => {
+): Array<SeriesPoint> => {
   const lastTimestamp = data[data.length - 1].x;
   const firstIndex = data.findIndex(
     (serie) => serie.x >= lastTimestamp - displayInterval,
@@ -61,14 +58,7 @@ export function NasdaqExample(props: Props) {
     }, [data]);
 
     return (
-      <Plot
-        {...DEFAULT_CONFIG}
-        margin={{ bottom: 70, left: 70, top: 50, right: 10 }}
-        seriesViewportStyle={{
-          stroke: 'black',
-          strokeWidth: 0.3,
-        }}
-      >
+      <Plot {...DEFAULT_PLOT_CONFIG}>
         <Heading title="Nasdaq values Simulation" />
         <LineSeries
           data={data}
@@ -76,13 +66,12 @@ export function NasdaqExample(props: Props) {
           yAxis="y"
           lineStyle={{ stroke: 'green', strokeWidth: 1.5 }}
         />
-        <Axis id="x" position="bottom" label="Timestamp (s)" labelSpace={40} />
+        <Axis id="x" position="bottom" label="Timestamp (s)" />
         <Axis
           id="y"
           position="left"
           label="Nasdaq value [USD]"
-          labelSpace={50}
-          displayGridLines
+          displayPrimaryGridLines
           paddingStart={0.1}
           paddingEnd={0.1}
         />

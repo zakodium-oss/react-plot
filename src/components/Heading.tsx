@@ -1,49 +1,54 @@
 import { CSSProperties } from 'react';
+import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
-import { usePlotContext } from '../hooks';
-import type { HeadingProps } from '../types';
+import { usePlotContext } from '../plotContext';
+import type { VerticalPosition } from '../types';
 
-function yTranslation(position: 'top' | 'bottom', height: number) {
-  switch (position) {
-    case 'top': {
-      return 20;
-    }
-    case 'bottom': {
-      return height + 64;
-    }
-    default: {
-      throw new Error(`Unknown ${JSON.stringify(position)} position`);
-    }
-  }
+export interface HeadingProps {
+  title: string;
+  titleStyle?: CSSProperties;
+  titleClass?: string;
+  subtitle?: string;
+  subtitleStyle?: CSSProperties;
+  subtitleClass?: string;
+  position?: VerticalPosition;
 }
 
-export default function Heading({
+export function Heading({
   title,
   titleStyle,
   titleClass,
   subtitle,
   subtitleStyle,
   subtitleClass,
-  position = 'top',
+  position,
 }: HeadingProps) {
-  const { width, height, bottom } = usePlotContext();
+  const { width, height } = usePlotContext();
 
   const defaultTitleStyle: CSSProperties = {
+    dominantBaseline: 'hanging',
     textAnchor: 'middle',
     fontSize: '16px',
     fontWeight: 'bold',
   };
   const defaultSubtitleStyle: CSSProperties = {
+    dominantBaseline: 'hanging',
     textAnchor: 'middle',
     fontSize: '14px',
     color: 'gray',
   };
 
-  const bottomHeigth = height - bottom;
-  const y = yTranslation(position, bottomHeigth);
+  const headingBbox = useBBoxObserver();
+
   return (
-    <g transform={`translate(${width / 2}, ${y})`}>
+    <AlignGroup
+      x={width / 2}
+      y={position === 'top' ? 0 : height}
+      horizontalAlign="middle"
+      verticalAlign={position === 'top' ? 'start' : 'end'}
+    >
       <text
+        ref={headingBbox.ref}
         style={{ ...defaultTitleStyle, ...titleStyle }}
         className={titleClass}
       >
@@ -51,13 +56,20 @@ export default function Heading({
       </text>
       {subtitle && (
         <text
-          transform="translate(0, 20)"
-          style={{ ...defaultSubtitleStyle, ...subtitleStyle }}
+          transform={`translate(0, ${headingBbox.height})`}
+          style={{
+            ...defaultSubtitleStyle,
+            ...subtitleStyle,
+          }}
           className={subtitleClass}
         >
           {subtitle}
         </text>
       )}
-    </g>
+    </AlignGroup>
   );
 }
+
+Heading.defaultProps = {
+  position: 'top',
+};

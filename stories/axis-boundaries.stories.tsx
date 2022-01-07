@@ -8,7 +8,6 @@ export default {
   argTypes: {
     width: { defaultValue: 550, control: 'number' },
     height: { defaultValue: 500, control: 'number' },
-    allTicksInside: { defaultValue: false, control: 'boolean' },
     xMin: { defaultValue: 0, control: 'number' },
     xMax: { defaultValue: 6, control: 'number' },
     yMin: { defaultValue: 0, control: 'number' },
@@ -20,12 +19,11 @@ export default {
   },
 } as Meta;
 
-type Props = Record<string, number> & { allTicksInside: boolean };
+type Props = Record<string, number>;
 export function Control(props: Props) {
   const {
     width,
     height,
-    allTicksInside,
     xMin,
     xMax,
     yMax,
@@ -36,11 +34,7 @@ export function Control(props: Props) {
     paddingBottom,
   } = props;
   return (
-    <Plot
-      width={width}
-      height={height}
-      margin={{ bottom: 50, left: 80, top: 80, right: 80 }}
-    >
+    <Plot width={width} height={height}>
       <Heading
         title="Electrical characterization"
         subtitle="current vs voltage"
@@ -79,32 +73,24 @@ export function Control(props: Props) {
         id="x"
         position="bottom"
         label="Drain voltage [V]"
-        displayGridLines
+        displayPrimaryGridLines
         min={xMin}
         max={xMax}
         paddingStart={paddingLeft}
         paddingEnd={paddingRight}
-        tickEmbedded={allTicksInside}
       />
       <Axis
         id="y"
         position="left"
         label="Drain current [mA]"
-        displayGridLines
-        labelSpace={40}
+        displayPrimaryGridLines
         min={yMin}
         max={yMax}
         paddingStart={paddingBottom}
         paddingEnd={paddingTop}
-        tickEmbedded={allTicksInside}
       />
-      <Axis
-        id="y"
-        position="right"
-        tickEmbedded={allTicksInside}
-        label="Drain current [mA]"
-      />
-      <Axis id="x" position="top" tickEmbedded={allTicksInside} />
+      <Axis id="y" position="right" label="Drain current [mA]" />
+      <Axis id="x" position="top" />
       <Legend position="embedded" bottom={10} right={10} />
     </Plot>
   );

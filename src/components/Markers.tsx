@@ -1,4 +1,9 @@
-import type { MarkersProps } from '../types';
+import { CSSProperties } from 'react';
+
+export interface MarkersProps {
+  size: number;
+  style: CSSProperties;
+}
 
 export const markersComps = {
   circle: Circle,

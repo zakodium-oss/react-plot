@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import { Axis, BarSeries, Plot } from '../../src';
 import data from '../data/mass.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/Mass',
@@ -10,11 +10,7 @@ export default {
 
 export function MassExample() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      margin={{ bottom: 45, left: 40, top: 40, right: 40 }}
-      seriesViewportStyle={{ stroke: 'black' }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <BarSeries
         data={data}
         xAxis="x"

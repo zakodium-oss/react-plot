@@ -1,11 +1,11 @@
 import { useMemo, SVGAttributes } from 'react';
 
-import { usePlotContext } from '../hooks';
-import { SeriesPointType } from '../types';
+import { usePlotContext } from '../plotContext';
+import type { SeriesPoint } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
-  data: SeriesPointType[];
+  data: SeriesPoint[];
   xAxis?: string;
   yAxis?: string;
   hidden?: boolean;
@@ -32,7 +32,9 @@ export default function ErrorBars(props: ErrorBarsProps) {
 
   const points = useMemo(() => {
     if (hidden) return null;
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     const pointBars = data.map((point, i) => {
       const xError = validateSeriesPointError(point.xError);

@@ -1,21 +1,28 @@
 import { extent } from 'd3-array';
-import { useEffect, useMemo, useState } from 'react';
+import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
-import { useDispatchContext, usePlotContext } from '../hooks';
-import type { ScatterSeriesProps } from '../types';
+import { useLegend } from '../legendContext';
+import { usePlotContext, usePlotDispatchContext } from '../plotContext';
+import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
-import { useLegend } from './legendsContext';
 
-interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
-  id: string;
+export interface ScatterSeriesProps<T = SeriesPoint>
+  extends BaseSeriesProps<T> {
+  markerShape?: Shape;
+  markerSize?: number;
+  markerStyle?: CSSFuncProps<T>;
+  displayErrorBars?: boolean;
+  errorBarsStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
+  errorBarsCapSize?: number;
 }
 
-export default function ScatterSeries(props: ScatterSeriesProps) {
+export function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
-  const { dispatch } = useDispatchContext();
+  const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
   const [, legendDispatch] = useLegend();
 
@@ -41,7 +48,7 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
           colorLine: 'white',
 
           shape: {
-            color: otherProps.markerStyle?.fill.toString() || colorScaler(id),
+            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',
             hidden: false,
           },
@@ -65,10 +72,10 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
     const [yMin, yMax] = extent(data, (d) => d.y);
     const x = { min: xMin, max: xMax, axisId: xAxis };
     const y = { min: yMin, max: yMax, axisId: yAxis };
-    dispatch({ type: 'newData', value: { id, x, y, label, data } });
+    dispatch({ type: 'newData', payload: { id, x, y, label, data } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', value: { id } });
+    return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
 
   if (hidden) return null;
@@ -90,6 +97,10 @@ export default function ScatterSeries(props: ScatterSeriesProps) {
   );
 }
 
+interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
+  id: string;
+}
+
 function ScatterSeriesRender({
   id,
   data,
@@ -105,7 +116,9 @@ function ScatterSeriesRender({
 
   // calculates the path to display
   const markers = useMemo(() => {
-    if ([xScale, yScale].includes(undefined)) return null;
+    if (xScale === undefined || yScale === undefined) {
+      return null;
+    }
 
     const color = colorScaler(id);
     const defaultColor = { fill: color, stroke: color };

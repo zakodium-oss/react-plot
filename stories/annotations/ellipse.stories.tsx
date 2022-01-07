@@ -1,48 +1,30 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import { EllipseProps } from '../../src/components/Annotations/Ellipse';
+import {
+  Ellipse,
+  AnnotationEllipseProps,
+} from '../../src/components/Annotations/Ellipse';
 
-import AnnotationData from './annotation.data';
+import { AnnotationPlot } from './annotation.data';
 
 export default {
-  title: 'Docs/Annotations/Ellipse',
-  component: Annotation.Ellipse,
-  decorators: [
-    (Story) => (
-      <AnnotationData>
-        <Story />
-      </AnnotationData>
-    ),
-  ],
+  title: 'API/Annotations',
+  component: Ellipse,
   args: {
-    style: {
-      fill: 'red',
-    },
+    cx: 2250,
+    cy: '270',
+    rx: '30',
+    ry: 10,
+    style: { fill: 'red' },
   },
-} as Meta;
+} as Meta<AnnotationEllipseProps>;
 
-export function AnnotationEllipseStories(props: EllipseProps) {
-  return <Annotation.Ellipse {...props} />;
+export function AnnotationEllipseStories(props: AnnotationEllipseProps) {
+  return (
+    <AnnotationPlot>
+      <Ellipse {...props} />
+    </AnnotationPlot>
+  );
 }
 
-AnnotationEllipseStories.storyName = 'Annotation ellipse with string value';
-AnnotationEllipseStories.args = {
-  cx: '300',
-  cy: '270',
-  rx: '90',
-  ry: '20',
-};
-
-export function AnnotationEllipseValuesStories(props: EllipseProps) {
-  return <Annotation.Ellipse {...props} />;
-}
-
-AnnotationEllipseValuesStories.storyName =
-  'Annotation ellipse with number value';
-AnnotationEllipseValuesStories.args = {
-  cx: 2,
-  cy: 12,
-  rx: 1,
-  ry: 1,
-};
+AnnotationEllipseStories.storyName = 'Annotation.Ellipse';

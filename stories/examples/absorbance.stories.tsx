@@ -1,28 +1,32 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, RangeSeries } from '../../src';
-import { RangeSeriesPointType } from '../../src/types';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  RangeSeries,
+  RangeSeriesPoint,
+  SeriesPoint,
+} from '../../src';
 import data from '../data/absorb.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Absorbance',
 } as Meta;
 
-const lineData = [];
+const lineData: SeriesPoint[] = [];
 for (let x = 0; x <= data.data[0].x.length; x++) {
   lineData.push({ x: data.data[0].x[x], y: data.data[0].y[x] });
 }
 lineData.pop();
 
-function getRangePosition(
-  array: Array<{ x: number; y: number }>,
-): Array<RangeSeriesPointType> {
+function getRangePosition(array: SeriesPoint[]): Array<RangeSeriesPoint> {
   if (array.length % 2 !== 0) throw new Error('The array isnt correct');
   const one = array.slice(0, array.length / 2);
   const two = array.slice(array.length / 2, array.length).reverse();
 
-  const result: Array<RangeSeriesPointType> = [];
+  const result: Array<RangeSeriesPoint> = [];
 
   for (let i = 0; i < one.length; i++) {
     result.push({
@@ -37,14 +41,7 @@ function getRangePosition(
 
 export function Absorbance() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      margin={{ bottom: 70, left: 70, top: 50, right: 10 }}
-      seriesViewportStyle={{
-        stroke: 'black',
-        strokeWidth: 0.3,
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       {data.annotations.map((_, index) => (
         <RangeSeries
           // eslint-disable-next-line react/no-array-index-key
@@ -66,19 +63,12 @@ export function Absorbance() {
         lineStyle={{ stroke: 'red' }}
       />
 
-      <Axis
-        id="x"
-        position="bottom"
-        label="Wavelength [cm-1]"
-        labelSpace={40}
-        flip
-      />
+      <Axis id="x" position="bottom" label="Wavelength [cm-1]" flip />
       <Axis
         id="y"
         position="left"
         label="Absorbance"
-        labelSpace={50}
-        displayGridLines
+        displayPrimaryGridLines
         paddingStart={0.02}
         paddingEnd={0.1}
       />

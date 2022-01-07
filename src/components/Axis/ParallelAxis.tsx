@@ -1,18 +1,14 @@
-import React from 'react';
+import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 
-import { usePlotContext } from '../../hooks';
-import type { Horizontal, ParallelAxisProps, Vertical } from '../../types';
+import { usePlotContext } from '../../plotContext';
+import type { Position } from '../../types';
 
-import BottomAxis from './BottomAxis';
-import BottomLogAxis from './BottomLogAxis';
-import LeftAxis from './LeftAxis';
-import LeftLogAxis from './LeftLogAxis';
-import RightAxis from './RightAxis';
-import RightLogAxis from './RightLogAxis';
-import TopAxis from './TopAxis';
-import TopLogAxis from './TopLogAxis';
+import { AxisProps } from './Axis';
+import LinearAxis from './LinearAxis';
+import LogAxis from './LogAxis';
+import { AxisChildProps } from './types';
 
-function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
+function parallelPosition<T extends Position>(position: T): T {
   switch (position) {
     case 'bottom': {
       return 'top' as T;
@@ -32,57 +28,56 @@ function parallelPosition<T extends Horizontal | Vertical>(position: T): T {
   }
 }
 
-export default function ParallelAxis({
-  id,
-  fontSize = 16,
-  labelSpace = 24,
-  hidden = false,
-  tickStyle = {},
-  tickLength = 6,
-  ...props
-}: ParallelAxisProps) {
-  const { axisContext } = usePlotContext();
+export type ParallelAxisProps = Omit<
+  AxisProps,
+  | 'id'
+  | 'position'
+  | 'min'
+  | 'max'
+  | 'paddingStart'
+  | 'paddingEnd'
+  | 'flip'
+  | 'scale'
+  | 'displayPrimaryGridLines'
+  | 'displaySecondaryGridLines'
+> & { id: string };
+
+export function ParallelAxis(props: ParallelAxisProps) {
+  const { id, hidden = false, ...otherProps } = props;
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Don't display axis if parent id not in context
   const parentAxis = axisContext[id];
   if (!parentAxis) return null;
 
-  // Get position oposite to parent axis
+  // Get position opposite to parent axis
   const position = parallelPosition(parentAxis.position);
-  const existing = Object.values(axisContext).find(
-    (axis) => axis.position === position,
-  );
-  if (existing) throw new Error(`Position ${position} was already declared`);
 
-  // Renders accordly to position and scale
-  const { type } = parentAxis;
-  const childProps: ParallelAxisProps = {
-    id,
-    fontSize,
-    labelSpace,
+  // Renders according to position and scale
+  const { type, scale, scientific } = parentAxis;
+  const childProps: AxisChildProps = {
+    plotWidth,
+    plotHeight,
+    position,
+    scientific,
+    displayPrimaryGridLines: false,
     hidden,
-    tickStyle,
-    tickLength,
-    ...props,
+    ...otherProps,
   };
-  switch (`${position}-${type}`) {
-    case 'top-log':
-      return <TopLogAxis {...childProps} />;
-    case 'top-linear':
-      return <TopAxis {...childProps} />;
-    case 'bottom-log':
-      return <BottomLogAxis {...childProps} />;
-    case 'bottom-linear':
-      return <BottomAxis {...childProps} />;
-    case 'left-log':
-      return <LeftLogAxis {...childProps} />;
-    case 'left-linear':
-      return <LeftAxis {...childProps} />;
-    case 'right-log':
-      return <RightLogAxis {...childProps} />;
-    case 'right-linear':
-      return <RightAxis {...childProps} />;
-    default:
-      return null;
+
+  if (type === 'linear') {
+    return (
+      <LinearAxis
+        {...childProps}
+        scale={scale as ScaleLinear<number, number>}
+      />
+    );
+  } else {
+    return (
+      <LogAxis
+        {...childProps}
+        scale={scale as ScaleLogarithmic<number, number>}
+      />
+    );
   }
 }

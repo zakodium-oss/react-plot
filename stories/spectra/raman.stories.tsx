@@ -2,7 +2,7 @@ import { Meta } from '@storybook/react';
 
 import { Axis, LineSeries, Plot } from '../../src';
 import data from '../data/raman.json';
-import { DEFAULT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/Raman',
@@ -10,11 +10,7 @@ export default {
 
 export function RamanExample() {
   return (
-    <Plot
-      {...DEFAULT_CONFIG}
-      margin={{ bottom: 45, left: 50, top: 40, right: 40 }}
-      seriesViewportStyle={{ stroke: 'black' }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries
         data={data}
         xAxis="x"

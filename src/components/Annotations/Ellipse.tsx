@@ -2,10 +2,18 @@ import { SVGProps } from 'react';
 
 import { useEllipsePosition } from '../../hooks';
 
-type SvgEllipseProps = SVGProps<SVGEllipseElement>;
-export type EllipseProps = Omit<SvgEllipseProps, 'x1' | 'x2' | 'y1' | 'y2'>;
+export interface AnnotationEllipseProps
+  extends Omit<
+    SVGProps<SVGEllipseElement>,
+    'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'rx' | 'ry'
+  > {
+  cx: number | string;
+  cy: number | string;
+  rx: number | string;
+  ry: number | string;
+}
 
-export default function Ellipse(props: EllipseProps) {
+export function Ellipse(props: AnnotationEllipseProps) {
   const { cx: oldCx, cy: oldCy, rx: oldRx, ry: oldRy, ...otherProps } = props;
 
   const { cx, cy, rx, ry } = useEllipsePosition({

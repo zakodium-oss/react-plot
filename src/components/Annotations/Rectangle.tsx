@@ -2,13 +2,18 @@ import { SVGProps } from 'react';
 
 import { usePositionAndSize } from '../../hooks';
 
-type SvgRectProps = SVGProps<SVGRectElement>;
-export type RectangleProps = Omit<
-  SvgRectProps,
-  'x1' | 'x2' | 'y1' | 'y2' | 'transform'
->;
+export interface AnnotationRectangleProps
+  extends Omit<
+    SVGProps<SVGRectElement>,
+    'x1' | 'x2' | 'y1' | 'y2' | 'x' | 'y' | 'width' | 'height'
+  > {
+  x: number | string;
+  y: number | string;
+  width: number | string;
+  height: number | string;
+}
 
-export default function Rectangle(props: RectangleProps) {
+export function Rectangle(props: AnnotationRectangleProps) {
   const {
     x: oldX,
     y: oldY,

@@ -1,20 +1,7 @@
-import { Children, CSSProperties, isValidElement, ReactNode } from 'react';
+import { CSSProperties } from 'react';
 
-import { Annotations } from './components/Annotations/Annotation';
-import Axis from './components/Axis';
-import ParallelAxis from './components/Axis/ParallelAxis';
-import BarSeries from './components/BarSeries';
-import Heading from './components/Heading';
-import Legend from './components/Legend';
-import LineSeries from './components/LineSeries';
-import RangeSeries from './components/RangeSeries';
-import ScatterSeries from './components/ScatterSeries';
-import type {
-  AxisContextType,
-  CSSFuncProps,
-  PlotChildren,
-  SeriesPointErrorType,
-} from './types';
+import { PlotAxisContext } from './plotContext';
+import type { CSSFuncProps, SeriesPointError } from './types';
 
 let currentValue = 1;
 
@@ -23,55 +10,6 @@ let currentValue = 1;
  */
 export function getNextId() {
   return ++currentValue;
-}
-
-/**
- * Validates that all the children inside Plot are supported and organizes them by kind.
- */
-export function splitChildren(children: ReactNode): PlotChildren {
-  const axes = [];
-  let heading = null;
-  let legend = null;
-  let seriesAndAnnotations = [];
-
-  for (let child of Children.toArray(children)) {
-    if (typeof child !== 'object' || !isValidElement(child)) {
-      // eslint-disable-next-line no-console
-      console.error('Invalid Plot child:', child);
-      throw new Error('invalid Plot child');
-    } else if (
-      child.type === LineSeries ||
-      child.type === ScatterSeries ||
-      child.type === RangeSeries ||
-      child.type === BarSeries ||
-      child.type === Annotations
-    ) {
-      seriesAndAnnotations.push(child);
-    } else if (child.type === Axis || child.type === ParallelAxis) {
-      axes.push(child);
-    } else if (child.type === Heading) {
-      if (heading !== null) {
-        throw new Error('Plot can only have one Heading element');
-      }
-      heading = child;
-    } else if (child.type === Legend) {
-      if (legend !== null) {
-        throw new Error('Plot can only have one Legend element');
-      }
-      legend = child;
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('Invalid Plot child: ', child);
-      throw new Error('invalid plot child');
-    }
-  }
-
-  return {
-    seriesAndAnnotations,
-    axes,
-    heading,
-    legend,
-  };
 }
 
 const horizontal = ['top', 'bottom'];
@@ -96,7 +34,7 @@ export function validatePosition(
  * Validates that two axes are orthogonal between them
  */
 export function validateAxis(
-  axisContext: Record<string, AxisContextType>,
+  axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
 ) {
@@ -147,33 +85,11 @@ export function functionalStyle<T>(
 }
 
 /**
- * Calculate Ticks number to display
- */
-export function calculateTicksNumber(
-  plotWidth: number,
-  scientific: boolean,
-  domain: number[] = [0, 1],
-): number {
-  const fontSizeDefault = 16;
-  const scientificTickLength = 7;
-  let tickLength = `${Math.trunc(domain[1])}`.length;
-  // if domain too small => tickLength+2 for decimal values
-  tickLength =
-    domain[1] - domain[0] < plotWidth * 0.05 ? tickLength + 2 : tickLength;
-
-  const ticksNumber = scientific
-    ? plotWidth / (scientificTickLength * fontSizeDefault)
-    : plotWidth / (tickLength * fontSizeDefault);
-
-  return ticksNumber;
-}
-
-/**
  * validate series point Error
  */
 export function validateSeriesPointError(
-  error: SeriesPointErrorType,
-): SeriesPointErrorType {
+  error: SeriesPointError,
+): SeriesPointError {
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;

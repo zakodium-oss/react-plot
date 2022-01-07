@@ -1,21 +1,16 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { usePlotContext } from '../hooks';
-import { LineSeriesProps, SeriesPointType } from '../types';
+import { useLegend } from '../legendContext';
+import { usePlotContext } from '../plotContext';
+import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
-import ScatterSeries from './ScatterSeries';
-import { useLegend } from './legendsContext';
+import { LineSeriesProps } from './LineSeries';
+import { ScatterSeries } from './ScatterSeries';
 
-interface BarSeriesRenderProps {
-  id: string;
-  data: SeriesPointType[];
-  xAxis: string;
-  yAxis: string;
-  lineStyle: CSSProperties;
-}
+export interface BarSeriesProps extends LineSeriesProps {}
 
-export default function BarSeries(props: LineSeriesProps) {
+export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const [id] = useState(() => props.groupId || `series-${getNextId()}`);
@@ -32,7 +27,7 @@ export default function BarSeries(props: LineSeriesProps) {
     ? lineStyle?.stroke.toString()
     : colorScaler(id);
 
-  const color = otherProps.markerStyle?.fill.toString() || colorScaler(id);
+  const color = otherProps.markerStyle?.fill?.toString() || colorScaler(id);
   const figure = otherProps.markerShape || 'circle';
 
   const shape = useMemo(() => {
@@ -69,6 +64,14 @@ export default function BarSeries(props: LineSeriesProps) {
   );
 }
 
+interface BarSeriesRenderProps {
+  id: string;
+  data: SeriesPoint[];
+  xAxis: string;
+  yAxis: string;
+  lineStyle: CSSProperties;
+}
+
 function BarSeriesRender({
   id,
   data,
@@ -81,7 +84,9 @@ function BarSeriesRender({
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
   const color = colorScaler(id);
-  if ([xScale, yScale].includes(undefined)) return null;
+  if (xScale === undefined || yScale === undefined) {
+    return null;
+  }
 
   // default style
   const style = {
