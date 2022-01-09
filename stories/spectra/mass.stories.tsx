@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, BarSeries, Plot } from '../../src';
+import { Axis, BarSeries, LineSeries, Plot } from '../../src';
+import advancedData from '../data/advenced-mass.json';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -17,7 +18,31 @@ export function MassExample() {
         yAxis="y"
         lineStyle={{ stroke: 'blue' }}
       />
-
+      <Axis id="x" position="bottom" label="Mass [m/z]" />
+      <Axis
+        id="y"
+        position="left"
+        label="Relative intensity [%]"
+        paddingEnd={0.1}
+      />
+    </Plot>
+  );
+}
+export function AdvancedMassExample() {
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <LineSeries
+        data={advancedData.profile}
+        lineStyle={{ stroke: 'green' }}
+        xAxis="x"
+        yAxis="y"
+      />
+      <BarSeries
+        data={advancedData.bestPeaks}
+        xAxis="x"
+        yAxis="y"
+        lineStyle={{ stroke: 'red' }}
+      />
       <Axis id="x" position="bottom" label="Mass [m/z]" />
       <Axis
         id="y"
