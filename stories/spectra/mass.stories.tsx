@@ -30,11 +30,7 @@ export function MassExample() {
     </Plot>
   );
 }
-export const AdvancedMassExample = AdvancedMassStory.bind({});
-AdvancedMassExample.args = {
-  zoom: false,
-};
-function AdvancedMassStory(props: { zoom: boolean }) {
+export function AdvancedMassExample(props: { zoom: boolean }) {
   const { zoom } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
@@ -96,3 +92,7 @@ function AdvancedMassStory(props: { zoom: boolean }) {
     </Plot>
   );
 }
+
+AdvancedMassExample.args = {
+  zoom: false,
+};
