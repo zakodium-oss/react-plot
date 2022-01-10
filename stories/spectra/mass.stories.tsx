@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 
-import advancedData from '../../scripts/mass/HCys100OH_0.01.json';
 import { Axis, BarSeries, LineSeries, Plot } from '../../src';
+import advancedData from '../data/HCys100OH_0.01.json';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -38,7 +38,7 @@ export function AdvancedMassExample() {
         yAxis="y"
       />
       <BarSeries
-        data={advancedData.bestPeaks}
+        data={advancedData.centroid}
         xAxis="x"
         yAxis="y"
         lineStyle={{ stroke: 'red' }}
