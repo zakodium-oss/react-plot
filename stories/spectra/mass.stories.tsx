@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
 import { Annotations, Axis, BarSeries, LineSeries, Plot } from '../../src';
+import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
 import advancedData from '../data/HCys100OH_0.01.json';
@@ -30,8 +31,8 @@ export function MassExample() {
     </Plot>
   );
 }
-export function AdvancedMassExample(props: { zoom: boolean }) {
-  const { zoom } = props;
+export function AdvancedMassExample(props: { min?: number; max?: number }) {
+  const { min, max } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries
@@ -48,36 +49,27 @@ export function AdvancedMassExample(props: { zoom: boolean }) {
       />
       <Annotations>
         {advancedData.bestPeaks.map((peak) => (
-          <>
+          <Group key={peak.label} x={peak.x} y={peak.y}>
             <Line
-              key={peak.label}
-              x1={peak.x}
-              x2={peak.x}
-              y1={peak.y}
-              y2={peak.y + 2}
-              style={{ stroke: 'blue' }}
+              x1="0"
+              x2="0"
+              y1="0"
+              y2="-5"
+              style={{ strokeWidth: 2, stroke: 'blue' }}
             />
-            <Text
-              style={{ fontSize: '13px', fontWeight: '600' }}
-              x={peak.x}
-              y={peak.y}
-            >
+            <Text style={{ fontSize: '13px', fontWeight: '600' }} x="2" y="0">
               {peak.shortLabel}
             </Text>
-            <Text
-              style={{ fontSize: '13px', fontWeight: '600' }}
-              x={peak.x}
-              y={peak.y + 3}
-            >
+            <Text style={{ fontSize: '13px', fontWeight: '600' }} x="2" y="-14">
               {peak.x.toFixed(4)}
             </Text>
-          </>
+          </Group>
         ))}
       </Annotations>
       <Axis
         displayPrimaryGridLines
-        min={zoom ? 10331.85 : undefined}
-        max={zoom ? 10332 : undefined}
+        min={min}
+        max={max}
         id="x"
         position="bottom"
         label="Mass [m/z]"
@@ -93,6 +85,4 @@ export function AdvancedMassExample(props: { zoom: boolean }) {
   );
 }
 
-AdvancedMassExample.args = {
-  zoom: false,
-};
+AdvancedMassExample.args = { min: 10310, max: 10355 };
