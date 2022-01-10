@@ -11,7 +11,12 @@ import {
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
 import type { AxisProps } from './components/Axis/Axis';
-import type { ActionType, Position, SeriesPoint } from './types';
+import type {
+  ActionType,
+  Position,
+  SeriesPoint,
+  TickLabelFormat,
+} from './types';
 import { validatePosition } from './utils';
 
 interface PlotSeriesStateAxis {
@@ -55,7 +60,7 @@ interface PlotAxisContextGeneric<
   Scale extends ScaleContinuousNumeric<number, number>,
 > {
   scale: Scale;
-  tickLabelFormat: (any) => string;
+  tickLabelFormat: TickLabelFormat;
   position: Position;
 }
 
