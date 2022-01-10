@@ -30,7 +30,12 @@ export function MassExample() {
     </Plot>
   );
 }
-export function AdvancedMassExample() {
+export const AdvancedMassExample = AdvancedMassStory.bind({});
+AdvancedMassExample.args = {
+  zoom: false,
+};
+function AdvancedMassStory(props: { zoom: boolean }) {
+  const { zoom } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries
@@ -75,7 +80,8 @@ export function AdvancedMassExample() {
       </Annotations>
       <Axis
         displayPrimaryGridLines
-        min={10310}
+        min={zoom ? 10331.85 : undefined}
+        max={zoom ? 10332 : undefined}
         id="x"
         position="bottom"
         label="Mass [m/z]"
