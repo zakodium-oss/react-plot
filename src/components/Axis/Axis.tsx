@@ -2,7 +2,7 @@ import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { CSSProperties, ReactNode, useEffect } from 'react';
 
 import { usePlotContext, usePlotDispatchContext } from '../../plotContext';
-import { Position } from '../../types';
+import { Position, TickLabelFormat } from '../../types';
 
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
@@ -44,7 +44,7 @@ export interface AxisProps {
   hiddenTicks?: boolean;
   tickPosition?: 'inner' | 'outer' | 'center';
   // TODO: Precise this.
-  tickLabelFormat?: (any) => string;
+  tickLabelFormat?: TickLabelFormat;
   tickLabelStyle?: CSSProperties;
 
   primaryTickLength?: number;

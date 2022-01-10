@@ -44,3 +44,5 @@ export interface BaseSeriesProps<T = SeriesPoint> {
 export type ActionType<Action, Payload = void> = Payload extends void
   ? { type: Action }
   : { type: Action; payload: Payload };
+
+export type TickLabelFormat = (value: number) => string;

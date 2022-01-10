@@ -35,7 +35,14 @@ export interface PlotState {
 
 type PlotStateAxis = Pick<
   AxisProps,
-  'position' | 'min' | 'max' | 'paddingStart' | 'paddingEnd' | 'flip' | 'scale'
+  | 'position'
+  | 'min'
+  | 'max'
+  | 'paddingStart'
+  | 'paddingEnd'
+  | 'flip'
+  | 'scale'
+  | 'tickLabelFormat'
 >;
 
 export type PlotReducerActions =
@@ -141,9 +148,6 @@ interface SizeProps {
   plotHeight: number;
 }
 
-function toExponential(value: number) {
-  return value.toExponential(2);
-}
 export function useAxisContext(
   state: PlotState,
   { plotWidth, plotHeight }: SizeProps,
@@ -184,7 +188,7 @@ export function useAxisContext(
           axisContext[id] = {
             type: axis.scale,
             position: axis.position,
-            tickLabelFormat: toExponential,
+            tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLog()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
@@ -196,8 +200,7 @@ export function useAxisContext(
           axisContext[id] = {
             type: 'linear' as const,
             position: axis.position,
-            tickLabelFormat:
-              diff <= 0.01 || diff >= 1000 ? toExponential : undefined,
+            tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLinear()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
