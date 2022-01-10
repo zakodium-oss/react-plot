@@ -73,8 +73,15 @@ export function AdvancedMassExample() {
           </>
         ))}
       </Annotations>
-      <Axis min={10310} id="x" position="bottom" label="Mass [m/z]" />
       <Axis
+        displayPrimaryGridLines
+        min={10310}
+        id="x"
+        position="bottom"
+        label="Mass [m/z]"
+      />
+      <Axis
+        displayPrimaryGridLines
         id="y"
         position="left"
         label="Relative intensity [%]"
