@@ -54,12 +54,12 @@ export function ParallelAxis(props: ParallelAxisProps) {
   const position = parallelPosition(parentAxis.position);
 
   // Renders according to position and scale
-  const { type, scale, scientific } = parentAxis;
+  const { type, scale, tickLabelFormat } = parentAxis;
   const childProps: AxisChildProps = {
     plotWidth,
     plotHeight,
     position,
-    scientific,
+    tickLabelFormat,
     displayPrimaryGridLines: false,
     hidden,
     ...otherProps,

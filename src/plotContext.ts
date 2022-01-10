@@ -48,7 +48,7 @@ interface PlotAxisContextGeneric<
   Scale extends ScaleContinuousNumeric<number, number>,
 > {
   scale: Scale;
-  scientific: boolean;
+  tickLabelFormat: (any) => string;
   position: Position;
 }
 
@@ -141,6 +141,9 @@ interface SizeProps {
   plotHeight: number;
 }
 
+function toExponential(value: number) {
+  return value.toExponential(2);
+}
 export function useAxisContext(
   state: PlotState,
   { plotWidth, plotHeight }: SizeProps,
@@ -181,7 +184,7 @@ export function useAxisContext(
           axisContext[id] = {
             type: axis.scale,
             position: axis.position,
-            scientific: true,
+            tickLabelFormat: toExponential,
             scale: scaleLog()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
@@ -193,7 +196,8 @@ export function useAxisContext(
           axisContext[id] = {
             type: 'linear' as const,
             position: axis.position,
-            scientific: diff <= 0.01 || diff >= 1000,
+            tickLabelFormat:
+              diff <= 0.01 || diff >= 1000 ? toExponential : undefined,
             scale: scaleLinear()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),

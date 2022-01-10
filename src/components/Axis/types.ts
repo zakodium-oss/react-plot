@@ -20,5 +20,5 @@ export interface AxisRendererProps extends AxisCommonProps {
 }
 
 export interface AxisChildProps extends AxisCommonProps {
-  scientific: boolean;
+  tickLabelFormat?: (any) => string;
 }
