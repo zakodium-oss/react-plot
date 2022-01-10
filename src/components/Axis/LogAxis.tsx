@@ -10,12 +10,8 @@ interface LogAxisProps extends AxisChildProps {
   scale: ScaleLogarithmic<number, number>;
 }
 
-function toExponential(value: number) {
-  return value.toExponential(2);
-}
-
 export default function LinearAxis(props: LogAxisProps) {
-  const { position, scientific, scale, ...otherProps } = props;
+  const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);
 
@@ -23,7 +19,7 @@ export default function LinearAxis(props: LogAxisProps) {
     position === 'left' || position === 'right' ? 'vertical' : 'horizontal';
 
   const primaryTicks = useLogTicks(scale, direction, axisRef, {
-    tickFormat: scientific ? toExponential : undefined,
+    tickFormat: tickLabelFormat,
   });
 
   const AxisComponent =

@@ -11,7 +11,12 @@ import {
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
 import type { AxisProps } from './components/Axis/Axis';
-import type { ActionType, Position, SeriesPoint } from './types';
+import type {
+  ActionType,
+  Position,
+  SeriesPoint,
+  TickLabelFormat,
+} from './types';
 import { validatePosition } from './utils';
 
 interface PlotSeriesStateAxis {
@@ -35,7 +40,14 @@ export interface PlotState {
 
 type PlotStateAxis = Pick<
   AxisProps,
-  'position' | 'min' | 'max' | 'paddingStart' | 'paddingEnd' | 'flip' | 'scale'
+  | 'position'
+  | 'min'
+  | 'max'
+  | 'paddingStart'
+  | 'paddingEnd'
+  | 'flip'
+  | 'scale'
+  | 'tickLabelFormat'
 >;
 
 export type PlotReducerActions =
@@ -48,7 +60,7 @@ interface PlotAxisContextGeneric<
   Scale extends ScaleContinuousNumeric<number, number>,
 > {
   scale: Scale;
-  scientific: boolean;
+  tickLabelFormat: TickLabelFormat;
   position: Position;
 }
 
@@ -181,7 +193,7 @@ export function useAxisContext(
           axisContext[id] = {
             type: axis.scale,
             position: axis.position,
-            scientific: true,
+            tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLog()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
@@ -193,7 +205,7 @@ export function useAxisContext(
           axisContext[id] = {
             type: 'linear' as const,
             position: axis.position,
-            scientific: diff <= 0.01 || diff >= 1000,
+            tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLinear()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),

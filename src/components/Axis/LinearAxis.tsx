@@ -10,12 +10,8 @@ interface LinearAxisProps extends AxisChildProps {
   scale: ScaleLinear<number, number>;
 }
 
-function toExponential(value: number) {
-  return value.toExponential(2);
-}
-
 export default function LinearAxis(props: LinearAxisProps) {
-  const { position, scientific, scale, ...otherProps } = props;
+  const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);
 
@@ -23,7 +19,7 @@ export default function LinearAxis(props: LinearAxisProps) {
     position === 'left' || position === 'right' ? 'vertical' : 'horizontal';
 
   const primaryTicks = useLinearPrimaryTicks(scale, direction, axisRef, {
-    tickFormat: scientific ? toExponential : undefined,
+    tickFormat: tickLabelFormat,
   });
 
   const AxisComponent =
