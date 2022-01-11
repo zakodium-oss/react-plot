@@ -14,7 +14,7 @@ export default {
     x: 2000,
     y: '200',
     r: 100,
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationCircleProps>;
 
