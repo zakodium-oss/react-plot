@@ -3,10 +3,7 @@ import { SVGProps } from 'react';
 import { useEllipsePosition } from '../../hooks';
 
 export interface AnnotationEllipseProps
-  extends Omit<
-    SVGProps<SVGEllipseElement>,
-    'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'rx' | 'ry'
-  > {
+  extends Omit<SVGProps<SVGEllipseElement>, 'cx' | 'cy' | 'rx' | 'ry'> {
   x: number | string;
   y: number | string;
   rx: number | string;

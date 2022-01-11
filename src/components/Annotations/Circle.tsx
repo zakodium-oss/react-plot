@@ -3,10 +3,7 @@ import { SVGProps } from 'react';
 import { useEllipsePosition } from '../../hooks';
 
 export interface AnnotationCircleProps
-  extends Omit<
-    SVGProps<SVGCircleElement>,
-    'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'r'
-  > {
+  extends Omit<SVGProps<SVGCircleElement>, 'cx' | 'cy' | 'r'> {
   x: number | string;
   y: number | string;
   r: number | string;
