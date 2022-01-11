@@ -11,10 +11,10 @@ export default {
   title: 'API/Annotations',
   component: Rectangle,
   args: {
-    x: '300',
-    y: 45,
-    width: 500,
-    height: '50',
+    x1: '300',
+    y1: 45,
+    x2: 1000,
+    y2: '50',
     style: { fill: 'red' },
   },
 } as Meta<AnnotationRectangleProps>;
