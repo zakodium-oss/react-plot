@@ -39,8 +39,8 @@ export function usePositionAndSize(config: UsePositionAndSizeConfig) {
 }
 
 interface UseEllipsePositionConfig {
-  cx: NumberOrString;
-  cy: NumberOrString;
+  x: NumberOrString;
+  y: NumberOrString;
   rx: NumberOrString;
   ry: NumberOrString;
 }
@@ -48,11 +48,11 @@ interface UseEllipsePositionConfig {
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { cx, cy, rx, ry } = props;
+  const { x, y, rx, ry } = props;
 
   return {
-    cx: convertValue(cx, xScale),
-    cy: convertValue(cy, yScale),
+    x: convertValue(x, xScale),
+    y: convertValue(y, yScale),
     rx: convertValueAbs(rx, xScale),
     ry: convertValueAbs(ry, yScale),
   };

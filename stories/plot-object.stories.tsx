@@ -103,8 +103,8 @@ export function Control() {
   return (
     <PlotObject plot={plot}>
       <Annotation.Circle
-        cx={4}
-        cy={5}
+        x={4}
+        y={5}
         r={0.2}
         style={{ stroke: 'purple', fill: 'purple' }}
       />
