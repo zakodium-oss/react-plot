@@ -11,7 +11,7 @@ export interface AnnotationRectangleProps
   y1: number | string;
   x2: number | string;
   y2: number | string;
-  color: string;
+  color?: string;
 }
 
 export function Rectangle(props: AnnotationRectangleProps) {

@@ -9,7 +9,7 @@ export interface AnnotationTextProps
   > {
   x: number | string;
   y: number | string;
-  color: string;
+  color?: string;
   children: ReactNode;
 }
 

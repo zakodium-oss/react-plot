@@ -8,7 +8,7 @@ export interface AnnotationLineProps
   x2: number | string;
   y1: number | string;
   y2: number | string;
-  color: string;
+  color?: string;
 }
 
 export function Line(props: AnnotationLineProps) {
