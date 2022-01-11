@@ -15,7 +15,7 @@ export default {
     y: '270',
     rx: '30',
     ry: 10,
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationEllipseProps>;
 
