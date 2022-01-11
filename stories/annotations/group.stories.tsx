@@ -5,6 +5,7 @@ import {
   Group,
   AnnotationGroupProps,
 } from '../../src/components/Annotations/Group';
+import { Shape } from '../../src/components/Annotations/Shape';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -12,14 +13,23 @@ export default {
   title: 'API/Annotations',
   component: Group,
   args: {
-    x: 1800,
+    x: 2200,
     y: '250',
+    horizontalAlign: 'start',
+    verticalAlign: 'start',
   },
 } as Meta<AnnotationGroupProps>;
 
 export function AnnotationGroup(props: AnnotationGroupProps) {
   return (
     <AnnotationPlot>
+      <Shape
+        x={props.x}
+        y={props.y}
+        shape="square"
+        size={5}
+        style={{ fill: 'red' }}
+      />
       <Group {...props}>
         <Annotation.Text x="0" y="0">
           Hello, World!
