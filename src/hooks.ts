@@ -78,12 +78,10 @@ export function usePointPosition(config: UsePositionConfig[]) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const points = config;
-  let result = '';
-  points.forEach((point) => {
-    result = `${result} ${convertValue(point.x, xScale)},${convertValue(
-      point.y,
-      yScale,
-    )}`;
-  });
-  return result;
+  return points
+    .map(
+      (point) =>
+        `${convertValue(point.x, xScale)},${convertValue(point.y, yScale)}`,
+    )
+    .join(' ');
 }
