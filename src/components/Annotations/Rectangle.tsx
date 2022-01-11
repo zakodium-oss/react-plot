@@ -11,10 +11,18 @@ export interface AnnotationRectangleProps
   y1: number | string;
   x2: number | string;
   y2: number | string;
+  color: string;
 }
 
 export function Rectangle(props: AnnotationRectangleProps) {
-  const { x1: oldX1, y1: oldY1, x2: oldX2, y2: oldY2, ...otherProps } = props;
+  const {
+    x1: oldX1,
+    y1: oldY1,
+    x2: oldX2,
+    y2: oldY2,
+    color,
+    ...otherProps
+  } = props;
   const { x, y, width, height } = useRectanglePosition({
     x1: oldX1,
     y1: oldY1,
@@ -22,5 +30,14 @@ export function Rectangle(props: AnnotationRectangleProps) {
     y2: oldY2,
   });
 
-  return <rect x={x} y={y} width={width} height={height} {...otherProps} />;
+  return (
+    <rect
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      fill={color}
+      {...otherProps}
+    />
+  );
 }

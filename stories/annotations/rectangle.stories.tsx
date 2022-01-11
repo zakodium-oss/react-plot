@@ -15,7 +15,7 @@ export default {
     y1: 45,
     x2: 1000,
     y2: '50',
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationRectangleProps>;
 
