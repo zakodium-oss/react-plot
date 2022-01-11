@@ -9,16 +9,17 @@ export interface AnnotationTextProps
   > {
   x: number | string;
   y: number | string;
+  color: string;
   children: ReactNode;
 }
 
 export function Text(props: AnnotationTextProps) {
-  const { x: xOld, y: yOld, children, ...otherProps } = props;
+  const { x: xOld, y: yOld, children, color, ...otherProps } = props;
 
   const { x, y } = usePosition({ x: xOld, y: yOld });
 
   return (
-    <text x={x} y={y} {...otherProps}>
+    <text x={x} y={y} fill={color} {...otherProps}>
       {children}
     </text>
   );
