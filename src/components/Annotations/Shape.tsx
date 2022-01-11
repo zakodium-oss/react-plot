@@ -20,22 +20,43 @@ export type AnnotationShapeName = 'triangle' | 'circle' | 'diamond' | 'square';
 interface IntAnnotationShape {
   size: number;
   style?: CSSProperties;
+  color?: string;
 }
 
 function Triangle(props: IntAnnotationShape) {
-  return <TriangleMarker size={props.size} style={props.style} />;
+  return (
+    <TriangleMarker
+      size={props.size}
+      style={{ fill: props.color, ...props.style }}
+    />
+  );
 }
 
 function Circle(props: IntAnnotationShape) {
-  return <CircleMarker size={props.size} style={props.style} />;
+  return (
+    <CircleMarker
+      size={props.size}
+      style={{ fill: props.color, ...props.style }}
+    />
+  );
 }
 
 function Diamond(props: IntAnnotationShape) {
-  return <DiamondMarker size={props.size} style={props.style} />;
+  return (
+    <DiamondMarker
+      size={props.size}
+      style={{ fill: props.color, ...props.style }}
+    />
+  );
 }
 
 function Square(props: IntAnnotationShape) {
-  return <SquareMarker size={props.size} style={props.style} />;
+  return (
+    <SquareMarker
+      size={props.size}
+      style={{ fill: props.color, ...props.style }}
+    />
+  );
 }
 
 export interface AnnotationShapeProps {
@@ -44,6 +65,7 @@ export interface AnnotationShapeProps {
   shape: AnnotationShapeName;
   size: number;
   style?: CSSProperties;
+  color?: string;
 }
 
 export function Shape(props: AnnotationShapeProps) {
@@ -57,7 +79,7 @@ export function Shape(props: AnnotationShapeProps) {
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <Figure size={props.size} style={props.style} />
+      <Figure size={props.size} style={props.style} color={props.color} />
     </g>
   );
 }
