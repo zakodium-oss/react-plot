@@ -17,7 +17,7 @@ export default {
       { x: '20', y: '70' },
       { x: 2000, y: 8 },
     ],
-    style: { stroke: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationPolylineProps>;
 

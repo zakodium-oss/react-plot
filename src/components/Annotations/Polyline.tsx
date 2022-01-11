@@ -1,31 +1,18 @@
 import { SVGProps } from 'react';
 
-import { Line } from './Line';
+import { usePointPosition } from '../../hooks';
 
 export interface AnnotationPolylineProps
-  extends Omit<SVGProps<SVGLineElement>, 'points'> {
+  extends Omit<SVGProps<SVGPolylineElement>, 'points'> {
   points: { x: number | string; y: number | string }[];
+  color: string;
 }
 
 export function Polyline(props: AnnotationPolylineProps) {
-  const { points, ...polylineProps } = props;
+  const { points: oldPoints, color, ...polylineProps } = props;
+  const points = usePointPosition(oldPoints);
+
   return (
-    <>
-      {points.map((point, i) => {
-        if (i === points.length - 1) {
-          return null;
-        }
-        return (
-          <Line
-            key={`${point.x}-${point.y}`}
-            x1={point.x}
-            y1={point.y}
-            x2={points[i + 1].x}
-            y2={points[i + 1].y}
-            {...polylineProps}
-          />
-        );
-      })}
-    </>
+    <polyline stroke={color} fill="none" points={points} {...polylineProps} />
   );
 }
