@@ -28,6 +28,8 @@ export interface TrackingProps {
   onClick?: (result: TrackingResult) => void;
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseUp?: (result: TrackingResult) => void;
+  onMouseDown?: (result: TrackingResult) => void;
   stateSeries: PlotSeriesState[];
 }
 
@@ -133,6 +135,8 @@ export default function Tracking({
   onClick,
   onMouseEnter,
   onMouseLeave,
+  onMouseDown,
+  onMouseUp,
   stateSeries,
 }: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
@@ -151,6 +155,12 @@ export default function Tracking({
       }}
       onMouseEnter={(event) => onMouseEnter?.(event)}
       onMouseLeave={(event) => onMouseLeave?.(event)}
+      onMouseDown={(event) =>
+        onMouseDown?.(infoFromMouse(event, axisContext, stateSeries))
+      }
+      onMouseUp={(event) =>
+        onMouseUp?.(infoFromMouse(event, axisContext, stateSeries))
+      }
     />
   );
 }
