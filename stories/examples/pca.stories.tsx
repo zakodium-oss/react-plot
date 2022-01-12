@@ -2,7 +2,6 @@ import { Meta } from '@storybook/react';
 
 import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
 import { Ellipse } from '../../src/components/Annotations/Ellipse';
-import { Group } from '../../src/components/Annotations/Group';
 import { Text } from '../../src/components/Annotations/Text';
 import data from '../data/pca.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -37,37 +36,30 @@ export function PCAExample() {
       <Annotations>
         {data.ellipses.map(
           ({ x, y, rx, ry, fillColor, fillOpacity, label, angle }) => (
-            <Group
+            <g
               key={`${x}-${y}`}
-              x={x}
-              y={y}
-              horizontalAlign="middle"
-              verticalAlign="middle"
+              style={{
+                transform: `rotate(${
+                  (angle >= 90 || angle < -90 ? 180 : 0) - angle
+                }deg)`,
+                transformOrigin: 'center',
+                transformBox: 'fill-box',
+              }}
             >
               <Ellipse
                 rx={rx}
                 ry={ry}
-                x="0"
-                y="0"
+                x={x}
+                y={y}
+                color={fillColor}
                 style={{
-                  fill: fillColor,
                   opacity: fillOpacity,
-                  transform: `rotate(${-angle}deg)`,
                 }}
               />
-              <Text
-                x="0"
-                y="0"
-                style={{
-                  fill: fillColor,
-                  transform: `rotate(${
-                    (angle >= 90 || angle < -90 ? 180 : 0) - angle
-                  }deg)`,
-                }}
-              >
+              <Text x={x} y={y} color={fillColor}>
                 {label}
               </Text>
-            </Group>
+            </g>
           ),
         )}
       </Annotations>
