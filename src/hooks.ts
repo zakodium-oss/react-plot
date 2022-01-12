@@ -79,7 +79,7 @@ function convertValue(
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? scale(value) : value;
+  return typeof value === 'number' ? scale(value) : Number(value);
 }
 function convertMinValue(
   value1: string | number,
@@ -109,4 +109,15 @@ function convertDimensions(
     (typeof value2 === 'number' ? scale(value2) : parseInt(value2, 10)) -
       (typeof value1 === 'number' ? scale(value1) : parseInt(value1, 10)),
   );
+}
+export function usePointPosition(config: UsePositionConfig[]) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const points = config;
+  return points
+    .map(
+      (point) =>
+        `${convertValue(point.x, xScale)},${convertValue(point.y, yScale)}`,
+    )
+    .join(' ');
 }
