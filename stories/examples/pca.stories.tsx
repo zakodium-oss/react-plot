@@ -37,7 +37,13 @@ export function PCAExample() {
       <Annotations>
         {data.ellipses.map(
           ({ x, y, rx, ry, fillColor, fillOpacity, label, angle }) => (
-            <Group key={`${x}-${y}`} x={x} y={y}>
+            <Group
+              key={`${x}-${y}`}
+              x={x}
+              y={y}
+              horizontalAlign="middle"
+              verticalAlign="middle"
+            >
               <Ellipse
                 rx={rx}
                 ry={ry}
