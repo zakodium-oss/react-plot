@@ -63,7 +63,7 @@ function convertValue(
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? scale(value) : value;
+  return typeof value === 'number' ? scale(value) : Number(value);
 }
 
 function convertValueAbs(

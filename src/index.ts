@@ -1,3 +1,5 @@
+export type { Align } from 'react-d3-utils';
+
 export * from './components/Plot';
 export * from './components/PlotObject';
 
