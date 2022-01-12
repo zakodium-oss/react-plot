@@ -3,6 +3,7 @@ import { Meta } from '@storybook/react';
 import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
 import { Ellipse } from '../../src/components/Annotations/Ellipse';
 import { Group } from '../../src/components/Annotations/Group';
+import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
 import data from '../data/pca.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -40,19 +41,7 @@ export function PCAExample() {
       <Annotations>
         {data.ellipses.map(
           ({ x, y, rx, ry, fillColor, fillOpacity, label, angle }) => (
-            <Group
-              key={`${x}-${y}`}
-              x={
-                x -
-                Math.cos(DegToRad(angle)) * rx -
-                Math.sin(DegToRad(Math.abs(angle))) * ry
-              }
-              y={
-                y +
-                Math.sin(DegToRad(Math.abs(angle))) * rx +
-                Math.cos(DegToRad(angle)) * ry
-              }
-            >
+            <Group key={`${x}-${y}`} x={x} y={y}>
               <Ellipse
                 rx={rx}
                 ry={ry}
@@ -61,7 +50,7 @@ export function PCAExample() {
                 style={{
                   fill: fillColor,
                   opacity: fillOpacity,
-                  transform: `rotate(${-1 * angle}deg)`,
+                  transform: `rotate(${-angle}deg)`,
                 }}
               />
               <Text
@@ -69,7 +58,7 @@ export function PCAExample() {
                 y="0"
                 style={{
                   fill: fillColor,
-                  transform: `rotate(${-1 * angle}deg)`,
+                  transform: `rotate(${-angle}deg)`,
                 }}
               >
                 {label}
@@ -78,8 +67,20 @@ export function PCAExample() {
           ),
         )}
       </Annotations>
-      <Axis id="x" position="bottom" label="Week" />
-      <Axis id="y" position="left" label="Number of cases" paddingEnd={0.1} />
+      <Axis
+        id="x"
+        position="bottom"
+        label="Week"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
+      <Axis
+        id="y"
+        position="left"
+        label="Number of cases"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
     </Plot>
   );
 }
