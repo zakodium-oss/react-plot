@@ -60,7 +60,9 @@ export function PCAExample() {
                 y="0"
                 style={{
                   fill: fillColor,
-                  transform: `rotate(${-angle}deg)`,
+                  transform: `rotate(${
+                    (angle >= 90 || angle < -90 ? 180 : 0) - angle
+                  }deg)`,
                 }}
               >
                 {label}
