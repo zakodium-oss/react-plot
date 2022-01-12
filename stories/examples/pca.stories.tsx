@@ -3,7 +3,6 @@ import { Meta } from '@storybook/react';
 import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
 import { Ellipse } from '../../src/components/Annotations/Ellipse';
 import { Group } from '../../src/components/Annotations/Group';
-import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
 import data from '../data/pca.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -22,9 +21,6 @@ interface Point {
   id: string;
 }
 export function PCAExample() {
-  const DegToRad = (num) => {
-    return (num * Math.PI) / 180;
-  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading title="COVID-19 cases in USA (2020)" />
