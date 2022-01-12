@@ -5,7 +5,7 @@ import { usePosition } from '../../hooks';
 export interface AnnotationTextProps
   extends Omit<
     SVGProps<SVGTextElement>,
-    'x1' | 'y1' | 'x2' | 'y2' | 'x' | 'y'
+    'x1' | 'y1' | 'x2' | 'y2' | 'x' | 'y' | 'fill'
   > {
   x: number | string;
   y: number | string;

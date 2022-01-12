@@ -5,7 +5,7 @@ import { useRectanglePosition } from '../../hooks';
 export interface AnnotationRectangleProps
   extends Omit<
     SVGProps<SVGRectElement>,
-    'x1' | 'x2' | 'y1' | 'y2' | 'x' | 'y' | 'width' | 'height'
+    'x1' | 'x2' | 'y1' | 'y2' | 'x' | 'y' | 'width' | 'height' | 'fill'
   > {
   x1: number | string;
   y1: number | string;
