@@ -55,8 +55,8 @@ export function useRectanglePosition(config: UseRectanglePositionConfig) {
   };
 }
 interface UseEllipsePositionConfig {
-  x: NumberOrString;
-  y: NumberOrString;
+  cx: NumberOrString;
+  cy: NumberOrString;
   rx: NumberOrString;
   ry: NumberOrString;
 }
@@ -64,11 +64,11 @@ interface UseEllipsePositionConfig {
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { x, y, rx, ry } = props;
+  const { cx, cy, rx, ry } = props;
 
   return {
-    x: convertValue(x, xScale),
-    y: convertValue(y, yScale),
+    cx: convertValue(cx, xScale),
+    cy: convertValue(cy, yScale),
     rx: convertValueAbs(rx, xScale),
     ry: convertValueAbs(ry, yScale),
   };

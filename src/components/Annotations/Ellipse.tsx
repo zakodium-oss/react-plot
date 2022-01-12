@@ -14,21 +14,16 @@ export interface AnnotationEllipseProps
 }
 
 export function Ellipse(props: AnnotationEllipseProps) {
-  const {
-    x: oldX,
-    y: oldY,
-    rx: oldRx,
-    ry: oldRy,
-    color,
-    ...otherProps
-  } = props;
+  const { x, y, rx: oldRx, ry: oldRy, color, ...otherProps } = props;
 
-  const { x, y, rx, ry } = useEllipsePosition({
-    x: oldX,
-    y: oldY,
+  const { cx, cy, rx, ry } = useEllipsePosition({
+    cx: x,
+    cy: y,
     rx: oldRx,
     ry: oldRy,
   });
 
-  return <ellipse cx={x} cy={y} rx={rx} ry={ry} fill={color} {...otherProps} />;
+  return (
+    <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={color} {...otherProps} />
+  );
 }

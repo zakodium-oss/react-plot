@@ -14,18 +14,18 @@ export interface AnnotationCircleProps
 }
 
 export function Circle(props: AnnotationCircleProps) {
-  const { x: oldX, y: oldY, r: oldR, color, ...otherProps } = props;
+  const { x, y, r: oldR, color, ...otherProps } = props;
 
   const {
-    x,
-    y,
+    cx,
+    cy,
     rx: r,
   } = useEllipsePosition({
-    x: oldX,
-    y: oldY,
+    cx: x,
+    cy: y,
     rx: oldR,
     ry: oldR,
   });
 
-  return <circle cx={x} cy={y} r={r} fill={color} {...otherProps} />;
+  return <circle cx={cx} cy={cy} r={r} fill={color} {...otherProps} />;
 }
