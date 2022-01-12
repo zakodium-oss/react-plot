@@ -21,6 +21,7 @@ export default function MarkerDefs({ color }: { color?: string }) {
         refY="5"
         markerWidth="5"
         markerHeight="5"
+        fill={color}
       >
         <circle cx="5" cy="5" r="5" fill="current" />
       </marker>
@@ -33,6 +34,7 @@ export default function MarkerDefs({ color }: { color?: string }) {
         markerWidth="6"
         markerHeight="6"
         orient="auto"
+        fill={color}
       >
         <line x1="5" x2="5" y1="0" y2="10" stroke="black" />
       </marker>
