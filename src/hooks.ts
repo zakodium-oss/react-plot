@@ -73,3 +73,15 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number' ? Math.abs(scale(0) - scale(value)) : value;
 }
+
+export function usePointPosition(config: UsePositionConfig[]) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const points = config;
+  return points
+    .map(
+      (point) =>
+        `${convertValue(point.x, xScale)},${convertValue(point.y, yScale)}`,
+    )
+    .join(' ');
+}
