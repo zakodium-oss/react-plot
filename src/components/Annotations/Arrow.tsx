@@ -22,7 +22,7 @@ export function Arrow(props: AnnotationArrowProps) {
     y2: y2Old,
     startPoint = 'none',
     endPoint = 'triangle',
-    color,
+    color = 'black',
   } = props;
 
   const { x: x1, y: y1 } = usePosition({
