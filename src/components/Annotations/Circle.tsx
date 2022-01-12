@@ -5,26 +5,27 @@ import { useEllipsePosition } from '../../hooks';
 export interface AnnotationCircleProps
   extends Omit<
     SVGProps<SVGCircleElement>,
-    'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'r'
+    'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'r' | 'fill'
   > {
-  cx: number | string;
-  cy: number | string;
+  x: number | string;
+  y: number | string;
   r: number | string;
+  color?: string;
 }
 
 export function Circle(props: AnnotationCircleProps) {
-  const { cx: oldCx, cy: oldCy, r: oldR, ...otherProps } = props;
+  const { x, y, r: oldR, color, ...otherProps } = props;
 
   const {
     cx,
     cy,
     rx: r,
   } = useEllipsePosition({
-    cx: oldCx,
-    cy: oldCy,
+    cx: x,
+    cy: y,
     rx: oldR,
     ry: oldR,
   });
 
-  return <circle cx={cx} cy={cy} r={r} {...otherProps} />;
+  return <circle cx={cx} cy={cy} r={r} fill={color} {...otherProps} />;
 }

@@ -15,7 +15,7 @@ export default {
     x2: 2500,
     y1: '350',
     y2: 33,
-    style: { stroke: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationLineProps>;
 

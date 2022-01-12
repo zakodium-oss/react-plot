@@ -13,7 +13,7 @@ export default {
   args: {
     x: 1800,
     y: '250',
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationTextProps>;
 

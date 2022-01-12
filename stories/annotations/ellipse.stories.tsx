@@ -11,11 +11,11 @@ export default {
   title: 'API/Annotations',
   component: Ellipse,
   args: {
-    cx: 2250,
-    cy: '270',
+    x: 2250,
+    y: '270',
     rx: '30',
     ry: 10,
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationEllipseProps>;
 

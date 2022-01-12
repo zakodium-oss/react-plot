@@ -7,21 +7,23 @@ export interface AnnotationEllipseProps
     SVGProps<SVGEllipseElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'rx' | 'ry'
   > {
-  cx: number | string;
-  cy: number | string;
+  x: number | string;
+  y: number | string;
   rx: number | string;
   ry: number | string;
 }
 
 export function Ellipse(props: AnnotationEllipseProps) {
-  const { cx: oldCx, cy: oldCy, rx: oldRx, ry: oldRy, ...otherProps } = props;
+  const { x, y, rx: oldRx, ry: oldRy, color, ...otherProps } = props;
 
   const { cx, cy, rx, ry } = useEllipsePosition({
-    cx: oldCx,
-    cy: oldCy,
+    cx: x,
+    cy: y,
     rx: oldRx,
     ry: oldRy,
   });
 
-  return <ellipse cx={cx} cy={cy} rx={rx} ry={ry} {...otherProps} />;
+  return (
+    <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={color} {...otherProps} />
+  );
 }

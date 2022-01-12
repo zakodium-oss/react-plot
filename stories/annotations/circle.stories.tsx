@@ -11,10 +11,10 @@ export default {
   title: 'API/Annotations',
   component: Circle,
   args: {
-    cx: 2000,
-    cy: '200',
+    x: 2000,
+    y: '200',
     r: 100,
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationCircleProps>;
 

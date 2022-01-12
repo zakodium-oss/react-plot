@@ -15,7 +15,7 @@ export default {
     y: '300',
     shape: 'diamond',
     size: 10,
-    style: { fill: 'red' },
+    color: 'red',
   },
 } as Meta<AnnotationShapeProps>;
 

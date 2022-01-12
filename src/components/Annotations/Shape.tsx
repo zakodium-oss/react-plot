@@ -44,6 +44,7 @@ export interface AnnotationShapeProps {
   shape: AnnotationShapeName;
   size: number;
   style?: CSSProperties;
+  color?: string;
 }
 
 export function Shape(props: AnnotationShapeProps) {
@@ -57,7 +58,7 @@ export function Shape(props: AnnotationShapeProps) {
 
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <Figure size={props.size} style={props.style} />
+      <Figure size={props.size} style={{ fill: props.color, ...props.style }} />
     </g>
   );
 }

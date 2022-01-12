@@ -24,7 +24,12 @@ interface UsePositionAndSizeConfig extends UsePositionConfig {
   width: NumberOrString;
   height: NumberOrString;
 }
-
+interface UseRectanglePositionConfig {
+  x1: NumberOrString;
+  y1: NumberOrString;
+  x2: NumberOrString;
+  y2: NumberOrString;
+}
 export function usePositionAndSize(config: UsePositionAndSizeConfig) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
@@ -37,7 +42,18 @@ export function usePositionAndSize(config: UsePositionAndSizeConfig) {
     height: convertValueAbs(height, yScale),
   };
 }
+export function useRectanglePosition(config: UseRectanglePositionConfig) {
+  const { axisContext } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const { x1, y1, x2, y2 } = config;
 
+  return {
+    x: convertMinValue(x1, x2, xScale),
+    y: convertMinValue(y1, y2, yScale),
+    width: convertDimensions(x1, x2, xScale),
+    height: convertDimensions(y1, y2, yScale),
+  };
+}
 interface UseEllipsePositionConfig {
   cx: NumberOrString;
   cy: NumberOrString;
@@ -65,7 +81,17 @@ function convertValue(
   if (scale === undefined) return 0;
   return typeof value === 'number' ? scale(value) : Number(value);
 }
-
+function convertMinValue(
+  value1: string | number,
+  value2: string | number,
+  scale?: ScaleLinear<number, number>,
+) {
+  if (scale === undefined) return 0;
+  return Math.min(
+    typeof value2 === 'number' ? scale(value2) : parseInt(value2, 10),
+    typeof value1 === 'number' ? scale(value1) : parseInt(value1, 10),
+  );
+}
 function convertValueAbs(
   value: string | number,
   scale?: ScaleLinear<number, number>,
@@ -73,7 +99,17 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number' ? Math.abs(scale(0) - scale(value)) : value;
 }
-
+function convertDimensions(
+  value1: string | number,
+  value2: string | number,
+  scale?: ScaleLinear<number, number>,
+) {
+  if (scale === undefined) return 0;
+  return Math.abs(
+    (typeof value2 === 'number' ? scale(value2) : parseInt(value2, 10)) -
+      (typeof value1 === 'number' ? scale(value1) : parseInt(value1, 10)),
+  );
+}
 export function usePointPosition(config: UsePositionConfig[]) {
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
