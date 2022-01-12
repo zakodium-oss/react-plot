@@ -195,8 +195,6 @@ export function Plot(props: PlotProps) {
             id={svgId}
             className={svgClassName}
           >
-            <MarkerDefs />
-
             {/* Plot viewport */}
             <TransparentRect
               width={width}

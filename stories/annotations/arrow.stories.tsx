@@ -17,6 +17,7 @@ export default {
     y2: 33,
     startPoint: 'none',
     endPoint: 'triangle',
+    color: 'red',
   },
 } as Meta<AnnotationArrowProps>;
 
