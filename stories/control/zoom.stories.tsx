@@ -15,6 +15,8 @@ const data = [
   { x: 3, y: 3 },
   { x: 4, y: 5 },
   { x: 5, y: 10 },
+  { x: 8, y: 5 },
+  { x: 9, y: 1 },
 ];
 
 interface Positions {
@@ -64,7 +66,7 @@ function Zoom({ data, displayMarker }: ZoomProps) {
           displayMarker={displayMarker}
         />
         <Annotations>
-          {position !== null ? (
+          {position && (
             <Rectangle
               color="red"
               style={{ fillOpacity: 0.2, stroke: 'red' }}
@@ -73,7 +75,7 @@ function Zoom({ data, displayMarker }: ZoomProps) {
               x2={position.x2}
               y2="0"
             />
-          ) : null}
+          )}
         </Annotations>
         <Axis min={min} max={max} id="x" position="bottom" label="time [s]" />
         <Axis id="y" position="left" />
