@@ -6,7 +6,7 @@ import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
-  title: 'API/Zoom',
+  title: 'Examples/Zoom',
 } as Meta;
 
 const data = [
