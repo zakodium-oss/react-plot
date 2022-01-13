@@ -17,9 +17,8 @@ export default function MarkerDefs({
         markerWidth={width}
         markerHeight={width}
         orient="auto-start-reverse"
-        fill={color}
       >
-        <path d="M 0 0 L 10 5 L 0 10 z" />
+        <path fill={color} d="M 0 0 L 10 5 L 0 10 z" />
       </marker>
 
       <marker
@@ -29,9 +28,8 @@ export default function MarkerDefs({
         refY="5"
         markerWidth={width}
         markerHeight={width}
-        fill={color}
       >
-        <circle cx="5" cy="5" r="5" fill="current" />
+        <circle cx="5" cy="5" r="5" fill={color} />
       </marker>
 
       <marker
@@ -42,9 +40,8 @@ export default function MarkerDefs({
         markerWidth={width}
         markerHeight={width}
         orient="auto"
-        fill={color}
       >
-        <line x1="5" x2="5" y1="0" y2="10" stroke="black" />
+        <line x1="5" x2="5" y1="0" y2="10" stroke={color} />
       </marker>
     </defs>
   );
