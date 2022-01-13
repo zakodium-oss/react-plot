@@ -1,5 +1,5 @@
 import { Meta } from '@storybook/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Axis, LineSeries, Plot, Annotations, SeriesPoint } from '../../src';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
@@ -20,8 +20,12 @@ const data = [
 ];
 
 interface Positions {
-  x1: number;
-  x2: number;
+  position?: {
+    x1: number;
+    x2: number;
+  } | null;
+  min?: number;
+  max?: number;
 }
 
 interface ZoomProps {
@@ -29,34 +33,51 @@ interface ZoomProps {
   displayMarker?: boolean;
 }
 function Zoom({ data, displayMarker }: ZoomProps) {
-  const [position, setPosition] = useState<Positions | null>(null);
-  const [Click, setClick] = useState<boolean>(false);
-  const [min, setMin] = useState<number | undefined>(undefined);
-  const [max, setMax] = useState<number | undefined>(undefined);
+  const [{ position, min, max }, setPositions] = useState<Positions | null>({
+    position: null,
+    min: undefined,
+    max: undefined,
+  });
+  let click = useRef<boolean>(false);
   return (
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
         onMouseDown={({ coordinates: { x } }) => {
-          setPosition({
-            x1: x,
-            x2: x,
+          setPositions({
+            position: {
+              x1: x,
+              x2: x,
+            },
+            min: min,
+            max: max,
           });
-          setClick(true);
+          click.current = true;
         }}
         onMouseUp={() => {
-          setPosition(null);
-          setClick(false);
-          setMin(Math.min(position.x1, position.x2));
-          setMax(Math.max(position.x1, position.x2));
+          click.current = false;
+          if (position.x1 !== position.x2) {
+            setPositions({
+              position: null,
+              min: Math.min(position.x1, position.x2),
+              max: Math.max(position.x1, position.x2),
+            });
+          }
         }}
         onMouseMove={({ coordinates: { x } }) => {
-          if (Click) {
-            setPosition((position) => ({
-              x1: position ? position.x1 : x,
-              x2: x,
+          if (click.current) {
+            setPositions(({ position }) => ({
+              position: {
+                x1: position ? position.x1 : x,
+                x2: x,
+              },
+              min: min,
+              max: max,
             }));
           }
+        }}
+        onDoubleClick={() => {
+          setPositions({ min: undefined, max: undefined });
         }}
       >
         <LineSeries
