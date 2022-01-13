@@ -7,7 +7,7 @@ import data from '../data/pca.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
-  title: 'Examples/PCA example',
+  title: 'Examples/PCA example of ecstasy',
 } as Meta;
 interface Point {
   x: number;
@@ -22,7 +22,7 @@ interface Point {
 export function PCAExample() {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Heading title="COVID-19 cases in USA (2020)" />
+      <Heading title="Principal component analysis of XTC infrared spectra" />
       <ScatterSeries
         markerStyle={{
           fill: (point: Point) => point.color.fill,
@@ -66,14 +66,14 @@ export function PCAExample() {
       <Axis
         id="x"
         position="bottom"
-        label="Week"
+        label="PC 1"
         paddingEnd={0.1}
         paddingStart={0.1}
       />
       <Axis
         id="y"
         position="left"
-        label="Number of cases"
+        label="PC 2"
         paddingEnd={0.1}
         paddingStart={0.1}
       />
