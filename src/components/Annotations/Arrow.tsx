@@ -36,13 +36,17 @@ export function Arrow(props: AnnotationArrowProps) {
   });
 
   const startMarker =
-    startPoint !== 'none' ? `url(#marker-${startPoint})` : undefined;
+    startPoint !== 'none'
+      ? `url(#marker-${startPoint}-${x1}-${y1}-${x2}-${y2})`
+      : undefined;
   const endMarker =
-    endPoint !== 'none' ? `url(#marker-${endPoint})` : undefined;
+    endPoint !== 'none'
+      ? `url(#marker-${endPoint}-${x1}-${y1}-${x2}-${y2})`
+      : undefined;
 
   return (
     <g>
-      <MarkerDefs color={color} />
+      <MarkerDefs color={color} data={`${x1}-${y1}-${x2}-${y2}`} />
       <line
         x1={x1}
         y1={y1}
