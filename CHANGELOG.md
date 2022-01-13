@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.12.0](https://www.github.com/zakodium/react-plot/compare/v0.11.0...v0.12.0) (2022-01-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* update annotations props names (#224)
+* reimplement plot rendering with auto-sizing (#203)
+
+### Features
+
+* add color prop to annotation arrow  ([#231](https://www.github.com/zakodium/react-plot/issues/231)) ([989ad21](https://www.github.com/zakodium/react-plot/commit/989ad21cb57e73e9e6f3cc3c873abe6d5e2046c2))
+* add onMouseUp, onMouseDown and onDoubleClick callbacks ([3dc68cc](https://www.github.com/zakodium/react-plot/commit/3dc68cc028d764a981f5a3674ddcacd93680fe19))
+* support alignment of annotation groups ([#223](https://www.github.com/zakodium/react-plot/issues/223)) ([0a46e11](https://www.github.com/zakodium/react-plot/commit/0a46e110613affe3bf5b29c91fe01011ac9cba62))
+* tickLabelFormat callback in axis component  ([#220](https://www.github.com/zakodium/react-plot/issues/220)) ([352dfe5](https://www.github.com/zakodium/react-plot/commit/352dfe57b601b1dd225bffb8c4e7114e6d3072f0))
+* update annotations props names ([#224](https://www.github.com/zakodium/react-plot/issues/224)) ([9344269](https://www.github.com/zakodium/react-plot/commit/93442698458bc7947b279cee8bca94e79c8c9096))
+
+
+### Code Refactoring
+
+* reimplement plot rendering with auto-sizing ([#203](https://www.github.com/zakodium/react-plot/issues/203)) ([ee1483d](https://www.github.com/zakodium/react-plot/commit/ee1483d248e5585a7a48c54c7c31eb8ca50db30a))
+
 ## [0.11.0](https://www.github.com/zakodium/react-plot/compare/v0.10.2...v0.11.0) (2021-11-02)
 
 
