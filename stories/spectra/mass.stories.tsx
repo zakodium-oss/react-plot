@@ -102,6 +102,14 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
             });
           }
         }}
+        onMouseLeave={() => {
+          setPositions({
+            position: null,
+            min: min,
+            max: max,
+          });
+          click.current = false;
+        }}
         onMouseMove={({ coordinates: { x } }) => {
           if (click.current) {
             setPositions(({ position }) => ({
