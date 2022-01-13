@@ -76,6 +76,14 @@ function Zoom({ data, displayMarker }: ZoomProps) {
             }));
           }
         }}
+        onMouseLeave={() => {
+          setPositions({
+            position: null,
+            min: min,
+            max: max,
+          });
+          click.current = false;
+        }}
         onDoubleClick={() => {
           setPositions({ min: undefined, max: undefined });
         }}
