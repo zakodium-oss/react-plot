@@ -89,6 +89,11 @@ export interface PlotProps {
    * Track values on mouse Down.
    */
   onMouseDown?: (result: TrackingResult) => void;
+
+  /**
+   * Track values on mouse double click.
+   */
+  onDoubleClick?: (result: TrackingResult) => void;
   /**
    * Mouse enters the viewport.
    */
@@ -120,6 +125,7 @@ export function Plot(props: PlotProps) {
     onMouseLeave,
     onMouseDown,
     onMouseUp,
+    onDoubleClick,
     children,
   } = props;
 
@@ -260,6 +266,7 @@ export function Plot(props: PlotProps) {
                   onMouseLeave={onMouseLeave}
                   onMouseDown={onMouseDown}
                   onMouseUp={onMouseUp}
+                  onDoubleClick={onDoubleClick}
                 />
               ) : null}
             </g>
