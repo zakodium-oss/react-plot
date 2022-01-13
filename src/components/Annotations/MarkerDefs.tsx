@@ -1,14 +1,14 @@
 export default function MarkerDefs({
   color,
-  data,
+  id,
 }: {
   color?: string;
-  data: string;
+  id: string;
 }) {
   return (
     <defs>
       <marker
-        id={`marker-triangle-${data}`}
+        id={`marker-triangle-${id}`}
         viewBox="0 0 10 10"
         refX="5"
         refY="5"
@@ -21,7 +21,7 @@ export default function MarkerDefs({
       </marker>
 
       <marker
-        id={`marker-circle-${data}`}
+        id={`marker-circle-${id}`}
         viewBox="0 0 10 10"
         refX="5"
         refY="5"
@@ -33,7 +33,7 @@ export default function MarkerDefs({
       </marker>
 
       <marker
-        id={`marker-line-${data}`}
+        id={`marker-line-${id}`}
         viewBox="0 0 10 10"
         refX="5"
         refY="5"

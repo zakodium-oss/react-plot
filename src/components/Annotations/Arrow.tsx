@@ -46,7 +46,7 @@ export function Arrow(props: AnnotationArrowProps) {
 
   return (
     <g>
-      <MarkerDefs color={color} data={`${x1}-${y1}-${x2}-${y2}`} />
+      <MarkerDefs color={color} id={`${x1}-${y1}-${x2}-${y2}`} />
       <line
         x1={x1}
         y1={y1}
