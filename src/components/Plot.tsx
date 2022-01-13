@@ -17,7 +17,6 @@ import {
 import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 
-import MarkerDefs from './Annotations/MarkerDefs';
 import Tracking, { TrackingResult } from './Tracking';
 import TransparentRect from './TransparentRect';
 
@@ -213,8 +212,6 @@ export function Plot(props: PlotProps) {
             id={svgId}
             className={svgClassName}
           >
-            <MarkerDefs />
-
             {/* Plot viewport */}
             <TransparentRect
               width={width}
