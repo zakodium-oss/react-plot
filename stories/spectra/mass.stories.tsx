@@ -172,6 +172,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           )}
         </Annotations>
         <Axis
+          paddingEnd={0.1}
+          paddingStart={0.1}
           displayPrimaryGridLines
           min={min}
           max={max}
