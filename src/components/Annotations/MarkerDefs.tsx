@@ -1,9 +1,11 @@
 export default function MarkerDefs({
   color,
   id,
+  width = 6,
 }: {
   color?: string;
   id: string;
+  width?: number | string;
 }) {
   return (
     <defs>
@@ -12,8 +14,8 @@ export default function MarkerDefs({
         viewBox="0 0 10 10"
         refX="5"
         refY="5"
-        markerWidth="6"
-        markerHeight="6"
+        markerWidth={width}
+        markerHeight={width}
         orient="auto-start-reverse"
         fill={color}
       >
@@ -25,8 +27,8 @@ export default function MarkerDefs({
         viewBox="0 0 10 10"
         refX="5"
         refY="5"
-        markerWidth="5"
-        markerHeight="5"
+        markerWidth={width}
+        markerHeight={width}
         fill={color}
       >
         <circle cx="5" cy="5" r="5" fill="current" />
@@ -37,8 +39,8 @@ export default function MarkerDefs({
         viewBox="0 0 10 10"
         refX="5"
         refY="5"
-        markerWidth="6"
-        markerHeight="6"
+        markerWidth={width}
+        markerHeight={width}
         orient="auto"
         fill={color}
       >

@@ -12,6 +12,8 @@ export interface AnnotationArrowProps {
   startPoint?: AnnotationShapeList;
   endPoint?: AnnotationShapeList;
   color?: string;
+  strokeWidth?: number | string;
+  markerWidth?: number | string;
 }
 
 export function Arrow(props: AnnotationArrowProps) {
@@ -23,6 +25,8 @@ export function Arrow(props: AnnotationArrowProps) {
     startPoint = 'none',
     endPoint = 'triangle',
     color = 'black',
+    strokeWidth,
+    markerWidth,
   } = props;
 
   const { x: x1, y: y1 } = usePosition({
@@ -46,13 +50,18 @@ export function Arrow(props: AnnotationArrowProps) {
 
   return (
     <g>
-      <MarkerDefs color={color} id={`${x1}-${y1}-${x2}-${y2}`} />
+      <MarkerDefs
+        color={color}
+        id={`${x1}-${y1}-${x2}-${y2}`}
+        width={markerWidth}
+      />
       <line
         x1={x1}
         y1={y1}
         x2={x2}
         y2={y2}
         stroke={color}
+        strokeWidth={strokeWidth}
         markerStart={startMarker}
         markerEnd={endMarker}
       />
