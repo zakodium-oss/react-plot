@@ -5,6 +5,7 @@ import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { bboxContext } from '../bboxContext';
+import { legendOffsetContext } from '../contexts/legendOffsetContext';
 import { LegendProvider } from '../legendContext';
 import {
   plotContext,
@@ -16,6 +17,7 @@ import {
 } from '../plotContext';
 import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
+import { usePlotSizes } from '../utils/usePlotSizes';
 
 import Tracking, { TrackingResult } from './Tracking';
 import TransparentRect from './TransparentRect';
@@ -23,6 +25,9 @@ import TransparentRect from './TransparentRect';
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
   produce(plotReducer);
 const initialState: PlotState = {
+  headingPosition: null,
+  legendPosition: null,
+  legendMargin: 0,
   series: [],
   axis: {},
 };
@@ -136,8 +141,7 @@ export function Plot(props: PlotProps) {
     rightAxis,
     bottomAxis,
     leftAxis,
-    topHeading,
-    bottomHeading,
+    heading,
     legend,
   } = splitChildren(children);
 
@@ -154,31 +158,28 @@ export function Plot(props: PlotProps) {
   const rightAxisBbox = useBBoxObserver();
   const bottomAxisBbox = useBBoxObserver();
   const leftAxisBbox = useBBoxObserver();
+  const legendBbox = useBBoxObserver();
 
-  // Distances in plot
-  const { left = 0, right = 0, top = 0, bottom = 0 } = margin;
+  // Distances in plot.
+  const { plotWidth, plotHeight, topOffset, leftOffset, legendOffset } =
+    usePlotSizes({
+      width,
+      height,
+      margin,
+      topAxisHeight: topAxisBbox.height,
+      rightAxisWidth: rightAxisBbox.width,
+      bottomAxisHeight: bottomAxisBbox.height,
+      leftAxisWidth: leftAxisBbox.width,
+      headingPosition: state.headingPosition,
+      headingHeight: headingBbox.height,
+      legendPosition: state.legendPosition,
+      legendMargin: state.legendMargin,
+      legendWidth: legendBbox.width,
+      legendHeight: legendBbox.height,
+    });
 
-  const plotWidth =
-    width - left - leftAxisBbox.width - right - rightAxisBbox.width;
-  const plotHeight =
-    height -
-    top -
-    headingBbox.height -
-    topAxisBbox.height -
-    bottom -
-    bottomAxisBbox.height;
-
-  const leftOffset = left + leftAxisBbox.width;
-  const topOffset =
-    top + (topHeading ? headingBbox.height : 0) + topAxisBbox.height;
-
-  // Set scales
+  // Set scales.
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
-
-  const labels = useMemo(
-    () => state.series.map(({ id, label }) => ({ id, label })),
-    [state.series],
-  );
 
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
 
@@ -191,13 +192,8 @@ export function Plot(props: PlotProps) {
       value={{
         width,
         height,
-        left,
-        right,
-        top,
-        bottom,
         plotWidth,
         plotHeight,
-        labels,
         colorScaler,
         axisContext,
       }}
@@ -252,7 +248,9 @@ export function Plot(props: PlotProps) {
                 <g>{leftAxis}</g>
               </bboxContext.Provider>
 
-              {legend}
+              <legendOffsetContext.Provider value={legendOffset}>
+                <g ref={legendBbox.ref}>{legend}</g>
+              </legendOffsetContext.Provider>
 
               {onClick || onMouseMove ? (
                 <Tracking
@@ -268,7 +266,7 @@ export function Plot(props: PlotProps) {
               ) : null}
             </g>
 
-            <g ref={headingBbox.ref}>{topHeading || bottomHeading}</g>
+            <g ref={headingBbox.ref}>{heading}</g>
           </svg>
         </LegendProvider>
       </plotDispatchContext.Provider>

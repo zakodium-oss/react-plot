@@ -1,16 +1,20 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Legend, LegendProps, LineSeries, Plot } from '../../src';
+import {
+  Axis,
+  Legend,
+  LegendProps,
+  LineSeries,
+  ParallelAxis,
+  Plot,
+} from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
-
-type TestProps = LegendProps & { hidden: boolean };
 
 export default {
   title: 'API/Legend',
   component: Legend,
   args: {
     position: 'embedded',
-    hidden: false,
   },
 } as Meta;
 
@@ -37,9 +41,13 @@ export function Control(props: LegendProps) {
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
+      <ParallelAxis id="x" />
+      <ParallelAxis id="y" />
     </Plot>
   );
 }
+
+type TestProps = LegendProps & { hidden: boolean };
 
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
@@ -68,3 +76,6 @@ export function WithTwoSeries(props: TestProps) {
 }
 
 WithTwoSeries.storyName = 'With two series';
+WithTwoSeries.args = {
+  hidden: false,
+};
