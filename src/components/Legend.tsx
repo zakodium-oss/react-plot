@@ -109,7 +109,7 @@ export type LegendPosition = Position | 'embedded';
 
 export type LegendProps = {
   position: LegendPosition;
-  margin: number;
+  margin?: number;
 } & { [K in Position]?: number };
 
 export function Legend({
