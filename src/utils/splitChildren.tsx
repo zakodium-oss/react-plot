@@ -111,6 +111,14 @@ export function splitChildren(children: ReactNode): PlotChildren {
     }
   }
 
+  if (!bottomAxis && !topAxis) {
+    bottomAxis = <Axis position="bottom" />;
+  }
+
+  if (!leftAxis && !rightAxis) {
+    leftAxis = <Axis position="left" />;
+  }
+
   for (const parallelAxis of parallelAxes) {
     const id = parallelAxis.props.id;
     if (topAxis?.props.id === id) {
