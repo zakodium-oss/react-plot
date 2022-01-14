@@ -1,10 +1,13 @@
+import { SVGProps } from 'react';
+
 import { usePosition } from '../../hooks';
 
 import MarkerDefs from './MarkerDefs';
 
 type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
-export interface AnnotationArrowProps {
+export interface AnnotationArrowProps
+  extends Omit<SVGProps<SVGLineElement>, 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'> {
   x1: number | string;
   y1: number | string;
   x2: number | string;
@@ -13,7 +16,7 @@ export interface AnnotationArrowProps {
   endPoint?: AnnotationShapeList;
   color?: string;
   strokeWidth?: number | string;
-  markerWidth?: number | string;
+  markerSize?: number | string;
 }
 
 export function Arrow(props: AnnotationArrowProps) {
@@ -26,7 +29,8 @@ export function Arrow(props: AnnotationArrowProps) {
     endPoint = 'triangle',
     color = 'black',
     strokeWidth,
-    markerWidth,
+    markerSize,
+    ...lineProps
   } = props;
 
   const { x: x1, y: y1 } = usePosition({
@@ -53,7 +57,7 @@ export function Arrow(props: AnnotationArrowProps) {
       <MarkerDefs
         color={color}
         id={`${x1}-${y1}-${x2}-${y2}`}
-        width={markerWidth}
+        width={markerSize}
       />
       <line
         x1={x1}
@@ -64,6 +68,7 @@ export function Arrow(props: AnnotationArrowProps) {
         strokeWidth={strokeWidth}
         markerStart={startMarker}
         markerEnd={endMarker}
+        {...lineProps}
       />
     </g>
   );

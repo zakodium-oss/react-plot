@@ -19,7 +19,7 @@ export default {
     endPoint: 'triangle',
     color: 'red',
     strokeWidth: 5,
-    markerWidth: 3,
+    markerSize: 3,
   },
 } as Meta<AnnotationArrowProps>;
 
