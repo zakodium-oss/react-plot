@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
 import { IsotopicDistribution, getBestPeaks } from 'mass-tools';
 import { xyToXYObject } from 'ml-spectra-processing';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Annotations, Axis, BarSeries, LineSeries, Plot } from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
@@ -69,13 +69,17 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   });
 
   // calculating the bestPeaks should be done each time the zoom (from, to) is changing and should create the new annotations
-  let bestPeaks = getBestPeaks(centroid, {
-    from: undefined,
-    to: undefined,
-    limit: 5,
-    numberSlots: 10,
-    threshold: 0.01,
-  });
+  const bestPeaks = useMemo(
+    () =>
+      getBestPeaks(centroid, {
+        from: min,
+        to: max,
+        limit: 5,
+        numberSlots: 10,
+        threshold: 0.01,
+      }),
+    [centroid, max, min],
+  );
 
   return (
     <div>
@@ -193,4 +197,4 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   );
 }
 
-AdvancedMassExample.args = { mf: 'HCys10OH' };
+AdvancedMassExample.args = { mf: 'HCys100OH' };
