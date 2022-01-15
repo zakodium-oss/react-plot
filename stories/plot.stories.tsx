@@ -5,51 +5,18 @@ import { Plot, Heading, Legend, LineSeries, Axis } from '../src';
 export default {
   title: 'Plot/General options',
   component: Plot,
-  argTypes: {
-    hiddenTicks: {
-      defaultValue: false,
-      control: 'boolean',
-    },
-    width: {
-      defaultValue: 550,
-      control: 'number',
-    },
-    height: {
-      defaultValue: 500,
-      control: 'number',
-    },
-    displayPlot: {
-      defaultValue: true,
-      control: 'boolean',
-    },
-    plotLabel: {
-      defaultValue: 'Vg = 5V',
-      control: 'text',
-    },
-    displayPrimaryGridLines: {
-      defaultValue: true,
-      control: 'boolean',
-    },
-    headingPosition: {
-      defaultValue: 'top',
-      control: { type: 'select', options: ['top', 'bottom'] },
-    },
-    legendPosition: {
-      defaultValue: 'right',
-      control: { type: 'select', options: ['left', 'right'] },
-    },
-    hidden: {
-      defaultValue: false,
-      control: 'boolean',
-    },
-    xFlip: {
-      defaultValue: false,
-      control: 'boolean',
-    },
-    yFlip: {
-      defaultValue: false,
-      control: 'boolean',
-    },
+  args: {
+    hiddenTicks: false,
+    width: 550,
+    height: 500,
+    displayPlot: true,
+    plotLabel: 'Vg = 5V',
+    displayPrimaryGridLines: true,
+    headingPosition: 'top',
+    legendPosition: 'right',
+    hidden: false,
+    xFlip: false,
+    yFlip: false,
   },
 } as Meta;
 

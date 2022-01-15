@@ -5,17 +5,17 @@ import { Plot, Heading, Legend, LineSeries, Axis } from '../src';
 export default {
   title: 'Plot/Axis boundaries',
   component: Plot,
-  argTypes: {
-    width: { defaultValue: 550, control: 'number' },
-    height: { defaultValue: 500, control: 'number' },
-    xMin: { defaultValue: 0, control: 'number' },
-    xMax: { defaultValue: 6, control: 'number' },
-    yMin: { defaultValue: 0, control: 'number' },
-    yMax: { defaultValue: 6, control: 'number' },
-    paddingLeft: { defaultValue: 0.01, control: 'number' },
-    paddingRight: { defaultValue: 0.01, control: 'number' },
-    paddingTop: { defaultValue: 0.01, control: 'number' },
-    paddingBottom: { defaultValue: 0.01, control: 'number' },
+  args: {
+    width: 550,
+    height: 500,
+    xMin: 0,
+    xMax: 6,
+    yMin: 0,
+    yMax: 6,
+    paddingLeft: 0.01,
+    paddingRight: 0.01,
+    paddingTop: 0.01,
+    paddingBottom: 0.01,
   },
 } as Meta;
 
