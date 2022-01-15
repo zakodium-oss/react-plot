@@ -12,6 +12,13 @@ export interface AxisCommonProps {
   labelStyle?: CSSProperties;
   tickLabelStyle?: CSSProperties;
   position: Position;
+  lineStyle?: CSSProperties;
+  hiddenLine?: boolean;
+  primaryGridLineStyle?: CSSProperties;
+  hiddenTicks?: boolean;
+  tickPosition?: 'inner' | 'outer' | 'center';
+  primaryTickLength?: number;
+  primaryTickStyle: CSSProperties;
 }
 
 export interface AxisRendererProps extends AxisCommonProps {

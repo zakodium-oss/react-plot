@@ -20,6 +20,7 @@ export interface TickProps {
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
   alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
   labelStyle?: CSSProperties;
+  style?: CSSProperties;
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
@@ -110,6 +111,7 @@ export function Tick(props: TickProps) {
     anchor = 'end',
     secondary = false,
     labelStyle,
+    style,
   } = props;
 
   return (
@@ -121,6 +123,7 @@ export function Tick(props: TickProps) {
         y2={secondary && lineY1 !== lineY2 ? lineY2 * strokeHeight : lineY2}
         stroke={strokeColor}
         strokeWidth={secondary ? 1 : 1.5}
+        style={style}
       />
       {!secondary && (
         <text
