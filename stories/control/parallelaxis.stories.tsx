@@ -16,9 +16,6 @@ export default {
     id: 'x',
     label: 'Parallel axis',
   },
-  argTypes: {
-    id: { options: ['x', 'y'], control: { type: 'select' } },
-  },
 } as Meta<ParallelAxisProps>;
 
 const data = [
