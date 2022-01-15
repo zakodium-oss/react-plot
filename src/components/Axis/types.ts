@@ -18,7 +18,7 @@ export interface AxisCommonProps {
   hiddenTicks?: boolean;
   tickPosition?: 'inner' | 'outer' | 'center';
   primaryTickLength?: number;
-  primaryTickStyle: CSSProperties;
+  primaryTickStyle?: CSSProperties;
 }
 
 export interface AxisRendererProps extends AxisCommonProps {
