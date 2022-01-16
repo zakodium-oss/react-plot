@@ -1,9 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import { useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
+import { legendOffsetContext } from '../contexts/legendOffsetContext';
 import { useLegend } from '../legendContext';
-import { usePlotContext } from '../plotContext';
+import { usePlotContext, usePlotDispatchContext } from '../plotContext';
 import type { Position } from '../types';
 
 import { markersComps } from './Markers';
@@ -16,34 +17,35 @@ interface ValidatedPosition {
 }
 
 function exclusiveProps(
-  margins: Positions,
+  offsets: Positions,
   a: keyof Positions,
   b: keyof Positions,
   position: string,
 ): ValidatedPosition {
-  if (margins[a] !== undefined) {
-    if (margins[b] !== undefined) {
+  if (offsets[a] !== undefined) {
+    if (offsets[b] !== undefined) {
       throw new Error(
         `${a} and ${b} should't be both defined for the position ${position}`,
       );
     }
-    return { key: a, value: margins[a] };
+    return { key: a, value: offsets[a] };
   }
-  return margins[b] !== undefined ? { key: b, value: margins[b] } : {};
+  return offsets[b] !== undefined ? { key: b, value: offsets[b] } : {};
 }
 
 function translation(
-  position: Position | 'embedded',
-  legendMargins: Positions,
+  position: LegendPosition,
+  legendOffsets: Positions,
   plotWidth: number,
   plotHeight: number,
+  legendOffset: number,
 ): Omit<AlignGroupProps, 'children'> {
   switch (position) {
     case 'embedded': {
       const { key: verticalKey = 'top', value: verticalValue = 10 } =
-        exclusiveProps(legendMargins, 'top', 'bottom', position);
+        exclusiveProps(legendOffsets, 'top', 'bottom', position);
       const { key: horizontalKey = 'left', value: horizontalValue = 10 } =
-        exclusiveProps(legendMargins, 'left', 'right', position);
+        exclusiveProps(legendOffsets, 'left', 'right', position);
       const x =
         horizontalKey === 'right'
           ? plotWidth - horizontalValue
@@ -59,43 +61,43 @@ function translation(
     }
     case 'top': {
       const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
-        legendMargins,
+        legendOffsets,
         'left',
         'right',
         position,
       );
       const x = horizontalValue;
-      const y = -legendMargins.bottom || 0;
+      const y = (-legendOffsets.bottom || 0) - legendOffset;
       return { x, y, horizontalAlign: 'middle', verticalAlign: 'end' };
+    }
+    case 'right': {
+      const {
+        key: verticalKey = 'top',
+        value: verticalValue = plotHeight / 2,
+      } = exclusiveProps(legendOffsets, 'top', 'bottom', position);
+      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
+      const x = plotWidth + (legendOffsets.left || 0) + legendOffset;
+      return { x, y, horizontalAlign: 'start', verticalAlign: 'middle' };
     }
     case 'bottom': {
       const { value: horizontalValue = plotWidth / 2 } = exclusiveProps(
-        legendMargins,
+        legendOffsets,
         'left',
         'right',
         position,
       );
       const x = horizontalValue;
-      const y = plotHeight + (legendMargins.top || 0);
+      const y = plotHeight + (legendOffsets.top || 0) + legendOffset;
       return { x, y, horizontalAlign: 'middle', verticalAlign: 'start' };
     }
     case 'left': {
       const {
         key: verticalKey = 'top',
         value: verticalValue = plotHeight / 2,
-      } = exclusiveProps(legendMargins, 'top', 'bottom', position);
+      } = exclusiveProps(legendOffsets, 'top', 'bottom', position);
       const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = -legendMargins.right || 0;
+      const x = (-legendOffsets.right || 0) - legendOffset;
       return { x, y, horizontalAlign: 'end', verticalAlign: 'middle' };
-    }
-    case 'right': {
-      const {
-        key: verticalKey = 'top',
-        value: verticalValue = plotHeight / 2,
-      } = exclusiveProps(legendMargins, 'top', 'bottom', position);
-      const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = plotWidth + (legendMargins.left || 0);
-      return { x, y, horizontalAlign: 'start', verticalAlign: 'middle' };
     }
     default: {
       throw new Error(`Position ${JSON.stringify(position)} unknown`);
@@ -103,17 +105,37 @@ function translation(
   }
 }
 
+export type LegendPosition = Position | 'embedded';
+
 export type LegendProps = {
-  position: Position | 'embedded';
+  position: LegendPosition;
+  margin?: number;
 } & { [K in Position]?: number };
 
-export function Legend({ position, ...legendMargins }: LegendProps) {
+export function Legend({
+  position,
+  margin = 10,
+  ...legendOffsets
+}: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
+  const plotDispatch = usePlotDispatchContext();
   const [state] = useLegend();
+  const legendOffset = useContext(legendOffsetContext);
 
   const alignGroupProps = useMemo(() => {
-    return translation(position, legendMargins, plotWidth, plotHeight);
-  }, [position, legendMargins, plotWidth, plotHeight]);
+    return translation(
+      position,
+      legendOffsets,
+      plotWidth,
+      plotHeight,
+      legendOffset,
+    );
+  }, [position, legendOffsets, plotWidth, plotHeight, legendOffset]);
+
+  useEffect(() => {
+    plotDispatch({ type: 'addLegend', payload: { position, margin } });
+    return () => plotDispatch({ type: 'removeLegend' });
+  }, [plotDispatch, position, margin]);
 
   return (
     <AlignGroup {...alignGroupProps}>

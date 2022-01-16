@@ -11,11 +11,13 @@ import {
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
 import type { AxisProps } from './components/Axis/Axis';
+import { LegendPosition } from './components/Legend';
 import type {
   ActionType,
   Position,
   SeriesPoint,
   TickLabelFormat,
+  VerticalPosition,
 } from './types';
 import { validatePosition } from './utils';
 
@@ -34,6 +36,9 @@ export interface PlotSeriesState {
 }
 
 export interface PlotState {
+  headingPosition: VerticalPosition | null;
+  legendPosition: LegendPosition | null;
+  legendMargin: number;
   series: PlotSeriesState[];
   axis: Record<string, PlotStateAxis>;
 }
@@ -54,7 +59,11 @@ export type PlotReducerActions =
   | ActionType<'newData', PlotSeriesState>
   | ActionType<'removeData', { id: string }>
   | ActionType<'newAxis', { id: string } & PlotStateAxis>
-  | ActionType<'removeAxis', { id: string }>;
+  | ActionType<'removeAxis', { id: string }>
+  | ActionType<'addHeading', { position: VerticalPosition }>
+  | ActionType<'removeHeading'>
+  | ActionType<'addLegend', { position: LegendPosition; margin: number }>
+  | ActionType<'removeLegend'>;
 
 interface PlotAxisContextGeneric<
   Scale extends ScaleContinuousNumeric<number, number>,
@@ -110,6 +119,24 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
     case 'removeAxis': {
       const { id } = action.payload;
       delete state.axis[id];
+      break;
+    }
+    case 'addHeading': {
+      state.headingPosition = action.payload.position;
+      break;
+    }
+    case 'removeHeading': {
+      state.headingPosition = null;
+      break;
+    }
+    case 'addLegend': {
+      state.legendPosition = action.payload.position;
+      state.legendMargin = action.payload.margin;
+      break;
+    }
+    case 'removeLegend': {
+      state.legendPosition = null;
+      state.legendMargin = 0;
       break;
     }
     default: {

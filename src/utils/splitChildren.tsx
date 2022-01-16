@@ -16,8 +16,7 @@ interface PlotChildren {
   rightAxis: ReactElement | null;
   bottomAxis: ReactElement | null;
   leftAxis: ReactElement | null;
-  topHeading: ReactElement | null;
-  bottomHeading: ReactElement | null;
+  heading: ReactElement | null;
   legend: ReactElement | null;
 }
 
@@ -32,8 +31,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
 
   let parallelAxes: ReactElement[] = [];
 
-  let topHeading: ReactElement | null = null;
-  let bottomHeading: ReactElement | null = null;
+  let heading: ReactElement | null = null;
 
   let legend: ReactElement | null = null;
 
@@ -91,13 +89,8 @@ export function splitChildren(children: ReactNode): PlotChildren {
       }
       parallelAxes.push(child);
     } else if (child.type === Heading) {
-      if (topHeading !== null || bottomHeading !== null) {
+      if (heading !== null) {
         throw new Error('Plot can only have one Heading element');
-      }
-      if (child.props.position === 'top') {
-        topHeading = child;
-      } else {
-        bottomHeading = child;
       }
     } else if (child.type === Legend) {
       if (legend !== null) {
@@ -152,8 +145,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
     rightAxis,
     bottomAxis,
     leftAxis,
-    topHeading,
-    bottomHeading,
+    heading,
     legend,
     seriesAndAnnotations,
   };
