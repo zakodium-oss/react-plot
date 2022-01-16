@@ -8,7 +8,7 @@ export interface AnnotationPolylineProps
     'x1' | 'x2' | 'y1' | 'y2' | 'points'
   > {
   points: { x: number | string; y: number | string }[];
-  color: string;
+  color?: string;
 }
 
 export function Polyline(props: AnnotationPolylineProps) {
