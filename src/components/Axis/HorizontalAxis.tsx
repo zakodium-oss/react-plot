@@ -55,19 +55,16 @@ export default function HorizontalAxis(props: AxisRendererProps) {
   }
   function GetTickY() {
     const y = isBottom ? primaryTickLength : -1 * primaryTickLength;
-    const textPosition = tickLabelStyle?.fontSize
-      ? parseFloat(tickLabelStyle.fontSize.toString())
-      : 11;
     return tickPosition === 'center'
       ? {
           y1: y / 2,
           y2: -y / 2,
-          textPosition: textPosition + primaryTickLength / 2,
+          textPosition: primaryTickLength / 2,
         }
       : {
           y1: 0,
           y2: y,
-          textPosition: textPosition + primaryTickLength,
+          textPosition: primaryTickLength,
         };
   }
   const gridLinesElement = displayPrimaryGridLines ? (
@@ -87,6 +84,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
+        dominantBaseline={isBottom ? 'text-before-edge' : 'text-after-edge'}
       />
     ) : null;
 

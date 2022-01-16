@@ -53,19 +53,16 @@ export default function VerticalAxis(props: AxisRendererProps) {
   }
   function GetTickX() {
     const x = isRight ? primaryTickLength : -1 * primaryTickLength;
-    const textPosition = tickLabelStyle?.fontSize
-      ? parseFloat(tickLabelStyle.fontSize.toString())
-      : 3;
     return tickPosition === 'center'
       ? {
           x1: x / 2,
           x2: -x / 2,
-          textPosition: textPosition + primaryTickLength / 2,
+          textPosition: 3 + primaryTickLength / 2,
         }
       : {
           x1: 0,
           x2: x,
-          textPosition: textPosition + primaryTickLength,
+          textPosition: 3 + primaryTickLength,
         };
   }
   const gridLinesElement = displayPrimaryGridLines ? (
