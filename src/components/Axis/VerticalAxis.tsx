@@ -30,43 +30,44 @@ export default function VerticalAxis(props: AxisRendererProps) {
     tickLabelStyle,
   } = props;
 
-  const isRight = position === 'right';
+  const isRight =
+    (position === 'right' && tickPosition !== 'inner') ||
+    (position === 'left' && tickPosition === 'inner');
 
-  const transform = isRight ? `translate(${plotWidth}, 0)` : undefined;
+  const transform =
+    position === 'right' ? `translate(${plotWidth}, 0)` : undefined;
 
   const ticks = useBBoxObserver();
 
-  function getTickPosition(
-    position: 'inner' | 'outer' | 'center',
-    primaryTickLength: number,
-  ) {
-    const x1 =
-      position === 'center'
-        ? isRight
-          ? -1 * primaryTickLength
-          : primaryTickLength
-        : 0;
-    const x2 =
-      position === 'inner'
-        ? isRight
-          ? -1 * primaryTickLength
-          : primaryTickLength
-        : !isRight
-        ? -1 * primaryTickLength
-        : primaryTickLength;
-    return (value: number) => {
-      return {
-        line: {
-          y1: value,
-          y2: value,
-          x1: x1,
-          x2: x2,
-        },
-        text: { y1: value, x1: isRight ? 10 : -10 },
-      };
+  function getTickPosition(value: number) {
+    const { x1, x2, textPosition } = GetTickX();
+    return {
+      line: {
+        y1: value,
+        y2: value,
+        x1: x1,
+        x2: x2,
+      },
+      text: { y1: value, x1: isRight ? textPosition : -textPosition },
     };
   }
-
+  function GetTickX() {
+    const x = isRight ? primaryTickLength : -1 * primaryTickLength;
+    const textPosition = tickLabelStyle?.fontSize
+      ? parseFloat(tickLabelStyle.fontSize.toString())
+      : 3;
+    return tickPosition === 'center'
+      ? {
+          x1: x / 2,
+          x2: -x / 2,
+          textPosition: textPosition + primaryTickLength / 2,
+        }
+      : {
+          x1: 0,
+          x2: x,
+          textPosition: textPosition + primaryTickLength,
+        };
+  }
   const gridLinesElement = displayPrimaryGridLines ? (
     <VerticalAxisGridLines
       position={position}
@@ -81,7 +82,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
       <Ticks
         anchor={isRight ? 'start' : 'end'}
         primaryTicks={primaryTicks}
-        getPositions={getTickPosition(tickPosition, primaryTickLength)}
+        getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
       />
@@ -98,7 +99,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
         plotHeight={plotHeight}
         label={label}
         labelStyle={labelStyle}
-        horizontalAlign={isRight ? 'start' : 'end'}
+        horizontalAlign={position === 'right' ? 'start' : 'end'}
       />
     ) : null;
 
@@ -110,7 +111,11 @@ export default function VerticalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g transform={`translate(${ticks.width * (isRight ? 1 : -1)}, 0)`}>
+        <g
+          transform={`translate(${
+            ticks.width * (position === 'right' ? 1 : -1)
+          }, 0)`}
+        >
           {labelElement}
         </g>
       </g>

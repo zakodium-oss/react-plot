@@ -30,35 +30,45 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     tickLabelStyle,
   } = props;
 
-  const isBottom = position === 'bottom';
+  const isBottom =
+    (position === 'bottom' && tickPosition !== 'inner') ||
+    (position === 'top' && tickPosition === 'inner');
 
-  const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
+  const transform =
+    position === 'bottom' ? `translate(0, ${plotHeight})` : undefined;
 
   const ticks = useBBoxObserver();
-  function getTickPosition(
-    position: 'inner' | 'outer' | 'center',
-    primaryTickLength: number,
-  ) {
-    const y1 = position === 'center' ? (isBottom ? -5 : primaryTickLength) : 0;
-    const y2 =
-      position === 'inner'
-        ? isBottom
-          ? -1 * primaryTickLength
-          : primaryTickLength
-        : !isBottom
-        ? -1 * primaryTickLength
-        : primaryTickLength;
-    return (value: number) => {
-      return {
-        line: {
-          x1: value,
-          x2: value,
-          y1: y1,
-          y2: y2,
-        },
-        text: { x1: value, y1: isBottom ? 16 : -12 },
-      };
+  function getTickPosition(value: number) {
+    const { y1, y2, textPosition } = GetTickY();
+    return {
+      line: {
+        x1: value,
+        x2: value,
+        y1: y1,
+        y2: y2,
+      },
+      text: {
+        x1: value,
+        y1: isBottom ? textPosition : -textPosition,
+      },
     };
+  }
+  function GetTickY() {
+    const y = isBottom ? primaryTickLength : -1 * primaryTickLength;
+    const textPosition = tickLabelStyle?.fontSize
+      ? parseFloat(tickLabelStyle.fontSize.toString())
+      : 11;
+    return tickPosition === 'center'
+      ? {
+          y1: y / 2,
+          y2: -y / 2,
+          textPosition: textPosition + primaryTickLength / 2,
+        }
+      : {
+          y1: 0,
+          y2: y,
+          textPosition: textPosition + primaryTickLength,
+        };
   }
   const gridLinesElement = displayPrimaryGridLines ? (
     <HorizontalAxisGridLines
@@ -74,7 +84,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       <Ticks
         anchor="middle"
         primaryTicks={primaryTicks}
-        getPositions={getTickPosition(tickPosition, primaryTickLength)}
+        getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
       />
@@ -91,7 +101,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         plotWidth={plotWidth}
         label={label}
         labelStyle={labelStyle}
-        verticalAlign={isBottom ? 'start' : 'end'}
+        verticalAlign={position === 'bottom' ? 'start' : 'end'}
       />
     ) : null;
 
@@ -103,7 +113,11 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g transform={`translate(0, ${ticks.height * (isBottom ? 1 : -1)})`}>
+        <g
+          transform={`translate(0, ${
+            ticks.height * (position === 'bottom' ? 1 : -1)
+          })`}
+        >
           {labelElement}
         </g>
       </g>
