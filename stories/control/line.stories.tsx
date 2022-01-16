@@ -13,87 +13,28 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 export default {
   title: 'API/LineSeries',
   component: LineSeries,
-  argTypes: {
-    displayMarker: {
-      control: 'boolean',
-      defaultValue: true,
-    },
+  args: {
+    displayMarker: true,
     lineStyle: {
-      control: 'object',
-      defaultValue: {
-        stroke: 'black',
-      },
+      stroke: 'black',
     },
-    markerStyle: {
-      control: 'object',
-      defaultValue: { fill: 'black' },
-    },
-    hidden: {
-      control: 'boolean',
-      defaultValue: false,
-    },
-    label: {
-      control: 'text',
-      defaultValue: 'Label',
-    },
-    markerShape: {
-      defaultValue: 'circle',
-    },
-    markerSize: {
-      control: 'number',
-      defaultValue: 10,
-    },
-    // ErrorBars props
-    displayErrorBars: {
-      control: 'boolean',
-      defaultValue: true,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapSize: {
-      control: 'number',
-      defaultValue: 10,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsStyle: {
-      defaultValue: { strokeWidth: 1 },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapStyle: {
-      defaultValue: { stroke: 'blue' },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    // Disable unnecessary controls
-    groupId: {
-      table: {
-        disable: true,
-      },
-    },
-    xAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    yAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    data: {
-      table: {
-        disable: true,
-      },
-    },
-  },
-} as Meta;
+    markerStyle: { fill: 'black' },
 
+    hidden: false,
+    label: 'Label',
+
+    markerShape: 'circle',
+
+    markerSize: 10,
+    // ErrorBars props
+    displayErrorBars: true,
+
+    errorBarsCapSize: 10,
+    errorBarsStyle: { strokeWidth: 1 },
+
+    errorBarsCapStyle: { stroke: 'blue' },
+  },
+} as Meta<LineSeriesProps>;
 const data: SeriesPoint[] = [
   {
     x: 0,
@@ -126,7 +67,6 @@ const data: SeriesPoint[] = [
     yError: 0.5,
   },
 ];
-
 export function Control(props: LineSeriesProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>

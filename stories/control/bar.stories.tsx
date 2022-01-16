@@ -6,59 +6,18 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 export default {
   title: 'API/BarSeries',
   component: BarSeries,
-  argTypes: {
-    displayMarker: {
-      control: 'boolean',
-      defaultValue: true,
-    },
+  args: {
+    displayMarker: true,
     lineStyle: {
-      control: 'object',
-      defaultValue: {
-        stroke: 'black',
-      },
+      stroke: 'black',
     },
-    markerStyle: {
-      control: 'object',
-      defaultValue: { fill: 'black' },
-    },
-    hidden: {
-      control: 'boolean',
-      defaultValue: false,
-    },
-    label: {
-      control: 'text',
-      defaultValue: 'Label',
-    },
-    markerShape: {
-      defaultValue: 'circle',
-    },
-    markerSize: {
-      control: 'number',
-      defaultValue: 10,
-    },
-    groupId: {
-      table: {
-        disable: true,
-      },
-    },
-    xAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    yAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    data: {
-      table: {
-        disable: true,
-      },
-    },
+    markerStyle: { fill: 'black' },
+    hidden: false,
+    label: 'Label',
+    markerShape: 'circle',
+    markerSize: 10,
   },
-} as Meta;
-
+} as Meta<BarSeriesProps>;
 const data = [
   {
     x: 0,
@@ -81,12 +40,11 @@ const data = [
     y: 18,
   },
 ];
-
 export function Control(props: BarSeriesProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <BarSeries {...props} data={data} xAxis="x" yAxis="y" />
-      <Axis id="x" position="bottom" />
+      <Axis id="x" position="bottom" paddingStart={0.1} paddingEnd={0.1} />
       <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
 
       <Legend position="embedded" />

@@ -13,70 +13,16 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 export default {
   title: 'API/ScatterSeries',
   component: ScatterSeries,
-  argTypes: {
-    hidden: {
-      control: 'boolean',
-      defaultValue: false,
-    },
-    label: {
-      control: 'text',
-      defaultValue: 'Label',
-    },
-    markerShape: {
-      defaultValue: 'circle',
-    },
-    markerSize: {
-      control: 'number',
-      defaultValue: 5,
-    },
+  args: {
+    hidden: false,
+    label: 'Label',
+    markerShape: 'circle',
+    markerSize: 5,
     // ErrorBars props
-    displayErrorBars: {
-      control: 'boolean',
-      defaultValue: true,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapSize: {
-      control: 'number',
-      defaultValue: 10,
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsStyle: {
-      defaultValue: { strokeWidth: 1 },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    errorBarsCapStyle: {
-      defaultValue: { stroke: 'blue' },
-      table: {
-        category: 'Error Bars',
-      },
-    },
-    // Disable unnecessary controls
-    groupId: {
-      table: {
-        disable: true,
-      },
-    },
-    xAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    yAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    data: {
-      table: {
-        disable: true,
-      },
-    },
+    displayErrorBars: true,
+    errorBarsCapSize: 10,
+    errorBarsStyle: { strokeWidth: 1 },
+    errorBarsCapStyle: { stroke: 'blue' },
   },
 } as Meta;
 
@@ -119,8 +65,20 @@ export function Control(props: ScatterSeriesProps) {
       <Legend position="embedded" />
 
       <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />
-      <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" label="Y" />
+      <Axis
+        id="x"
+        position="bottom"
+        label="X"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
+      <Axis
+        id="y"
+        position="left"
+        label="Y"
+        paddingEnd={0.1}
+        paddingStart={0.2}
+      />
     </Plot>
   );
 }

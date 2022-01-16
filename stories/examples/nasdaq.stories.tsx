@@ -7,10 +7,10 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Nasdaq',
-  argTypes: {
-    refreshFrequency: { defaultValue: 1, control: 'number' },
-    step: { defaultValue: 1, control: 'number' },
-    displayInterval: { defaultValue: 500, control: 'number' },
+  args: {
+    refreshFrequency: 1,
+    step: 1,
+    displayInterval: 500,
   },
 } as Meta;
 

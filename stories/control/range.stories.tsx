@@ -22,29 +22,6 @@ export default {
     hidden: false,
     label: 'Label',
   },
-  // Disable unnecessary controls
-  argTypes: {
-    groupId: {
-      table: {
-        disable: true,
-      },
-    },
-    xAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    yAxis: {
-      table: {
-        disable: true,
-      },
-    },
-    data: {
-      table: {
-        disable: true,
-      },
-    },
-  },
 } as Meta;
 
 const data2 = [
