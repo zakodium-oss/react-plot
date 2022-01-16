@@ -11,47 +11,31 @@ interface UsePositionConfig {
 }
 
 export function usePosition(config: UsePositionConfig) {
-  const { axisContext } = usePlotContext();
+  const { axisContext, width, height } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { x, y } = config;
   return {
-    x: convertValue(x, xScale),
-    y: convertValue(y, yScale),
+    x: convertValue(x, width, xScale),
+    y: convertValue(y, height, yScale),
   };
 }
 
-interface UsePositionAndSizeConfig extends UsePositionConfig {
-  width: NumberOrString;
-  height: NumberOrString;
-}
 interface UseRectanglePositionConfig {
   x1: NumberOrString;
   y1: NumberOrString;
   x2: NumberOrString;
   y2: NumberOrString;
 }
-export function usePositionAndSize(config: UsePositionAndSizeConfig) {
-  const { axisContext } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { x, y, width, height } = config;
-
-  return {
-    x: convertValue(x, xScale),
-    y: convertValue(y, yScale),
-    width: convertValueAbs(width, xScale),
-    height: convertValueAbs(height, yScale),
-  };
-}
 export function useRectanglePosition(config: UseRectanglePositionConfig) {
-  const { axisContext } = usePlotContext();
+  const { axisContext, width, height } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { x1, y1, x2, y2 } = config;
 
   return {
-    x: convertMinValue(x1, x2, xScale),
-    y: convertMinValue(y1, y2, yScale),
-    width: convertDimensions(x1, x2, xScale),
-    height: convertDimensions(y1, y2, yScale),
+    x: convertMinValue(x1, x2, width, xScale),
+    y: convertMinValue(y1, y2, height, yScale),
+    width: convertDimensions(x1, x2, width, xScale),
+    height: convertDimensions(y1, y2, height, yScale),
   };
 }
 interface UseEllipsePositionConfig {
@@ -62,62 +46,94 @@ interface UseEllipsePositionConfig {
 }
 
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
-  const { axisContext } = usePlotContext();
+  const { axisContext, width, height } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { cx, cy, rx, ry } = props;
 
   return {
-    cx: convertValue(cx, xScale),
-    cy: convertValue(cy, yScale),
-    rx: convertValueAbs(rx, xScale),
-    ry: convertValueAbs(ry, yScale),
+    cx: convertValue(cx, width, xScale),
+    cy: convertValue(cy, height, yScale),
+    rx: convertValueAbs(rx, width, xScale),
+    ry: convertValueAbs(ry, height, yScale),
   };
 }
 
 function convertValue(
   value: string | number,
+  total: number,
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? scale(value) : Number(value);
+  return typeof value === 'number'
+    ? scale(value)
+    : value.endsWith('%')
+    ? (Number(value.substring(0, value.length - 1)) * total) / 100
+    : Number(value);
 }
 function convertMinValue(
   value1: string | number,
   value2: string | number,
+  total: number,
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
   return Math.min(
-    typeof value2 === 'number' ? scale(value2) : parseInt(value2, 10),
-    typeof value1 === 'number' ? scale(value1) : parseInt(value1, 10),
+    typeof value2 === 'number'
+      ? scale(value2)
+      : value2.endsWith('%')
+      ? (Number(value2.substring(0, value2.length - 1)) * total) / 100
+      : Number(value2),
+    typeof value1 === 'number'
+      ? scale(value1)
+      : value1.endsWith('%')
+      ? (Number(value1.substring(0, value1.length - 1)) * total) / 100
+      : Number(value1),
   );
 }
 function convertValueAbs(
   value: string | number,
+  total: number,
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? Math.abs(scale(0) - scale(value)) : value;
+  return typeof value === 'number'
+    ? Math.abs(scale(0) - scale(value))
+    : value.endsWith('%')
+    ? (Number(value.substring(0, value.length - 1)) * total) / 100
+    : Number(value);
 }
 function convertDimensions(
   value1: string | number,
   value2: string | number,
+  total: number,
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
   return Math.abs(
-    (typeof value2 === 'number' ? scale(value2) : parseInt(value2, 10)) -
-      (typeof value1 === 'number' ? scale(value1) : parseInt(value1, 10)),
+    (typeof value2 === 'number'
+      ? scale(value2)
+      : value2.endsWith('%')
+      ? (Number(value2.substring(0, value2.length - 1)) * total) / 100
+      : Number(value2)) -
+      (typeof value1 === 'number'
+        ? scale(value1)
+        : value1.endsWith('%')
+        ? (Number(value1.substring(0, value1.length - 1)) * total) / 100
+        : Number(value1)),
   );
 }
 export function usePointPosition(config: UsePositionConfig[]) {
-  const { axisContext } = usePlotContext();
+  const { axisContext, width, height } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const points = config;
   return points
     .map(
       (point) =>
-        `${convertValue(point.x, xScale)},${convertValue(point.y, yScale)}`,
+        `${convertValue(point.x, width, xScale)},${convertValue(
+          point.y,
+          height,
+          yScale,
+        )}`,
     )
     .join(' ');
 }
