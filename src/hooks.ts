@@ -58,17 +58,18 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
   };
 }
 
+function ConvertString(value: string, total: number) {
+  return value.endsWith('%')
+    ? (Number(value.substring(0, value.length - 1)) * total) / 100
+    : Number(value);
+}
 function convertValue(
   value: string | number,
   total: number,
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number'
-    ? scale(value)
-    : value.endsWith('%')
-    ? (Number(value.substring(0, value.length - 1)) * total) / 100
-    : Number(value);
+  return typeof value === 'number' ? scale(value) : ConvertString(value, total);
 }
 function convertMinValue(
   value1: string | number,
@@ -78,16 +79,8 @@ function convertMinValue(
 ) {
   if (scale === undefined) return 0;
   return Math.min(
-    typeof value2 === 'number'
-      ? scale(value2)
-      : value2.endsWith('%')
-      ? (Number(value2.substring(0, value2.length - 1)) * total) / 100
-      : Number(value2),
-    typeof value1 === 'number'
-      ? scale(value1)
-      : value1.endsWith('%')
-      ? (Number(value1.substring(0, value1.length - 1)) * total) / 100
-      : Number(value1),
+    typeof value2 === 'number' ? scale(value2) : ConvertString(value2, total),
+    typeof value1 === 'number' ? scale(value1) : ConvertString(value1, total),
   );
 }
 function convertValueAbs(
@@ -98,9 +91,7 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? Math.abs(scale(0) - scale(value))
-    : value.endsWith('%')
-    ? (Number(value.substring(0, value.length - 1)) * total) / 100
-    : Number(value);
+    : ConvertString(value, total);
 }
 function convertDimensions(
   value1: string | number,
@@ -112,14 +103,10 @@ function convertDimensions(
   return Math.abs(
     (typeof value2 === 'number'
       ? scale(value2)
-      : value2.endsWith('%')
-      ? (Number(value2.substring(0, value2.length - 1)) * total) / 100
-      : Number(value2)) -
+      : ConvertString(value2, total)) -
       (typeof value1 === 'number'
         ? scale(value1)
-        : value1.endsWith('%')
-        ? (Number(value1.substring(0, value1.length - 1)) * total) / 100
-        : Number(value1)),
+        : ConvertString(value1, total)),
   );
 }
 export function usePointPosition(config: UsePositionConfig[]) {
