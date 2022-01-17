@@ -31,7 +31,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
   } = props;
 
   const isRight = position === 'right';
-
+  const textOffset = 3;
   const transform = isRight ? `translate(${plotWidth}, 0)` : undefined;
 
   const ticks = useBBoxObserver();
@@ -55,19 +55,19 @@ export default function VerticalAxis(props: AxisRendererProps) {
         return {
           x1: x / 2,
           x2: -x / 2,
-          textPosition: 3 + primaryTickLength / 2,
+          textPosition: textOffset + primaryTickLength / 2,
         };
       case 'inner':
         return {
           x1: 0,
           x2: -x,
-          textPosition: 3,
+          textPosition: textOffset,
         };
       case 'outer':
         return {
           x1: 0,
           x2: x,
-          textPosition: 3 + primaryTickLength,
+          textPosition: textOffset + primaryTickLength,
         };
       default:
         return {

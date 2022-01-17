@@ -32,6 +32,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
 
   const isBottom = position === 'bottom';
 
+  const textOffset = 0;
   const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
 
   const ticks = useBBoxObserver();
@@ -57,19 +58,19 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         return {
           y1: y / 2,
           y2: -y / 2,
-          textPosition: primaryTickLength / 2,
+          textPosition: textOffset + primaryTickLength / 2,
         };
       case 'inner':
         return {
           y1: 0,
           y2: -y,
-          textPosition: 0,
+          textPosition: textOffset,
         };
       case 'outer':
         return {
           y1: 0,
           y2: y,
-          textPosition: primaryTickLength,
+          textPosition: textOffset + primaryTickLength,
         };
       default:
         return {
