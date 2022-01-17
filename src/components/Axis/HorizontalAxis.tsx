@@ -52,7 +52,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     };
   }
   function getTickY() {
-    const y = isBottom ? primaryTickLength : -1 * primaryTickLength;
+    const y = isBottom ? primaryTickLength : -primaryTickLength;
     switch (tickPosition) {
       case 'center':
         return {

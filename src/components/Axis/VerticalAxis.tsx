@@ -49,7 +49,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
     };
   }
   function getTickX() {
-    const x = isRight ? primaryTickLength : -1 * primaryTickLength;
+    const x = isRight ? primaryTickLength : -primaryTickLength;
     switch (tickPosition) {
       case 'center':
         return {
