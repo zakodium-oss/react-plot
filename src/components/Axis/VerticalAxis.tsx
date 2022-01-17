@@ -30,12 +30,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
     tickLabelStyle,
   } = props;
 
-  const isRight =
-    (position === 'right' && tickPosition !== 'inner') ||
-    (position === 'left' && tickPosition === 'inner');
+  const isRight = position === 'right';
 
-  const transform =
-    position === 'right' ? `translate(${plotWidth}, 0)` : undefined;
+  const transform = isRight ? `translate(${plotWidth}, 0)` : undefined;
 
   const ticks = useBBoxObserver();
 
@@ -53,17 +50,32 @@ export default function VerticalAxis(props: AxisRendererProps) {
   }
   function GetTickX() {
     const x = isRight ? primaryTickLength : -1 * primaryTickLength;
-    return tickPosition === 'center'
-      ? {
+    switch (tickPosition) {
+      case 'center':
+        return {
           x1: x / 2,
           x2: -x / 2,
           textPosition: 3 + primaryTickLength / 2,
-        }
-      : {
+        };
+      case 'inner':
+        return {
+          x1: 0,
+          x2: -x,
+          textPosition: 3,
+        };
+      case 'outer':
+        return {
           x1: 0,
           x2: x,
           textPosition: 3 + primaryTickLength,
         };
+      default:
+        return {
+          x1: 0,
+          x2: 0,
+          textPosition: 3,
+        };
+    }
   }
   const gridLinesElement = displayPrimaryGridLines ? (
     <VerticalAxisGridLines
@@ -96,7 +108,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
         plotHeight={plotHeight}
         label={label}
         labelStyle={labelStyle}
-        horizontalAlign={position === 'right' ? 'start' : 'end'}
+        horizontalAlign={isRight ? 'start' : 'end'}
       />
     ) : null;
 
@@ -108,11 +120,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g
-          transform={`translate(${
-            ticks.width * (position === 'right' ? 1 : -1)
-          }, 0)`}
-        >
+        <g transform={`translate(${ticks.width * (isRight ? 1 : -1)}, 0)`}>
           {labelElement}
         </g>
       </g>

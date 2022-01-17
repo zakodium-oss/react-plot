@@ -30,12 +30,9 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     tickLabelStyle,
   } = props;
 
-  const isBottom =
-    (position === 'bottom' && tickPosition !== 'inner') ||
-    (position === 'top' && tickPosition === 'inner');
+  const isBottom = position === 'bottom';
 
-  const transform =
-    position === 'bottom' ? `translate(0, ${plotHeight})` : undefined;
+  const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
 
   const ticks = useBBoxObserver();
   function getTickPosition(value: number) {
@@ -55,17 +52,32 @@ export default function HorizontalAxis(props: AxisRendererProps) {
   }
   function GetTickY() {
     const y = isBottom ? primaryTickLength : -1 * primaryTickLength;
-    return tickPosition === 'center'
-      ? {
+    switch (tickPosition) {
+      case 'center':
+        return {
           y1: y / 2,
           y2: -y / 2,
           textPosition: primaryTickLength / 2,
-        }
-      : {
+        };
+      case 'inner':
+        return {
+          y1: 0,
+          y2: -y,
+          textPosition: 0,
+        };
+      case 'outer':
+        return {
           y1: 0,
           y2: y,
           textPosition: primaryTickLength,
         };
+      default:
+        return {
+          y1: 0,
+          y: 0,
+          textPosition: 0,
+        };
+    }
   }
   const gridLinesElement = displayPrimaryGridLines ? (
     <HorizontalAxisGridLines
@@ -99,7 +111,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         plotWidth={plotWidth}
         label={label}
         labelStyle={labelStyle}
-        verticalAlign={position === 'bottom' ? 'start' : 'end'}
+        verticalAlign={isBottom ? 'start' : 'end'}
       />
     ) : null;
 
@@ -111,11 +123,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g
-          transform={`translate(0, ${
-            ticks.height * (position === 'bottom' ? 1 : -1)
-          })`}
-        >
+        <g transform={`translate(0, ${ticks.height * (isBottom ? 1 : -1)})`}>
           {labelElement}
         </g>
       </g>
