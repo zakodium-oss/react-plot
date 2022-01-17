@@ -13,7 +13,7 @@ import { Shape } from '../../src/components/Annotations/Shape';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
-  title: 'API/Annotations',
+  title: 'Examples/Annotations Callback',
 } as Meta;
 
 export function AnnotationCallback() {
@@ -142,5 +142,3 @@ export function AnnotationCallback() {
     </Plot>
   );
 }
-
-AnnotationCallback.storyName = 'Callback';
