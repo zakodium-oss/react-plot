@@ -23,6 +23,7 @@ export function AnnotationMixed(props: AnnotationLineProps) {
   return (
     <AnnotationPlot>
       <Line {...props} />
+      <Line x1="0%" x2={2500} y1="350" y2="100%" color="blue" />
     </AnnotationPlot>
   );
 }
