@@ -37,7 +37,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
   const ticks = useBBoxObserver();
 
   function getTickPosition(value: number) {
-    const { x1, x2, textPosition } = GetTickX();
+    const { x1, x2, textPosition } = getTickX();
     return {
       line: {
         y1: value,
@@ -48,7 +48,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
       text: { y1: value, x1: isRight ? textPosition : -textPosition },
     };
   }
-  function GetTickX() {
+  function getTickX() {
     const x = isRight ? primaryTickLength : -1 * primaryTickLength;
     switch (tickPosition) {
       case 'center':

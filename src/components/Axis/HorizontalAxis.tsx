@@ -36,7 +36,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
 
   const ticks = useBBoxObserver();
   function getTickPosition(value: number) {
-    const { y1, y2, textPosition } = GetTickY();
+    const { y1, y2, textPosition } = getTickY();
     return {
       line: {
         x1: value,
@@ -50,7 +50,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       },
     };
   }
-  function GetTickY() {
+  function getTickY() {
     const y = isBottom ? primaryTickLength : -1 * primaryTickLength;
     switch (tickPosition) {
       case 'center':
