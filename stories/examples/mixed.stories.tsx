@@ -4,14 +4,13 @@ import {
   Line,
   AnnotationLineProps,
 } from '../../src/components/Annotations/Line';
-
-import { AnnotationPlot } from './annotation.data';
+import { AnnotationPlot } from '../annotations/annotation.data';
 
 export default {
-  title: 'API/Annotations',
+  title: 'Examples/Mixed Anntations',
   component: Line,
   args: {
-    x1: '40%',
+    x1: '0%',
     x2: 2500,
     y1: '350',
     y2: '33%',
@@ -27,5 +26,3 @@ export function AnnotationMixed(props: AnnotationLineProps) {
     </AnnotationPlot>
   );
 }
-
-AnnotationMixed.storyName = 'Mixed coordinates';
