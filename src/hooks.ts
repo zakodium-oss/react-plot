@@ -11,12 +11,12 @@ interface UsePositionConfig {
 }
 
 export function usePosition(config: UsePositionConfig) {
-  const { axisContext, width, height } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { x, y } = config;
   return {
-    x: convertValue(x, width, xScale),
-    y: convertValue(y, height, yScale),
+    x: convertValue(x, plotWidth, xScale),
+    y: convertValue(y, plotHeight, yScale),
   };
 }
 
@@ -27,15 +27,15 @@ interface UseRectanglePositionConfig {
   y2: NumberOrString;
 }
 export function useRectanglePosition(config: UseRectanglePositionConfig) {
-  const { axisContext, width, height } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { x1, y1, x2, y2 } = config;
 
   return {
-    x: convertMinValue(x1, x2, width, xScale),
-    y: convertMinValue(y1, y2, height, yScale),
-    width: convertDimensions(x1, x2, width, xScale),
-    height: convertDimensions(y1, y2, height, yScale),
+    x: convertMinValue(x1, x2, plotWidth, xScale),
+    y: convertMinValue(y1, y2, plotHeight, yScale),
+    width: convertDimensions(x1, x2, plotWidth, xScale),
+    height: convertDimensions(y1, y2, plotHeight, yScale),
   };
 }
 interface UseEllipsePositionConfig {
@@ -46,15 +46,15 @@ interface UseEllipsePositionConfig {
 }
 
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
-  const { axisContext, width, height } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const { cx, cy, rx, ry } = props;
 
   return {
-    cx: convertValue(cx, width, xScale),
-    cy: convertValue(cy, height, yScale),
-    rx: convertValueAbs(rx, width, xScale),
-    ry: convertValueAbs(ry, height, yScale),
+    cx: convertValue(cx, plotWidth, xScale),
+    cy: convertValue(cy, plotHeight, yScale),
+    rx: convertValueAbs(rx, plotWidth, xScale),
+    ry: convertValueAbs(ry, plotHeight, yScale),
   };
 }
 
@@ -110,15 +110,15 @@ function convertDimensions(
   );
 }
 export function usePointPosition(config: UsePositionConfig[]) {
-  const { axisContext, width, height } = usePlotContext();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
   const points = config;
   return points
     .map(
       (point) =>
-        `${convertValue(point.x, width, xScale)},${convertValue(
+        `${convertValue(point.x, plotWidth, xScale)},${convertValue(
           point.y,
-          height,
+          plotHeight,
           yScale,
         )}`,
     )
