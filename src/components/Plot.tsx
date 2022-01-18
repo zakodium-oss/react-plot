@@ -8,6 +8,7 @@ import { bboxContext } from '../contexts/bboxContext';
 import { LegendProvider } from '../contexts/legendContext';
 import { legendOffsetContext } from '../contexts/legendOffsetContext';
 import {
+  PlotContext,
   plotContext,
   plotDispatchContext,
   plotReducer,
@@ -182,22 +183,24 @@ export function Plot(props: PlotProps) {
   const axisContext = useAxisContext(state, { plotWidth, plotHeight });
 
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
+  const colorScaler = useMemo(
+    () => scaleOrdinal<string>().range(colorScheme).domain(ids),
+    [colorScheme, ids],
+  );
 
-  const colorScaler = useMemo(() => {
-    return scaleOrdinal<string>().range(colorScheme).domain(ids);
-  }, [colorScheme, ids]);
+  const plotContextValue: PlotContext = useMemo(() => {
+    return {
+      width,
+      height,
+      plotWidth,
+      plotHeight,
+      axisContext,
+      colorScaler,
+    };
+  }, [width, height, plotWidth, plotHeight, axisContext, colorScaler]);
 
   return (
-    <plotContext.Provider
-      value={{
-        width,
-        height,
-        plotWidth,
-        plotHeight,
-        colorScaler,
-        axisContext,
-      }}
-    >
+    <plotContext.Provider value={plotContextValue}>
       <plotDispatchContext.Provider value={dispatch}>
         <LegendProvider>
           <svg

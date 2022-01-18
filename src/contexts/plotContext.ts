@@ -40,10 +40,10 @@ export interface PlotState {
   legendPosition: LegendPosition | null;
   legendMargin: number;
   series: PlotSeriesState[];
-  axis: Record<string, PlotStateAxis>;
+  axis: Record<string, PlotAxisState>;
 }
 
-type PlotStateAxis = Pick<
+type PlotAxisState = Pick<
   AxisProps,
   | 'position'
   | 'min'
@@ -58,7 +58,7 @@ type PlotStateAxis = Pick<
 export type PlotReducerActions =
   | ActionType<'newData', PlotSeriesState>
   | ActionType<'removeData', { id: string }>
-  | ActionType<'newAxis', { id: string } & PlotStateAxis>
+  | ActionType<'newAxis', { id: string } & PlotAxisState>
   | ActionType<'removeAxis', { id: string }>
   | ActionType<'addHeading', { position: VerticalPosition }>
   | ActionType<'removeHeading'>
@@ -80,15 +80,10 @@ export type PlotAxisContext =
     >);
 
 export interface PlotContext {
-  width?: number;
-  height?: number;
-  left?: number;
-  right?: number;
-  top?: number;
-  bottom?: number;
+  width: number;
+  height: number;
   plotWidth: number;
   plotHeight: number;
-  labels?: Array<{ id: string; label: string }>;
   colorScaler: ScaleOrdinal<string, string>;
   axisContext: Record<string, PlotAxisContext>;
 }
@@ -149,6 +144,8 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
 type PlotDispatch = Dispatch<PlotReducerActions>;
 
 export const plotContext = createContext<PlotContext>({
+  width: 0,
+  height: 0,
   plotWidth: 0,
   plotHeight: 0,
   colorScaler: scaleOrdinal<string>(),
