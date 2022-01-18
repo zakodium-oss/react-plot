@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.13.1](https://www.github.com/zakodium/react-plot/compare/v0.13.0...v0.13.1) (2022-01-18)
+
+
+### Bug Fixes
+
+* take tick position into account when computing plot sizes ([37956a6](https://www.github.com/zakodium/react-plot/commit/37956a628294f4cae248303d29cd5ce3f269bd13))
+
 ## [0.13.0](https://www.github.com/zakodium/react-plot/compare/v0.12.0...v0.13.0) (2022-01-18)
 
 
