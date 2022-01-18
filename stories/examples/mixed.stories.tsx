@@ -7,7 +7,7 @@ import {
 import { AnnotationPlot } from '../annotations/annotation.data';
 
 export default {
-  title: 'Examples/Mixed Anntations',
+  title: 'Examples/Mixed Annotations',
   component: Line,
   args: {
     x1: '0%',
