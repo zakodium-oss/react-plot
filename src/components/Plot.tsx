@@ -30,7 +30,7 @@ const initialState: PlotState = {
   legendPosition: null,
   legendMargin: 0,
   series: [],
-  axis: {},
+  axes: {},
 };
 
 const defaultSvgStyle: CSSProperties = {
@@ -167,6 +167,7 @@ export function Plot(props: PlotProps) {
       width,
       height,
       margin,
+      axes: state.axes,
       topAxisHeight: topAxisBbox.height,
       rightAxisWidth: rightAxisBbox.width,
       bottomAxisHeight: bottomAxisBbox.height,
