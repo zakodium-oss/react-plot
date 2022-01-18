@@ -10,6 +10,15 @@ export default {
   component: Axis,
   args: {
     label: 'Axis label',
+    flip: false,
+    scale: 'linear',
+    displayPrimaryGridLines: false,
+    hidden: false,
+    tickLabelFormat: (value) => String(value),
+    hiddenLine: false,
+    hiddenTicks: false,
+    tickPosition: 'outer',
+    primaryTickLength: 5,
   },
   parameters: {
     controls: {

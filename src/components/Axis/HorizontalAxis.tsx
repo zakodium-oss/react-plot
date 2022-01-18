@@ -11,6 +11,13 @@ import { AxisRendererProps } from './types';
 
 export default function HorizontalAxis(props: AxisRendererProps) {
   const {
+    primaryTickStyle,
+    primaryTickLength,
+    tickPosition,
+    hiddenTicks,
+    primaryGridLineStyle,
+    lineStyle,
+    hiddenLine,
     hidden,
     plotWidth,
     plotHeight,
@@ -25,41 +32,79 @@ export default function HorizontalAxis(props: AxisRendererProps) {
 
   const isBottom = position === 'bottom';
 
+  const textOffset = 0;
   const transform = isBottom ? `translate(0, ${plotHeight})` : undefined;
 
   const ticks = useBBoxObserver();
-
   function getTickPosition(value: number) {
+    const { y1, y2, textPosition } = getTickY();
     return {
       line: {
         x1: value,
         x2: value,
-        y2: !isBottom ? -5 : 5,
+        y1: y1,
+        y2: y2,
       },
-      text: { x1: value, y1: isBottom ? 16 : -12 },
+      text: {
+        x1: value,
+        y1: isBottom ? textPosition : -textPosition,
+      },
     };
   }
-
+  function getTickY() {
+    const y = isBottom ? primaryTickLength : -primaryTickLength;
+    switch (tickPosition) {
+      case 'center':
+        return {
+          y1: y / 2,
+          y2: -y / 2,
+          textPosition: textOffset + primaryTickLength / 2,
+        };
+      case 'inner':
+        return {
+          y1: 0,
+          y2: -y,
+          textPosition: textOffset,
+        };
+      case 'outer':
+        return {
+          y1: 0,
+          y2: y,
+          textPosition: textOffset + primaryTickLength,
+        };
+      default:
+        return {
+          y1: 0,
+          y: 0,
+          textPosition: 0,
+        };
+    }
+  }
   const gridLinesElement = displayPrimaryGridLines ? (
     <HorizontalAxisGridLines
       position={position}
       plotHeight={plotHeight}
       primaryTicks={primaryTicks}
+      style={primaryGridLineStyle}
     />
   ) : null;
 
-  const primaryTicksElement = !hidden ? (
-    <Ticks
-      anchor="middle"
-      primaryTicks={primaryTicks}
-      getPositions={getTickPosition}
-      labelStyle={tickLabelStyle}
-    />
-  ) : null;
+  const primaryTicksElement =
+    !hidden && !hiddenTicks ? (
+      <Ticks
+        anchor="middle"
+        primaryTicks={primaryTicks}
+        getPositions={getTickPosition}
+        labelStyle={tickLabelStyle}
+        style={primaryTickStyle}
+        dominantBaseline={isBottom ? 'text-before-edge' : 'text-after-edge'}
+      />
+    ) : null;
 
-  const axisLineElement = !hidden ? (
-    <HorizontalAxisLine plotWidth={plotWidth} />
-  ) : null;
+  const axisLineElement =
+    !hidden && !hiddenLine ? (
+      <HorizontalAxisLine style={lineStyle} plotWidth={plotWidth} />
+    ) : null;
 
   const labelElement =
     !hidden && label ? (

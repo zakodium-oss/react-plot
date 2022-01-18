@@ -71,6 +71,13 @@ export function Axis({
   hidden = false,
   tickLabelStyle,
   tickLabelFormat = (value) => String(value),
+  hiddenLine = false,
+  lineStyle,
+  primaryGridLineStyle,
+  hiddenTicks = false,
+  tickPosition = 'outer',
+  primaryTickLength = 5,
+  primaryTickStyle,
 }: AxisProps) {
   const dispatch = usePlotDispatchContext();
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
@@ -132,6 +139,13 @@ export function Axis({
     tickLabelStyle,
     position,
     tickLabelFormat,
+    hiddenLine,
+    primaryGridLineStyle,
+    lineStyle,
+    hiddenTicks,
+    tickPosition,
+    primaryTickLength,
+    primaryTickStyle,
   };
 
   if (scale === 'linear') {

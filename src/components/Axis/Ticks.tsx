@@ -14,12 +14,13 @@ export interface TickProps {
   line: CoordinatesXY;
   text: Omit<CoordinatesXY, 'x2' | 'y2'>;
   secondary?: boolean;
-
+  dominantBaseline?: string;
   strokeColor?: string;
   strokeHeight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
   alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
   labelStyle?: CSSProperties;
+  style?: CSSProperties;
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
@@ -110,6 +111,8 @@ export function Tick(props: TickProps) {
     anchor = 'end',
     secondary = false,
     labelStyle,
+    style,
+    dominantBaseline = 'middle',
   } = props;
 
   return (
@@ -121,13 +124,14 @@ export function Tick(props: TickProps) {
         y2={secondary && lineY1 !== lineY2 ? lineY2 * strokeHeight : lineY2}
         stroke={strokeColor}
         strokeWidth={secondary ? 1 : 1.5}
+        style={style}
       />
       {!secondary && (
         <text
           x={textX1}
           y={textY1}
           textAnchor={anchor}
-          dominantBaseline="middle"
+          dominantBaseline={dominantBaseline}
           style={{ userSelect: 'none', ...labelStyle }}
         >
           {children}

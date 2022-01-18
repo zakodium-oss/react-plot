@@ -40,10 +40,19 @@ export type ParallelAxisProps = Omit<
   | 'scale'
   | 'displayPrimaryGridLines'
   | 'displaySecondaryGridLines'
+  | 'tickLabelFormat'
 > & { id: string };
 
 export function ParallelAxis(props: ParallelAxisProps) {
-  const { id, hidden = false, ...otherProps } = props;
+  const {
+    id,
+    hidden = false,
+    primaryTickLength = 5,
+    tickPosition = 'outer',
+    hiddenLine = false,
+    hiddenTicks = false,
+    ...otherProps
+  } = props;
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   // Don't display axis if parent id not in context
@@ -62,6 +71,10 @@ export function ParallelAxis(props: ParallelAxisProps) {
     tickLabelFormat,
     displayPrimaryGridLines: false,
     hidden,
+    primaryTickLength,
+    tickPosition,
+    hiddenLine,
+    hiddenTicks,
     ...otherProps,
   };
 
