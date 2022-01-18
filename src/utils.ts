@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-import { PlotAxisContext } from './plotContext';
+import { PlotAxisContext } from './contexts/plotContext';
 import type { CSSFuncProps, SeriesPointError } from './types';
 
 let currentValue = 1;

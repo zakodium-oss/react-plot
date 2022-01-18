@@ -10,16 +10,16 @@ import {
 } from 'd3-scale';
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
-import type { AxisProps } from './components/Axis/Axis';
-import { LegendPosition } from './components/Legend';
+import type { AxisProps } from '../components/Axis/Axis';
+import { LegendPosition } from '../components/Legend';
 import type {
   ActionType,
   Position,
   SeriesPoint,
   TickLabelFormat,
   VerticalPosition,
-} from './types';
-import { validatePosition } from './utils';
+} from '../types';
+import { validatePosition } from '../utils';
 
 interface PlotSeriesStateAxis {
   min: number;

@@ -1,6 +1,6 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 
-import { usePlotContext } from '../../plotContext';
+import { usePlotContext } from '../../contexts/plotContext';
 import type { Position } from '../../types';
 
 import { AxisProps } from './Axis';

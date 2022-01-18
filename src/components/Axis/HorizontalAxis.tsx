@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { bboxContext } from '../../bboxContext';
+import { bboxContext } from '../../contexts/bboxContext';
 
 import HorizontalAxisGridLines from './HorizontalAxisGridLines';
 import HorizontalAxisLabel from './HorizontalAxisLabel';

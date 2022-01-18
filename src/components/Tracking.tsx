@@ -5,7 +5,7 @@ import {
   PlotAxisContext,
   PlotSeriesState,
   usePlotContext,
-} from '../plotContext';
+} from '../contexts/plotContext';
 import { SeriesPoint } from '../types';
 import { closestPoint } from '../utils';
 

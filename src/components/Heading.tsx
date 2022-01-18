@@ -1,7 +1,7 @@
 import { CSSProperties } from 'react';
 import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
-import { usePlotContext } from '../plotContext';
+import { usePlotContext } from '../contexts/plotContext';
 import type { VerticalPosition } from '../types';
 
 export interface HeadingProps {
