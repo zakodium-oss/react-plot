@@ -5,7 +5,8 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../../contexts/plotContext';
-import { Position, TickLabelFormat } from '../../types';
+import { Position, TickLabelFormat, TickPosition } from '../../types';
+import { getInnerOffset } from '../../utils/axis';
 
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
@@ -45,8 +46,7 @@ export interface AxisProps {
   secondaryGridLineStyle?: CSSProperties;
 
   hiddenTicks?: boolean;
-  tickPosition?: 'inner' | 'outer' | 'center';
-  // TODO: Precise this.
+  tickPosition?: TickPosition;
   tickLabelFormat?: TickLabelFormat;
   tickLabelStyle?: CSSProperties;
 
@@ -86,6 +86,14 @@ export function Axis({
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
+
+  const innerOffset = getInnerOffset(
+    hidden,
+    hiddenTicks,
+    tickPosition,
+    primaryTickLength,
+  );
+
   useEffect(() => {
     const minPadding = paddingStart || 0;
     const maxPadding = paddingEnd || 0;
@@ -112,21 +120,23 @@ export function Axis({
         paddingEnd: maxPadding,
         flip,
         scale,
+        innerOffset,
       },
     });
 
     return () => dispatch({ type: 'removeAxis', payload: { id: id || xY } });
   }, [
     dispatch,
-    xY,
-    id,
-    position,
-    min,
-    max,
     flip,
-    paddingStart,
+    id,
+    innerOffset,
+    max,
+    min,
     paddingEnd,
+    paddingStart,
+    position,
     scale,
+    xY,
   ]);
 
   const currentAxis = axisContext[id || xY];
@@ -149,6 +159,7 @@ export function Axis({
     tickPosition,
     primaryTickLength,
     primaryTickStyle,
+    innerOffset,
   };
 
   if (scale === 'linear') {

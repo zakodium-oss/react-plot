@@ -2,6 +2,7 @@ import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 
 import { usePlotContext } from '../../contexts/plotContext';
 import type { Position } from '../../types';
+import { getInnerOffset } from '../../utils/axis';
 
 import { AxisProps } from './Axis';
 import LinearAxis from './LinearAxis';
@@ -55,6 +56,13 @@ export function ParallelAxis(props: ParallelAxisProps) {
   } = props;
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
+  const innerOffset = getInnerOffset(
+    hidden,
+    hiddenTicks,
+    tickPosition,
+    primaryTickLength,
+  );
+
   // Don't display axis if parent id not in context
   const parentAxis = axisContext[id];
   if (!parentAxis) return null;
@@ -75,6 +83,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
     tickPosition,
     hiddenLine,
     hiddenTicks,
+    innerOffset,
     ...otherProps,
   };
 

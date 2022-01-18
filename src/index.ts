@@ -17,4 +17,4 @@ export * from './components/Heading';
 
 export * from './components/Annotations/Annotation';
 
-export type { SeriesPoint } from './types';
+export type { SeriesPoint, TickLabelFormat, TickPosition } from './types';

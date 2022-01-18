@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode, Ref } from 'react';
 import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
-import type { Position, TickLabelFormat } from '../../types';
+import type { Position, TickLabelFormat, TickPosition } from '../../types';
 
 export interface AxisCommonProps {
   hidden: boolean;
@@ -16,9 +16,10 @@ export interface AxisCommonProps {
   hiddenLine?: boolean;
   primaryGridLineStyle?: CSSProperties;
   hiddenTicks?: boolean;
-  tickPosition?: 'inner' | 'outer' | 'center';
+  tickPosition?: TickPosition;
   primaryTickLength?: number;
   primaryTickStyle?: CSSProperties;
+  innerOffset: number;
 }
 
 export interface AxisRendererProps extends AxisCommonProps {

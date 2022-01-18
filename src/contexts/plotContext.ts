@@ -40,10 +40,10 @@ export interface PlotState {
   legendPosition: LegendPosition | null;
   legendMargin: number;
   series: PlotSeriesState[];
-  axis: Record<string, PlotAxisState>;
+  axes: Record<string, PlotAxisState>;
 }
 
-type PlotAxisState = Pick<
+export type PlotAxisState = Pick<
   AxisProps,
   | 'position'
   | 'min'
@@ -53,7 +53,9 @@ type PlotAxisState = Pick<
   | 'flip'
   | 'scale'
   | 'tickLabelFormat'
->;
+> & {
+  innerOffset: number;
+};
 
 export type PlotReducerActions =
   | ActionType<'newData', PlotSeriesState>
@@ -102,18 +104,18 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
     }
     case 'newAxis': {
       const { id, position, ...values } = action.payload;
-      let currentAxis = state.axis[id];
+      let currentAxis = state.axes[id];
       if (currentAxis) {
         validatePosition(currentAxis.position, position, id);
-        state.axis[id] = { ...currentAxis, position, ...values };
+        state.axes[id] = { ...currentAxis, position, ...values };
       } else {
-        state.axis[id] = { position, ...values };
+        state.axes[id] = { position, ...values };
       }
       break;
     }
     case 'removeAxis': {
       const { id } = action.payload;
-      delete state.axis[id];
+      delete state.axes[id];
       break;
     }
     case 'addHeading': {
@@ -184,8 +186,8 @@ export function useAxisContext(
   const context = useMemo(() => {
     let axisContext: Record<string, PlotAxisContext> = {};
 
-    for (const id in state.axis) {
-      const axis = state.axis[id];
+    for (const id in state.axes) {
+      const axis = state.axes[id];
       const isHorizontal = ['top', 'bottom'].includes(axis.position);
       const xY = isHorizontal ? 'x' : 'y';
 

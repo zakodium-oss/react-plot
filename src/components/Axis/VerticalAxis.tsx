@@ -28,6 +28,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
     primaryTicks,
     position,
     tickLabelStyle,
+    innerOffset,
   } = props;
 
   const isRight = position === 'right';
@@ -120,7 +121,11 @@ export default function VerticalAxis(props: AxisRendererProps) {
       <g ref={bboxRef}>
         <g ref={ticks.ref}>{primaryTicksElement}</g>
         <g ref={axisRef}>{axisLineElement}</g>
-        <g transform={`translate(${ticks.width * (isRight ? 1 : -1)}, 0)`}>
+        <g
+          transform={`translate(${
+            (ticks.width - innerOffset) * (isRight ? 1 : -1)
+          }, 0)`}
+        >
           {labelElement}
         </g>
       </g>
