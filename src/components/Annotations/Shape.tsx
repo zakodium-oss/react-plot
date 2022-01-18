@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, MouseEventHandler } from 'react';
 
 import { usePosition } from '../../hooks';
 import {
@@ -45,6 +45,8 @@ export interface AnnotationShapeProps {
   size: number;
   style?: CSSProperties;
   color?: string;
+  onMouseEnter?: MouseEventHandler<SVGGElement>;
+  onMouseLeave?: MouseEventHandler<SVGGElement>;
 }
 
 export function Shape(props: AnnotationShapeProps) {
@@ -57,7 +59,11 @@ export function Shape(props: AnnotationShapeProps) {
   const { x, y } = usePosition({ x: props.x, y: props.y });
 
   return (
-    <g transform={`translate(${x}, ${y})`}>
+    <g
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
+      transform={`translate(${x}, ${y})`}
+    >
       <Figure size={props.size} style={{ fill: props.color, ...props.style }} />
     </g>
   );
