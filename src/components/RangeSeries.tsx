@@ -2,8 +2,11 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { useLegend } from '../legendContext';
-import { usePlotContext, usePlotDispatchContext } from '../plotContext';
+import { useLegend } from '../contexts/legendContext';
+import {
+  usePlotContext,
+  usePlotDispatchContext,
+} from '../contexts/plotContext';
 import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
 

@@ -4,9 +4,9 @@ import { produce } from 'immer';
 import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { bboxContext } from '../bboxContext';
+import { bboxContext } from '../contexts/bboxContext';
+import { LegendProvider } from '../contexts/legendContext';
 import { legendOffsetContext } from '../contexts/legendOffsetContext';
-import { LegendProvider } from '../legendContext';
 import {
   plotContext,
   plotDispatchContext,
@@ -14,7 +14,7 @@ import {
   PlotReducerActions,
   PlotState,
   useAxisContext,
-} from '../plotContext';
+} from '../contexts/plotContext';
 import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';

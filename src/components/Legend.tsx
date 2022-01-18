@@ -2,9 +2,12 @@
 import { useContext, useEffect, useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
+import { useLegend } from '../contexts/legendContext';
 import { legendOffsetContext } from '../contexts/legendOffsetContext';
-import { useLegend } from '../legendContext';
-import { usePlotContext, usePlotDispatchContext } from '../plotContext';
+import {
+  usePlotContext,
+  usePlotDispatchContext,
+} from '../contexts/plotContext';
 import type { Position } from '../types';
 
 import { markersComps } from './Markers';

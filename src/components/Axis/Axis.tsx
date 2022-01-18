@@ -1,7 +1,10 @@
 import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { CSSProperties, ReactNode, useEffect } from 'react';
 
-import { usePlotContext, usePlotDispatchContext } from '../../plotContext';
+import {
+  usePlotContext,
+  usePlotDispatchContext,
+} from '../../contexts/plotContext';
 import { Position, TickLabelFormat } from '../../types';
 
 import LinearAxis from './LinearAxis';

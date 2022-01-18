@@ -8,7 +8,7 @@ import {
   useReducer,
 } from 'react';
 
-import type { ActionType, Shape } from './types';
+import type { ActionType, Shape } from '../types';
 
 interface LegendLabelState {
   id: string;

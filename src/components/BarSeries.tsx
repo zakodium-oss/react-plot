@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
-import { useLegend } from '../legendContext';
-import { usePlotContext } from '../plotContext';
+import { useLegend } from '../contexts/legendContext';
+import { usePlotContext } from '../contexts/plotContext';
 import type { SeriesPoint } from '../types';
 import { getNextId, validateAxis } from '../utils';
 

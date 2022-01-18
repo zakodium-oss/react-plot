@@ -1,6 +1,6 @@
 import { ScaleLinear } from 'd3-scale';
 
-import { usePlotContext } from './plotContext';
+import { usePlotContext } from './contexts/plotContext';
 import { validateAxis } from './utils';
 
 type NumberOrString = number | string;

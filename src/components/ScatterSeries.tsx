@@ -1,8 +1,11 @@
 import { extent } from 'd3-array';
 import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
-import { useLegend } from '../legendContext';
-import { usePlotContext, usePlotDispatchContext } from '../plotContext';
+import { useLegend } from '../contexts/legendContext';
+import {
+  usePlotContext,
+  usePlotDispatchContext,
+} from '../contexts/plotContext';
 import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
