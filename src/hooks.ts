@@ -58,9 +58,9 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
   };
 }
 
-function ConvertString(value: string, total: number) {
+function convertString(value: string, total: number) {
   return value.endsWith('%')
-    ? (Number(value.substring(0, value.length - 1)) * total) / 100
+    ? (Number(value.slice(0, -1)) * total) / 100
     : Number(value);
 }
 function convertValue(
@@ -69,7 +69,7 @@ function convertValue(
   scale?: ScaleLinear<number, number>,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? scale(value) : ConvertString(value, total);
+  return typeof value === 'number' ? scale(value) : convertString(value, total);
 }
 function convertMinValue(
   value1: string | number,
@@ -79,8 +79,8 @@ function convertMinValue(
 ) {
   if (scale === undefined) return 0;
   return Math.min(
-    typeof value2 === 'number' ? scale(value2) : ConvertString(value2, total),
-    typeof value1 === 'number' ? scale(value1) : ConvertString(value1, total),
+    typeof value2 === 'number' ? scale(value2) : convertString(value2, total),
+    typeof value1 === 'number' ? scale(value1) : convertString(value1, total),
   );
 }
 function convertValueAbs(
@@ -91,7 +91,7 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? Math.abs(scale(0) - scale(value))
-    : ConvertString(value, total);
+    : convertString(value, total);
 }
 function convertDimensions(
   value1: string | number,
@@ -103,10 +103,10 @@ function convertDimensions(
   return Math.abs(
     (typeof value2 === 'number'
       ? scale(value2)
-      : ConvertString(value2, total)) -
+      : convertString(value2, total)) -
       (typeof value1 === 'number'
         ? scale(value1)
-        : ConvertString(value1, total)),
+        : convertString(value1, total)),
   );
 }
 export function usePointPosition(config: UsePositionConfig[]) {
