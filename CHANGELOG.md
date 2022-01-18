@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.13.0](https://www.github.com/zakodium/react-plot/compare/v0.12.0...v0.13.0) (2022-01-18)
+
+
+### Features
+
+* add support for all line props and markerSize to arrow annotation ([#247](https://www.github.com/zakodium/react-plot/issues/247)) ([b4e7898](https://www.github.com/zakodium/react-plot/commit/b4e7898f26a2f8f1e0a59639687c4d7f372cfe9a))
+* automatically create axes if they are omitted ([#248](https://www.github.com/zakodium/react-plot/issues/248)) ([0bbe3bd](https://www.github.com/zakodium/react-plot/commit/0bbe3bde70fe03f02d8dbd23dc553004f3de18cc))
+* implement all missing axis props & fix Position of tick labels ([#254](https://www.github.com/zakodium/react-plot/issues/254)) ([009a3bc](https://www.github.com/zakodium/react-plot/commit/009a3bcac4f76761a26e5361b2d2c7dbe20deb8e))
+* support annotation x/y coordinates as "%" ([#255](https://www.github.com/zakodium/react-plot/issues/255)) ([a23bda8](https://www.github.com/zakodium/react-plot/commit/a23bda8ee24b07bede60fb889f53f6eed4ffdfbf))
+
+
+### Bug Fixes
+
+* resize plot for and place legend correctly ([#250](https://www.github.com/zakodium/react-plot/issues/250)) ([cc55696](https://www.github.com/zakodium/react-plot/commit/cc556967da27032ad735ca5b02f64d3a2406b9f4))
+
 ## [0.12.0](https://www.github.com/zakodium/react-plot/compare/v0.11.0...v0.12.0) (2022-01-13)
 
 
