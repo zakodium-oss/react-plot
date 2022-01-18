@@ -40,19 +40,24 @@ interface Positions {
     x1: number;
     x2: number;
   } | null;
-  min?: number;
-  max?: number;
+  minX?: number;
+  maxX?: number;
+  minY?: number;
+  maxY?: number;
 }
 
 interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const [{ position, min, max }, setPositions] = useState<Positions | null>({
-    position: null,
-    min: undefined,
-    max: undefined,
-  });
+  const [{ position, minX, maxX, minY, maxY }, setPositions] =
+    useState<Positions | null>({
+      position: null,
+      minX: undefined,
+      maxX: undefined,
+      minY: undefined,
+      maxY: undefined,
+    });
   let click = useRef<boolean>(false);
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
@@ -72,13 +77,13 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const bestPeaks = useMemo(
     () =>
       getBestPeaks(centroid, {
-        from: min,
-        to: max,
+        from: minX,
+        to: maxX,
         limit: 5,
         numberSlots: 10,
         threshold: 0.01,
       }),
-    [centroid, max, min],
+    [centroid, maxX, minX],
   );
 
   return (
@@ -91,8 +96,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
               x1: x,
               x2: x,
             },
-            min: min,
-            max: max,
+            minX: minX,
+            maxX: maxX,
           });
           click.current = true;
         }}
@@ -101,16 +106,18 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           if (position.x1 !== position.x2) {
             setPositions({
               position: null,
-              min: Math.min(position.x1, position.x2),
-              max: Math.max(position.x1, position.x2),
+              minX: Math.min(position.x1, position.x2),
+              maxX: Math.max(position.x1, position.x2),
             });
           }
         }}
         onMouseLeave={() => {
           setPositions({
             position: null,
-            min: min,
-            max: max,
+            minX: minX,
+            maxX: maxX,
+            minY: minY,
+            maxY: maxY,
           });
           click.current = false;
         }}
@@ -121,13 +128,27 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
                 x1: position ? position.x1 : x,
                 x2: x,
               },
-              min: min,
-              max: max,
+              minX: minX,
+              maxX: maxX,
+              minY: minY,
+              maxY: maxY,
             }));
           }
         }}
         onDoubleClick={() => {
-          setPositions({ min: undefined, max: undefined });
+          setPositions({
+            minX: undefined,
+            maxX: undefined,
+            minY: undefined,
+            maxY: undefined,
+          });
+        }}
+        onWheel={({ coordinates: { y1, y2 } }) => {
+          setPositions((positions) => ({
+            ...positions,
+            minY: Math.min(y1, y2),
+            maxY: Math.max(y1, y2),
+          }));
         }}
       >
         <LineSeries
@@ -179,18 +200,19 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           paddingEnd={0.1}
           paddingStart={0.1}
           displayPrimaryGridLines
-          min={min}
-          max={max}
+          min={minX}
+          max={maxX}
           id="x"
           position="bottom"
           label="Mass [m/z]"
         />
         <Axis
+          min={minY}
+          max={maxY}
           displayPrimaryGridLines
           id="y"
           position="left"
           label="Relative intensity [%]"
-          paddingEnd={0.1}
         />
       </Plot>
     </div>

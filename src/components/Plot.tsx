@@ -100,6 +100,10 @@ export interface PlotProps {
    */
   onDoubleClick?: (result: TrackingResult) => void;
   /**
+   * When scroll inside the viewport.
+   */
+  onWheel?: (event: TrackingResult) => void;
+  /**
    * Mouse enters the viewport.
    */
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
@@ -131,6 +135,7 @@ export function Plot(props: PlotProps) {
     onMouseDown,
     onMouseUp,
     onDoubleClick,
+    onWheel,
     children,
   } = props;
 
@@ -256,7 +261,12 @@ export function Plot(props: PlotProps) {
                 <g ref={legendBbox.ref}>{legend}</g>
               </legendOffsetContext.Provider>
 
-              {onClick || onMouseMove ? (
+              {onClick ||
+              onMouseMove ||
+              onMouseUp ||
+              onMouseDown ||
+              onDoubleClick ||
+              onWheel ? (
                 <Tracking
                   stateSeries={state.series}
                   onClick={(position) => onClick?.(position)}
@@ -266,6 +276,7 @@ export function Plot(props: PlotProps) {
                   onMouseDown={onMouseDown}
                   onMouseUp={onMouseUp}
                   onDoubleClick={onDoubleClick}
+                  onWheel={onWheel}
                 />
               ) : null}
             </g>

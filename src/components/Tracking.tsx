@@ -21,7 +21,7 @@ export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: React.MouseEvent<SVGRectElement, MouseEvent>;
   coordinates: Record<string, number>;
-  getClosest: (method: ClosestMethods) => ClosestInfoResult;
+  getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 export interface TrackingProps {
   onMouseMove?: (result: TrackingResult) => void;
@@ -31,11 +31,39 @@ export interface TrackingProps {
   onMouseUp?: (result: TrackingResult) => void;
   onMouseDown?: (result: TrackingResult) => void;
   onDoubleClick?: (result: TrackingResult) => void;
+  onWheel?: (result: TrackingResult) => void;
   stateSeries: PlotSeriesState[];
 }
 
 const HORIZONTAL = ['bottom', 'top'];
 
+function infoFromWheel(
+  event: React.WheelEvent<SVGRectElement>,
+  axisContext: Record<string, PlotAxisContext>,
+  plotHeight: number,
+) {
+  const ratio = 1 + event.deltaY * -0.001;
+  const { clientY } = event;
+  const { top } = event.currentTarget.getBoundingClientRect();
+  // Calculate coordinates
+  let coordinates: TrackingResult['coordinates'] = {};
+  const { scale } = axisContext.y;
+  const yPosition = clientY - top;
+  const y1 =
+    ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
+
+  const y2 =
+    ratio > 1
+      ? yPosition + (plotHeight - yPosition) / ratio
+      : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
+  coordinates.y1 = scale.invert(y1);
+  coordinates.y2 = scale.invert(y2);
+
+  return {
+    event,
+    coordinates,
+  };
+}
 function infoFromMouse(
   event: React.MouseEvent<SVGRectElement, MouseEvent>,
   axisContext: Record<string, PlotAxisContext>,
@@ -56,7 +84,6 @@ function infoFromMouse(
       coordinates[key] = scale.invert(yPosition);
     }
   }
-
   return {
     event,
     coordinates,
@@ -139,6 +166,7 @@ export default function Tracking({
   onMouseDown,
   onMouseUp,
   onDoubleClick,
+  onWheel,
   stateSeries,
 }: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
@@ -165,6 +193,9 @@ export default function Tracking({
       }
       onDoubleClick={(event) =>
         onDoubleClick?.(infoFromMouse(event, axisContext, stateSeries))
+      }
+      onWheel={(event) =>
+        onWheel?.(infoFromWheel(event, axisContext, plotHeight))
       }
     />
   );
