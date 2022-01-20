@@ -100,7 +100,7 @@ export interface PlotProps {
    */
   onDoubleClick?: (result: TrackingResult) => void;
   /**
-   * When scroll inside the viewport.
+   * Track values on wheel inside the viewport.
    */
   onWheel?: (event: TrackingResult) => void;
   /**
@@ -111,6 +111,18 @@ export interface PlotProps {
    * Mouse leaves the viewport.
    */
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   *  Track values on click Keyboard key.
+   */
+  onKeyPress?: (event: React.KeyboardEvent<SVGRectElement>) => void;
+  /**
+   * Track values on keyboard key Down.
+   */
+  onKeyDown?: (event: React.KeyboardEvent<SVGRectElement>) => void;
+  /**
+   * Track values on keyboard key Up.
+   */
+  onKeyUp?: (event: React.KeyboardEvent<SVGRectElement>) => void;
   /**
    * All plot elements.
    */
@@ -136,6 +148,9 @@ export function Plot(props: PlotProps) {
     onMouseUp,
     onDoubleClick,
     onWheel,
+    onKeyPress,
+    onKeyDown,
+    onKeyUp,
     children,
   } = props;
 
@@ -266,7 +281,9 @@ export function Plot(props: PlotProps) {
               onMouseUp ||
               onMouseDown ||
               onDoubleClick ||
-              onWheel ? (
+              onWheel ||
+              onKeyPress ||
+              onKeyDown ? (
                 <Tracking
                   stateSeries={state.series}
                   onClick={(position) => onClick?.(position)}
@@ -277,6 +294,9 @@ export function Plot(props: PlotProps) {
                   onMouseUp={onMouseUp}
                   onDoubleClick={onDoubleClick}
                   onWheel={onWheel}
+                  onKeyPress={onKeyPress}
+                  onKeyDown={onKeyDown}
+                  onKeyUp={onKeyUp}
                 />
               ) : null}
             </g>

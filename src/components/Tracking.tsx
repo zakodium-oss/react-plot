@@ -32,11 +32,13 @@ export interface TrackingProps {
   onMouseDown?: (result: TrackingResult) => void;
   onDoubleClick?: (result: TrackingResult) => void;
   onWheel?: (result: TrackingResult) => void;
+  onKeyPress?: (result: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyDown?: (result: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyUp?: (result: React.KeyboardEvent<SVGRectElement>) => void;
   stateSeries: PlotSeriesState[];
 }
 
 const HORIZONTAL = ['bottom', 'top'];
-
 function infoFromWheel(
   event: React.WheelEvent<SVGRectElement>,
   axisContext: Record<string, PlotAxisContext>,
@@ -167,6 +169,9 @@ export default function Tracking({
   onMouseUp,
   onDoubleClick,
   onWheel,
+  onKeyPress,
+  onKeyUp,
+  onKeyDown,
   stateSeries,
 }: TrackingProps) {
   const { axisContext, plotHeight, plotWidth } = usePlotContext();
@@ -179,6 +184,15 @@ export default function Tracking({
       style={{ fillOpacity: 0 }}
       onClick={(event) => {
         onClick?.(infoFromMouse(event, axisContext, stateSeries));
+      }}
+      onKeyPress={(event) => {
+        onKeyPress?.(event);
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+      }}
+      onKeyUp={(event) => {
+        onKeyUp?.(event);
       }}
       onMouseMove={(event) => {
         onMouseMove?.(infoFromMouse(event, axisContext, stateSeries));
