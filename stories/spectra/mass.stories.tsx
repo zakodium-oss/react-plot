@@ -36,10 +36,15 @@ export function MassExample() {
 }
 
 interface Positions {
-  position?: {
+  rectangle?: {
     x1: number;
     x2: number;
   } | null;
+  hand?: {
+    x?: number;
+    y?: number;
+  } | null;
+  alt: boolean;
   minX?: number;
   maxX?: number;
   minY?: number;
@@ -50,13 +55,15 @@ interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const [{ position, minX, maxX, minY, maxY }, setPositions] =
+  const [{ rectangle, hand, minX, maxX, minY, maxY, alt }, setPositions] =
     useState<Positions | null>({
-      position: null,
+      hand: null,
+      rectangle: null,
       minX: undefined,
       maxX: undefined,
       minY: undefined,
       maxY: undefined,
+      alt: false,
     });
   let click = useRef<boolean>(false);
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
@@ -90,58 +97,83 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
-        onMouseDown={({ coordinates: { x } }) => {
-          setPositions({
-            position: {
-              x1: x,
-              x2: x,
-            },
-            minX: minX,
-            maxX: maxX,
-          });
-          click.current = true;
-        }}
-        onMouseUp={() => {
-          click.current = false;
-          if (position.x1 !== position.x2) {
-            setPositions({
-              position: null,
-              minX: Math.min(position.x1, position.x2),
-              maxX: Math.max(position.x1, position.x2),
-            });
-          }
-        }}
-        onMouseLeave={() => {
-          setPositions({
-            position: null,
-            minX: minX,
-            maxX: maxX,
-            minY: minY,
-            maxY: maxY,
-          });
-          click.current = false;
-        }}
-        onMouseMove={({ coordinates: { x } }) => {
-          if (click.current) {
-            setPositions(({ position }) => ({
-              position: {
-                x1: position ? position.x1 : x,
+        onMouseDown={({ coordinates: { x, y } }) => {
+          if (alt) {
+            setPositions((positions) => ({
+              ...positions,
+              hand: {
+                x,
+                y,
+              },
+            }));
+          } else {
+            setPositions((positions) => ({
+              ...positions,
+              rectangle: {
+                x1: x,
                 x2: x,
               },
-              minX: minX,
-              maxX: maxX,
-              minY: minY,
-              maxY: maxY,
             }));
+          }
+          click.current = true;
+        }}
+        onKeyDown={({ altKey }) => {
+          setPositions((positions) => ({ ...positions, maxX: 0, alt: altKey }));
+        }}
+        onKeyUp={({ altKey }) => {
+          setPositions((positions) => ({ ...positions, alt: altKey }));
+        }}
+        onMouseUp={() => {
+          if (click.current && !alt && rectangle.x1 !== rectangle.x2) {
+            setPositions((positions) => ({
+              ...positions,
+              rectangle: null,
+              minX: Math.min(rectangle.x1, rectangle.x2),
+              maxX: Math.max(rectangle.x1, rectangle.x2),
+            }));
+          }
+          click.current = false;
+        }}
+        onMouseLeave={() => {
+          setPositions((positions) => ({
+            ...positions,
+            rectangle: null,
+          }));
+          click.current = false;
+        }}
+        onMouseMove={({ coordinates: { x, y } }) => {
+          if (click.current) {
+            if (alt) {
+              const detlaX = hand.x - x;
+              const detlaY = hand.y - y;
+              setPositions((positions) => ({
+                ...positions,
+                maxX: detlaX + maxX,
+                minX: detlaX + minX,
+                maxY: detlaY + maxY,
+                minY: detlaY + minY,
+                hand: { x, y },
+              }));
+            } else {
+              setPositions((positions) => ({
+                ...positions,
+                rectangle: {
+                  x1: rectangle ? rectangle.x1 : x,
+                  x2: x,
+                },
+              }));
+            }
           }
         }}
         onDoubleClick={() => {
-          setPositions({
+          setPositions((positions) => ({
+            ...positions,
+            hand: null,
             minX: undefined,
             maxX: undefined,
             minY: undefined,
             maxY: undefined,
-          });
+          }));
         }}
         onWheel={({ coordinates: { y1, y2 } }) => {
           setPositions((positions) => ({
@@ -185,13 +217,13 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
               </Text>
             </Group>
           ))}
-          {position && (
+          {rectangle && (
             <Rectangle
               color="red"
               style={{ fillOpacity: 0.2, stroke: 'red' }}
-              x1={position.x1}
+              x1={rectangle.x1}
               y1="540"
-              x2={position.x2}
+              x2={rectangle.x2}
               y2="0"
             />
           )}
