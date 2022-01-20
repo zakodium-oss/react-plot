@@ -119,14 +119,14 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           click.current = true;
         }}
         onKeyDown={({
-          event: { ctrlKey },
+          event: { altKey },
           x: { max: maxX, min: minX },
           y: { max: maxY, min: minY },
         }) => {
           if (!click.current) {
             setPositions((positions) => ({
               ...positions,
-              alt: ctrlKey,
+              alt: altKey,
               maxX,
               minX,
               maxY,
@@ -134,10 +134,10 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
             }));
           }
         }}
-        onKeyUp={({ event: { ctrlKey } }) => {
+        onKeyUp={({ event: { altKey } }) => {
           if (!click.current || alt) {
             click.current = false;
-            setPositions((positions) => ({ ...positions, alt: ctrlKey }));
+            setPositions((positions) => ({ ...positions, alt: altKey }));
           }
         }}
         onMouseUp={() => {
