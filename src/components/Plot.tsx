@@ -20,7 +20,7 @@ import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';
 
-import Tracking, { TrackingResult } from './Tracking';
+import Tracking, { TrackingResult, KeysResult } from './Tracking';
 import TransparentRect from './TransparentRect';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
@@ -114,15 +114,15 @@ export interface PlotProps {
   /**
    *  Track values on click Keyboard key.
    */
-  onKeyPress?: (event: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyPress?: (event: KeysResult) => void;
   /**
    * Track values on keyboard key Down.
    */
-  onKeyDown?: (event: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyDown?: (event: KeysResult) => void;
   /**
    * Track values on keyboard key Up.
    */
-  onKeyUp?: (event: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyUp?: (event: KeysResult) => void;
   /**
    * All plot elements.
    */

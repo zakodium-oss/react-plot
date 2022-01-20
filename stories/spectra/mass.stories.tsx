@@ -8,6 +8,7 @@ import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
+import { useAxisContext, usePlotContext } from '../../src/contexts/plotContext';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -97,6 +98,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
+        svgStyle={{ cursor: `${alt ? 'grab' : ''}` }}
         onMouseDown={({ coordinates: { x, y } }) => {
           if (alt) {
             setPositions((positions) => ({
@@ -117,11 +119,27 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           }
           click.current = true;
         }}
-        onKeyDown={({ altKey }) => {
-          setPositions((positions) => ({ ...positions, maxX: 0, alt: altKey }));
+        onKeyDown={({
+          event: { ctrlKey },
+          x: { max: maxX, min: minX },
+          y: { max: maxY, min: minY },
+        }) => {
+          if (!click.current) {
+            setPositions((positions) => ({
+              ...positions,
+              alt: ctrlKey,
+              maxX,
+              minX,
+              maxY,
+              minY,
+            }));
+          }
         }}
-        onKeyUp={({ altKey }) => {
-          setPositions((positions) => ({ ...positions, alt: altKey }));
+        onKeyUp={({ event: { ctrlKey } }) => {
+          if (!click.current || alt) {
+            click.current = false;
+            setPositions((positions) => ({ ...positions, alt: ctrlKey }));
+          }
         }}
         onMouseUp={() => {
           if (click.current && !alt && rectangle.x1 !== rectangle.x2) {
@@ -144,16 +162,18 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
         onMouseMove={({ coordinates: { x, y } }) => {
           if (click.current) {
             if (alt) {
-              const detlaX = hand.x - x;
-              const detlaY = hand.y - y;
-              setPositions((positions) => ({
-                ...positions,
-                maxX: detlaX + maxX,
-                minX: detlaX + minX,
-                maxY: detlaY + maxY,
-                minY: detlaY + minY,
-                hand: { x, y },
-              }));
+              const deltaX = hand.x - x;
+              const deltaY = hand.y - y;
+              if (deltaX !== 0 && deltaY !== 0) {
+                setPositions((positions) => ({
+                  ...positions,
+                  maxX: deltaX + positions.maxX,
+                  minX: deltaX + positions.minX,
+                  maxY: deltaY + positions.maxY,
+                  minY: deltaY + positions.minY,
+                  hand: { x, y },
+                }));
+              }
             } else {
               setPositions((positions) => ({
                 ...positions,
@@ -229,8 +249,6 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           )}
         </Annotations>
         <Axis
-          paddingEnd={0.1}
-          paddingStart={0.1}
           displayPrimaryGridLines
           min={minX}
           max={maxX}

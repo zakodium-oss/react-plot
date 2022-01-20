@@ -23,6 +23,11 @@ export interface TrackingResult {
   coordinates: Record<string, number>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
+export interface KeysResult {
+  event: React.KeyboardEvent<SVGRectElement>;
+  x: { max: number; min: number };
+  y: { max: number; min: number };
+}
 export interface TrackingProps {
   onMouseMove?: (result: TrackingResult) => void;
   onClick?: (result: TrackingResult) => void;
@@ -32,13 +37,27 @@ export interface TrackingProps {
   onMouseDown?: (result: TrackingResult) => void;
   onDoubleClick?: (result: TrackingResult) => void;
   onWheel?: (result: TrackingResult) => void;
-  onKeyPress?: (result: React.KeyboardEvent<SVGRectElement>) => void;
-  onKeyDown?: (result: React.KeyboardEvent<SVGRectElement>) => void;
-  onKeyUp?: (result: React.KeyboardEvent<SVGRectElement>) => void;
+  onKeyPress?: (result: KeysResult) => void;
+  onKeyDown?: (result: KeysResult) => void;
+  onKeyUp?: (result: KeysResult) => void;
   stateSeries: PlotSeriesState[];
 }
 
 const HORIZONTAL = ['bottom', 'top'];
+function infoFromKey(
+  event: React.KeyboardEvent<SVGRectElement>,
+  axisContext: Record<string, PlotAxisContext>,
+  plotHeight: number,
+  plotWidth: number,
+) {
+  const { scale: scaleY } = axisContext.y;
+  const { scale: scaleX } = axisContext.x;
+  return {
+    event,
+    x: { min: scaleX.invert(0), max: scaleX.invert(plotWidth) },
+    y: { min: scaleY.invert(plotHeight), max: scaleY.invert(0) },
+  };
+}
 function infoFromWheel(
   event: React.WheelEvent<SVGRectElement>,
   axisContext: Record<string, PlotAxisContext>,
@@ -178,21 +197,23 @@ export default function Tracking({
 
   return (
     <rect
+      tabIndex={0}
+      focusable
       width={plotWidth}
       height={plotHeight}
       className="tracking"
-      style={{ fillOpacity: 0 }}
+      style={{ fillOpacity: 0, outline: 'none' }}
       onClick={(event) => {
         onClick?.(infoFromMouse(event, axisContext, stateSeries));
       }}
       onKeyPress={(event) => {
-        onKeyPress?.(event);
+        onKeyPress?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
       }}
       onKeyDown={(event) => {
-        onKeyDown?.(event);
+        onKeyDown?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
       }}
       onKeyUp={(event) => {
-        onKeyUp?.(event);
+        onKeyUp?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
       }}
       onMouseMove={(event) => {
         onMouseMove?.(infoFromMouse(event, axisContext, stateSeries));
