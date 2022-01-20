@@ -8,7 +8,6 @@ import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
-import { useAxisContext, usePlotContext } from '../../src/contexts/plotContext';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
