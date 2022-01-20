@@ -97,7 +97,9 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
-        svgStyle={{ cursor: `${alt ? 'grab' : ''}` }}
+        svgStyle={{
+          cursor: `${alt ? (click.current ? 'grabbing' : 'grab') : ''}`,
+        }}
         onMouseDown={({ coordinates: { x, y } }) => {
           if (alt) {
             setPositions((positions) => ({
@@ -161,18 +163,14 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
         onMouseMove={({ coordinates: { x, y } }) => {
           if (click.current) {
             if (alt) {
-              const deltaX = hand.x - x;
-              const deltaY = hand.y - y;
-              if (deltaX !== 0 && deltaY !== 0) {
-                setPositions((positions) => ({
-                  ...positions,
-                  maxX: deltaX + positions.maxX,
-                  minX: deltaX + positions.minX,
-                  maxY: deltaY + positions.maxY,
-                  minY: deltaY + positions.minY,
-                  hand: { x, y },
-                }));
-              }
+              setPositions((positions) => ({
+                ...positions,
+                maxX: hand.x - x + maxX,
+                minX: hand.x - x + minX,
+                maxY: hand.y - y + maxY,
+                minY: hand.y - y + minY,
+                hand: { x, y },
+              }));
             } else {
               setPositions((positions) => ({
                 ...positions,
