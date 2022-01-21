@@ -65,12 +65,13 @@ function infoFromWheel(
   plotHeight: number,
 ) {
   const ratio = 1 + event.deltaY * -0.001;
-  const { clientY } = event;
-  const { top } = event.currentTarget.getBoundingClientRect();
+  //const { clientY } = event;
+  //const { top } = event.currentTarget.getBoundingClientRect();
   // Calculate coordinates
   let coordinates: TrackingResult['coordinates'] = {};
   const { scale } = axisContext.y;
-  const yPosition = clientY - top;
+  //const yPosition = clientY - top;
+  const yPosition = scale(0);
   const y1 =
     ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
 
