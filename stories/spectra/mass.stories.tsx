@@ -40,10 +40,6 @@ interface Positions {
     x1: number;
     x2: number;
   } | null;
-  hand?: {
-    x?: number;
-    y?: number;
-  } | null;
   alt: boolean;
   minX?: number;
   maxX?: number;
@@ -55,9 +51,8 @@ interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const [{ rectangle, hand, minX, maxX, minY, maxY, alt }, setPositions] =
+  const [{ rectangle, minX, maxX, minY, maxY, alt }, setPositions] =
     useState<Positions | null>({
-      hand: null,
       rectangle: null,
       minX: undefined,
       maxX: undefined,
@@ -100,16 +95,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
         svgStyle={{
           cursor: `${alt ? (click.current ? 'grabbing' : 'grab') : ''}`,
         }}
-        onMouseDown={({ coordinates: { x, y } }) => {
-          if (alt) {
-            setPositions((positions) => ({
-              ...positions,
-              hand: {
-                x,
-                y,
-              },
-            }));
-          } else {
+        onMouseDown={({ coordinates: { x } }) => {
+          if (!alt) {
             setPositions((positions) => ({
               ...positions,
               rectangle: {
@@ -160,16 +147,18 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           }));
           click.current = false;
         }}
-        onMouseMove={({ coordinates: { x, y } }) => {
+        onMouseMove={({
+          coordinates: { x },
+          movement: { x: movementX, y: movementY },
+        }) => {
           if (click.current) {
             if (alt) {
               setPositions((positions) => ({
                 ...positions,
-                maxX: hand.x - x + maxX,
-                minX: hand.x - x + minX,
-                maxY: hand.y - y + maxY,
-                minY: hand.y - y + minY,
-                hand: { x, y },
+                maxX: maxX - movementX,
+                minX: minX - movementX,
+                maxY: maxY - movementY,
+                minY: minY - movementY,
               }));
             } else {
               setPositions((positions) => ({
@@ -185,7 +174,6 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
         onDoubleClick={() => {
           setPositions((positions) => ({
             ...positions,
-            hand: null,
             minX: undefined,
             maxX: undefined,
             minY: undefined,

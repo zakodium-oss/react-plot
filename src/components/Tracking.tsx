@@ -21,6 +21,7 @@ export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: React.MouseEvent<SVGRectElement, MouseEvent>;
   coordinates: Record<string, number>;
+  movement?: Record<string, number>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 export interface KeysResult {
@@ -90,24 +91,28 @@ function infoFromMouse(
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
 ): TrackingResult {
-  const { clientX, clientY } = event;
+  const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = event.currentTarget.getBoundingClientRect();
 
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
   let coordinates: TrackingResult['coordinates'] = {};
+  let movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
     const { scale, position } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
       coordinates[key] = scale.invert(xPosition);
+      movement[key] = scale.invert(movementX) - scale.invert(0);
     } else {
       coordinates[key] = scale.invert(yPosition);
+      movement[key] = scale.invert(movementY) - scale.invert(0);
     }
   }
   return {
     event,
     coordinates,
+    movement,
     getClosest: (method) =>
       closestCalculation(
         method,
