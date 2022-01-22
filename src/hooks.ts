@@ -45,6 +45,13 @@ interface UseEllipsePositionConfig {
   ry: NumberOrString;
 }
 
+interface UseDirectedEllipsePositionConfig {
+  x1: NumberOrString;
+  y1: NumberOrString;
+  x2: NumberOrString;
+  y2: NumberOrString;
+  width: NumberOrString;
+}
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
@@ -57,7 +64,28 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
     ry: convertValueAbs(ry, plotHeight, yScale),
   };
 }
-
+export function useDirectedEllipsePosition(
+  props: UseDirectedEllipsePositionConfig,
+) {
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
+  const { x1: oldX1, y1: oldY1, x2: oldX2, y2: oldY2, width } = props;
+  const { x1, y1, x2, y2 } = {
+    x1: convertValue(oldX1, plotWidth, xScale),
+    x2: convertValue(oldX2, plotWidth, xScale),
+    y1: convertValue(oldY1, plotWidth, yScale),
+    y2: convertValue(oldY2, plotWidth, yScale),
+  };
+  return {
+    cx: (x1 + x2) / 2,
+    cy: (y1 + y2) / 2,
+    rx: distanceXY(x1, y1, x2, y2) / 2,
+    ry: convertValueAbs(width, plotHeight, yScale) / 2,
+  };
+}
+function distanceXY(x1: number, y1: number, x2: number, y2: number) {
+  return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
 function convertString(value: string, total: number) {
   return value.endsWith('%')
     ? (Number(value.slice(0, -1)) * total) / 100
