@@ -76,11 +76,22 @@ export function useDirectedEllipsePosition(
     y1: convertValue(oldY1, plotWidth, yScale),
     y2: convertValue(oldY2, plotWidth, yScale),
   };
-  return {
+  const radsToDegs = (rad: number) => (rad * 180) / Math.PI;
+  const { cx, cy } = {
     cx: (x1 + x2) / 2,
     cy: (y1 + y2) / 2,
+  };
+  return {
+    cx,
+    cy,
     rx: distanceXY(x1, y1, x2, y2) / 2,
     ry: convertValueAbs(width, plotHeight, yScale) / 2,
+    rotation:
+      (y1 > y2 ? -1 : 1) *
+      (x1 > x2 ? -1 : 1) *
+      radsToDegs(
+        Math.asin(distanceXY(x1, y1, x1, cy) / distanceXY(x1, y1, cx, cy)),
+      ),
   };
 }
 function distanceXY(x1: number, y1: number, x2: number, y2: number) {
