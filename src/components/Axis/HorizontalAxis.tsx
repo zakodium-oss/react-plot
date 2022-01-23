@@ -29,6 +29,9 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     position,
     tickLabelStyle,
     innerOffset,
+    secondaryTickLength,
+    scale,
+    secondaryTickStyle,
   } = props;
 
   const isBottom = position === 'bottom';
@@ -98,6 +101,9 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
+        secondaryTickLength={secondaryTickLength}
+        scale={scale}
+        secondaryTickStyle={secondaryTickStyle}
         dominantBaseline={isBottom ? 'text-before-edge' : 'text-after-edge'}
       />
     ) : null;

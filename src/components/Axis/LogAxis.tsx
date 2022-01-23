@@ -26,6 +26,7 @@ export default function LinearAxis(props: LogAxisProps) {
     direction === 'vertical' ? VerticalAxis : HorizontalAxis;
   return (
     <AxisComponent
+      scale={scale}
       axisRef={axisRef}
       primaryTicks={primaryTicks}
       position={position}

@@ -29,6 +29,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
     position,
     tickLabelStyle,
     innerOffset,
+    secondaryTickLength,
+    scale,
+    secondaryTickStyle,
   } = props;
 
   const isRight = position === 'right';
@@ -95,6 +98,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
         getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
+        secondaryTickLength={secondaryTickLength}
+        scale={scale}
+        secondaryTickStyle={secondaryTickStyle}
       />
     ) : null;
 
