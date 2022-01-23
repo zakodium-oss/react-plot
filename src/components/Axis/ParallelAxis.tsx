@@ -7,7 +7,6 @@ import { getInnerOffset } from '../../utils/axis';
 import { AxisProps } from './Axis';
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
-import { AxisChildProps } from './types';
 
 function parallelPosition<T extends Position>(position: T): T {
   switch (position) {
@@ -72,7 +71,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
 
   // Renders according to position and scale
   const { type, scale, tickLabelFormat } = parentAxis;
-  const childProps: AxisChildProps = {
+  const childProps = {
     plotWidth,
     plotHeight,
     position,
