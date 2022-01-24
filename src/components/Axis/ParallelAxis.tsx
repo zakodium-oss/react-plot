@@ -48,7 +48,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
     id,
     hidden = false,
     primaryTickLength = 5,
-    secondaryTickLength = 2,
+    secondaryTickLength = 3,
     tickPosition = 'outer',
     hiddenLine = false,
     hiddenTicks = false,

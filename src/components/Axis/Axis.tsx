@@ -81,7 +81,7 @@ export function Axis({
   tickPosition = 'outer',
   primaryTickLength = 5,
   primaryTickStyle,
-  secondaryTickLength = 2,
+  secondaryTickLength = 3,
   secondaryTickStyle,
 }: AxisProps) {
   const dispatch = usePlotDispatchContext();
