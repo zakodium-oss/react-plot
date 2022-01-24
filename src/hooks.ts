@@ -82,19 +82,22 @@ export function useDirectedEllipsePosition(
     cx: (x1 + x2) / 2,
     cy: (y1 + y2) / 2,
   };
+  const rotation =
+    (y1 > y2 ? -1 : 1) *
+    (x1 > x2 ? -1 : 1) *
+    Math.asin(euclidean([x1, y1], [x1, cy]) / euclidean([x1, y1], [cx, cy]));
+  const { widthX, widthY } = {
+    widthX:
+      (Math.sin(rotation) * convertValueAbs(width, plotHeight, xScale)) / 2,
+    widthY:
+      (Math.cos(rotation) * convertValueAbs(width, plotHeight, yScale)) / 2,
+  };
   return {
     cx,
     cy,
     rx: euclidean([x1, y1], [x2, y2]) / 2,
-    ry: convertValueAbs(width, plotHeight, yScale) / 2,
-    rotation:
-      (y1 > y2 ? -1 : 1) *
-      (x1 > x2 ? -1 : 1) *
-      radsToDegs(
-        Math.asin(
-          euclidean([x1, y1], [x1, cy]) / euclidean([x1, y1], [cx, cy]),
-        ),
-      ),
+    ry: Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2)),
+    rotation: radsToDegs(rotation),
   };
 }
 function convertString(value: string, total: number) {
