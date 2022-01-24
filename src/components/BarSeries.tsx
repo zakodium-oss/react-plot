@@ -100,7 +100,7 @@ function BarSeriesRender({
       {data.map(({ x, y }) => (
         <line
           style={style}
-          key={`${x}-${y}`}
+          key={`${xScale(x)}-${yScale(y)}`}
           x1={xScale(x)}
           x2={xScale(x)}
           y1={yScale(y)}

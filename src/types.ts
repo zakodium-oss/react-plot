@@ -1,5 +1,4 @@
 import type { CSSProperties } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
 export type Shape =
   | 'circle'
@@ -49,5 +48,3 @@ export type ActionType<Action, Payload = void> = Payload extends void
 export type TickLabelFormat = (value: number | Date) => string;
 
 export type TickPosition = 'inner' | 'outer' | 'center';
-
-export type TicksType = PrimaryLinearTicks | PrimaryLogTicks | TimeTicks;

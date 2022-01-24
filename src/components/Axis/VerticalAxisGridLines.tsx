@@ -1,7 +1,8 @@
 import { CSSProperties } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
-import { Position, TicksType } from '../../types';
+import { Position } from '../../types';
+
+import { TicksType } from './types';
 
 interface VerticalAxisGridlinesProps {
   plotWidth: number;
