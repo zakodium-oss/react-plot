@@ -15,8 +15,8 @@ export default {
   args: {
     x: 2200,
     y: '250',
-    horizontalAlign: 'start',
-    verticalAlign: 'start',
+    horizontalAlign: 'none',
+    verticalAlign: 'none',
   },
 } as Meta<AnnotationGroupProps>;
 
