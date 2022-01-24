@@ -30,7 +30,10 @@ export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
   secondaryTickLength: number;
   scale: Scales;
   secondaryTickStyle?: CSSProperties;
-  getPositions: (y: number) => {
+  getPositions: (
+    y: number,
+    secondary?: boolean,
+  ) => {
     line: CoordinatesXY;
     text: Omit<CoordinatesXY, 'x2' | 'y2'>;
   };
@@ -40,7 +43,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
   const {
     primaryTicks,
     getPositions,
-    secondaryTickLength = 0,
+    secondaryTickLength,
     scale,
     secondaryTickStyle,
     style,
@@ -76,14 +79,13 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         if (primaryTicks.map((tick) => tick.position).includes(scale(tick))) {
           return null;
         }
-        const { line, text } = getPositions(scale(tick));
+        const { line, text } = getPositions(scale(tick), true);
         return (
           <Tick
             key={tick}
             line={line}
             text={text}
             secondary
-            strokeHeight={secondaryTickLength}
             style={secondaryTickStyle}
             {...otherProps}
           />
