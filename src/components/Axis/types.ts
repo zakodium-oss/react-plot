@@ -1,7 +1,12 @@
 import { CSSProperties, ReactNode, Ref } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
+import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
-import type { Position, TickLabelFormat, TickPosition } from '../../types';
+import type {
+  Position,
+  TickLabelFormat,
+  TickPosition,
+  TicksType,
+} from '../../types';
 
 export interface AxisCommonProps {
   hidden: boolean;
@@ -24,7 +29,7 @@ export interface AxisCommonProps {
 
 export interface AxisRendererProps extends AxisCommonProps {
   axisRef: Ref<SVGGElement>;
-  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  primaryTicks: TicksType[];
 }
 
 export interface AxisChildProps extends AxisCommonProps {

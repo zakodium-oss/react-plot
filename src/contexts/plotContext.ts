@@ -7,6 +7,7 @@ import {
   scaleOrdinal,
   scaleLinear,
   scaleLog,
+  ScaleTime,
 } from 'd3-scale';
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
@@ -68,7 +69,9 @@ export type PlotReducerActions =
   | ActionType<'removeLegend'>;
 
 interface PlotAxisContextGeneric<
-  Scale extends ScaleContinuousNumeric<number, number>,
+  Scale extends
+    | ScaleContinuousNumeric<number, number>
+    | ScaleTime<number, number>,
 > {
   scale: Scale;
   tickLabelFormat: TickLabelFormat;
@@ -77,9 +80,8 @@ interface PlotAxisContextGeneric<
 
 export type PlotAxisContext =
   | ({ type: 'linear' } & PlotAxisContextGeneric<ScaleLinear<number, number>>)
-  | ({ type: 'log' } & PlotAxisContextGeneric<
-      ScaleLogarithmic<number, number>
-    >);
+  | ({ type: 'log' } & PlotAxisContextGeneric<ScaleLogarithmic<number, number>>)
+  | ({ type: 'time' } & PlotAxisContextGeneric<ScaleTime<number, number>>);
 
 export interface PlotContext {
   width: number;

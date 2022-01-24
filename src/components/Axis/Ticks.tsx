@@ -1,5 +1,7 @@
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
+import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
+
+import { TicksType } from '../../types';
 
 interface CoordinatesXY {
   x1?: number;
@@ -24,7 +26,7 @@ export interface TickProps {
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
-  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  primaryTicks: TicksType[];
   hiddenSecondaryTicks?: boolean;
   getPositions: (y: number) => {
     line: CoordinatesXY;
