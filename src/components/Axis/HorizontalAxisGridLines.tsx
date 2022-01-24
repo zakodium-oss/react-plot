@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
-import { Position, Ticks } from '../../types';
+import { Position, TicksType } from '../../types';
 
 interface HorizontalAxisGridLinesProps {
   plotHeight: number;
