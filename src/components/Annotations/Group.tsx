@@ -12,7 +12,13 @@ export interface AnnotationGroupProps {
 }
 
 export function Group(props: AnnotationGroupProps) {
-  const { x: oldX, y: oldY, horizontalAlign, verticalAlign, children } = props;
+  const {
+    x: oldX,
+    y: oldY,
+    horizontalAlign = 'none',
+    verticalAlign = 'none',
+    children,
+  } = props;
   const { x, y } = usePosition({ x: oldX, y: oldY });
 
   return (
