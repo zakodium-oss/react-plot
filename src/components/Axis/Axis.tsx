@@ -48,6 +48,14 @@ export interface AxisProps {
 
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
+  /**
+   * LabelsFormat.
+   * the default value:
+   * in linear and log scale
+   * (value)=>String(value)
+   * in time scale
+   * Smart d3 tickFormat
+   */
   tickLabelFormat?: TickLabelFormat;
   tickLabelStyle?: CSSProperties;
 
@@ -74,7 +82,7 @@ export function Axis({
   labelStyle,
   hidden = false,
   tickLabelStyle,
-  tickLabelFormat,
+  tickLabelFormat = scale === 'time' ? undefined : (value) => String(value),
   hiddenLine = false,
   lineStyle,
   primaryGridLineStyle,
