@@ -19,6 +19,7 @@ export default {
     hiddenTicks: false,
     tickPosition: 'outer',
     primaryTickLength: 5,
+    secondaryTickLength: 2,
   },
   parameters: {
     controls: {
