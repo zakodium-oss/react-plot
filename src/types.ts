@@ -21,8 +21,8 @@ export type Margins = Partial<Record<Position, number>>;
 export type SeriesPointError = number | [number | null, number | null] | null;
 
 export interface SeriesPoint {
-  x: number;
-  y: number;
+  x: number | Date;
+  y: number | Date;
   xError?: SeriesPointError;
   yError?: SeriesPointError;
 }

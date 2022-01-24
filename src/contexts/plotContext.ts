@@ -8,6 +8,7 @@ import {
   scaleLinear,
   scaleLog,
   ScaleTime,
+  scaleTime,
 } from 'd3-scale';
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
@@ -23,8 +24,8 @@ import type {
 import { validatePosition } from '../utils';
 
 interface PlotSeriesStateAxis {
-  min: number;
-  max: number;
+  min: number | Date;
+  max: number | Date;
   axisId: string;
 }
 
@@ -180,7 +181,12 @@ interface SizeProps {
   plotWidth: number;
   plotHeight: number;
 }
-
+function toNumber(value: number | Date) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return value.getTime();
+}
 export function useAxisContext(
   state: PlotState,
   { plotWidth, plotHeight }: SizeProps,
@@ -195,9 +201,13 @@ export function useAxisContext(
 
       // Get limits from state or data
       const axisMin =
-        axis.min !== undefined ? axis.min : min(state.series, (d) => d[xY].min);
+        axis.min !== undefined
+          ? axis.min
+          : min(state.series, (d) => toNumber(d[xY].min));
       const axisMax =
-        axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
+        axis.max !== undefined
+          ? axis.max
+          : max(state.series, (d) => toNumber(d[xY].max));
 
       // Limits validation
       if (axisMin === undefined || axisMax === undefined) {
@@ -223,6 +233,17 @@ export function useAxisContext(
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLog()
+              .domain([axisMin - minPad, axisMax + maxPad])
+              .range(axis.flip ? range.reverse() : range),
+          };
+          break;
+        }
+        case 'time': {
+          axisContext[id] = {
+            type: axis.scale,
+            position: axis.position,
+            tickLabelFormat: axis.tickLabelFormat,
+            scale: scaleTime()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
           };

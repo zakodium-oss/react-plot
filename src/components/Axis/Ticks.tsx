@@ -1,5 +1,4 @@
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
 import { TicksType } from '../../types';
 
