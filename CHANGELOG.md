@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.14.0](https://www.github.com/zakodium/react-plot/compare/v0.13.1...v0.14.0) (2022-01-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* do not align annotation group by default (#268)
+
+### Features
+
+* do not align annotation group by default ([#268](https://www.github.com/zakodium/react-plot/issues/268)) ([d20a6a1](https://www.github.com/zakodium/react-plot/commit/d20a6a1bd48116aab18c161d3cc7f236270a7f1b))
+
 ### [0.13.1](https://www.github.com/zakodium/react-plot/compare/v0.13.0...v0.13.1) (2022-01-18)
 
 
