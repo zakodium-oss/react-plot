@@ -1,4 +1,5 @@
 import { ScaleLinear } from 'd3-scale';
+import { euclidean } from 'ml-distance-euclidean';
 
 import { usePlotContext } from './contexts/plotContext';
 import { validateAxis } from './utils';
@@ -84,18 +85,17 @@ export function useDirectedEllipsePosition(
   return {
     cx,
     cy,
-    rx: distanceXY(x1, y1, x2, y2) / 2,
+    rx: euclidean([x1, y1], [x2, y2]) / 2,
     ry: convertValueAbs(width, plotHeight, yScale) / 2,
     rotation:
       (y1 > y2 ? -1 : 1) *
       (x1 > x2 ? -1 : 1) *
       radsToDegs(
-        Math.asin(distanceXY(x1, y1, x1, cy) / distanceXY(x1, y1, cx, cy)),
+        Math.asin(
+          euclidean([x1, y1], [x1, cy]) / euclidean([x1, y1], [cx, cy]),
+        ),
       ),
   };
-}
-function distanceXY(x1: number, y1: number, x2: number, y2: number) {
-  return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 }
 function convertString(value: string, total: number) {
   return value.endsWith('%')
