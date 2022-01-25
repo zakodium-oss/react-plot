@@ -1,3 +1,4 @@
+import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
 import { CSSProperties, ReactNode, Ref } from 'react';
 import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
@@ -20,8 +21,13 @@ export interface AxisCommonProps {
   primaryTickLength?: number;
   primaryTickStyle?: CSSProperties;
   innerOffset: number;
+  secondaryTickLength?: number;
+  scale: Scales;
+  secondaryTickStyle?: CSSProperties;
 }
-
+export type Scales =
+  | ScaleLinear<number, number>
+  | ScaleLogarithmic<number, number>;
 export interface AxisRendererProps extends AxisCommonProps {
   axisRef: Ref<SVGGElement>;
   primaryTicks: TicksType[];

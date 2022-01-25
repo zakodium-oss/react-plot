@@ -29,6 +29,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
     position,
     tickLabelStyle,
     innerOffset,
+    secondaryTickLength,
+    scale,
+    secondaryTickStyle,
   } = props;
 
   const isRight = position === 'right';
@@ -37,8 +40,8 @@ export default function VerticalAxis(props: AxisRendererProps) {
 
   const ticks = useBBoxObserver();
 
-  function getTickPosition(value: number) {
-    const { x1, x2, textPosition } = getTickX();
+  function getTickPosition(value: number, secondary = false) {
+    const { x1, x2, textPosition } = getTickX(secondary);
     return {
       line: {
         y1: value,
@@ -49,14 +52,15 @@ export default function VerticalAxis(props: AxisRendererProps) {
       text: { y1: value, x1: isRight ? textPosition : -textPosition },
     };
   }
-  function getTickX() {
-    const x = isRight ? primaryTickLength : -primaryTickLength;
+  function getTickX(secondary = false) {
+    const tickLength = secondary ? secondaryTickLength : primaryTickLength;
+    const x = isRight ? tickLength : -tickLength;
     switch (tickPosition) {
       case 'center':
         return {
           x1: x / 2,
           x2: -x / 2,
-          textPosition: textOffset + primaryTickLength / 2,
+          textPosition: textOffset + tickLength / 2,
         };
       case 'inner':
         return {
@@ -68,7 +72,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
         return {
           x1: 0,
           x2: x,
-          textPosition: textOffset + primaryTickLength,
+          textPosition: textOffset + tickLength,
         };
       default:
         return {
@@ -95,6 +99,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
         getPositions={getTickPosition}
         labelStyle={tickLabelStyle}
         style={primaryTickStyle}
+        secondaryTickLength={secondaryTickLength}
+        scale={scale}
+        secondaryTickStyle={secondaryTickStyle}
       />
     ) : null;
 

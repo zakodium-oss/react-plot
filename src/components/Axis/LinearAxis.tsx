@@ -27,6 +27,7 @@ export default function LinearAxis(props: LinearAxisProps) {
 
   return (
     <AxisComponent
+      scale={scale}
       axisRef={axisRef}
       primaryTicks={primaryTicks}
       position={position}

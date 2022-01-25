@@ -90,6 +90,8 @@ export function Axis({
   tickPosition = 'outer',
   primaryTickLength = 5,
   primaryTickStyle,
+  secondaryTickLength = 3,
+  secondaryTickStyle,
 }: AxisProps) {
   const dispatch = usePlotDispatchContext();
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
@@ -169,6 +171,8 @@ export function Axis({
     primaryTickLength,
     primaryTickStyle,
     innerOffset,
+    secondaryTickLength,
+    secondaryTickStyle,
   };
 
   if (scale === 'linear') {

@@ -36,23 +36,30 @@ export function MassExample() {
 }
 
 interface Positions {
-  position?: {
+  rectangle?: {
     x1: number;
     x2: number;
   } | null;
-  min?: number;
-  max?: number;
+  alt: boolean;
+  minX?: number;
+  maxX?: number;
+  minY?: number;
+  maxY?: number;
 }
 
 interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const [{ position, min, max }, setPositions] = useState<Positions | null>({
-    position: null,
-    min: undefined,
-    max: undefined,
-  });
+  const [{ rectangle, minX, maxX, minY, maxY, alt }, setPositions] =
+    useState<Positions | null>({
+      rectangle: null,
+      minX: undefined,
+      maxX: undefined,
+      minY: undefined,
+      maxY: undefined,
+      alt: false,
+    });
   let click = useRef<boolean>(false);
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
@@ -72,62 +79,113 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const bestPeaks = useMemo(
     () =>
       getBestPeaks(centroid, {
-        from: min,
-        to: max,
+        from: minX,
+        to: maxX,
         limit: 5,
         numberSlots: 10,
         threshold: 0.01,
       }),
-    [centroid, max, min],
+    [centroid, maxX, minX],
   );
 
   return (
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
+        svgStyle={{
+          cursor: `${alt ? (click.current ? 'grabbing' : 'grab') : ''}`,
+        }}
         onMouseDown={({ coordinates: { x } }) => {
-          setPositions({
-            position: {
-              x1: x,
-              x2: x,
-            },
-            min: min,
-            max: max,
-          });
-          click.current = true;
-        }}
-        onMouseUp={() => {
-          click.current = false;
-          if (position.x1 !== position.x2) {
-            setPositions({
-              position: null,
-              min: Math.min(position.x1, position.x2),
-              max: Math.max(position.x1, position.x2),
-            });
-          }
-        }}
-        onMouseLeave={() => {
-          setPositions({
-            position: null,
-            min: min,
-            max: max,
-          });
-          click.current = false;
-        }}
-        onMouseMove={({ coordinates: { x } }) => {
-          if (click.current) {
-            setPositions(({ position }) => ({
-              position: {
-                x1: position ? position.x1 : x,
+          if (!alt) {
+            setPositions((positions) => ({
+              ...positions,
+              rectangle: {
+                x1: x,
                 x2: x,
               },
-              min: min,
-              max: max,
+            }));
+          }
+          click.current = true;
+        }}
+        onKeyDown={({
+          event: { altKey },
+          x: { max: maxX, min: minX },
+          y: { max: maxY, min: minY },
+        }) => {
+          if (!click.current) {
+            setPositions((positions) => ({
+              ...positions,
+              alt: altKey,
+              maxX,
+              minX,
+              maxY,
+              minY,
             }));
           }
         }}
+        onKeyUp={({ event: { altKey } }) => {
+          if (!click.current || alt) {
+            click.current = false;
+            setPositions((positions) => ({ ...positions, alt: altKey }));
+          }
+        }}
+        onMouseUp={() => {
+          if (click.current && !alt && rectangle.x1 !== rectangle.x2) {
+            setPositions((positions) => ({
+              ...positions,
+              rectangle: null,
+              minX: Math.min(rectangle.x1, rectangle.x2),
+              maxX: Math.max(rectangle.x1, rectangle.x2),
+            }));
+          }
+          click.current = false;
+        }}
+        onMouseLeave={() => {
+          setPositions((positions) => ({
+            ...positions,
+            rectangle: null,
+          }));
+          click.current = false;
+        }}
+        onMouseMove={({
+          coordinates: { x },
+          movement: { x: movementX, y: movementY },
+        }) => {
+          if (click.current) {
+            if (alt) {
+              setPositions((positions) => ({
+                ...positions,
+                maxX: maxX - movementX,
+                minX: minX - movementX,
+                maxY: maxY - movementY,
+                minY: minY - movementY,
+              }));
+            } else {
+              setPositions((positions) => ({
+                ...positions,
+                rectangle: {
+                  x1: rectangle ? rectangle.x1 : x,
+                  x2: x,
+                },
+              }));
+            }
+          }
+        }}
         onDoubleClick={() => {
-          setPositions({ min: undefined, max: undefined });
+          setPositions((positions) => ({
+            ...positions,
+            minX: undefined,
+            maxX: undefined,
+            minY: undefined,
+            maxY: undefined,
+          }));
+        }}
+        onWheel={({ coordinates: { y1, y2 } }) => {
+          setPositions((positions) => ({
+            ...positions,
+            minY: Math.min(y1, y2),
+            maxY: Math.max(y1, y2),
+          }));
         }}
       >
         <LineSeries
@@ -164,33 +222,32 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
               </Text>
             </Group>
           ))}
-          {position && (
+          {rectangle && (
             <Rectangle
               color="red"
               style={{ fillOpacity: 0.2, stroke: 'red' }}
-              x1={position.x1}
+              x1={rectangle.x1}
               y1="540"
-              x2={position.x2}
+              x2={rectangle.x2}
               y2="0"
             />
           )}
         </Annotations>
         <Axis
-          paddingEnd={0.1}
-          paddingStart={0.1}
           displayPrimaryGridLines
-          min={min}
-          max={max}
+          min={minX}
+          max={maxX}
           id="x"
           position="bottom"
           label="Mass [m/z]"
         />
         <Axis
+          min={minY}
+          max={maxY}
           displayPrimaryGridLines
           id="y"
           position="left"
           label="Relative intensity [%]"
-          paddingEnd={0.1}
         />
       </Plot>
     </div>

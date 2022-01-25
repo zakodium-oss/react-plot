@@ -20,7 +20,7 @@ import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';
 
-import Tracking, { TrackingResult } from './Tracking';
+import Tracking, { TrackingResult, KeysResult } from './Tracking';
 import TransparentRect from './TransparentRect';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
@@ -100,6 +100,10 @@ export interface PlotProps {
    */
   onDoubleClick?: (result: TrackingResult) => void;
   /**
+   * Track values on wheel inside the viewport.
+   */
+  onWheel?: (event: TrackingResult) => void;
+  /**
    * Mouse enters the viewport.
    */
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
@@ -107,6 +111,18 @@ export interface PlotProps {
    * Mouse leaves the viewport.
    */
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  /**
+   *  Track values on click Keyboard key.
+   */
+  onKeyPress?: (event: KeysResult) => void;
+  /**
+   * Track values on keyboard key Down.
+   */
+  onKeyDown?: (event: KeysResult) => void;
+  /**
+   * Track values on keyboard key Up.
+   */
+  onKeyUp?: (event: KeysResult) => void;
   /**
    * All plot elements.
    */
@@ -131,6 +147,10 @@ export function Plot(props: PlotProps) {
     onMouseDown,
     onMouseUp,
     onDoubleClick,
+    onWheel,
+    onKeyPress,
+    onKeyDown,
+    onKeyUp,
     children,
   } = props;
 
@@ -256,7 +276,14 @@ export function Plot(props: PlotProps) {
                 <g ref={legendBbox.ref}>{legend}</g>
               </legendOffsetContext.Provider>
 
-              {onClick || onMouseMove ? (
+              {onClick ||
+              onMouseMove ||
+              onMouseUp ||
+              onMouseDown ||
+              onDoubleClick ||
+              onWheel ||
+              onKeyPress ||
+              onKeyDown ? (
                 <Tracking
                   stateSeries={state.series}
                   onClick={(position) => onClick?.(position)}
@@ -266,6 +293,10 @@ export function Plot(props: PlotProps) {
                   onMouseDown={onMouseDown}
                   onMouseUp={onMouseUp}
                   onDoubleClick={onDoubleClick}
+                  onWheel={onWheel}
+                  onKeyPress={onKeyPress}
+                  onKeyDown={onKeyDown}
+                  onKeyUp={onKeyUp}
                 />
               ) : null}
             </g>
