@@ -49,12 +49,8 @@ export interface AxisProps {
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
   /**
-   * LabelsFormat.
-   * the default value:
-   * in linear and log scale
-   * (value)=>String(value)
-   * in time scale
-   * Smart d3 tickFormat
+   * With time scale the default values is d3's smart tickFormat
+   * With other types of scales the default is converting the value to a string
    */
   tickLabelFormat?: TickLabelFormat;
   tickLabelStyle?: CSSProperties;
