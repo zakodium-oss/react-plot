@@ -1,14 +1,7 @@
 import { Meta } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-import {
-  Axis,
-  LineSeries,
-  Plot,
-  Annotations,
-  SeriesPoint,
-  ScatterSeries,
-} from '../../src';
+import { Axis, LineSeries, Plot, Annotations, ScatterSeries } from '../../src';
 import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
