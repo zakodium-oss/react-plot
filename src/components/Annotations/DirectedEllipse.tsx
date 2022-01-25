@@ -15,7 +15,7 @@ export interface AnnotationDirectedEllipseProps
 }
 
 export function DirectedEllipse(props: AnnotationDirectedEllipseProps) {
-  const { x1, y1, y2, x2, color, width, ...otherProps } = props;
+  const { x1, y1, y2, x2, color, width, style, ...otherProps } = props;
 
   const { cx, cy, rx, ry, rotation } = useDirectedEllipsePosition({
     x1,
@@ -32,10 +32,7 @@ export function DirectedEllipse(props: AnnotationDirectedEllipseProps) {
       rx={rx}
       ry={ry}
       transform={`rotate(${rotation} 0 0)`}
-      style={{
-        transformOrigin: 'center',
-        transformBox: 'fill-box',
-      }}
+      style={{ ...style, transformOrigin: 'center', transformBox: 'fill-box' }}
       fill={color}
       {...otherProps}
     />
