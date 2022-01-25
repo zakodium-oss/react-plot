@@ -8,6 +8,7 @@ import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
+import { toNumber } from '../../src/utils';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -37,8 +38,8 @@ export function MassExample() {
 
 interface Positions {
   rectangle?: {
-    x1: number;
-    x2: number;
+    x1: number | Date;
+    x2: number | Date;
   } | null;
   alt: boolean;
   minX?: number;
@@ -50,6 +51,7 @@ interface Positions {
 interface AdvancedMassExampleProps {
   mf: string;
 }
+
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const [{ rectangle, minX, maxX, minY, maxY, alt }, setPositions] =
     useState<Positions | null>({
@@ -134,8 +136,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
             setPositions((positions) => ({
               ...positions,
               rectangle: null,
-              minX: Math.min(rectangle.x1, rectangle.x2),
-              maxX: Math.max(rectangle.x1, rectangle.x2),
+              minX: Math.min(toNumber(rectangle.x1), toNumber(rectangle.x2)),
+              maxX: Math.max(toNumber(rectangle.x1), toNumber(rectangle.x2)),
             }));
           }
           click.current = false;
@@ -183,8 +185,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
         onWheel={({ coordinates: { y1, y2 } }) => {
           setPositions((positions) => ({
             ...positions,
-            minY: Math.min(y1, y2),
-            maxY: Math.max(y1, y2),
+            minY: Math.min(toNumber(y1), toNumber(y2)),
+            maxY: Math.max(toNumber(y1), toNumber(y2)),
           }));
         }}
       >
