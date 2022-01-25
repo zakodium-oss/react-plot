@@ -120,7 +120,7 @@ export function dataConvertDate(
   return data.map(({ x, y }) => ({ x: toNumber(x), y: toNumber(y) }));
 }
 
-function toNumber(value: number | Date) {
+export function toNumber(value: number | Date) {
   if (typeof value === 'number') {
     return value;
   }

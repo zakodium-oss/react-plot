@@ -1,5 +1,4 @@
-import { ScaleLinear } from 'd3-scale';
-
+import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
 import { validateAxis } from './utils';
 
@@ -63,11 +62,7 @@ function convertString(value: string, total: number) {
     ? (Number(value.slice(0, -1)) * total) / 100
     : Number(value);
 }
-function convertValue(
-  value: string | number,
-  total: number,
-  scale?: ScaleLinear<number, number>,
-) {
+function convertValue(value: string | number, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number' ? scale(value) : convertString(value, total);
 }
@@ -75,7 +70,7 @@ function convertMinValue(
   value1: string | number,
   value2: string | number,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
   return Math.min(
@@ -86,7 +81,7 @@ function convertMinValue(
 function convertValueAbs(
   value: string | number,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
   return typeof value === 'number'
@@ -97,7 +92,7 @@ function convertDimensions(
   value1: string | number,
   value2: string | number,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
   return Math.abs(

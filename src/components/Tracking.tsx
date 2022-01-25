@@ -7,7 +7,7 @@ import {
   usePlotContext,
 } from '../contexts/plotContext';
 import { SeriesPoint } from '../types';
-import { closestPoint } from '../utils';
+import { closestPoint, toNumber } from '../utils';
 
 export interface ClosestInfo<T extends ClosestMethods> {
   point: SeriesPoint;
@@ -50,13 +50,19 @@ function infoFromKey(
   axisContext: Record<string, PlotAxisContext>,
   plotHeight: number,
   plotWidth: number,
-) {
+): KeysResult {
   const { scale: scaleY } = axisContext.y;
   const { scale: scaleX } = axisContext.x;
   return {
     event,
-    x: { min: scaleX.invert(0), max: scaleX.invert(plotWidth) },
-    y: { min: scaleY.invert(plotHeight), max: scaleY.invert(0) },
+    x: {
+      min: toNumber(scaleX.invert(0)),
+      max: toNumber(scaleX.invert(plotWidth)),
+    },
+    y: {
+      min: toNumber(scaleY.invert(plotHeight)),
+      max: toNumber(scaleY.invert(0)),
+    },
   };
 }
 function infoFromWheel(
@@ -79,8 +85,8 @@ function infoFromWheel(
     ratio > 1
       ? yPosition + (plotHeight - yPosition) / ratio
       : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
-  coordinates.y1 = scale.invert(y1);
-  coordinates.y2 = scale.invert(y2);
+  coordinates.y1 = toNumber(scale.invert(y1));
+  coordinates.y2 = toNumber(scale.invert(y2));
 
   return {
     event,
@@ -103,11 +109,13 @@ function infoFromMouse(
   for (const key in axisContext) {
     const { scale, position } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
-      coordinates[key] = scale.invert(xPosition);
-      movement[key] = scale.invert(movementX) - scale.invert(0);
+      coordinates[key] = toNumber(scale.invert(xPosition));
+      movement[key] =
+        toNumber(scale.invert(movementX)) - toNumber(scale.invert(0));
     } else {
-      coordinates[key] = scale.invert(yPosition);
-      movement[key] = scale.invert(movementY) - scale.invert(0);
+      coordinates[key] = toNumber(scale.invert(yPosition));
+      movement[key] =
+        toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
     }
   }
   return {
