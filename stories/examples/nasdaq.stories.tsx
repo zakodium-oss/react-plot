@@ -75,7 +75,7 @@ export function NasdaqExample(props: Props) {
         <Heading title="Nasdaq values Simulation" />
         <LineSeries
           data={Array.from(data, ({ x, y }) => ({
-            x: new Date(toNumber(x) * 1000), // because nasdaq data is in second but d3 in milliseconds
+            x: toNumber(x) * 1000, // because nasdaq data is in second but d3 in milliseconds
             y,
           }))}
           xAxis="x"
