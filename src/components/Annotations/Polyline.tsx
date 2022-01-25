@@ -7,7 +7,7 @@ export interface AnnotationPolylineProps
     SVGProps<SVGPolylineElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'points'
   > {
-  points: { x: number | string; y: number | string }[];
+  points: { x: number | string | Date; y: number | string | Date }[];
   color?: string;
 }
 

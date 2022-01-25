@@ -1,6 +1,8 @@
 import { CSSProperties } from 'react';
 
-import { Position, TicksType } from '../../types';
+import { Position } from '../../types';
+
+import { TicksType } from './types';
 
 interface HorizontalAxisGridLinesProps {
   plotHeight: number;

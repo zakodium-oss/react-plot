@@ -8,10 +8,10 @@ type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
 export interface AnnotationArrowProps
   extends Omit<SVGProps<SVGLineElement>, 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'> {
-  x1: number | string;
-  y1: number | string;
-  x2: number | string;
-  y2: number | string;
+  x1: number | string | Date;
+  y1: number | string | Date;
+  x2: number | string | Date;
+  y2: number | string | Date;
   startPoint?: AnnotationShapeList;
   endPoint?: AnnotationShapeList;
   color?: string;

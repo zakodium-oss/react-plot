@@ -21,7 +21,7 @@ import type {
   TickLabelFormat,
   VerticalPosition,
 } from '../types';
-import { validatePosition } from '../utils';
+import { toNumber, validatePosition } from '../utils';
 
 interface PlotSeriesStateAxis {
   min: number | Date;
@@ -181,12 +181,7 @@ interface SizeProps {
   plotWidth: number;
   plotHeight: number;
 }
-function toNumber(value: number | Date) {
-  if (typeof value === 'number') {
-    return value;
-  }
-  return value.getTime();
-}
+
 export function useAxisContext(
   state: PlotState,
   { plotWidth, plotHeight }: SizeProps,

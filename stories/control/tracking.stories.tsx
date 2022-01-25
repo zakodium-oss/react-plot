@@ -10,6 +10,7 @@ import {
   SeriesPoint,
 } from '../../src';
 import { ClosestInfoResult } from '../../src/components/Tracking';
+import { toNumber } from '../../src/utils';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -23,9 +24,8 @@ const data = [
   { x: 4, y: 5 },
   { x: 5, y: 10 },
 ];
-
 interface Positions {
-  coordinates: Record<string, number>;
+  coordinates: Record<string, number | Date>;
   position: Record<'x' | 'y', number>;
 }
 
@@ -88,7 +88,7 @@ function Tracking({ data, displayMarker }: TrackingProps) {
           <b>VALUES</b>
           {Object.keys(hover.coordinates).map((key) => (
             <div key={key}>
-              {key}: {Math.round(hover.coordinates[key] * 100) / 100}
+              {key}: {Math.round(toNumber(hover.coordinates[key]) * 100) / 100}
             </div>
           ))}
         </div>
@@ -101,11 +101,11 @@ function Tracking({ data, displayMarker }: TrackingProps) {
               <b>{closest[key].label}</b>
               <span>
                 {' x: '}
-                {Math.round((closest[key].point.x || 0) * 100) / 100}
+                {Math.round((toNumber(closest[key].point.x) || 0) * 100) / 100}
               </span>
               <span>
                 {' y: '}
-                {Math.round((closest[key].point.y || 0) * 100) / 100}
+                {Math.round((toNumber(closest[key].point.y) || 0) * 100) / 100}
               </span>
             </p>
           ))}

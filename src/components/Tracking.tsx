@@ -20,7 +20,7 @@ export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: React.MouseEvent<SVGRectElement, MouseEvent>;
-  coordinates: Record<string, number>;
+  coordinates: Record<string, number | Date>;
   getClosest: (method: ClosestMethods) => ClosestInfoResult;
 }
 export interface TrackingProps {
@@ -72,7 +72,7 @@ function infoFromMouse(
 
 function closestCalculation(
   method: ClosestMethods,
-  coordinates: Record<'x' | 'y', number>,
+  coordinates: Record<'x' | 'y', number | Date>,
   stateSeries: PlotSeriesState[],
   axisContext: Record<string, PlotAxisContext>,
 ): ClosestInfoResult {

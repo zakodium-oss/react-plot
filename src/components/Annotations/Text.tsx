@@ -7,8 +7,8 @@ export interface AnnotationTextProps
     SVGProps<SVGTextElement>,
     'x1' | 'y1' | 'x2' | 'y2' | 'x' | 'y' | 'fill'
   > {
-  x: number | string;
-  y: number | string;
+  x: number | string | Date;
+  y: number | string | Date;
   color?: string;
   children: ReactNode;
 }

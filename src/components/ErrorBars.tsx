@@ -2,7 +2,7 @@ import { useMemo, SVGAttributes } from 'react';
 
 import { usePlotContext } from '../contexts/plotContext';
 import type { SeriesPoint } from '../types';
-import { validateAxis, validateSeriesPointError } from '../utils';
+import { toNumber, validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
   data: SeriesPoint[];
@@ -43,9 +43,9 @@ export default function ErrorBars(props: ErrorBarsProps) {
         <PointBars // eslint-disable-next-line react/no-array-index-key
           key={`ErrorBars-${i}`}
           origin={{ x: xScale(point.x), y: yScale(point.y) }}
-          bottom={yError ? yScale(point.y - yError[0]) : null}
+          bottom={yError ? yScale(toNumber(point.y) - yError[0]) : null}
           top={yError ? yScale(point.y + yError[1]) : null}
-          left={xError ? xScale(point.x - xError[0]) : null}
+          left={xError ? xScale(toNumber(point.x) - xError[0]) : null}
           right={xError ? xScale(point.x + xError[1]) : null}
           {...otherProps}
         />

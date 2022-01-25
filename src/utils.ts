@@ -90,7 +90,7 @@ export function functionalStyle<T>(
 export function validateSeriesPointError(
   error: SeriesPointError,
 ): SeriesPointError {
-  if (typeof error === 'number') return [error, error];
+  if (typeof error === 'number' || error instanceof Date) return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;
 }
@@ -112,4 +112,10 @@ export function closestPoint<T, R>(
     }
   }
   return data[closest.index];
+}
+export function toNumber(value: number | Date) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return value.getTime();
 }

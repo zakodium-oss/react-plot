@@ -1,13 +1,12 @@
-import { ScaleLinear } from 'd3-scale';
-
 import { usePlotContext } from './contexts/plotContext';
+import { Scales } from './types';
 import { validateAxis } from './utils';
 
-type NumberOrString = number | string;
+type NumberStringDate = number | string | Date;
 
 interface UsePositionConfig {
-  x: NumberOrString;
-  y: NumberOrString;
+  x: NumberStringDate;
+  y: NumberStringDate;
 }
 
 export function usePosition(config: UsePositionConfig) {
@@ -21,10 +20,10 @@ export function usePosition(config: UsePositionConfig) {
 }
 
 interface UseRectanglePositionConfig {
-  x1: NumberOrString;
-  y1: NumberOrString;
-  x2: NumberOrString;
-  y2: NumberOrString;
+  x1: NumberStringDate;
+  y1: NumberStringDate;
+  x2: NumberStringDate;
+  y2: NumberStringDate;
 }
 export function useRectanglePosition(config: UseRectanglePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
@@ -39,10 +38,10 @@ export function useRectanglePosition(config: UseRectanglePositionConfig) {
   };
 }
 interface UseEllipsePositionConfig {
-  cx: NumberOrString;
-  cy: NumberOrString;
-  rx: NumberOrString;
-  ry: NumberOrString;
+  cx: NumberStringDate;
+  cy: NumberStringDate;
+  rx: NumberStringDate;
+  ry: NumberStringDate;
 }
 
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
@@ -63,48 +62,50 @@ function convertString(value: string, total: number) {
     ? (Number(value.slice(0, -1)) * total) / 100
     : Number(value);
 }
-function convertValue(
-  value: string | number,
-  total: number,
-  scale?: ScaleLinear<number, number>,
-) {
+function convertValue(value: NumberStringDate, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
-  return typeof value === 'number' ? scale(value) : convertString(value, total);
+  return typeof value === 'number' || value instanceof Date
+    ? scale(value)
+    : convertString(value, total);
 }
 function convertMinValue(
-  value1: string | number,
-  value2: string | number,
+  value1: NumberStringDate,
+  value2: NumberStringDate,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
   return Math.min(
-    typeof value2 === 'number' ? scale(value2) : convertString(value2, total),
-    typeof value1 === 'number' ? scale(value1) : convertString(value1, total),
+    typeof value2 === 'number' || value2 instanceof Date
+      ? scale(value2)
+      : convertString(value2, total),
+    typeof value1 === 'number' || value1 instanceof Date
+      ? scale(value1)
+      : convertString(value1, total),
   );
 }
 function convertValueAbs(
-  value: string | number,
+  value: NumberStringDate,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
-  return typeof value === 'number'
+  return typeof value === 'number' || value instanceof Date
     ? Math.abs(scale(0) - scale(value))
     : convertString(value, total);
 }
 function convertDimensions(
-  value1: string | number,
-  value2: string | number,
+  value1: NumberStringDate,
+  value2: NumberStringDate,
   total: number,
-  scale?: ScaleLinear<number, number>,
+  scale?: Scales,
 ) {
   if (scale === undefined) return 0;
   return Math.abs(
-    (typeof value2 === 'number'
+    (typeof value2 === 'number' || value2 instanceof Date
       ? scale(value2)
       : convertString(value2, total)) -
-      (typeof value1 === 'number'
+      (typeof value1 === 'number' || value1 instanceof Date
         ? scale(value1)
         : convertString(value1, total)),
   );

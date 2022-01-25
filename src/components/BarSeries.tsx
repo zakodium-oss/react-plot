@@ -97,14 +97,15 @@ function BarSeriesRender({
 
   return (
     <g>
-      {data.map(({ x, y }) => (
+      {data.map(({ x, y }, index) => (
         <line
-          style={style}
-          key={`${xScale(x)}-${yScale(y)}`}
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
           x1={xScale(x)}
           x2={xScale(x)}
           y1={yScale(y)}
           y2={yScale(0)}
+          style={style}
         />
       ))}
     </g>

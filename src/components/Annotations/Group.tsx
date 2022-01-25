@@ -4,8 +4,8 @@ import { Align, AlignGroup } from 'react-d3-utils';
 import { usePosition } from '../../hooks';
 
 export interface AnnotationGroupProps {
-  x: number | string;
-  y: number | string;
+  x: number | string | Date;
+  y: number | string | Date;
   horizontalAlign?: Align;
   verticalAlign?: Align;
   children: ReactNode;

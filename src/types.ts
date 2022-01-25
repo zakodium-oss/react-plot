@@ -1,3 +1,4 @@
+import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 import type { CSSProperties } from 'react';
 
 export type Shape =
@@ -17,7 +18,11 @@ export type Position = HorizontalPosition | VerticalPosition;
 
 export type Margins = Partial<Record<Position, number>>;
 
-export type SeriesPointError = number | [number | null, number | null] | null;
+export type SeriesPointError =
+  | Date
+  | number
+  | [Date | number | null, Date | number | null]
+  | null;
 
 export interface SeriesPoint {
   x: number | Date;
@@ -48,3 +53,8 @@ export type ActionType<Action, Payload = void> = Payload extends void
 export type TickLabelFormat = (value: number | Date) => string;
 
 export type TickPosition = 'inner' | 'outer' | 'center';
+
+export type Scales =
+  | ScaleLinear<number, number>
+  | ScaleLogarithmic<number, number>
+  | ScaleTime<number, number>;

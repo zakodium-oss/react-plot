@@ -39,8 +39,8 @@ function Square(props: IntAnnotationShape) {
 }
 
 export interface AnnotationShapeProps {
-  x: string | number;
-  y: string | number;
+  x: number | string | Date;
+  y: number | string | Date;
   shape: AnnotationShapeName;
   size: number;
   style?: CSSProperties;
