@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
 
 import { Axis, LineSeries, Plot } from '../../src';
+import { dataConvertDate } from '../../src/utils';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -18,7 +19,6 @@ interface AxisControlProps {
   paddingStart: number;
   paddingEnd: number;
 }
-
 const dataX = [
   { x: new Date(2002, 11, 24, 10, 33), y: 10 },
   { x: new Date(2002, 11, 24, 11, 33), y: 20 },
@@ -33,14 +33,21 @@ const dataY = [
   { x: 14, y: new Date(2002, 11, 24, 13, 33) },
   { x: 15, y: new Date(2002, 11, 24, 14, 33) },
 ];
-function convertData(data: { x: number | Date; y: number | Date }[]) {
-  return data.map(({ x, y }) => ({ x: toNumber(x), y: toNumber(y) }));
-}
 const timeSeriesX = (
-  <LineSeries data={dataX} lineStyle={{ stroke: '#777' }} xAxis="x" yAxis="y" />
+  <LineSeries
+    data={dataConvertDate(dataX)}
+    lineStyle={{ stroke: '#777' }}
+    xAxis="x"
+    yAxis="y"
+  />
 );
 const timeSeriesY = (
-  <LineSeries data={dataY} lineStyle={{ stroke: '#777' }} xAxis="x" yAxis="y" />
+  <LineSeries
+    data={dataConvertDate(dataY)}
+    lineStyle={{ stroke: '#777' }}
+    xAxis="x"
+    yAxis="y"
+  />
 );
 export function AxisLeftTimeControl(props: AxisControlProps) {
   return (
