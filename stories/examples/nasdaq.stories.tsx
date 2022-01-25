@@ -56,22 +56,17 @@ export function NasdaqExample(props: Props) {
       }, refreshFrequency * 1000);
       return () => clearTimeout(timer);
     }, [data]);
-    const timeFormat = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short' });
+    //const timeFormat = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short' });
     return (
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <Heading title="Nasdaq values Simulation" />
         <LineSeries
-          data={data}
+          data={data.map(({ x, y }) => ({ x: x * 1000, y }))}
           xAxis="x"
           yAxis="y"
           lineStyle={{ stroke: 'green', strokeWidth: 1.5 }}
         />
-        <Axis
-          id="x"
-          position="bottom"
-          label="Time (hh:mm)"
-          tickLabelFormat={(time) => timeFormat.format(time * 1000)}
-        />
+        <Axis id="x" position="bottom" label="Time (hh:mm)" scale="time" />
         <Axis
           id="y"
           position="left"
