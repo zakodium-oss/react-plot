@@ -150,10 +150,10 @@ export function RectangleZoom() {
   const [{ position, minX, maxX, minY, maxY }, setPositions] =
     useState<RectanglePositions | null>({
       position: null,
-      minX: undefined,
-      maxX: undefined,
-      minY: undefined,
-      maxY: undefined,
+      minX: 0,
+      maxX: 50,
+      minY: 0,
+      maxY: 50,
     });
   let click = useRef<boolean>(false);
   return (
@@ -214,7 +214,12 @@ export function RectangleZoom() {
           click.current = false;
         }}
         onDoubleClick={() => {
-          setPositions({ minX: undefined, maxX: undefined });
+          setPositions({
+            minX: 0,
+            maxX: 50,
+            minY: 0,
+            maxY: 50,
+          });
         }}
       >
         <ScatterSeries
