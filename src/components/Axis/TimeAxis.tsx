@@ -27,6 +27,7 @@ export default function TimeAxis(props: TimeAxisProps) {
 
   return (
     <AxisComponent
+      scale={scale}
       axisRef={axisRef}
       primaryTicks={primaryTicks}
       position={position}

@@ -5,9 +5,10 @@ import { Annotations, Axis, Plot } from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
+import { toNumber } from '../../src/utils';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
-type Positions = Record<string, number>;
+type Positions = Record<string, number | Date>;
 
 export default {
   title: 'Experimental spectra/Infrared',
@@ -35,7 +36,7 @@ export function InfraredExample() {
             verticalAlign="end"
           >
             <Text text-anchor="end" alignment-baseline="baseline" x="0" y="0">
-              {hover.x.toFixed(2)} ,{hover.y.toFixed(2)}
+              {toNumber(hover.x).toFixed(2)} ,{toNumber(hover.y).toFixed(2)}
             </Text>
           </Group>
         </Annotations>

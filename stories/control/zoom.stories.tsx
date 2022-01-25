@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 
 import { Axis, LineSeries, Plot, Annotations, SeriesPoint } from '../../src';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
+import { toNumber } from '../../src/utils';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -21,8 +22,8 @@ const data = [
 
 interface Positions {
   position?: {
-    x1: number;
-    x2: number;
+    x1: number | Date;
+    x2: number | Date;
   } | null;
   min?: number;
   max?: number;
@@ -59,8 +60,8 @@ function Zoom({ data, displayMarker }: ZoomProps) {
           if (position.x1 !== position.x2) {
             setPositions({
               position: null,
-              min: Math.min(position.x1, position.x2),
-              max: Math.max(position.x1, position.x2),
+              min: Math.min(toNumber(position.x1), toNumber(position.x2)),
+              max: Math.max(toNumber(position.x1), toNumber(position.x2)),
             });
           }
         }}

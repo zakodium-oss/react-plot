@@ -8,12 +8,12 @@ import {
   usePlotDispatchContext,
 } from '../contexts/plotContext';
 import type { BaseSeriesProps } from '../types';
-import { getNextId, validateAxis } from '../utils';
+import { getNextId, toNumber, validateAxis } from '../utils';
 
 export interface RangeSeriesPoint {
-  x: number;
-  y1: number;
-  y2: number;
+  x: number | Date;
+  y1: number | Date;
+  y2: number | Date;
 }
 
 export interface RangeSeriesProps<T extends RangeSeriesPoint>
@@ -38,8 +38,8 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 
     const x = { min: xMin, max: xMax, axisId: xAxis };
     const y = {
-      min: Math.min(y1Min, y2Min),
-      max: Math.max(y1Max, y2Max),
+      min: Math.min(toNumber(y1Min), toNumber(y2Min)),
+      max: Math.max(toNumber(y1Max), toNumber(y2Max)),
       axisId: yAxis,
     };
     dispatch({ type: 'newData', payload: { id, x, y, label } });
