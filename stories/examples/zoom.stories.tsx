@@ -42,14 +42,13 @@ export function HorizontalZoom() {
       <Plot
         {...DEFAULT_PLOT_CONFIG}
         onMouseDown={({ coordinates: { x } }) => {
-          setPositions({
+          setPositions((positions) => ({
+            ...positions,
             position: {
               x1: x,
               x2: x,
             },
-            min: min,
-            max: max,
-          });
+          }));
           click.current = true;
         }}
         onMouseUp={() => {
@@ -64,22 +63,17 @@ export function HorizontalZoom() {
         }}
         onMouseMove={({ coordinates: { x } }) => {
           if (click.current) {
-            setPositions(({ position }) => ({
+            setPositions((positions) => ({
+              ...positions,
               position: {
                 x1: position ? position.x1 : x,
                 x2: x,
               },
-              min: min,
-              max: max,
             }));
           }
         }}
         onMouseLeave={() => {
-          setPositions({
-            position: null,
-            min: min,
-            max: max,
-          });
+          setPositions((positions) => ({ ...positions, position: null }));
           click.current = false;
         }}
         onDoubleClick={() => {
@@ -112,10 +106,10 @@ interface RectanglePositions {
     x2: number;
     y2: number;
   } | null;
-  minX?: number;
-  maxX?: number;
-  minY?: number;
-  maxY?: number;
+  minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
 }
 const dataVertical = {
   data: {
@@ -189,28 +183,19 @@ export function RectangleZoom() {
         }}
         onMouseMove={({ coordinates: { x, y } }) => {
           if (click.current) {
-            setPositions(({ position }) => ({
+            setPositions((positions) => ({
+              ...positions,
               position: {
                 x1: position ? position.x1 : x,
                 y1: position ? position.y1 : y,
                 x2: x,
                 y2: y,
               },
-              minX,
-              maxX,
-              minY,
-              maxY,
             }));
           }
         }}
         onMouseLeave={() => {
-          setPositions({
-            position: null,
-            minX,
-            maxX,
-            minY,
-            maxY,
-          });
+          setPositions((positions) => ({ ...positions, position: null }));
           click.current = false;
         }}
         onDoubleClick={() => {
@@ -255,24 +240,8 @@ export function RectangleZoom() {
             />
           )}
         </Annotations>
-        <Axis
-          min={minX}
-          max={maxX}
-          id="x"
-          position="bottom"
-          label="PC 1"
-          paddingEnd={0.1}
-          paddingStart={0.1}
-        />
-        <Axis
-          min={minY}
-          max={maxY}
-          id="y"
-          position="left"
-          label="PC 2"
-          paddingEnd={0.1}
-          paddingStart={0.1}
-        />
+        <Axis min={minX} max={maxX} id="x" position="bottom" label="PC 1" />
+        <Axis min={minY} max={maxY} id="y" position="left" label="PC 2" />
       </Plot>
     </div>
   );

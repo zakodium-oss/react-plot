@@ -96,7 +96,7 @@ export function useDirectedEllipsePosition(
     cx,
     cy,
     rx: euclidean([x1, y1], [x2, y2]) / 2,
-    ry: Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2)),
+    ry: euclidean([0, 0], [widthX, widthY]),
     rotation: radsToDegs(rotation),
   };
 }
