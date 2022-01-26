@@ -36,6 +36,7 @@ const initialState: PlotState = {
 const defaultSvgStyle: CSSProperties = {
   overflow: 'visible',
   fontFamily: 'Arial, Helvetica, sans-serif',
+  userSelect: 'none',
 };
 
 export interface PlotProps {
