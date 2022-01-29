@@ -39,7 +39,11 @@ export function Control(props: LegendProps) {
   const [hidden, setHidden] = useState<boolean>(false);
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...props} onClick={() => setHidden((hidden) => !hidden)} />
+      <Legend
+        style={{ opacity: hidden ? '0.3' : '1' }}
+        {...props}
+        onClick={() => setHidden((hidden) => !hidden)}
+      />
       <LineSeries
         lineHidden={hidden}
         data={data1}
