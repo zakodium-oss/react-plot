@@ -3,6 +3,7 @@ import { Meta } from '@storybook/react';
 import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
 import { Ellipse } from '../../src/components/Annotations/Ellipse';
 import { Text } from '../../src/components/Annotations/Text';
+import { Shape } from '../../src/types';
 import data from '../data/pca.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -13,7 +14,7 @@ interface Point {
   x: number;
   y: number;
   color: {
-    shape: string;
+    shape: Shape;
     fill: string;
     r: number;
   };
@@ -28,6 +29,8 @@ export function PCAExample() {
           fill: (point: Point) => point.color.fill,
           stroke: 'none',
         }}
+        markerShape={(point: Point) => point.color.shape}
+        pointLabel={(point: Point) => point.id}
         data={data.points}
         xAxis="x"
         yAxis="y"

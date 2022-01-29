@@ -6,17 +6,30 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
-import { functionalStyle, getNextId, validateAxis } from '../utils';
+import {
+  BaseSeriesProps,
+  CSSFuncProps,
+  LabelFuncProps,
+  SeriesPoint,
+  ShapeFuncProps,
+} from '../types';
+import {
+  functionalLabel,
+  functionalShape,
+  functionalStyle,
+  getNextId,
+  validateAxis,
+} from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 
 export interface ScatterSeriesProps<T = SeriesPoint>
   extends BaseSeriesProps<T> {
-  markerShape?: Shape;
+  markerShape?: ShapeFuncProps<T>;
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
+  pointLabel?: LabelFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
@@ -112,6 +125,7 @@ function ScatterSeriesRender({
   markerShape = 'circle',
   markerSize = 8,
   markerStyle = {},
+  pointLabel = '',
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -127,17 +141,18 @@ function ScatterSeriesRender({
     const defaultColor = { fill: color, stroke: color };
 
     // Show markers
-    const Marker = markersComps[markerShape];
 
     const markers = data.map((point, i) => {
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
-
+      const Marker = markersComps[functionalShape(markerShape, point, i, data)];
+      const label = functionalLabel(pointLabel, point, i, data);
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
+          <text>{label}</text>
         </g>
       );
     });
@@ -149,9 +164,10 @@ function ScatterSeriesRender({
     colorScaler,
     id,
     data,
-    markerSize,
     markerStyle,
     markerShape,
+    pointLabel,
+    markerSize,
   ]);
   if (!markers) return null;
 
