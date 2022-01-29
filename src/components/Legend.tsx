@@ -113,11 +113,13 @@ export type LegendPosition = Position | 'embedded';
 export type LegendProps = {
   position: LegendPosition;
   margin?: number;
+  onClick?: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
+  onClick,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
@@ -172,6 +174,9 @@ export function Legend({
         const Marker = markersComps[value.shape.figure];
         return (
           <g
+            onClick={(event) => {
+              onClick?.(event);
+            }}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
           >
