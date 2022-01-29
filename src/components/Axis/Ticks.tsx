@@ -126,7 +126,7 @@ export function Tick(props: TickProps) {
           y={textY1}
           textAnchor={anchor}
           dominantBaseline={dominantBaseline}
-          style={{ userSelect: 'none', ...labelStyle }}
+          style={labelStyle}
         >
           {children}
         </text>

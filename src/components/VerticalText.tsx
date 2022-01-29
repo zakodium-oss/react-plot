@@ -5,17 +5,13 @@ export interface VerticalTextProps extends SVGProps<SVGTextElement> {
 }
 
 export default function VerticalText(props: VerticalTextProps) {
-  const { transform = '', style, label, ...otherProps } = props;
+  const { transform = '', label, ...otherProps } = props;
 
   return (
     <text
       {...otherProps}
       transform={`${transform}rotate(-90)`}
       textAnchor="middle"
-      style={{
-        ...style,
-        cursor: 'vertical-text',
-      }}
     >
       {label}
     </text>
