@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useContext, useEffect, useMemo } from 'react';
+import { CSSProperties, useContext, useEffect, useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { useLegend } from '../contexts/legendContext';
@@ -114,12 +114,14 @@ export type LegendProps = {
   position: LegendPosition;
   margin?: number;
   onClick?: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+  style?: CSSProperties;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
   onClick,
+  style,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
@@ -151,6 +153,7 @@ export function Legend({
         if (value.range) {
           return (
             <g
+              style={style}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
             >
@@ -177,6 +180,7 @@ export function Legend({
             onClick={(event) => {
               onClick?.(event);
             }}
+            style={style}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
           >
