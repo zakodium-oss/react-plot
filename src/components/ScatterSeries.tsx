@@ -142,19 +142,13 @@ function ScatterSeriesRender({
     const color = colorScaler(id);
     const defaultColor = { fill: color, stroke: color };
 
-    // Show markers
-
     const markers = data.map((point, i) => {
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
+
+      // Show marker
       const Marker = markersComps[functionalShape(markerShape, point, i, data)];
       const label = functionalLabel(pointLabel, point, i, data);
-      const labelPointStyle = functionalStyle(
-        defaultColor,
-        labelStyle,
-        point,
-        i,
-        data,
-      );
+      const labelPointStyle = functionalStyle({}, labelStyle, point, i, data);
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
