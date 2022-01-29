@@ -10,6 +10,7 @@ import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps extends ScatterSeriesProps {
+  lineHidden?: boolean;
   lineStyle?: CSSProperties;
   displayMarker?: boolean;
 }
@@ -24,6 +25,7 @@ export function LineSeries(props: LineSeriesProps) {
     displayMarker = false,
     displayErrorBars = false,
     hidden,
+    lineHidden = false,
     ...otherProps
   } = props;
 
@@ -77,10 +79,9 @@ export function LineSeries(props: LineSeriesProps) {
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
   };
-
   return (
     <g>
-      <LineSeriesRender {...lineProps} />
+      {!lineHidden && <LineSeriesRender {...lineProps} />}
       <ErrorBars {...errorBarsProps} />
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
