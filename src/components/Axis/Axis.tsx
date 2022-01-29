@@ -73,7 +73,7 @@ export function Axis({
   labelStyle,
   hidden = false,
   tickLabelStyle,
-  tickLabelFormat = (value) => String(value),
+  tickLabelFormat,
   hiddenLine = false,
   lineStyle,
   primaryGridLineStyle,

@@ -11,7 +11,12 @@ interface LinearAxisProps extends AxisChildProps {
 }
 
 export default function LinearAxis(props: LinearAxisProps) {
-  const { position, tickLabelFormat, scale, ...otherProps } = props;
+  const {
+    position,
+    tickLabelFormat = (value) => String(value),
+    scale,
+    ...otherProps
+  } = props;
 
   const axisRef = useRef<SVGGElement>(null);
 
