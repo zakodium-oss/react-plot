@@ -18,7 +18,7 @@ export function LineSeries(props: LineSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
-  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
+  const [id] = useState(() => props.id || `series-${getNextId()}`);
   const {
     lineStyle = {},
     displayMarker = false,
@@ -82,7 +82,7 @@ export function LineSeries(props: LineSeriesProps) {
     <g>
       <LineSeriesRender {...lineProps} />
       <ErrorBars {...errorBarsProps} />
-      <ScatterSeries {...otherProps} hidden={!displayMarker} groupId={id} />
+      <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
   );
 }

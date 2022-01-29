@@ -13,7 +13,7 @@ export interface BarSeriesProps extends LineSeriesProps {}
 export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
-  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
+  const [id] = useState(() => props.id || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const lineProps = {
     id,
@@ -58,7 +58,7 @@ export function BarSeries(props: BarSeriesProps) {
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker || props.hidden}
-        groupId={id}
+        id={id}
       />
     </g>
   );

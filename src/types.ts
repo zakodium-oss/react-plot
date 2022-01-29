@@ -33,7 +33,7 @@ export type CSSFuncProps<T> = {
 };
 
 export interface BaseSeriesProps<T = SeriesPoint> {
-  groupId?: string;
+  id?: string;
   xAxis?: string;
   yAxis?: string;
   data: Array<T>;
