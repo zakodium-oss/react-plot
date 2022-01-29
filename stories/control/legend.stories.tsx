@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/react';
+import { useState } from 'react';
 
 import {
   Axis,
@@ -35,10 +36,17 @@ const data2 = [
 ];
 
 export function Control(props: LegendProps) {
+  const [hidden, setHidden] = useState<boolean>(false);
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...props} />
-      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <Legend {...props} onClick={() => setHidden((hidden) => !hidden)} />
+      <LineSeries
+        lineHidden={hidden}
+        data={data1}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
       <ParallelAxis id="x" />
