@@ -1,11 +1,5 @@
 import { extent } from 'd3-array';
-import {
-  CSSProperties,
-  SVGAttributes,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { SVGAttributes, useEffect, useMemo, useState } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import {
@@ -36,7 +30,7 @@ export interface ScatterSeriesProps<T = SeriesPoint>
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
   pointLabel?: LabelFuncProps<T>;
-  labelStyle?: CSSProperties;
+  labelStyle?: CSSFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
@@ -154,13 +148,20 @@ function ScatterSeriesRender({
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
       const Marker = markersComps[functionalShape(markerShape, point, i, data)];
       const label = functionalLabel(pointLabel, point, i, data);
+      const labelPointStyle = functionalStyle(
+        defaultColor,
+        labelStyle,
+        point,
+        i,
+        data,
+      );
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
-          <text style={labelStyle}>{label}</text>
+          <text style={labelPointStyle}>{label}</text>
         </g>
       );
     });
