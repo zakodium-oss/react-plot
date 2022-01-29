@@ -1,5 +1,11 @@
 import { extent } from 'd3-array';
-import { SVGAttributes, useEffect, useMemo, useState } from 'react';
+import {
+  CSSProperties,
+  SVGAttributes,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import {
@@ -30,6 +36,7 @@ export interface ScatterSeriesProps<T = SeriesPoint>
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
   pointLabel?: LabelFuncProps<T>;
+  labelStyle?: CSSProperties;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
@@ -126,6 +133,7 @@ function ScatterSeriesRender({
   markerSize = 8,
   markerStyle = {},
   pointLabel = '',
+  labelStyle = {},
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -152,7 +160,7 @@ function ScatterSeriesRender({
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
-          <text>{label}</text>
+          <text style={labelStyle}>{label}</text>
         </g>
       );
     });
@@ -168,6 +176,7 @@ function ScatterSeriesRender({
     markerShape,
     pointLabel,
     markerSize,
+    labelStyle,
   ]);
   if (!markers) return null;
 
