@@ -1,7 +1,12 @@
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 
 import { PlotAxisContext } from './contexts/plotContext';
-import type { CSSFuncProps, SeriesPointError } from './types';
+import type {
+  CSSFuncProps,
+  OnClickFuncProps,
+  OnClickProp,
+  SeriesPointError,
+} from './types';
 
 let currentValue = 1;
 
@@ -82,6 +87,22 @@ export function functionalStyle<T>(
     }
   }
   return style;
+}
+
+/**
+ * Checks the onClick added to a component and if is a function, gets the resulting value
+ */
+export function functionalOnClick(
+  element: OnClickFuncProps,
+  index: number,
+): (result: React.MouseEvent<SVGGElement, MouseEvent>) => void {
+  let result: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+  if (typeof element() === 'function') {
+    result = (element as (index: number) => OnClickProp)(index);
+  } else {
+    result = element as OnClickProp;
+  }
+  return result;
 }
 
 /**

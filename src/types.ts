@@ -31,6 +31,10 @@ export type CSSFuncProps<T> = {
     | ((point: T, index: number, data: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
+export type OnClickProp = (
+  result?: React.MouseEvent<SVGGElement, MouseEvent>,
+) => void;
+export type OnClickFuncProps = ((index?: number) => OnClickProp) | OnClickProp;
 
 export interface BaseSeriesProps<T = SeriesPoint> {
   id?: string;

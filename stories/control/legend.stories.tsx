@@ -40,9 +40,10 @@ export function Control(props: LegendProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend
-        style={{ opacity: hidden ? '0.3' : '1' }}
         {...props}
-        onClick={() => setHidden((hidden) => !hidden)}
+        onClick={() => {
+          setHidden((hidden) => !hidden);
+        }}
       />
       <LineSeries
         lineHidden={hidden}
@@ -63,13 +64,31 @@ type TestProps = LegendProps & { hidden: boolean };
 
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
+  const [hiddenSeries, setHiddenSeries] = useState<boolean[]>([false, false]);
+  const updateHiddenSeries = (index: number) => {
+    setHiddenSeries((hiddenSeries) => {
+      const result = hiddenSeries.map((hiddenSerie, i) => {
+        if (i === index) return !hiddenSerie;
+        return hiddenSerie;
+      });
+      return result;
+    });
+  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...otherProps} />
-
-      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
-
+      <Legend
+        {...otherProps}
+        onClick={(index) => () => updateHiddenSeries(index)}
+      />
       <LineSeries
+        lineHidden={hiddenSeries[0]}
+        data={data1}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
+      <LineSeries
+        lineHidden={hiddenSeries[1]}
         data={data2}
         markerStyle={{ fill: 'green' }}
         lineStyle={{ stroke: 'blue' }}
@@ -80,7 +99,6 @@ export function WithTwoSeries(props: TestProps) {
         label="Label line series 2"
         hidden={hidden}
       />
-
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>
@@ -89,5 +107,6 @@ export function WithTwoSeries(props: TestProps) {
 
 WithTwoSeries.storyName = 'With two series';
 WithTwoSeries.args = {
+  position: 'embedded',
   hidden: false,
 };

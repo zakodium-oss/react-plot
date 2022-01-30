@@ -8,7 +8,8 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import type { Position } from '../types';
+import type { OnClickFuncProps, Position } from '../types';
+import { functionalOnClick } from '../utils';
 
 import { markersComps } from './Markers';
 
@@ -113,14 +114,14 @@ export type LegendPosition = Position | 'embedded';
 export type LegendProps = {
   position: LegendPosition;
   margin?: number;
-  onClick?: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
+  onClick?: OnClickFuncProps;
   style?: CSSProperties;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
-  onClick,
+  onClick: legendOnClick,
   style,
   ...legendOffsets
 }: LegendProps) {
@@ -149,7 +150,7 @@ export function Legend({
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-
+        const onClick = functionalOnClick(legendOnClick, index);
         if (value.range) {
           return (
             <g
