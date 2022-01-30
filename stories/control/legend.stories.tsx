@@ -36,18 +36,20 @@ const data2 = [
 ];
 
 export function Control(props: LegendProps) {
-  const [hidden, setHidden] = useState<boolean>(false);
+  const [highlight, setHighlight] = useState<boolean>(false);
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend
         {...props}
         onClick={() => {
-          setHidden((hidden) => !hidden);
+          setHighlight((highlight) => !highlight);
         }}
       />
       <LineSeries
-        lineHidden={hidden}
         data={data1}
+        lineStyle={{
+          strokeWidth: highlight ? '5' : '',
+        }}
         xAxis="x"
         yAxis="y"
         label="Label line series"
@@ -64,12 +66,15 @@ type TestProps = LegendProps & { hidden: boolean };
 
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
-  const [hiddenSeries, setHiddenSeries] = useState<boolean[]>([false, false]);
+  const [highlightSeries, setHighlightSeries] = useState<boolean[]>([
+    false,
+    false,
+  ]);
   const updateHiddenSeries = (index: number) => {
-    setHiddenSeries((hiddenSeries) => {
-      const result = hiddenSeries.map((hiddenSerie, i) => {
-        if (i === index) return !hiddenSerie;
-        return hiddenSerie;
+    setHighlightSeries((highlightSeries) => {
+      const result = highlightSeries.map((highlightSerie, i) => {
+        if (i === index) return !highlightSerie;
+        return highlightSerie;
       });
       return result;
     });
@@ -81,17 +86,21 @@ export function WithTwoSeries(props: TestProps) {
         onClick={(index) => () => updateHiddenSeries(index)}
       />
       <LineSeries
-        lineHidden={hiddenSeries[0]}
         data={data1}
+        lineStyle={{
+          strokeWidth: highlightSeries[0] ? '5' : '',
+        }}
         xAxis="x"
         yAxis="y"
         label="Label line series"
       />
       <LineSeries
-        lineHidden={hiddenSeries[1]}
         data={data2}
         markerStyle={{ fill: 'green' }}
-        lineStyle={{ stroke: 'blue' }}
+        lineStyle={{
+          stroke: 'blue',
+          strokeWidth: highlightSeries[1] ? '5' : '',
+        }}
         markerShape="square"
         displayMarker
         xAxis="x"
