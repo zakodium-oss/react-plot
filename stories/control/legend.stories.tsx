@@ -37,6 +37,9 @@ const data2 = [
 
 export function Control(props: LegendProps) {
   const [highlight, setHighlight] = useState<boolean>(false);
+  const lineStyle = {
+    strokeWidth: highlight ? '5' : '',
+  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend
@@ -45,12 +48,11 @@ export function Control(props: LegendProps) {
           setHighlight((highlight) => !highlight);
         }}
         labelStyle={{ fontWeight: highlight ? 'bold' : 'normal' }}
+        lineStyle={lineStyle}
       />
       <LineSeries
         data={data1}
-        lineStyle={{
-          strokeWidth: highlight ? '5' : '',
-        }}
+        lineStyle={lineStyle}
         xAxis="x"
         yAxis="y"
         label="Label line series"
@@ -76,6 +78,9 @@ export function WithTwoSeries(props: TestProps) {
       [id]: !highlightSeries[id],
     }));
   };
+  const lineStyle = {
+    strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
+  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend
@@ -84,12 +89,11 @@ export function WithTwoSeries(props: TestProps) {
           fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
         }}
         onClick={({ id }) => updateHightlight(id)}
+        lineStyle={lineStyle}
       />
       <LineSeries
         data={data1}
-        lineStyle={{
-          strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
-        }}
+        lineStyle={lineStyle}
         xAxis="x"
         yAxis="y"
         label="Label line series"
@@ -99,7 +103,7 @@ export function WithTwoSeries(props: TestProps) {
         markerStyle={{ fill: 'green' }}
         lineStyle={{
           stroke: 'blue',
-          strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
+          ...lineStyle,
         }}
         markerShape="square"
         displayMarker
