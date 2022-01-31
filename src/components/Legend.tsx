@@ -219,7 +219,7 @@ function getLineShape(config: {
   style?: CSSProperties;
 }) {
   const x = 0;
-  //hard coding values should be fixed
+  // TODO: do not hardcode values
   const y = (config.index + 1) * 16 - x - 5;
 
   return (
