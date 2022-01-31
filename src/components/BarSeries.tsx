@@ -3,7 +3,7 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
 import type { SeriesPoint } from '../types';
-import { functionalStyleId, getNextId, validateAxis } from '../utils';
+import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import { LineSeriesProps } from './LineSeries';
 import { ScatterSeries } from './ScatterSeries';
@@ -20,7 +20,7 @@ export function BarSeries(props: BarSeriesProps) {
     data: props.data,
     xAxis: props.xAxis || 'x',
     yAxis: props.yAxis || 'y',
-    lineStyle: functionalStyleId(lineStyle, id),
+    lineStyle: functionalStyle({}, lineStyle, { id }),
   };
 
   const colorLine = lineStyle?.stroke
