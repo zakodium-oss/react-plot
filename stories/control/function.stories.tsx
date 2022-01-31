@@ -23,13 +23,13 @@ export function Control(args: FunctionSeriesProps) {
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
       <FunctionSeries
-        data={getY}
+        getY={getY}
         {...args}
         xAxis="x"
         yAxis="y"
         label="y=3*sin(2*x)"
       />
-      <Axis min={0} max={50} id="x" position="bottom" />
+      <Axis paddingStart={0.1} paddingEnd={0.1} id="x" position="bottom" />
       <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
     </Plot>
   );
