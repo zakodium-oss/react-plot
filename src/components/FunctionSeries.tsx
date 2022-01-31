@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { usePlotContext } from '../contexts/plotContext';
 import { SeriesPoint } from '../types';
+import { toNumber } from '../utils';
 
 import { LineSeries, LineSeriesProps } from './LineSeries';
 
@@ -17,8 +18,8 @@ export function FunctionSeries(props: FunctionSeriesProps) {
     plotWidth,
   } = usePlotContext();
   const data = useMemo(() => {
-    const min = x ? x.scale.invert(0) : 0;
-    const max = x ? x.scale.invert(plotWidth) : 1;
+    const min = x ? toNumber(x.scale.invert(0)) : 0;
+    const max = x ? toNumber(x.scale.invert(plotWidth)) : 1;
     const data: SeriesPoint[] = [];
     for (let i = min; i < max; i += step) {
       data.push({ x: i, y: oldData(i) });
