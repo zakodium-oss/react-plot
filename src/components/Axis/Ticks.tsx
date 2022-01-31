@@ -1,7 +1,6 @@
 import { CSSProperties, ReactNode, SVGAttributes } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
 
-import { Scales } from './types';
+import { TicksType, Scales } from './types';
 
 interface CoordinatesXY {
   x1?: number;
@@ -26,7 +25,7 @@ export interface TickProps {
 }
 
 export interface TicksProps extends Omit<TickProps, 'line' | 'text'> {
-  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  primaryTicks: TicksType[];
   secondaryTickLength: number;
   scale: Scales;
   secondaryTickStyle?: CSSProperties;
