@@ -113,3 +113,16 @@ export function closestPoint<T, R>(
   }
   return data[closest.index];
 }
+
+export function dataConvertDate(
+  data: { x: number | Date; y: number | Date }[],
+) {
+  return data.map(({ x, y }) => ({ x: toNumber(x), y: toNumber(y) }));
+}
+
+export function toNumber(value: number | Date) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return value.getTime();
+}
