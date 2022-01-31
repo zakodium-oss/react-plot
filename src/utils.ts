@@ -3,6 +3,7 @@ import React, { CSSProperties } from 'react';
 import { PlotAxisContext } from './contexts/plotContext';
 import type {
   CSSFuncProps,
+  CSSFuncPropsId,
   OnClickFuncProps,
   OnClickProp,
   SeriesPointError,
@@ -90,15 +91,33 @@ export function functionalStyle<T>(
 }
 
 /**
+ * Checks the style added to a component and if is a id function , gets the resulting value
+ */
+export function functionalStyleId(
+  elementStyle: CSSFuncPropsId,
+  id: string,
+): CSSProperties {
+  let style: CSSProperties = {};
+  for (const key in elementStyle) {
+    if (typeof elementStyle[key] === 'function') {
+      style[key] = elementStyle[key](id);
+    } else {
+      style[key] = elementStyle[key];
+    }
+  }
+  return style;
+}
+
+/**
  * Checks the onClick added to a component and if is a function, gets the resulting value
  */
 export function functionalOnClick(
   element: OnClickFuncProps,
-  index: number,
+  id: string,
 ): (result: React.MouseEvent<SVGGElement, MouseEvent>) => void {
   let result: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
   if (typeof element() === 'function') {
-    result = (element as (index: number) => OnClickProp)(index);
+    result = (element as (id: string) => OnClickProp)(id);
   } else {
     result = element as OnClickProp;
   }

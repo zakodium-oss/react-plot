@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { CSSProperties, useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { useLegend } from '../contexts/legendContext';
@@ -8,8 +8,8 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import type { OnClickFuncProps, Position } from '../types';
-import { functionalOnClick } from '../utils';
+import type { CSSFuncPropsId, OnClickFuncProps, Position } from '../types';
+import { functionalOnClick, functionalStyleId } from '../utils';
 
 import { markersComps } from './Markers';
 
@@ -115,14 +115,14 @@ export type LegendProps = {
   position: LegendPosition;
   margin?: number;
   onClick?: OnClickFuncProps;
-  style?: CSSProperties;
+  style?: CSSFuncPropsId;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
   onClick: legendOnClick,
-  style,
+  style: legendStyle,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
@@ -150,7 +150,8 @@ export function Legend({
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-        const onClick = functionalOnClick(legendOnClick, index);
+        const style = functionalStyleId(legendStyle, value.id);
+        const onClick = functionalOnClick(legendOnClick, value.id);
         if (value.range) {
           return (
             <g
