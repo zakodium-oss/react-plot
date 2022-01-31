@@ -207,7 +207,7 @@ export function PCAFunction() {
             width={size / numFeatures}
             height={size / numFeatures}
           >
-            <Axis min={-2} max={2} id="x" position="bottom" hidden />
+            <Axis id="x" position="bottom" hidden />
             <Axis
               id="y"
               position="left"

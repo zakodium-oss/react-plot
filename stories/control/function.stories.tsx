@@ -11,7 +11,7 @@ export default {
   title: 'API/FunctionSeries',
   component: FunctionSeries,
   args: {
-    step: 0.001,
+    xAxis: 'x',
   },
 } as Meta<FunctionSeriesProps>;
 
