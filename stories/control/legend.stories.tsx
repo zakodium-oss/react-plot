@@ -67,24 +67,17 @@ type TestProps = LegendProps & { hidden: boolean };
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
   const [highlightSeries, setHighlightSeries] = useState<boolean[]>([
-    false,
-    false,
+    undefined,
   ]);
-  const updateHiddenSeries = (index: number) => {
-    setHighlightSeries((highlightSeries) => {
-      const result = highlightSeries.map((highlightSerie, i) => {
-        if (i === index) return !highlightSerie;
-        return highlightSerie;
-      });
-      return result;
-    });
+  const updateHightlight = (id: number) => {
+    setHighlightSeries((highlightSeries) => ({
+      ...highlightSeries,
+      [id]: !highlightSeries[id],
+    }));
   };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend
-        {...otherProps}
-        onClick={(index) => () => updateHiddenSeries(index)}
-      />
+      <Legend {...otherProps} onClick={(id) => () => updateHightlight(id)} />
       <LineSeries
         data={data1}
         lineStyle={{
@@ -116,6 +109,5 @@ export function WithTwoSeries(props: TestProps) {
 
 WithTwoSeries.storyName = 'With two series';
 WithTwoSeries.args = {
-  position: 'embedded',
   hidden: false,
 };

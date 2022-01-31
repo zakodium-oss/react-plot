@@ -34,7 +34,7 @@ export type CSSFuncProps<T> = {
 export type OnClickProp = (
   result?: React.MouseEvent<SVGGElement, MouseEvent>,
 ) => void;
-export type OnClickFuncProps = ((index?: number) => OnClickProp) | OnClickProp;
+export type OnClickFuncProps = ((id?: number) => OnClickProp) | OnClickProp;
 
 export interface BaseSeriesProps<T = SeriesPoint> {
   id?: string;
