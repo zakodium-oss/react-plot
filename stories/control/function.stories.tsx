@@ -17,8 +17,10 @@ export default {
   },
 } as Meta<FunctionSeriesProps>;
 
+function getY(x: number) {
+  return 4 * Math.sin(2 * x);
+}
 export function Control(args: FunctionSeriesProps) {
-  const getY = (x: number) => 4 * Math.sin(2 * x);
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
@@ -27,7 +29,7 @@ export function Control(args: FunctionSeriesProps) {
         {...args}
         xAxis="x"
         yAxis="y"
-        label="y=3*sin(2*x)"
+        label="y=4*sin(2*x)"
       />
       <Axis paddingStart={0.1} paddingEnd={0.1} id="x" position="bottom" />
       <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
