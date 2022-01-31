@@ -7,6 +7,8 @@ import {
   scaleOrdinal,
   scaleLinear,
   scaleLog,
+  ScaleTime,
+  scaleTime,
 } from 'd3-scale';
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
@@ -68,7 +70,9 @@ export type PlotReducerActions =
   | ActionType<'removeLegend'>;
 
 interface PlotAxisContextGeneric<
-  Scale extends ScaleContinuousNumeric<number, number>,
+  Scale extends
+    | ScaleContinuousNumeric<number, number>
+    | ScaleTime<number, number>,
 > {
   scale: Scale;
   tickLabelFormat: TickLabelFormat;
@@ -77,9 +81,8 @@ interface PlotAxisContextGeneric<
 
 export type PlotAxisContext =
   | ({ type: 'linear' } & PlotAxisContextGeneric<ScaleLinear<number, number>>)
-  | ({ type: 'log' } & PlotAxisContextGeneric<
-      ScaleLogarithmic<number, number>
-    >);
+  | ({ type: 'log' } & PlotAxisContextGeneric<ScaleLogarithmic<number, number>>)
+  | ({ type: 'time' } & PlotAxisContextGeneric<ScaleTime<number, number>>);
 
 export interface PlotContext {
   width: number;
@@ -221,6 +224,17 @@ export function useAxisContext(
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLog()
+              .domain([axisMin - minPad, axisMax + maxPad])
+              .range(axis.flip ? range.reverse() : range),
+          };
+          break;
+        }
+        case 'time': {
+          axisContext[id] = {
+            type: axis.scale,
+            position: axis.position,
+            tickLabelFormat: axis.tickLabelFormat,
+            scale: scaleTime()
               .domain([axisMin - minPad, axisMax + maxPad])
               .range(axis.flip ? range.reverse() : range),
           };

@@ -1,6 +1,6 @@
-import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
+import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 import { CSSProperties, ReactNode, Ref } from 'react';
-import { PrimaryLinearTicks, PrimaryLogTicks } from 'react-d3-utils';
+import { PrimaryLinearTicks, PrimaryLogTicks, TimeTicks } from 'react-d3-utils';
 
 import type { Position, TickLabelFormat, TickPosition } from '../../types';
 
@@ -27,12 +27,15 @@ export interface AxisCommonProps {
 }
 export type Scales =
   | ScaleLinear<number, number>
-  | ScaleLogarithmic<number, number>;
+  | ScaleLogarithmic<number, number>
+  | ScaleTime<number, number>;
 export interface AxisRendererProps extends AxisCommonProps {
   axisRef: Ref<SVGGElement>;
-  primaryTicks: PrimaryLinearTicks[] | PrimaryLogTicks[];
+  primaryTicks: TicksType[];
 }
 
 export interface AxisChildProps extends AxisCommonProps {
   tickLabelFormat?: TickLabelFormat;
 }
+
+export type TicksType = PrimaryLinearTicks | PrimaryLogTicks | TimeTicks;
