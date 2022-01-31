@@ -8,8 +8,8 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import type { CSSFuncPropsId, OnClickFuncProps, Position } from '../types';
-import { functionalOnClick, functionalStyleId } from '../utils';
+import type { CSSFuncProps, Position } from '../types';
+import { functionalStyle } from '../utils';
 
 import { markersComps } from './Markers';
 
@@ -114,15 +114,18 @@ export type LegendPosition = Position | 'embedded';
 export type LegendProps = {
   position: LegendPosition;
   margin?: number;
-  onClick?: OnClickFuncProps;
-  style?: CSSFuncPropsId;
+  onClick?: (args: {
+    event?: React.MouseEvent<SVGGElement, MouseEvent>;
+    id?: string;
+  }) => void;
+  labelStyle?: CSSFuncProps<{ id: string }>;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
-  onClick: legendOnClick,
-  style: legendStyle,
+  onClick,
+  labelStyle: oldLabelStyle,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
@@ -150,12 +153,10 @@ export function Legend({
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-        const style = functionalStyleId(legendStyle, value.id);
-        const onClick = functionalOnClick(legendOnClick, value.id);
+        const labelStyle = functionalStyle({}, oldLabelStyle, { id: value.id });
         if (value.range) {
           return (
             <g
-              style={style}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
             >
@@ -166,6 +167,7 @@ export function Legend({
               })}
 
               <text
+                style={labelStyle}
                 key={`text-${value.label}-${index}`}
                 x={30}
                 y={`${index + 1}em`}
@@ -180,9 +182,8 @@ export function Legend({
         return (
           <g
             onClick={(event) => {
-              onClick?.(event);
+              onClick?.({ event, id: value.id });
             }}
-            style={style}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
           >
@@ -194,6 +195,7 @@ export function Legend({
             </g>
 
             <text
+              style={labelStyle}
               key={`text-${value.label}-${index}`}
               x={30}
               y={`${index + 1}em`}

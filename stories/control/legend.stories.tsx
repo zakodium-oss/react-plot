@@ -44,7 +44,7 @@ export function Control(props: LegendProps) {
         onClick={() => {
           setHighlight((highlight) => !highlight);
         }}
-        style={{ fontWeight: highlight ? 'bold' : 'normal' }}
+        labelStyle={{ fontWeight: highlight ? 'bold' : 'normal' }}
       />
       <LineSeries
         data={data1}
@@ -80,15 +80,15 @@ export function WithTwoSeries(props: TestProps) {
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend
         {...otherProps}
-        style={{
-          fontWeight: (id: string) => (highlightSeries[id] ? 'bold' : 'normal'),
+        labelStyle={{
+          fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
         }}
-        onClick={(id: string) => () => updateHightlight(id)}
+        onClick={({ id }) => updateHightlight(id)}
       />
       <LineSeries
         data={data1}
         lineStyle={{
-          strokeWidth: (id: string) => (highlightSeries[id] ? '5' : ''),
+          strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
         }}
         xAxis="x"
         yAxis="y"
@@ -99,7 +99,7 @@ export function WithTwoSeries(props: TestProps) {
         markerStyle={{ fill: 'green' }}
         lineStyle={{
           stroke: 'blue',
-          strokeWidth: (id: string) => (highlightSeries[id] ? '5' : ''),
+          strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
         }}
         markerShape="square"
         displayMarker

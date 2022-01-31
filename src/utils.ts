@@ -1,13 +1,7 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 
 import { PlotAxisContext } from './contexts/plotContext';
-import type {
-  CSSFuncProps,
-  CSSFuncPropsId,
-  OnClickFuncProps,
-  OnClickProp,
-  SeriesPointError,
-} from './types';
+import type { CSSFuncProps, SeriesPointError } from './types';
 
 let currentValue = 1;
 
@@ -76,8 +70,8 @@ export function functionalStyle<T>(
   defaultStyle: CSSProperties,
   elementStyle: CSSFuncProps<T>,
   point: T,
-  index: number,
-  data: T[],
+  index?: number,
+  data?: T[],
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
@@ -88,40 +82,6 @@ export function functionalStyle<T>(
     }
   }
   return style;
-}
-
-/**
- * Checks the style added to a component and if is a id function , gets the resulting value
- */
-export function functionalStyleId(
-  elementStyle: CSSFuncPropsId,
-  id: string,
-): CSSProperties {
-  let style: CSSProperties = {};
-  for (const key in elementStyle) {
-    if (typeof elementStyle[key] === 'function') {
-      style[key] = elementStyle[key](id);
-    } else {
-      style[key] = elementStyle[key];
-    }
-  }
-  return style;
-}
-
-/**
- * Checks the onClick added to a component and if is a function, gets the resulting value
- */
-export function functionalOnClick(
-  element: OnClickFuncProps,
-  id: string,
-): (result: React.MouseEvent<SVGGElement, MouseEvent>) => void {
-  let result: (result: React.MouseEvent<SVGGElement, MouseEvent>) => void;
-  if (typeof element() === 'function') {
-    result = (element as (id: string) => OnClickProp)(id);
-  } else {
-    result = element as OnClickProp;
-  }
-  return result;
 }
 
 /**
