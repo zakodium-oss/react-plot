@@ -44,6 +44,7 @@ export function Control(props: LegendProps) {
         onClick={() => {
           setHighlight((highlight) => !highlight);
         }}
+        style={{ fontWeight: highlight ? 'bold' : 'normal' }}
       />
       <LineSeries
         data={data1}
@@ -66,10 +67,10 @@ type TestProps = LegendProps & { hidden: boolean };
 
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
-  const [highlightSeries, setHighlightSeries] = useState<boolean[]>([
-    undefined,
-  ]);
-  const updateHightlight = (id: number) => {
+  const [highlightSeries, setHighlightSeries] = useState<
+    Record<string, boolean>
+  >({ undefined });
+  const updateHightlight = (id: string) => {
     setHighlightSeries((highlightSeries) => ({
       ...highlightSeries,
       [id]: !highlightSeries[id],
@@ -77,11 +78,17 @@ export function WithTwoSeries(props: TestProps) {
   };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...otherProps} onClick={(id) => () => updateHightlight(id)} />
+      <Legend
+        {...otherProps}
+        style={{
+          fontWeight: (id: string) => (highlightSeries[id] ? 'bold' : 'normal'),
+        }}
+        onClick={(id: string) => () => updateHightlight(id)}
+      />
       <LineSeries
         data={data1}
         lineStyle={{
-          strokeWidth: highlightSeries[0] ? '5' : '',
+          strokeWidth: (id: string) => (highlightSeries[id] ? '5' : ''),
         }}
         xAxis="x"
         yAxis="y"
@@ -92,7 +99,7 @@ export function WithTwoSeries(props: TestProps) {
         markerStyle={{ fill: 'green' }}
         lineStyle={{
           stroke: 'blue',
-          strokeWidth: highlightSeries[1] ? '5' : '',
+          strokeWidth: (id: string) => (highlightSeries[id] ? '5' : ''),
         }}
         markerShape="square"
         displayMarker
