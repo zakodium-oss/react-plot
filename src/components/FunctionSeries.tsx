@@ -17,15 +17,15 @@ export function FunctionSeries(props: FunctionSeriesProps) {
     axisContext: { x },
     plotWidth,
   } = usePlotContext();
+  const min = x ? toNumber(x.scale.invert(0)) : 0;
+  const max = x ? toNumber(x.scale.invert(plotWidth)) : 0;
   const data = useMemo(() => {
-    const min = x ? toNumber(x.scale.invert(0)) : 0;
-    const max = x ? toNumber(x.scale.invert(plotWidth)) : 0;
     const data: SeriesPoint[] = [];
     for (let i = min; i <= max; i += step) {
       data.push({ x: i, y: getY(i) });
     }
     return data;
-  }, [getY, plotWidth, step, x]);
+  }, [getY, max, min, step]);
   if (data.length > 0) {
     return <LineSeries data={data} {...otherProps} />;
   }
