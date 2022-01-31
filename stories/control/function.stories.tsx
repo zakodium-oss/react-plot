@@ -14,8 +14,10 @@ export default {
   component: FunctionSeries,
   args: {
     xAxis: 'x',
+    max: 50,
+    min: 0,
   },
-} as Meta<FunctionSeriesProps>;
+} as Meta<FunctionSeriesProps & { min?: number; max?: number }>;
 
 function getY(x: number) {
   return 4 * Math.sin(2 * x);
@@ -32,12 +34,15 @@ interface RectanglePositions {
   minY: number;
   maxY: number;
 }
-export function Control(args: FunctionSeriesProps) {
+export function Control(
+  props: FunctionSeriesProps & { min?: number; max?: number },
+) {
+  const { max, min, ...otherProps } = props;
   const [{ position, minX, maxX, minY, maxY }, setPositions] =
     useState<RectanglePositions | null>({
       position: null,
-      minX: 0,
-      maxX: 50,
+      minX: min,
+      maxX: max,
       minY: undefined,
       maxY: undefined,
     });
@@ -91,8 +96,8 @@ export function Control(args: FunctionSeriesProps) {
       }}
       onDoubleClick={() => {
         setPositions({
-          minX: 0,
-          maxX: 50,
+          minX: min,
+          maxX: max,
           minY: undefined,
           maxY: undefined,
         });
@@ -101,7 +106,7 @@ export function Control(args: FunctionSeriesProps) {
       <Legend position="embedded" />
       <FunctionSeries
         getY={getY}
-        {...args}
+        {...otherProps}
         xAxis="x"
         yAxis="y"
         label="y=4*sin(2*x)"
