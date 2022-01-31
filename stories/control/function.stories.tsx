@@ -29,7 +29,7 @@ export function Control(args: FunctionSeriesProps) {
         yAxis="y"
         label="y=3*sin(2*x)"
       />
-      <Axis id="x" position="bottom" />
+      <Axis min={0} max={50} id="x" position="bottom" />
       <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
     </Plot>
   );
