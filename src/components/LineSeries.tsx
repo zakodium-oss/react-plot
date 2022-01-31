@@ -3,14 +3,14 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
-import type { SeriesPoint } from '../types';
-import { getNextId, validateAxis } from '../utils';
+import type { CSSFuncPropsId, SeriesPoint } from '../types';
+import { functionalStyleId, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps extends ScatterSeriesProps {
-  lineStyle?: CSSProperties;
+  lineStyle?: CSSFuncPropsId;
   displayMarker?: boolean;
 }
 
@@ -20,13 +20,13 @@ export function LineSeries(props: LineSeriesProps) {
 
   const [id] = useState(() => props.id || `series-${getNextId()}`);
   const {
-    lineStyle = {},
+    lineStyle: OldLineStyle,
     displayMarker = false,
     displayErrorBars = false,
     hidden,
     ...otherProps
   } = props;
-
+  const lineStyle = functionalStyleId(OldLineStyle, id);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -79,7 +79,7 @@ export function LineSeries(props: LineSeriesProps) {
   };
   return (
     <g>
-      <LineSeriesRender {...lineProps} />
+      <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
       <ErrorBars {...errorBarsProps} />
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
