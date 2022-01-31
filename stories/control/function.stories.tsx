@@ -11,8 +11,6 @@ export default {
   title: 'API/FunctionSeries',
   component: FunctionSeries,
   args: {
-    max: 10,
-    min: 0,
     step: 0.001,
   },
 } as Meta<FunctionSeriesProps>;
@@ -31,7 +29,14 @@ export function Control(args: FunctionSeriesProps) {
         yAxis="y"
         label="y=4*sin(2*x)"
       />
-      <Axis paddingStart={0.1} paddingEnd={0.1} id="x" position="bottom" />
+      <Axis
+        min={0}
+        max={50}
+        paddingStart={0.1}
+        paddingEnd={0.1}
+        id="x"
+        position="bottom"
+      />
       <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
     </Plot>
   );
