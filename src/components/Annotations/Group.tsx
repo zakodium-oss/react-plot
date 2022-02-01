@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { Align, AlignGroup } from 'react-d3-utils';
 
 import { usePosition } from '../../hooks';
@@ -6,9 +6,10 @@ import { usePosition } from '../../hooks';
 export interface AnnotationGroupProps {
   x: number | string;
   y: number | string;
+  children: ReactNode;
   horizontalAlign?: Align;
   verticalAlign?: Align;
-  children: ReactNode;
+  style?: CSSProperties;
 }
 
 export function Group(props: AnnotationGroupProps) {
@@ -17,6 +18,7 @@ export function Group(props: AnnotationGroupProps) {
     y: oldY,
     horizontalAlign = 'none',
     verticalAlign = 'none',
+    style = {},
     children,
   } = props;
   const { x, y } = usePosition({ x: oldX, y: oldY });
@@ -27,6 +29,7 @@ export function Group(props: AnnotationGroupProps) {
       y={y}
       horizontalAlign={horizontalAlign}
       verticalAlign={verticalAlign}
+      style={style}
     >
       {children}
     </AlignGroup>
