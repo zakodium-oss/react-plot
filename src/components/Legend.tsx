@@ -165,7 +165,6 @@ export function Legend({
               onClick={(event) => {
                 onClick?.({ event, id: value.id });
                 if (showHide) {
-                  alert('test');
                   legendDispatch({
                     type: 'ADD_LEGEND_LABEL',
                     payload: {
@@ -204,7 +203,6 @@ export function Legend({
             onClick={(event) => {
               onClick?.({ event, id: value.id });
               if (showHide) {
-                alert('test');
                 legendDispatch({
                   type: 'ADD_LEGEND_LABEL',
                   payload: {
