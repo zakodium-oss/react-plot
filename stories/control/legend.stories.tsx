@@ -47,7 +47,10 @@ export function Control(props: LegendProps) {
         onClick={() => {
           setHighlight((highlight) => !highlight);
         }}
-        labelStyle={{ fontWeight: highlight ? 'bold' : 'normal' }}
+        labelStyle={{
+          fontWeight: highlight ? 'bold' : 'normal',
+          cursor: 'hand',
+        }}
         lineStyle={lineStyle}
       />
       <LineSeries
@@ -87,6 +90,7 @@ export function WithTwoSeries(props: TestProps) {
         {...otherProps}
         labelStyle={{
           fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
+          cursor: 'hand',
         }}
         onClick={({ id }) => updateHightlight(id)}
         lineStyle={lineStyle}
@@ -128,7 +132,11 @@ export function WithShowHide(props: TestShowHideProps) {
   const { showHide, ...otherProps } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...otherProps} showHide={showHide} />
+      <Legend
+        {...otherProps}
+        showHide={showHide}
+        labelStyle={{ cursor: 'hand' }}
+      />
       <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
       <LineSeries
         data={data2}
