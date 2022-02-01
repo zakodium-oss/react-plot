@@ -176,6 +176,7 @@ export function Legend({
               }}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
+              style={{ opacity: value.visibility ? '1' : '0.6' }}
             >
               {getRangeShape({
                 index,
@@ -213,6 +214,7 @@ export function Legend({
             }}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
+            style={{ opacity: value.visibility ? '1' : '0.6' }}
           >
             {getLineShape({ index, color: value.colorLine, style })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>
