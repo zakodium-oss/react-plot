@@ -70,8 +70,8 @@ export function functionalStyle<T>(
   defaultStyle: CSSProperties,
   elementStyle: CSSFuncProps<T>,
   point: T,
-  index: number,
-  data: T[],
+  index?: number,
+  data?: T[],
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {

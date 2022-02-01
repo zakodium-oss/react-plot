@@ -29,7 +29,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   const { colorScaler } = usePlotContext();
   const [, legendDispatch] = useLegend();
 
-  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
+  const [id] = useState(() => props.id || `series-${getNextId()}`);
 
   const {
     xAxis = 'x',

@@ -69,7 +69,7 @@ export function PCA() {
               xAxis="x"
               yAxis="y"
               key={klass}
-              groupId={klass}
+              id={klass}
               data={data}
               label={klass}
               markerShape="triangle"
@@ -80,7 +80,7 @@ export function PCA() {
               xAxis="x"
               yAxis="y"
               key={klass}
-              groupId={klass}
+              id={klass}
               data={dataRegression}
               label={klass}
             />,
