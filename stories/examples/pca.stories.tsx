@@ -1,25 +1,22 @@
 import { Meta } from '@storybook/react';
-import { useState, useRef } from 'react';
+import { getDirectionalEllipse } from 'ml-directional-distribution';
+import { useState, useRef, useMemo } from 'react';
 
 import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
-import { Ellipse } from '../../src/components/Annotations/Ellipse';
+import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
-import { Shape } from '../../src/types';
-import data from '../data/pca.json';
+import data from '../data/pca2.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/PCA example of ecstasy',
 } as Meta;
 interface Point {
+  label: string;
   x: number;
   y: number;
-  color: {
-    shape: Shape;
-    fill: string;
-    r: number;
-  };
+  color: string;
   id: string;
 }
 interface RectanglePositions {
@@ -44,6 +41,45 @@ export function PCAExample() {
       maxY: undefined,
     });
   let click = useRef<boolean>(false);
+  const categories = [...new Set(data.map((datum) => datum.category))].map(
+    (category) => ({
+      label: category,
+      color: data.find((datum) => datum.category === category).color,
+      x: data
+        .filter((datum) => datum.category === category)
+        .map((datum) => datum.x),
+      y: data
+        .filter((datum) => datum.category === category)
+        .map((datum) => datum.y),
+    }),
+  );
+  const ellipses = useMemo(() => {
+    return categories.map((category) => {
+      const { x, y, color, label } = category;
+      const { rMinor, position, majorAxis } = getDirectionalEllipse(
+        {
+          x,
+          y,
+        },
+        { nbSD: 3 },
+      );
+      const {
+        point1: { x: x1, y: y1 },
+        point2: { x: x2, y: y2 },
+      } = majorAxis;
+      return {
+        x1,
+        y1,
+        x2,
+        y2,
+        ...position,
+        width: rMinor,
+        color,
+        label,
+      };
+    });
+  }, [categories]);
+
   return (
     <Plot
       {...DEFAULT_PLOT_CONFIG}
@@ -103,45 +139,39 @@ export function PCAExample() {
       <Heading title="Principal component analysis of XTC infrared spectra" />
       <ScatterSeries
         markerStyle={{
-          fill: (point: Point) => point.color.fill,
+          fill: (point: Point) => point.color,
           stroke: 'none',
         }}
-        markerShape={(point: Point) => point.color.shape}
-        pointLabel={(point: Point) => point.id}
-        data={data.points}
+        pointLabelStyle={{
+          fontSize: '12px',
+          fill: (point: Point) => point.color,
+          transform: 'translate(3px, -3px)',
+        }}
+        pointLabel={(point: Point) => point.label}
+        data={data}
         xAxis="x"
         yAxis="y"
       />
 
       <Annotations>
-        {data.ellipses.map(
-          ({ x, y, rx, ry, fillColor, fillOpacity, label, angle }) => (
-            <g
-              key={`${x}-${y}`}
+        {ellipses.map(({ x1, y1, x2, y2, width, color, label, x, y }) => (
+          <g key={`${x1}-${y1}-${x2}-${y2}`}>
+            <DirectedEllipse
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              width={width}
+              color={color}
               style={{
-                transform: `rotate(${
-                  (angle >= 90 || angle < -90 ? 180 : 0) - angle
-                }deg)`,
-                transformOrigin: 'center',
-                transformBox: 'fill-box',
+                opacity: '0.2',
               }}
-            >
-              <Ellipse
-                rx={rx}
-                ry={ry}
-                x={x}
-                y={y}
-                color={fillColor}
-                style={{
-                  opacity: fillOpacity,
-                }}
-              />
-              <Text x={x} y={y} color={fillColor}>
-                {label}
-              </Text>
-            </g>
-          ),
-        )}
+            />
+            <Text x={x} y={y} color={color}>
+              {label}
+            </Text>
+          </g>
+        ))}
         {position && (
           <Rectangle
             color="red"
