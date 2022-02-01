@@ -13,7 +13,7 @@ import type { ActionType, Shape } from '../types';
 interface LegendLabelState {
   id: string;
   label?: string;
-
+  visibility?: boolean;
   shape?: {
     figure: Shape;
     color: string;
