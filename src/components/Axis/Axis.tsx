@@ -1,4 +1,4 @@
-import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
+import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 import { CSSProperties, ReactNode, useEffect } from 'react';
 
 import {
@@ -10,6 +10,7 @@ import { getInnerOffset } from '../../utils/axis';
 
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
+import TimeAxis from './TimeAxis';
 
 export interface AxisProps {
   id?: string;
@@ -23,7 +24,7 @@ export interface AxisProps {
   paddingEnd?: number;
 
   flip?: boolean;
-  scale?: 'linear' | 'log';
+  scale?: 'linear' | 'log' | 'time';
 
   /**
    * Hide all axis elements.
@@ -47,6 +48,10 @@ export interface AxisProps {
 
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
+  /**
+   * With time scale the default values is d3's smart tickFormat
+   * With other types of scales the default is converting the value to a string
+   */
   tickLabelFormat?: TickLabelFormat;
   tickLabelStyle?: CSSProperties;
 
@@ -171,6 +176,14 @@ export function Axis({
       <LinearAxis
         {...childProps}
         scale={currentAxis.scale as ScaleLinear<number, number>}
+      />
+    );
+  }
+  if (scale === 'time') {
+    return (
+      <TimeAxis
+        {...childProps}
+        scale={currentAxis.scale as ScaleTime<number, number>}
       />
     );
   } else {

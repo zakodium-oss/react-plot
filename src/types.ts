@@ -28,12 +28,12 @@ export interface SeriesPoint {
 
 export type CSSFuncProps<T> = {
   [key in keyof CSSProperties]:
-    | ((point: T, index: number, data: T[]) => CSSProperties[key])
+    | ((point: T, index?: number, data?: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
 
 export interface BaseSeriesProps<T = SeriesPoint> {
-  groupId?: string;
+  id?: string;
   xAxis?: string;
   yAxis?: string;
   data: Array<T>;
@@ -45,6 +45,6 @@ export type ActionType<Action, Payload = void> = Payload extends void
   ? { type: Action }
   : { type: Action; payload: Payload };
 
-export type TickLabelFormat = (value: number) => string;
+export type TickLabelFormat = (value: number | Date) => string;
 
 export type TickPosition = 'inner' | 'outer' | 'center';
