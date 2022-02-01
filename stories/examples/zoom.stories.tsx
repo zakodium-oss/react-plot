@@ -1,13 +1,21 @@
 import { Meta } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-import { Axis, LineSeries, Plot, Annotations, ScatterSeries } from '../../src';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  Annotations,
+  ScatterSeries,
+  usePlotControls,
+} from '../../src';
 import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
 import { Rectangle } from '../../src/components/Annotations/Rectangle';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Zoom',
+  decorators: [PlotControllerDecorator],
 } as Meta;
 
 const data = [
@@ -20,42 +28,32 @@ const data = [
   { x: 9, y: 1 },
 ];
 
-interface HorizontalPositions {
-  position?: {
-    x1: number;
-    x2: number;
-  } | null;
-  min?: number;
-  max?: number;
+interface HorizontalPosition {
+  x1: number;
+  x2: number;
 }
 
 export function HorizontalZoom() {
-  const [{ position, min, max }, setPositions] =
-    useState<HorizontalPositions | null>({
-      position: null,
-      min: undefined,
-      max: undefined,
-    });
+  const plotControls = usePlotControls();
+  const [position, setPosition] = useState<HorizontalPosition | null>(null);
   let click = useRef<boolean>(false);
   return (
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
         onMouseDown={({ coordinates: { x } }) => {
-          setPositions((positions) => ({
-            ...positions,
-            position: {
-              x1: x,
-              x2: x,
-            },
-          }));
+          setPosition({
+            x1: x,
+            x2: x,
+          });
           click.current = true;
         }}
         onMouseUp={() => {
           click.current = false;
+          if (position === null) return;
+          setPosition(null);
           if (position.x1 !== position.x2) {
-            setPositions({
-              position: null,
+            plotControls.setAxis('x', {
               min: Math.min(position.x1, position.x2),
               max: Math.max(position.x1, position.x2),
             });
@@ -63,21 +61,18 @@ export function HorizontalZoom() {
         }}
         onMouseMove={({ coordinates: { x } }) => {
           if (click.current) {
-            setPositions((positions) => ({
-              ...positions,
-              position: {
-                x1: position ? position.x1 : x,
-                x2: x,
-              },
+            setPosition((position) => ({
+              x1: position ? position.x1 : x,
+              x2: x,
             }));
           }
         }}
         onMouseLeave={() => {
-          setPositions((positions) => ({ ...positions, position: null }));
+          setPosition(null);
           click.current = false;
         }}
         onDoubleClick={() => {
-          setPositions({ min: undefined, max: undefined });
+          plotControls.resetAxes(['x']);
         }}
       >
         <LineSeries data={data} xAxis="x" yAxis="y" displayMarker />
@@ -93,23 +88,17 @@ export function HorizontalZoom() {
             />
           )}
         </Annotations>
-        <Axis min={min} max={max} id="x" position="bottom" label="time [s]" />
-        <Axis id="y" position="left" />
+        <Axis position="bottom" label="time [s]" />
+        <Axis position="left" />
       </Plot>
     </div>
   );
 }
-interface RectanglePositions {
-  position?: {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
-  } | null;
-  minX: number;
-  maxX: number;
-  minY: number;
-  maxY: number;
+interface RectanglePosition {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
 }
 const dataVertical = {
   data: {
@@ -137,74 +126,57 @@ const dataVertical = {
   },
 };
 export function RectangleZoom() {
+  const plotControls = usePlotControls();
   const {
     ellipse,
     data: { x, y },
   } = dataVertical;
-  const [{ position, minX, maxX, minY, maxY }, setPositions] =
-    useState<RectanglePositions | null>({
-      position: null,
-      minX: 0,
-      maxX: 50,
-      minY: 0,
-      maxY: 50,
-    });
+  const [position, setPosition] = useState<RectanglePosition | null>(null);
   let click = useRef<boolean>(false);
   return (
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
         onMouseDown={({ coordinates: { x, y } }) => {
-          setPositions({
-            position: {
-              x1: x,
-              y1: y,
-              x2: x,
-              y2: y,
-            },
-            minX,
-            maxX,
-            minY,
-            maxY,
+          setPosition({
+            x1: x,
+            y1: y,
+            x2: x,
+            y2: y,
           });
           click.current = true;
         }}
         onMouseUp={() => {
           click.current = false;
+          if (position === null) return;
+          setPosition(null);
           if (position.x1 !== position.x2) {
-            setPositions({
-              position: null,
-              minX: Math.min(position.x1, position.x2),
-              maxX: Math.max(position.x1, position.x2),
-              minY: Math.min(position.y1, position.y2),
-              maxY: Math.max(position.y1, position.y2),
+            plotControls.setAxis('x', {
+              min: Math.min(position.x1, position.x2),
+              max: Math.max(position.x1, position.x2),
+            });
+            plotControls.setAxis('y', {
+              min: Math.min(position.y1, position.y2),
+              max: Math.max(position.y1, position.y2),
             });
           }
         }}
         onMouseMove={({ coordinates: { x, y } }) => {
           if (click.current) {
-            setPositions((positions) => ({
-              ...positions,
-              position: {
-                x1: position ? position.x1 : x,
-                y1: position ? position.y1 : y,
-                x2: x,
-                y2: y,
-              },
+            setPosition((position) => ({
+              x1: position ? position.x1 : x,
+              y1: position ? position.y1 : y,
+              x2: x,
+              y2: y,
             }));
           }
         }}
         onMouseLeave={() => {
-          setPositions((positions) => ({ ...positions, position: null }));
+          setPosition(null);
           click.current = false;
         }}
         onDoubleClick={() => {
-          setPositions({
-            minX: 0,
-            maxX: 50,
-            minY: 0,
-            maxY: 50,
-          });
+          plotControls.resetAxes(['x', 'y']);
         }}
       >
         <ScatterSeries
@@ -240,8 +212,8 @@ export function RectangleZoom() {
             />
           )}
         </Annotations>
-        <Axis min={minX} max={maxX} id="x" position="bottom" label="PC 1" />
-        <Axis min={minY} max={maxY} id="y" position="left" label="PC 2" />
+        <Axis min={0} max={50} position="bottom" label="PC 1" />
+        <Axis min={0} max={50} position="left" label="PC 2" />
       </Plot>
     </div>
   );

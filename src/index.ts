@@ -19,3 +19,8 @@ export * from './components/Heading';
 export * from './components/Annotations/Annotation';
 
 export type { SeriesPoint, TickLabelFormat, TickPosition } from './types';
+
+export {
+  PlotController,
+  usePlotControls,
+} from './contexts/plotController/plotControllerContext';

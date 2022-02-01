@@ -23,6 +23,8 @@ import type {
 } from '../types';
 import { validatePosition } from '../utils';
 
+import { PlotAxesOverrides } from './plotController/usePlotOverrides';
+
 interface PlotSeriesStateAxis {
   min: number;
   max: number;
@@ -184,6 +186,7 @@ interface SizeProps {
 
 export function useAxisContext(
   state: PlotState,
+  axesOverrides: PlotAxesOverrides,
   { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {
@@ -191,14 +194,23 @@ export function useAxisContext(
 
     for (const id in state.axes) {
       const axis = state.axes[id];
+      const overrides = axesOverrides[id];
       const isHorizontal = ['top', 'bottom'].includes(axis.position);
       const xY = isHorizontal ? 'x' : 'y';
 
-      // Get limits from state or data
+      // Get limits from override (context), state (axis props), or data.
       const axisMin =
-        axis.min !== undefined ? axis.min : min(state.series, (d) => d[xY].min);
+        overrides?.min !== undefined
+          ? overrides.min
+          : axis.min !== undefined
+          ? axis.min
+          : min(state.series, (d) => d[xY].min);
       const axisMax =
-        axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
+        overrides?.max !== undefined
+          ? overrides.max
+          : axis.max !== undefined
+          ? axis.max
+          : max(state.series, (d) => d[xY].max);
 
       // Limits validation
       if (axisMin === undefined || axisMax === undefined) {
@@ -255,7 +267,7 @@ export function useAxisContext(
       }
     }
     return axisContext;
-  }, [state, plotWidth, plotHeight]);
+  }, [state.axes, state.series, axesOverrides, plotWidth, plotHeight]);
 
   return context;
 }

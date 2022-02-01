@@ -16,6 +16,7 @@ import {
   PlotState,
   useAxisContext,
 } from '../contexts/plotContext';
+import { usePlotOverrides } from '../contexts/plotController/plotControllerContext';
 import type { Margins } from '../types';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';
@@ -174,6 +175,8 @@ export function Plot(props: PlotProps) {
     throw new Error('height is mandatory');
   }
 
+  const plotOverrides = usePlotOverrides();
+
   // Bounding boxes used to adapt viewport size.
   const headingBbox = useBBoxObserver();
   const topAxisBbox = useBBoxObserver();
@@ -202,7 +205,10 @@ export function Plot(props: PlotProps) {
     });
 
   // Set scales.
-  const axisContext = useAxisContext(state, { plotWidth, plotHeight });
+  const axisContext = useAxisContext(state, plotOverrides.axes, {
+    plotWidth,
+    plotHeight,
+  });
 
   const ids = useMemo(() => state.series.map(({ id }) => id), [state.series]);
   const colorScaler = useMemo(
