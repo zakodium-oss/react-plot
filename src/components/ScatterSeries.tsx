@@ -30,7 +30,7 @@ export interface ScatterSeriesProps<T = SeriesPoint>
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
   pointLabel?: LabelFuncProps<T>;
-  labelStyle?: CSSFuncProps<T>;
+  pointLabelStyle?: CSSFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
@@ -127,7 +127,7 @@ function ScatterSeriesRender({
   markerSize = 8,
   markerStyle = {},
   pointLabel = '',
-  labelStyle = {},
+  pointLabelStyle = {},
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -148,14 +148,14 @@ function ScatterSeriesRender({
       // Show marker
       const Marker = markersComps[functionalShape(markerShape, point, i, data)];
       const label = functionalLabel(pointLabel, point, i, data);
-      const labelPointStyle = functionalStyle({}, labelStyle, point, i, data);
+      const labelStyle = functionalStyle({}, pointLabelStyle, point, i, data);
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
-          <text style={labelPointStyle}>{label}</text>
+          <text style={labelStyle}>{label}</text>
         </g>
       );
     });
@@ -170,8 +170,8 @@ function ScatterSeriesRender({
     markerStyle,
     markerShape,
     pointLabel,
+    pointLabelStyle,
     markerSize,
-    labelStyle,
   ]);
   if (!markers) return null;
 
