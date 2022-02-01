@@ -120,6 +120,7 @@ export type LegendProps = {
   }) => void;
   labelStyle?: CSSFuncProps<{ id: string }>;
   lineStyle?: CSSFuncProps<{ id: string }>;
+  showHide?: boolean;
 } & { [K in Position]?: number };
 
 export function Legend({
@@ -128,11 +129,12 @@ export function Legend({
   onClick,
   labelStyle: oldLabelStyle,
   lineStyle,
+  showHide = false,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
   const plotDispatch = usePlotDispatchContext();
-  const [state] = useLegend();
+  const [state, legendDispatch] = useLegend();
   const legendOffset = useContext(legendOffsetContext);
 
   const alignGroupProps = useMemo(() => {
@@ -160,6 +162,18 @@ export function Legend({
         if (value.range) {
           return (
             <g
+              onClick={(event) => {
+                onClick?.({ event, id: value.id });
+                if (showHide) {
+                  legendDispatch({
+                    type: 'ADD_LEGEND_LABEL',
+                    payload: {
+                      ...value,
+                      visibility: !value.visibility,
+                    },
+                  });
+                }
+              }}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
             >
@@ -187,6 +201,15 @@ export function Legend({
           <g
             onClick={(event) => {
               onClick?.({ event, id: value.id });
+              if (showHide) {
+                legendDispatch({
+                  type: 'ADD_LEGEND_LABEL',
+                  payload: {
+                    ...value,
+                    visibility: !value.visibility,
+                  },
+                });
+              }
             }}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}

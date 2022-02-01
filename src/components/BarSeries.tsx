@@ -11,7 +11,7 @@ import { ScatterSeries } from './ScatterSeries';
 export interface BarSeriesProps extends LineSeriesProps {}
 
 export function BarSeries(props: BarSeriesProps) {
-  const [, legendDispatch] = useLegend();
+  const [legendState, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const [id] = useState(() => props.id || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
@@ -37,12 +37,16 @@ export function BarSeries(props: BarSeriesProps) {
       hidden: !displayMarker,
     };
   }, [color, displayMarker, figure]);
-
+  const visibility = useMemo(() => {
+    const value = legendState.labels.find((label) => label.id === id);
+    return value ? value.visibility : true;
+  }, [id, legendState.labels]);
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
         id,
+        visibility,
         label: otherProps.label,
         colorLine,
         shape,
@@ -50,9 +54,9 @@ export function BarSeries(props: BarSeriesProps) {
     });
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
-  }, [colorLine, legendDispatch, otherProps.label, shape, id]);
+  }, [colorLine, legendDispatch, otherProps.label, shape, id, visibility]);
 
-  return (
+  return visibility ? (
     <g>
       {props.hidden ? null : <BarSeriesRender {...lineProps} />}
       <ScatterSeries
@@ -61,7 +65,7 @@ export function BarSeries(props: BarSeriesProps) {
         id={id}
       />
     </g>
-  );
+  ) : null;
 }
 
 interface BarSeriesRenderProps {

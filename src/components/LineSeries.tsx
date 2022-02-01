@@ -15,7 +15,7 @@ export interface LineSeriesProps extends ScatterSeriesProps {
 }
 
 export function LineSeries(props: LineSeriesProps) {
-  const [, legendDispatch] = useLegend();
+  const [legendState, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
   const [id] = useState(() => props.id || `series-${getNextId()}`);
@@ -27,6 +27,10 @@ export function LineSeries(props: LineSeriesProps) {
     ...otherProps
   } = props;
   const lineStyle = functionalStyle({}, OldLineStyle, { id });
+  const visibility = useMemo(() => {
+    const value = legendState.labels.find((label) => label.id === id);
+    return value ? value.visibility : true;
+  }, [id, legendState.labels]);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -34,9 +38,8 @@ export function LineSeries(props: LineSeriesProps) {
         payload: {
           id,
           label: otherProps.label,
-
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-
+          visibility,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
@@ -58,6 +61,7 @@ export function LineSeries(props: LineSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
+    visibility,
   ]);
   if (hidden) return null;
 
@@ -77,13 +81,13 @@ export function LineSeries(props: LineSeriesProps) {
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
   };
-  return (
+  return visibility ? (
     <g>
       <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
       <ErrorBars {...errorBarsProps} />
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
-  );
+  ) : null;
 }
 
 interface LineSeriesRenderProps {

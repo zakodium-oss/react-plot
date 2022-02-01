@@ -27,7 +27,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
-  const [, legendDispatch] = useLegend();
+  const [legendState, legendDispatch] = useLegend();
 
   const [id] = useState(() => props.id || `series-${getNextId()}`);
 
@@ -40,7 +40,10 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     displayErrorBars = false,
     ...otherProps
   } = props;
-
+  const visibility = useMemo(() => {
+    const value = legendState.labels.find((label) => label.id === id);
+    return value ? value.visibility : true;
+  }, [id, legendState.labels]);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -49,7 +52,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
           id,
           label,
           colorLine: 'white',
-
+          visibility,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',
@@ -68,6 +71,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     legendDispatch,
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
+    visibility,
   ]);
 
   useEffect(() => {
@@ -92,12 +96,12 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     capSize: props.errorBarsCapSize,
   };
 
-  return (
+  return visibility ? (
     <g>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
       <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
     </g>
-  );
+  ) : null;
 }
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
