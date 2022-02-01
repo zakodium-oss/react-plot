@@ -17,7 +17,7 @@ export default {
   args: {
     position: 'embedded',
   },
-} as Meta;
+} as Meta<LegendProps>;
 
 const data1 = [
   { x: 0, y: 10 },
@@ -121,4 +121,34 @@ export function WithTwoSeries(props: TestProps) {
 WithTwoSeries.storyName = 'With two series';
 WithTwoSeries.args = {
   hidden: false,
+};
+
+type TestShowHideProps = LegendProps & { showHide: boolean };
+export function WithShowHide(props: TestShowHideProps) {
+  const { showHide, ...otherProps } = props;
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <Legend {...otherProps} showHide={showHide} />
+      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <LineSeries
+        data={data2}
+        markerStyle={{ fill: 'green' }}
+        lineStyle={{
+          stroke: 'blue',
+        }}
+        markerShape="square"
+        displayMarker
+        xAxis="x"
+        yAxis="y"
+        label="Label line series 2"
+      />
+      <Axis id="x" position="bottom" label="X" />
+      <Axis id="y" position="left" label="Y" />
+    </Plot>
+  );
+}
+
+WithShowHide.storyName = 'With Show Hide prop';
+WithShowHide.args = {
+  showHide: true,
 };
