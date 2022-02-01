@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/react';
+import { useState } from 'react';
 
 import {
   Axis,
@@ -35,10 +36,27 @@ const data2 = [
 ];
 
 export function Control(props: LegendProps) {
+  const [highlight, setHighlight] = useState<boolean>(false);
+  const lineStyle = {
+    strokeWidth: highlight ? '5' : '',
+  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...props} />
-      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <Legend
+        {...props}
+        onClick={() => {
+          setHighlight((highlight) => !highlight);
+        }}
+        labelStyle={{ fontWeight: highlight ? 'bold' : 'normal' }}
+        lineStyle={lineStyle}
+      />
+      <LineSeries
+        data={data1}
+        lineStyle={lineStyle}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
       <ParallelAxis id="x" />
@@ -51,16 +69,42 @@ type TestProps = LegendProps & { hidden: boolean };
 
 export function WithTwoSeries(props: TestProps) {
   const { hidden, ...otherProps } = props;
+  const [highlightSeries, setHighlightSeries] = useState<
+    Record<string, boolean>
+  >({ undefined });
+  const updateHightlight = (id: string) => {
+    setHighlightSeries((highlightSeries) => ({
+      ...highlightSeries,
+      [id]: !highlightSeries[id],
+    }));
+  };
+  const lineStyle = {
+    strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
+  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend {...otherProps} />
-
-      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
-
+      <Legend
+        {...otherProps}
+        labelStyle={{
+          fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
+        }}
+        onClick={({ id }) => updateHightlight(id)}
+        lineStyle={lineStyle}
+      />
+      <LineSeries
+        data={data1}
+        lineStyle={lineStyle}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
       <LineSeries
         data={data2}
         markerStyle={{ fill: 'green' }}
-        lineStyle={{ stroke: 'blue' }}
+        lineStyle={{
+          stroke: 'blue',
+          ...lineStyle,
+        }}
         markerShape="square"
         displayMarker
         xAxis="x"
@@ -68,7 +112,6 @@ export function WithTwoSeries(props: TestProps) {
         label="Label line series 2"
         hidden={hidden}
       />
-
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
     </Plot>

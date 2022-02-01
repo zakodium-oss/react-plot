@@ -24,7 +24,7 @@ export interface RangeSeriesProps<T extends RangeSeriesPoint>
 export function RangeSeries<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
-  const [id] = useState(() => props.groupId || `series-${getNextId()}`);
+  const [id] = useState(() => props.id || `series-${getNextId()}`);
   const [, legendDispatch] = useLegend();
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 

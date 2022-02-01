@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useContext, useEffect, useMemo } from 'react';
+import { CSSProperties, useContext, useEffect, useMemo } from 'react';
 import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
 
 import { useLegend } from '../contexts/legendContext';
@@ -8,7 +8,8 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import type { Position } from '../types';
+import type { CSSFuncProps, Position } from '../types';
+import { functionalStyle } from '../utils';
 
 import { markersComps } from './Markers';
 
@@ -113,11 +114,20 @@ export type LegendPosition = Position | 'embedded';
 export type LegendProps = {
   position: LegendPosition;
   margin?: number;
+  onClick?: (args: {
+    event?: React.MouseEvent<SVGGElement, MouseEvent>;
+    id?: string;
+  }) => void;
+  labelStyle?: CSSFuncProps<{ id: string }>;
+  lineStyle?: CSSFuncProps<{ id: string }>;
 } & { [K in Position]?: number };
 
 export function Legend({
   position,
   margin = 10,
+  onClick,
+  labelStyle: oldLabelStyle,
+  lineStyle,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
@@ -145,7 +155,8 @@ export function Legend({
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-
+        const labelStyle = functionalStyle({}, oldLabelStyle, { id: value.id });
+        const style = functionalStyle({}, lineStyle, { id: value.id });
         if (value.range) {
           return (
             <g
@@ -156,9 +167,11 @@ export function Legend({
                 index,
                 rangeColor: value.range.rangeColor,
                 lineColor: value.colorLine,
+                style,
               })}
 
               <text
+                style={labelStyle}
                 key={`text-${value.label}-${index}`}
                 x={30}
                 y={`${index + 1}em`}
@@ -172,10 +185,13 @@ export function Legend({
         const Marker = markersComps[value.shape.figure];
         return (
           <g
+            onClick={(event) => {
+              onClick?.({ event, id: value.id });
+            }}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
           >
-            {getLineShape({ index, color: value.colorLine })}
+            {getLineShape({ index, color: value.colorLine, style })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>
               {!value.shape.hidden && (
                 <Marker size={10} style={{ fill: value.shape.color }} />
@@ -183,6 +199,7 @@ export function Legend({
             </g>
 
             <text
+              style={labelStyle}
               key={`text-${value.label}-${index}`}
               x={30}
               y={`${index + 1}em`}
@@ -196,39 +213,56 @@ export function Legend({
   );
 }
 
-function getLineShape(config: { index: number; color: string }) {
+function getLineShape(config: {
+  index: number;
+  color: string;
+  style?: CSSProperties;
+}) {
   const x = 0;
-  const y = (config.index + 1) * 16 - x - 7;
+  // TODO: do not hardcode values
+  const y = (config.index + 1) * 16 - x - 5;
 
-  return <rect x={x} y={y} width="20" height="3" fill={config.color} />;
+  return (
+    <line
+      x1={x}
+      x2={x + 20}
+      y1={y}
+      y2={y}
+      stroke={config.color}
+      style={config.style}
+    />
+  );
 }
 
 function getRangeShape(config: {
   index: number;
   rangeColor: string;
   lineColor: string;
+  style?: CSSProperties;
 }) {
+  const { index, rangeColor, lineColor, style = {} } = config;
   const x = 0;
-  const y = (config.index + 1) * 16 - x - 12;
-
+  const y = (index + 1) * 16 - x - 12;
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <rect width="20" height="10" fill={config.rangeColor} />
+      <rect width="20" height="10" fill={rangeColor} />
       <line
+        style={style}
         x1={0}
         y={0}
         x2={20}
         y2={0}
-        stroke={config.lineColor}
+        stroke={lineColor}
         strokeWidth={3}
       />
 
       <line
+        style={style}
         x1={0}
         y1={10}
         x2={20}
         y2={10}
-        stroke={config.lineColor}
+        stroke={lineColor}
         strokeWidth={3}
       />
     </g>

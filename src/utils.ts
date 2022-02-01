@@ -76,8 +76,8 @@ export function functionalStyle<T>(
   defaultStyle: CSSProperties,
   elementStyle: CSSFuncProps<T>,
   point: T,
-  index: number,
-  data: T[],
+  index?: number,
+  data?: T[],
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
@@ -151,4 +151,17 @@ export function closestPoint<T, R>(
     }
   }
   return data[closest.index];
+}
+
+export function dataConvertDate(
+  data: { x: number | Date; y: number | Date }[],
+) {
+  return data.map(({ x, y }) => ({ x: toNumber(x), y: toNumber(y) }));
+}
+
+export function toNumber(value: number | Date) {
+  if (typeof value === 'number') {
+    return value;
+  }
+  return value.getTime();
 }
