@@ -95,8 +95,8 @@ export function functionalStyle<T>(
 export function functionalShape<T>(
   elementStyle: ShapeFuncProps<T>,
   point: T,
-  index: number,
-  data: T[],
+  index?: number,
+  data?: T[],
 ): Shape {
   let shape: Shape;
   if (typeof elementStyle === 'function') {
@@ -112,8 +112,8 @@ export function functionalShape<T>(
 export function functionalLabel<T>(
   elementStyle: LabelFuncProps<T>,
   point: T,
-  index: number,
-  data: T[],
+  index?: number,
+  data?: T[],
 ): string {
   let shape: string;
   if (typeof elementStyle === 'function') {

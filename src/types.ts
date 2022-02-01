@@ -32,10 +32,10 @@ export type CSSFuncProps<T> = {
     | CSSProperties[key];
 };
 export type ShapeFuncProps<T> =
-  | ((point: T, index: number, data: T[]) => Shape)
+  | ((point: T, index?: number, data?: T[]) => Shape)
   | Shape;
 export type LabelFuncProps<T> =
-  | ((point: T, index: number, data: T[]) => string)
+  | ((point: T, index?: number, data?: T[]) => string)
   | string;
 export interface BaseSeriesProps<T = SeriesPoint> {
   id?: string;
