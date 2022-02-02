@@ -1,9 +1,9 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
 import type { SeriesPoint } from '../types';
-import { functionalStyle, getNextId, validateAxis } from '../utils';
+import { functionalStyle, useId, validateAxis } from '../utils';
 
 import { LineSeriesProps } from './LineSeries';
 import { ScatterSeries } from './ScatterSeries';
@@ -13,7 +13,7 @@ export interface BarSeriesProps extends LineSeriesProps {}
 export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const lineProps = {
     id,

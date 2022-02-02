@@ -17,7 +17,18 @@ export interface PlotControls {
    * @param axisId Id of the axis to override.
    * @param override Value to override.
    */
-  setAxis: (axisId: string, overrides: PlotAxisOverrides) => void;
+  setAxis: (axisId: string, override: PlotAxisOverrides) => void;
+  /**
+   * Reset an overridden axis.
+   * @param axisId Id of the axis to reset.
+   */
+  resetAxis: (axisId: string) => void;
+  /**
+   * Override the min/max of multiple axes.
+   * @param axisId Id of the axis to override.
+   * @param overrides Dictionary of axes to override.
+   */
+  setAxes: (overrides: Record<string, PlotAxisOverrides>) => void;
   /**
    * Reset multiple overridden axes.
    * @param axisIds Ids of the axes to reset.
@@ -41,6 +52,28 @@ export function usePlotOverridesState() {
           ...state,
           axes: { ...state.axes, [axisId]: override },
         }));
+      },
+      resetAxis(axisId) {
+        setOverrides((state) => ({
+          ...state,
+          axes: Object.fromEntries(
+            Object.entries(state.axes).filter(
+              ([existingAxisId]) => existingAxisId !== axisId,
+            ),
+          ),
+        }));
+      },
+      setAxes(overrides: Record<string, PlotAxisOverrides>) {
+        setOverrides((state) => {
+          const newAxes = { ...state.axes };
+          Object.entries(overrides).forEach(([axisId, override]) => {
+            newAxes[axisId] = override;
+          });
+          return {
+            ...state,
+            axes: newAxes,
+          };
+        });
       },
       resetAxes(axisIds: string[]) {
         setOverrides((state) => ({

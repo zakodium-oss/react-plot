@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 
 import { Arrow } from './Arrow';
 import { Circle } from './Circle';
+import { DirectedEllipse } from './DirectedEllipse';
 import { Ellipse } from './Ellipse';
 import { Group } from './Group';
 import { Line } from './Line';
@@ -14,6 +15,7 @@ import { Text } from './Text';
 export const Annotation = {
   Arrow,
   Circle,
+  DirectedEllipse,
   Ellipse,
   Group,
   Line,
@@ -26,6 +28,7 @@ export const Annotation = {
 
 export type { AnnotationArrowProps } from './Arrow';
 export type { AnnotationCircleProps } from './Circle';
+export type { AnnotationDirectedEllipseProps } from './DirectedEllipse';
 export type { AnnotationEllipseProps } from './Ellipse';
 export type { AnnotationGroupProps } from './Group';
 export type { AnnotationLineProps } from './Line';

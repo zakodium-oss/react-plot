@@ -1,7 +1,14 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import { CSSProperties, ReactNode, Reducer, useMemo, useReducer } from 'react';
+import {
+  CSSProperties,
+  ReactNode,
+  Reducer,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { bboxContext } from '../contexts/bboxContext';
@@ -16,16 +23,21 @@ import {
   PlotState,
   useAxisContext,
 } from '../contexts/plotContext';
-import { usePlotOverrides } from '../contexts/plotController/plotControllerContext';
+import {
+  usePlotEventsPlotContext,
+  usePlotOverrides,
+} from '../contexts/plotController/plotControllerContext';
 import type { Margins } from '../types';
+import { useId } from '../utils';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';
 
-import Tracking, { TrackingResult, KeysResult } from './Tracking';
+import Tracking, { TrackingResult } from './Tracking';
 import TransparentRect from './TransparentRect';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
   produce(plotReducer);
+
 const initialState: PlotState = {
   headingPosition: null,
   legendPosition: null,
@@ -79,56 +91,20 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
-   * Track values on mouse move.
-   */
-  onMouseMove?: (result: TrackingResult) => void;
-  /**
-   * Track values on mouse click.
-   */
-  onClick?: (result: TrackingResult) => void;
-
-  /**
-   * Track values on mouse Up.
-   */
-  onMouseUp?: (result: TrackingResult) => void;
-
-  /**
-   * Track values on mouse Down.
-   */
-  onMouseDown?: (result: TrackingResult) => void;
-
-  /**
-   * Track values on mouse double click.
-   */
-  onDoubleClick?: (result: TrackingResult) => void;
-  /**
-   * Track values on wheel inside the viewport.
-   */
-  onWheel?: (event: TrackingResult) => void;
-  /**
-   * Mouse enters the viewport.
-   */
-  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  /**
-   * Mouse leaves the viewport.
-   */
-  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  /**
-   *  Track values on click Keyboard key.
-   */
-  onKeyPress?: (event: KeysResult) => void;
-  /**
-   * Track values on keyboard key Down.
-   */
-  onKeyDown?: (event: KeysResult) => void;
-  /**
-   * Track values on keyboard key Up.
-   */
-  onKeyUp?: (event: KeysResult) => void;
-  /**
    * All plot elements.
    */
   children: ReactNode;
+
+  // TODO: remove all these from the types after all stories have been migrated.
+  // These are only here to avoid TypeScript errors in the mean time.
+  onClick?: (result: TrackingResult) => void;
+  onMouseMove?: (result: TrackingResult) => void;
+  onMouseUp?: (result: TrackingResult) => void;
+  onMouseDown?: (result: TrackingResult) => void;
+  onDoubleClick?: (result: TrackingResult) => void;
+  onWheel?: (event: TrackingResult) => void;
+  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
+  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 }
 
 export function Plot(props: PlotProps) {
@@ -142,20 +118,10 @@ export function Plot(props: PlotProps) {
     svgClassName,
     plotViewportStyle = {},
     seriesViewportStyle = {},
-    onMouseMove,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    onMouseDown,
-    onMouseUp,
-    onDoubleClick,
-    onWheel,
-    onKeyPress,
-    onKeyDown,
-    onKeyUp,
     children,
   } = props;
 
+  const plotId = useId(undefined, 'plot');
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
   const {
@@ -174,6 +140,13 @@ export function Plot(props: PlotProps) {
   if (height === undefined) {
     throw new Error('height is mandatory');
   }
+
+  const plotEvents = usePlotEventsPlotContext();
+  useEffect(() => {
+    if (!plotEvents) return;
+    plotEvents.registerPlot(plotId);
+    return () => plotEvents.unregisterPlot(plotId);
+  }, [plotEvents, plotId]);
 
   const plotOverrides = usePlotOverrides();
 
@@ -255,11 +228,11 @@ export function Plot(props: PlotProps) {
               />
 
               {/* Prevents the chart from being drawn outside of the viewport */}
-              <clipPath id="seriesViewportClip">
+              <clipPath id={`seriesViewportClip-${plotId}`}>
                 <rect width={plotWidth} height={plotHeight} />
               </clipPath>
 
-              <g style={{ clipPath: 'url(#seriesViewportClip)' }}>
+              <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
                 {seriesAndAnnotations}
               </g>
 
@@ -283,27 +256,14 @@ export function Plot(props: PlotProps) {
                 <g ref={legendBbox.ref}>{legend}</g>
               </legendOffsetContext.Provider>
 
-              {onClick ||
-              onMouseMove ||
-              onMouseUp ||
-              onMouseDown ||
-              onDoubleClick ||
-              onWheel ||
-              onKeyPress ||
-              onKeyDown ? (
+              {plotEvents ? (
                 <Tracking
+                  plotId={plotId}
+                  plotEvents={plotEvents}
                   stateSeries={state.series}
-                  onClick={(position) => onClick?.(position)}
-                  onMouseMove={(position) => onMouseMove?.(position)}
-                  onMouseEnter={onMouseEnter}
-                  onMouseLeave={onMouseLeave}
-                  onMouseDown={onMouseDown}
-                  onMouseUp={onMouseUp}
-                  onDoubleClick={onDoubleClick}
-                  onWheel={onWheel}
-                  onKeyPress={onKeyPress}
-                  onKeyDown={onKeyDown}
-                  onKeyUp={onKeyUp}
+                  axisContext={axisContext}
+                  plotWidth={plotWidth}
+                  plotHeight={plotHeight}
                 />
               ) : null}
             </g>

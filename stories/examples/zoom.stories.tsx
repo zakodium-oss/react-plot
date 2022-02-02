@@ -1,16 +1,15 @@
 import { Meta } from '@storybook/react';
-import { useRef, useState } from 'react';
 
 import {
   Axis,
   LineSeries,
   Plot,
   Annotations,
+  Annotation,
   ScatterSeries,
-  usePlotControls,
+  useHorizontalZoom,
+  useRectangularZoom,
 } from '../../src';
-import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
-import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
@@ -28,78 +27,18 @@ const data = [
   { x: 9, y: 1 },
 ];
 
-interface HorizontalPosition {
-  x1: number;
-  x2: number;
-}
-
 export function HorizontalZoom() {
-  const plotControls = usePlotControls();
-  const [position, setPosition] = useState<HorizontalPosition | null>(null);
-  let click = useRef<boolean>(false);
+  const zoom = useHorizontalZoom();
   return (
-    <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        onMouseDown={({ coordinates: { x } }) => {
-          setPosition({
-            x1: x,
-            x2: x,
-          });
-          click.current = true;
-        }}
-        onMouseUp={() => {
-          click.current = false;
-          if (position === null) return;
-          setPosition(null);
-          if (position.x1 !== position.x2) {
-            plotControls.setAxis('x', {
-              min: Math.min(position.x1, position.x2),
-              max: Math.max(position.x1, position.x2),
-            });
-          }
-        }}
-        onMouseMove={({ coordinates: { x } }) => {
-          if (click.current) {
-            setPosition((position) => ({
-              x1: position ? position.x1 : x,
-              x2: x,
-            }));
-          }
-        }}
-        onMouseLeave={() => {
-          setPosition(null);
-          click.current = false;
-        }}
-        onDoubleClick={() => {
-          plotControls.resetAxes(['x']);
-        }}
-      >
-        <LineSeries data={data} xAxis="x" yAxis="y" displayMarker />
-        <Annotations>
-          {position && (
-            <Rectangle
-              color="red"
-              style={{ fillOpacity: 0.2, stroke: 'red' }}
-              x1={position.x1}
-              y1="540"
-              x2={position.x2}
-              y2="0"
-            />
-          )}
-        </Annotations>
-        <Axis position="bottom" label="time [s]" />
-        <Axis position="left" />
-      </Plot>
-    </div>
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <LineSeries data={data} displayMarker />
+      <Annotations>{zoom.annotations}</Annotations>
+      <Axis position="bottom" label="time [s]" />
+      <Axis position="left" />
+    </Plot>
   );
 }
-interface RectanglePosition {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-}
+
 const dataVertical = {
   data: {
     x: [
@@ -125,60 +64,16 @@ const dataVertical = {
     width: 3.42602050534316,
   },
 };
+
 export function RectangleZoom() {
-  const plotControls = usePlotControls();
+  const zoom = useRectangularZoom();
   const {
     ellipse,
     data: { x, y },
   } = dataVertical;
-  const [position, setPosition] = useState<RectanglePosition | null>(null);
-  let click = useRef<boolean>(false);
   return (
     <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        onMouseDown={({ coordinates: { x, y } }) => {
-          setPosition({
-            x1: x,
-            y1: y,
-            x2: x,
-            y2: y,
-          });
-          click.current = true;
-        }}
-        onMouseUp={() => {
-          click.current = false;
-          if (position === null) return;
-          setPosition(null);
-          if (position.x1 !== position.x2) {
-            plotControls.setAxis('x', {
-              min: Math.min(position.x1, position.x2),
-              max: Math.max(position.x1, position.x2),
-            });
-            plotControls.setAxis('y', {
-              min: Math.min(position.y1, position.y2),
-              max: Math.max(position.y1, position.y2),
-            });
-          }
-        }}
-        onMouseMove={({ coordinates: { x, y } }) => {
-          if (click.current) {
-            setPosition((position) => ({
-              x1: position ? position.x1 : x,
-              y1: position ? position.y1 : y,
-              x2: x,
-              y2: y,
-            }));
-          }
-        }}
-        onMouseLeave={() => {
-          setPosition(null);
-          click.current = false;
-        }}
-        onDoubleClick={() => {
-          plotControls.resetAxes(['x', 'y']);
-        }}
-      >
+      <Plot {...DEFAULT_PLOT_CONFIG} width={600} height={600}>
         <ScatterSeries
           markerStyle={{
             fill: 'blue',
@@ -190,7 +85,7 @@ export function RectangleZoom() {
         />
 
         <Annotations>
-          <DirectedEllipse
+          <Annotation.DirectedEllipse
             x1={ellipse.x1}
             x2={ellipse.x2}
             y1={ellipse.y1}
@@ -201,19 +96,70 @@ export function RectangleZoom() {
               opacity: '0.2',
             }}
           />
-          {position && (
-            <Rectangle
-              color="red"
-              style={{ fillOpacity: 0.2, stroke: 'red' }}
-              x1={position.x1}
-              y1={position.y1}
-              x2={position.x2}
-              y2={position.y2}
-            />
-          )}
+          {zoom.annotations}
         </Annotations>
         <Axis min={0} max={50} position="bottom" label="PC 1" />
         <Axis min={0} max={50} position="left" label="PC 2" />
+      </Plot>
+    </div>
+  );
+}
+
+export function SynchronizedZoom() {
+  const zoom = useRectangularZoom();
+
+  const {
+    ellipse,
+    data: { x, y },
+  } = dataVertical;
+
+  const series = (
+    <ScatterSeries
+      markerStyle={{
+        fill: 'blue',
+        stroke: 'none',
+      }}
+      data={x.map((x, index) => ({ x, y: y[index] }))}
+      xAxis="x"
+      yAxis="y"
+    />
+  );
+  const ellipseAnnotation = (
+    <Annotation.DirectedEllipse
+      x1={ellipse.x1}
+      x2={ellipse.x2}
+      y1={ellipse.y1}
+      y2={ellipse.y2}
+      width={ellipse.width}
+      color="blue"
+      style={{
+        opacity: '0.2',
+      }}
+    />
+  );
+
+  const xAxis = <Axis min={0} max={50} position="bottom" label="PC 1" />;
+  const yAxis = <Axis min={0} max={50} position="left" label="PC 2" />;
+
+  return (
+    <div>
+      <Plot {...DEFAULT_PLOT_CONFIG} width={300} height={600}>
+        {series}
+        <Annotations>
+          {ellipseAnnotation}
+          {zoom.annotations}
+        </Annotations>
+        {xAxis}
+        {yAxis}
+      </Plot>
+      <Plot {...DEFAULT_PLOT_CONFIG} width={600} height={300}>
+        {series}
+        <Annotations>
+          {ellipseAnnotation}
+          {zoom.annotations}
+        </Annotations>
+        {xAxis}
+        {yAxis}
       </Plot>
     </div>
   );

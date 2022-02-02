@@ -1,28 +1,96 @@
-import { useState } from 'react';
+import { RefObject, useMemo, useRef } from 'react';
 
-type EventHandler = (event: MouseEvent) => void;
+import { TrackingResult } from '../../components/Tracking';
 
-interface EventsHandlers {
-  onMouseDown?: EventHandler;
-  onMouseMove?: EventHandler;
-  onMouseUp?: EventHandler;
-  onClick?: EventHandler;
-  onDoubleClick?: EventHandler;
+type MouseEventHandler = (result: TrackingResult) => void;
+
+export type MouseEventType =
+  | 'onMouseEnter'
+  | 'onMouseLeave'
+  | 'onMouseDown'
+  | 'onMouseUp'
+  | 'onMouseMove'
+  | 'onClick'
+  | 'onDoubleClick'
+  | 'onWheel';
+
+export type EventsHandlers = {
+  [key in MouseEventType]?: MouseEventHandler;
+};
+
+export interface PlotEventsUserActions {
+  registerHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
+  unregisterHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
 }
 
-type PlotEventsHandlers = Record<string, EventsHandlers>;
+export interface PlotEventsPlotActions {
+  registerPlot: (plotId: string) => void;
+  unregisterPlot: (plotId: string) => void;
+  handleEvent: (plotId: string, eventType: string, eventData: unknown) => void;
+}
 
 interface PlotEventsState {
   currentPlot: string | null;
-  handlers: PlotEventsHandlers;
+  plots: Set<string>;
+  handlers: Set<RefObject<EventsHandlers>>;
 }
 
 const initialState: PlotEventsState = {
   currentPlot: null,
-  handlers: {},
+  plots: new Set(),
+  handlers: new Set(),
 };
 
 export function usePlotEventsState() {
-  const [plotEvents, setPlotEvents] = useState<PlotEventsState>(initialState);
-  return [plotEvents, setPlotEvents];
+  const plotEvents = useRef<PlotEventsState>(initialState);
+
+  const userActions = useMemo<PlotEventsUserActions>(
+    () => ({
+      registerHandlers(handlersRef: RefObject<EventsHandlers>) {
+        plotEvents.current.handlers.add(handlersRef);
+      },
+      unregisterHandlers(handlersRef: RefObject<EventsHandlers>) {
+        plotEvents.current.handlers.delete(handlersRef);
+      },
+    }),
+    [],
+  );
+
+  const plotActions = useMemo<PlotEventsPlotActions>(() => {
+    return {
+      registerPlot(plotId: string) {
+        plotEvents.current.plots.add(plotId);
+      },
+      unregisterPlot(plotId: string) {
+        plotEvents.current.plots.delete(plotId);
+      },
+      handleEvent(
+        plotId: string,
+        eventType: MouseEventType,
+        eventData: TrackingResult,
+      ) {
+        if (eventType === 'onMouseDown') {
+          plotEvents.current.currentPlot = plotId;
+        }
+        if (eventType === 'onMouseUp') {
+          plotEvents.current.currentPlot = null;
+        }
+        if (
+          plotEvents.current.currentPlot !== null &&
+          plotEvents.current.currentPlot !== plotId
+        ) {
+          // Ignore events on other plots.
+          return;
+        }
+
+        for (const handler of plotEvents.current.handlers) {
+          if (handler.current[eventType]) {
+            handler.current[eventType](eventData);
+          }
+        }
+      },
+    };
+  }, []);
+
+  return { userActions, plotActions };
 }

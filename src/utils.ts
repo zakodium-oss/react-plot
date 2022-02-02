@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useMemo } from 'react';
 
 import { PlotAxisContext } from './contexts/plotContext';
 import type {
@@ -16,6 +16,13 @@ let currentValue = 1;
  */
 export function getNextId() {
   return ++currentValue;
+}
+
+export function useId(id: string | undefined, prefix: string) {
+  return useMemo(() => {
+    if (id) return id;
+    return `${prefix}-${getNextId()}`;
+  }, [id, prefix]);
 }
 
 const horizontal = ['top', 'bottom'];
