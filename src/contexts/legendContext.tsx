@@ -76,11 +76,7 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         const { id } = action.payload;
         const index = draft.labels.findIndex((val) => val.id === id);
         if (index !== -1) {
-          const isVisible = !draft.labels[index].isVisible;
-          draft.labels[index] = {
-            ...draft.labels[index],
-            isVisible,
-          };
+          draft.labels[index].isVisible = !draft.labels[index].isVisible;
         }
         return;
       }
