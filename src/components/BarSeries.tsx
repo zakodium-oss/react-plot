@@ -2,6 +2,7 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
+import { useIsSeriesVisible } from '../hooks';
 import type { SeriesPoint } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
@@ -11,7 +12,7 @@ import { ScatterSeries } from './ScatterSeries';
 export interface BarSeriesProps extends LineSeriesProps {}
 
 export function BarSeries(props: BarSeriesProps) {
-  const [legendState, legendDispatch] = useLegend();
+  const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const [id] = useState(() => props.id || `series-${getNextId()}`);
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
@@ -37,16 +38,13 @@ export function BarSeries(props: BarSeriesProps) {
       hidden: !displayMarker,
     };
   }, [color, displayMarker, figure]);
-  const visibility = useMemo(() => {
-    const value = legendState.labels.find((label) => label.id === id);
-    return value ? value.visibility : true;
-  }, [id, legendState.labels]);
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
         id,
-        visibility,
+        isVisible,
         label: otherProps.label,
         colorLine,
         shape,
@@ -54,9 +52,9 @@ export function BarSeries(props: BarSeriesProps) {
     });
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
-  }, [colorLine, legendDispatch, otherProps.label, shape, id, visibility]);
+  }, [colorLine, legendDispatch, otherProps.label, shape, id, isVisible]);
 
-  return visibility ? (
+  return isVisible ? (
     <g>
       {props.hidden ? null : <BarSeriesRender {...lineProps} />}
       <ScatterSeries

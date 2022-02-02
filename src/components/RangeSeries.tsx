@@ -7,6 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
+import { useIsSeriesVisible } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { getNextId, validateAxis } from '../utils';
 
@@ -25,7 +26,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
   const [id] = useState(() => props.id || `series-${getNextId()}`);
-  const [legendState, legendDispatch] = useLegend();
+  const [, legendDispatch] = useLegend();
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 
   // Update plot context with data description
@@ -47,17 +48,15 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label]);
-  const visibility = useMemo(() => {
-    const value = legendState.labels.find((label) => label.id === id);
-    return value ? value.visibility : true;
-  }, [id, legendState.labels]);
+
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
       payload: {
         id,
         label,
-        visibility,
+        isVisible,
         colorLine: lineStyle.stroke,
         range: {
           rangeColor: lineStyle.fill,
@@ -70,7 +69,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
         type: 'REMOVE_LEGEND_LABEL',
         payload: { id },
       });
-  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, visibility]);
+  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, isVisible]);
 
   if (hidden) return null;
 
@@ -82,7 +81,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     lineStyle,
   };
 
-  return visibility ? <RangeSeriesRender {...lineProps} /> : null;
+  return isVisible ? <RangeSeriesRender {...lineProps} /> : null;
 }
 
 interface RangeSeriesRenderProps {

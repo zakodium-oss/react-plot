@@ -3,6 +3,7 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
+import { useIsSeriesVisible } from '../hooks';
 import type { CSSFuncProps, SeriesPoint } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
@@ -15,7 +16,7 @@ export interface LineSeriesProps extends ScatterSeriesProps {
 }
 
 export function LineSeries(props: LineSeriesProps) {
-  const [legendState, legendDispatch] = useLegend();
+  const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
   const [id] = useState(() => props.id || `series-${getNextId()}`);
@@ -27,10 +28,7 @@ export function LineSeries(props: LineSeriesProps) {
     ...otherProps
   } = props;
   const lineStyle = functionalStyle({}, OldLineStyle, { id });
-  const visibility = useMemo(() => {
-    const value = legendState.labels.find((label) => label.id === id);
-    return value ? value.visibility : true;
-  }, [id, legendState.labels]);
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -39,7 +37,7 @@ export function LineSeries(props: LineSeriesProps) {
           id,
           label: otherProps.label,
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-          visibility,
+          isVisible,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
@@ -61,7 +59,7 @@ export function LineSeries(props: LineSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
-    visibility,
+    isVisible,
   ]);
   if (hidden) return null;
 
@@ -81,7 +79,7 @@ export function LineSeries(props: LineSeriesProps) {
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
   };
-  return visibility ? (
+  return isVisible ? (
     <g>
       <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
       <ErrorBars {...errorBarsProps} />

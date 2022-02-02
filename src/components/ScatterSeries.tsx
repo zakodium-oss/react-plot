@@ -6,6 +6,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
+import { useIsSeriesVisible } from '../hooks';
 import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
@@ -27,7 +28,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
-  const [legendState, legendDispatch] = useLegend();
+  const [, legendDispatch] = useLegend();
 
   const [id] = useState(() => props.id || `series-${getNextId()}`);
 
@@ -40,10 +41,8 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     displayErrorBars = false,
     ...otherProps
   } = props;
-  const visibility = useMemo(() => {
-    const value = legendState.labels.find((label) => label.id === id);
-    return value ? value.visibility : true;
-  }, [id, legendState.labels]);
+
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -52,7 +51,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
           id,
           label,
           colorLine: 'white',
-          visibility,
+          isVisible,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',
@@ -71,7 +70,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     legendDispatch,
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
-    visibility,
+    isVisible,
   ]);
 
   useEffect(() => {
@@ -96,7 +95,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     capSize: props.errorBarsCapSize,
   };
 
-  return visibility ? (
+  return isVisible ? (
     <g>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
       <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />

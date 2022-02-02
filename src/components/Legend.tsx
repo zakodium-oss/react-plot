@@ -157,26 +157,24 @@ export function Legend({
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-        const labelStyle = functionalStyle({}, oldLabelStyle, { id: value.id });
-        const style = functionalStyle({}, lineStyle, { id: value.id });
+        const { id } = value;
+        const labelStyle = functionalStyle({}, oldLabelStyle, { id });
+        const style = functionalStyle({}, lineStyle, { id });
         if (value.range) {
           return (
             <g
               onClick={(event) => {
-                onClick?.({ event, id: value.id });
+                onClick?.({ event, id });
                 if (showHide) {
                   legendDispatch({
-                    type: 'ADD_LEGEND_LABEL',
-                    payload: {
-                      ...value,
-                      visibility: !value.visibility,
-                    },
+                    type: 'TOGGLE_VISIBILITY',
+                    payload: { id },
                   });
                 }
               }}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
-              style={{ opacity: value.visibility ? '1' : '0.6' }}
+              style={{ opacity: value.isVisible ? '1' : '0.6' }}
             >
               {getRangeShape({
                 index,
@@ -201,20 +199,17 @@ export function Legend({
         return (
           <g
             onClick={(event) => {
-              onClick?.({ event, id: value.id });
+              onClick?.({ event, id });
               if (showHide) {
                 legendDispatch({
-                  type: 'ADD_LEGEND_LABEL',
-                  payload: {
-                    ...value,
-                    visibility: !value.visibility,
-                  },
+                  type: 'TOGGLE_VISIBILITY',
+                  payload: { id },
                 });
               }
             }}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
-            style={{ opacity: value.visibility ? '1' : '0.6' }}
+            style={{ opacity: value.isVisible ? '1' : '0.6' }}
           >
             {getLineShape({ index, color: value.colorLine, style })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>

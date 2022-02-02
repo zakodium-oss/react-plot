@@ -12,8 +12,8 @@ import type { ActionType, Shape } from '../types';
 
 interface LegendLabelState {
   id: string;
+  isVisible: boolean;
   label?: string;
-  visibility?: boolean;
   shape?: {
     figure: Shape;
     color: string;
@@ -76,10 +76,10 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         const { id } = action.payload;
         const index = draft.labels.findIndex((val) => val.id === id);
         if (index !== -1) {
-          const isVisible = !draft.labels[index].visibility;
+          const isVisible = !draft.labels[index].isVisible;
           draft.labels[index] = {
             ...draft.labels[index],
-            visibility: isVisible,
+            isVisible,
           };
         }
         return;
