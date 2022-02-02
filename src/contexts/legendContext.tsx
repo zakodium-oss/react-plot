@@ -33,7 +33,8 @@ interface LegendState {
 
 type LegendActions =
   | ActionType<'ADD_LEGEND_LABEL', LegendLabelState>
-  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>;
+  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>
+  | ActionType<'TOGGLE_VISIBILITY', { id: string }>;
 
 type LegendDispatch = Dispatch<LegendActions>;
 type LegendContext = [LegendState, LegendDispatch];
@@ -68,6 +69,18 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         const index = draft.labels.findIndex((val) => val.id === id);
         if (index !== -1) {
           draft.labels.splice(index, 1);
+        }
+        return;
+      }
+      case 'TOGGLE_VISIBILITY': {
+        const { id } = action.payload;
+        const index = draft.labels.findIndex((val) => val.id === id);
+        if (index !== -1) {
+          const isVisible = !draft.labels[index].visibility;
+          draft.labels[index] = {
+            ...draft.labels[index],
+            visibility: isVisible,
+          };
         }
         return;
       }
