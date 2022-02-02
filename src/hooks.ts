@@ -1,6 +1,7 @@
 import { euclidean } from 'ml-distance-euclidean';
 
 import { Scales } from './components/Axis/types';
+import { useLegend } from './contexts/legendContext';
 import { usePlotContext } from './contexts/plotContext';
 import { validateAxis } from './utils';
 
@@ -161,4 +162,9 @@ export function usePointPosition(config: UsePositionConfig[]) {
         )}`,
     )
     .join(' ');
+}
+export function useIsSeriesVisible(id: string) {
+  const [legendState] = useLegend();
+  const value = legendState.labels.find((label) => label.id === id);
+  return value ? value.isVisible : true;
 }
