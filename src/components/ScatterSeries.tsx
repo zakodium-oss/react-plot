@@ -155,7 +155,7 @@ function ScatterSeriesRender({
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
-          <text style={labelStyle}>{label}</text>
+          {label ? <text style={labelStyle}>{label}</text> : null}
         </g>
       );
     });
