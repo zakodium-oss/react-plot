@@ -4,13 +4,15 @@ import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
 import { useIsSeriesVisible } from '../hooks';
-import type { CSSFuncProps, SeriesPoint } from '../types';
+import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, getNextId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
-export interface LineSeriesProps extends ScatterSeriesProps {
+export interface LineSeriesProps
+  extends Omit<ScatterSeriesProps, 'markerShape'> {
+  markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
 }
