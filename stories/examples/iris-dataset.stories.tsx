@@ -4,7 +4,13 @@ import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
 import { ReactElement } from 'react';
 
-import { LineSeries, Plot, ScatterSeries, SeriesPoint, Axis } from '../../src';
+import {
+  Plot,
+  ScatterSeries,
+  SeriesPoint,
+  Axis,
+  FunctionSeries,
+} from '../../src';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -55,13 +61,11 @@ export function PCA() {
           const y = predictedData.getColumn(1);
 
           const regression = new LinearRegression(x, y);
-          const yRegression = x.map((val: number) => regression.predict(val));
+          const yRegression = (val: number) => regression.predict(val);
 
           let data: SeriesPoint[] = new Array(x.length);
-          let dataRegression: SeriesPoint[] = new Array(x.length);
           for (let i = 0; i < x.length; i++) {
             data[i] = { x: x[i], y: y[i] };
-            dataRegression[i] = { x: x[i], y: yRegression[i] };
           }
 
           series.push(
@@ -76,12 +80,12 @@ export function PCA() {
             />,
           );
           series.push(
-            <LineSeries
+            <FunctionSeries
               xAxis="x"
               yAxis="y"
               key={klass}
               id={klass}
-              data={dataRegression}
+              getY={yRegression}
               label={klass}
             />,
           );
@@ -93,13 +97,7 @@ export function PCA() {
             width={size / numFeatures}
             height={size / numFeatures}
           >
-            <Axis
-              id="x"
-              position="bottom"
-              paddingStart={0.05}
-              paddingEnd={0.05}
-              hidden
-            />
+            <Axis id="x" position="bottom" hidden />
             <Axis
               id="y"
               position="left"
