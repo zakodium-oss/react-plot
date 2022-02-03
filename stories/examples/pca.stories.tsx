@@ -73,7 +73,7 @@ export function PCAExample() {
         x2,
         y2,
         ...position,
-        width: rMinor,
+        width: rMinor * 2,
         color,
         label,
       };
