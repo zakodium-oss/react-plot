@@ -1,7 +1,13 @@
 import { CSSProperties } from 'react';
 
 import { PlotAxisContext } from './contexts/plotContext';
-import type { CSSFuncProps, SeriesPointError } from './types';
+import type {
+  CSSFuncProps,
+  LabelFuncProps,
+  SeriesPointError,
+  Shape,
+  ShapeFuncProps,
+} from './types';
 
 let currentValue = 1;
 
@@ -83,7 +89,40 @@ export function functionalStyle<T>(
   }
   return style;
 }
-
+/**
+ * Checks the marker added to a component and if is a function, gets the resulting value
+ */
+export function functionalShape<T>(
+  elementStyle: ShapeFuncProps<T>,
+  point: T,
+  index?: number,
+  data?: T[],
+): Shape {
+  let shape: Shape;
+  if (typeof elementStyle === 'function') {
+    shape = elementStyle(point, index, data);
+  } else {
+    shape = elementStyle;
+  }
+  return shape;
+}
+/**
+ * Checks the label added to a component and if is a function, gets the resulting value
+ */
+export function functionalLabel<T>(
+  elementStyle: LabelFuncProps<T>,
+  point: T,
+  index?: number,
+  data?: T[],
+): string {
+  let shape: string;
+  if (typeof elementStyle === 'function') {
+    shape = elementStyle(point, index, data);
+  } else {
+    shape = elementStyle;
+  }
+  return shape;
+}
 /**
  * validate series point Error
  */
