@@ -35,6 +35,14 @@ const data2 = [
   { x: 4, y: 28 },
 ];
 
+const data3 = [
+  { x: 0, y: 12 },
+  { x: 1, y: 4 },
+  { x: 2, y: 23 },
+  { x: 3, y: 10 },
+  { x: 4, y: 15 },
+];
+
 export function Control(props: LegendProps) {
   const [highlight, setHighlight] = useState<boolean>(false);
   const lineStyle = {
@@ -137,7 +145,15 @@ export function WithShowHide(props: TestShowHideProps) {
         showHide={showHide}
         labelStyle={{ cursor: 'hand' }}
       />
-      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
+      <LineSeries
+        lineStyle={{
+          stroke: 'red',
+        }}
+        data={data1}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
       <LineSeries
         data={data2}
         markerStyle={{ fill: 'green' }}
@@ -149,6 +165,15 @@ export function WithShowHide(props: TestShowHideProps) {
         xAxis="x"
         yAxis="y"
         label="Label line series 2"
+      />
+      <LineSeries
+        data={data3}
+        lineStyle={{
+          stroke: 'green',
+        }}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series 3"
       />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
