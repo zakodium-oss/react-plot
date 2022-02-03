@@ -1,12 +1,15 @@
 import { Meta } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-import { Annotations, Axis, Legend, Plot } from '../../src';
-import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import {
+  Annotations,
+  Axis,
+  Legend,
+  Plot,
   FunctionSeries,
   FunctionSeriesProps,
-} from '../../src/components/FunctionSeries';
+} from '../../src';
+import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {

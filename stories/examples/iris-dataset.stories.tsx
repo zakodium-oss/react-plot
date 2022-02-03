@@ -4,8 +4,13 @@ import { PCA as MlPCA } from 'ml-pca';
 import LinearRegression from 'ml-regression-simple-linear';
 import { ReactElement } from 'react';
 
-import { Plot, ScatterSeries, SeriesPoint, Axis } from '../../src';
-import { FunctionSeries } from '../../src/components/FunctionSeries';
+import {
+  Plot,
+  ScatterSeries,
+  SeriesPoint,
+  Axis,
+  FunctionSeries,
+} from '../../src';
 
 export default {
   title: 'Examples/Iris dataset',

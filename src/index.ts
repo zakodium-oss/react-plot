@@ -10,6 +10,7 @@ export * from './components/BarSeries';
 export * from './components/LineSeries';
 export * from './components/RangeSeries';
 export * from './components/ScatterSeries';
+export * from './components/FunctionSeries';
 
 export * from './components/Legend';
 
