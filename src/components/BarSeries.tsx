@@ -44,7 +44,7 @@ export function BarSeries(props: BarSeriesProps) {
       type: 'ADD_LEGEND_LABEL',
       payload: {
         id,
-        isVisible,
+        isVisible: true,
         label: otherProps.label,
         colorLine,
         shape,
@@ -52,7 +52,7 @@ export function BarSeries(props: BarSeriesProps) {
     });
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
-  }, [colorLine, legendDispatch, otherProps.label, shape, id, isVisible]);
+  }, [colorLine, legendDispatch, otherProps.label, shape, id]);
 
   return isVisible ? (
     <g>

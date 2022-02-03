@@ -56,7 +56,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
       payload: {
         id,
         label,
-        isVisible,
+        isVisible: true,
         colorLine: lineStyle.stroke,
         range: {
           rangeColor: lineStyle.fill,
@@ -69,7 +69,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
         type: 'REMOVE_LEGEND_LABEL',
         payload: { id },
       });
-  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, isVisible]);
+  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id]);
 
   if (hidden) return null;
 

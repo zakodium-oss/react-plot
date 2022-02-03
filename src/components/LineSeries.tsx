@@ -37,7 +37,7 @@ export function LineSeries(props: LineSeriesProps) {
           id,
           label: otherProps.label,
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-          isVisible,
+          isVisible: true,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
@@ -59,7 +59,6 @@ export function LineSeries(props: LineSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
-    isVisible,
   ]);
   if (hidden) return null;
 

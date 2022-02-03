@@ -60,7 +60,9 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         if (index < 0) {
           draft.labels.push({ ...newLegend, shape });
         } else {
-          draft.labels[index] = { ...newLegend, shape };
+          //isVisible should only updated in TOGGLE_VISIBILITY
+          const isVisible = draft.labels[index].isVisible;
+          draft.labels[index] = { ...newLegend, isVisible, shape };
         }
         return;
       }
