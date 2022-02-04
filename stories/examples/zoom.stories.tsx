@@ -106,13 +106,10 @@ export function RectangleZoom() {
 }
 
 export function SynchronizedZoom() {
-  const zoom = useAxisZoom({
+  const zoom = useRectangularZoom({
     color: 'gold',
-    rectangleStyle: {
-      opacity: 1,
-    },
-    lineStyle: {
-      strokeDasharray: '4 4',
+    style: {
+      fillOpacity: 0.5,
     },
   });
 

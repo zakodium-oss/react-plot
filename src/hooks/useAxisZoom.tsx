@@ -23,7 +23,7 @@ export interface UseAxisZoomOptions {
 export function useAxisZoom(options: UseAxisZoomOptions = {}) {
   const {
     direction = 'horizontal',
-    axisId = 'x',
+    axisId = direction === 'horizontal' ? 'x' : 'y',
     color = 'red',
     rectangleStyle,
     lineStyle,
@@ -53,7 +53,7 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
   });
 
   if (!startMoveEnd?.end) {
-    return null;
+    return { annotations: null };
   }
 
   const start = startMoveEnd.start.clampedCoordinates[axisId];
@@ -85,7 +85,7 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     annotations = (
       <>
         <Line x1="0" x2="100%" y1={start} y2={start} {...lineProps} />
-        <Rectangle x1="0" x2="100%" y1={start} y2={end} />
+        <Rectangle x1="0" x2="100%" y1={start} y2={end} {...rectangleProps} />
         <Line x1="0" x2="100%" y1={end} y2={end} {...lineProps} />
       </>
     );
