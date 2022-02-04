@@ -1,91 +1,40 @@
-import { useState } from 'react';
-
-import { Rectangle } from '../components/Annotations/Rectangle';
 import {
   usePlotControls,
   usePlotEvents,
 } from '../contexts/plotController/plotControllerContext';
 
-const initialZoomState = {
-  isZooming: false,
-  startX: 0,
-  endX: 0,
-  startY: 0,
-  endY: 0,
-};
+import { DualAxisOptions, RectangleOptions } from './types';
+import { useDrawRectangle } from './useDrawRectangle';
 
-export function useRectangularZoom(
-  options: { horizontalAxisId?: string; verticalAxisId?: string } = {},
-) {
+export interface UseRectangularZoomOptions
+  extends DualAxisOptions,
+    RectangleOptions {}
+
+export function useRectangularZoom(options: UseRectangularZoomOptions = {}) {
   const { horizontalAxisId = 'x', verticalAxisId = 'y' } = options;
 
   const plotControls = usePlotControls();
-  const [zoomState, setZoomState] = useState(initialZoomState);
-  usePlotEvents({
-    onMouseDown({
-      event: { button },
-      coordinates: {
-        [horizontalAxisId]: horizontalAxisValue,
-        [verticalAxisId]: verticalAxisValue,
-      },
-    }) {
-      if (button !== 0) return;
-      setZoomState({
-        isZooming: true,
-        startX: horizontalAxisValue,
-        endX: horizontalAxisValue,
-        startY: verticalAxisValue,
-        endY: verticalAxisValue,
+  const { annotations } = useDrawRectangle({
+    ...options,
+    onDraw({ x1, x2, y1, y2 }) {
+      plotControls.setAxes({
+        [horizontalAxisId]: {
+          min: Math.min(x1, x2),
+          max: Math.max(x1, x2),
+        },
+        [verticalAxisId]: {
+          min: Math.min(y1, y2),
+          max: Math.max(y1, y2),
+        },
       });
     },
-    onMouseMove({
-      coordinates: {
-        [horizontalAxisId]: horizontalAxisValue,
-        [verticalAxisId]: verticalAxisValue,
-      },
-    }) {
-      if (!zoomState.isZooming) return;
-      setZoomState((state) => ({
-        ...state,
-        endX: horizontalAxisValue,
-        endY: verticalAxisValue,
-      }));
-    },
-    onMouseUp() {
-      if (!zoomState.isZooming) return;
-      if (
-        zoomState.startX !== zoomState.endX &&
-        zoomState.startY !== zoomState.endY
-      ) {
-        plotControls.setAxes({
-          [horizontalAxisId]: {
-            min: Math.min(zoomState.startX, zoomState.endX),
-            max: Math.max(zoomState.startX, zoomState.endX),
-          },
-          [verticalAxisId]: {
-            min: Math.min(zoomState.startY, zoomState.endY),
-            max: Math.max(zoomState.startY, zoomState.endY),
-          },
-        });
-      }
-      setZoomState(initialZoomState);
-    },
+  });
+  usePlotEvents({
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxes([horizontalAxisId, verticalAxisId]);
     },
   });
 
-  return {
-    annotations: zoomState.isZooming ? (
-      <Rectangle
-        color="red"
-        style={{ fillOpacity: 0.2, stroke: 'red' }}
-        x1={zoomState.startX}
-        x2={zoomState.endX}
-        y1={zoomState.startY}
-        y2={zoomState.endY}
-      />
-    ) : null,
-  };
+  return { annotations };
 }

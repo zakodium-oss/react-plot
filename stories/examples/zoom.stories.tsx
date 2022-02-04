@@ -7,7 +7,7 @@ import {
   Annotations,
   Annotation,
   ScatterSeries,
-  useHorizontalZoom,
+  useAxisZoom,
   useRectangularZoom,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
@@ -28,7 +28,7 @@ const data = [
 ];
 
 export function HorizontalZoom() {
-  const zoom = useHorizontalZoom();
+  const zoom = useAxisZoom();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} displayMarker />
@@ -106,7 +106,15 @@ export function RectangleZoom() {
 }
 
 export function SynchronizedZoom() {
-  const zoom = useRectangularZoom();
+  const zoom = useAxisZoom({
+    color: 'gold',
+    rectangleStyle: {
+      opacity: 1,
+    },
+    lineStyle: {
+      strokeDasharray: '4 4',
+    },
+  });
 
   const {
     ellipse,

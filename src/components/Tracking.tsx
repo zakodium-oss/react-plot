@@ -21,6 +21,7 @@ export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: MouseEvent;
   coordinates: Record<string, number>;
+  clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
@@ -75,10 +76,11 @@ function infoFromMouse(
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
-  let coordinates: TrackingResult['coordinates'] = {};
-  let movement: TrackingResult['movement'] = {};
+  const coordinates: TrackingResult['coordinates'] = {};
+  const clampedCoordinates: TrackingResult['clampedCoordinates'] = {};
+  const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
-    const { scale, position } = axisContext[key];
+    const { scale, clampInDomain, position } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] =
@@ -88,10 +90,13 @@ function infoFromMouse(
       movement[key] =
         toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
     }
+    clampedCoordinates[key] = clampInDomain(coordinates[key]);
   }
+
   return {
     event,
     coordinates,
+    clampedCoordinates,
     movement,
     getClosest: (method) =>
       closestCalculation(
@@ -233,6 +238,16 @@ export default function Tracking({
     if (!rectRef) return;
 
     function mouseEventListener(event: MouseEvent) {
+      if (event.type === 'mousedown') {
+        globalMouseEvents.forEach((mouseEvent) =>
+          window.addEventListener(mouseEvent, mouseEventListener),
+        );
+      } else if (event.type === 'mouseup') {
+        globalMouseEvents.forEach((mouseEvent) =>
+          window.removeEventListener(mouseEvent, mouseEventListener),
+        );
+      }
+
       const info = infoFromMouse(
         event,
         plotDataRef.current.axisContext,
@@ -244,10 +259,6 @@ export default function Tracking({
 
     mouseEvents.forEach((mouseEvent) =>
       rect.addEventListener(mouseEvent, mouseEventListener),
-    );
-
-    globalMouseEvents.forEach((mouseEvent) =>
-      window.addEventListener(mouseEvent, mouseEventListener),
     );
 
     return () => {
