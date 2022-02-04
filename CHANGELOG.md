@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.15.0](https://www.github.com/zakodium/react-plot/compare/v0.14.0...v0.15.0) (2022-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* implement hooks to handle plot events
+* change series groupID prop to id
+
+### Features
+
+* add axis secondary ticks ([#267](https://www.github.com/zakodium/react-plot/issues/267)) ([4de79db](https://www.github.com/zakodium/react-plot/commit/4de79dbd3a3a9a7886c3bbee3b81b13cf799a1b0))
+* add events to implement pan and vertical scale ([#261](https://www.github.com/zakodium/react-plot/issues/261)) ([774c73d](https://www.github.com/zakodium/react-plot/commit/774c73dd65768954b60da29f3ebdfd6a0b6f7f34))
+* add onClick, and style callback in legend ([#288](https://www.github.com/zakodium/react-plot/issues/288)) ([3a81947](https://www.github.com/zakodium/react-plot/commit/3a81947737356a35f6e4e44142012b0c840188a0))
+* add time axis ([#272](https://www.github.com/zakodium/react-plot/issues/272)) ([ad169d5](https://www.github.com/zakodium/react-plot/commit/ad169d5981affc7100f6ed34bf7294aba0f0d65c))
+* display labels & customize Markers in ScatterSeries ([#286](https://www.github.com/zakodium/react-plot/issues/286)) ([1b83916](https://www.github.com/zakodium/react-plot/commit/1b83916b6bba66654481bd46f2de83dba566bd1c))
+* implement hooks to control axis min and max ([#296](https://www.github.com/zakodium/react-plot/issues/296)) ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+* implement hooks to handle plot events ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+* implement useAxisZoom hook ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+* implement useStartMoveEnd, useDrawRectangle, and useRectangularZoom hook ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+* new DIrectEllipse annotation ([95a9ab2](https://www.github.com/zakodium/react-plot/commit/95a9ab23db19f068d2396f7e3df7698179431af5))
+
+
+### Bug Fixes
+
+* allow two plots to be rendered on the same page ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+* disable text selection on all plot elements by default ([#274](https://www.github.com/zakodium/react-plot/issues/274)) ([fe649c4](https://www.github.com/zakodium/react-plot/commit/fe649c44cc8ce409306b6c7f74534a96f915140e))
+* export DirectedEllipse from the package ([5ee0ac8](https://www.github.com/zakodium/react-plot/commit/5ee0ac8f7e09701e364e7e143989ad33d1cfd071))
+
+
+### Miscellaneous Chores
+
+* change series groupID prop to id ([3a81947](https://www.github.com/zakodium/react-plot/commit/3a81947737356a35f6e4e44142012b0c840188a0))
+
 ## [0.14.0](https://www.github.com/zakodium/react-plot/compare/v0.13.1...v0.14.0) (2022-01-24)
 
 
