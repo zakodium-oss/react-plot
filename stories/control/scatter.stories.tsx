@@ -18,6 +18,10 @@ export default {
     label: 'Label',
     markerShape: 'circle',
     markerSize: 5,
+    xShift: '0',
+    yShift: '0',
+    xAxis: 'x',
+    yAxis: 'y',
     // ErrorBars props
     displayErrorBars: true,
     errorBarsCapSize: 10,
