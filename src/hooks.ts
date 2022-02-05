@@ -101,8 +101,8 @@ export function useDirectedEllipsePosition(
   };
 }
 function convertString(value: string, total: number) {
-  return value.endsWith('%')
-    ? (Number(value.slice(0, -1)) * total) / 100
+  return value.trim().endsWith('%')
+    ? (Number(value.trim().slice(0, -1)) * total) / 100
     : Number(value);
 }
 function convertValue(value: string | number, total: number, scale?: Scales) {
@@ -129,6 +129,15 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? Math.abs(scale(0) - scale(value))
+    : Math.abs(convertString(value, total));
+}
+
+function convertToPx(value: string | number, total: number, scale?: Scales) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number'
+    ? scale(1) > scale(0)
+      ? scale(value) - scale(0)
+      : scale(0) - scale(value)
     : convertString(value, total);
 }
 function convertDimensions(
@@ -161,4 +170,19 @@ export function usePointPosition(config: UsePositionConfig[]) {
         )}`,
     )
     .join(' ');
+}
+interface UseShiftOptions {
+  xAxis?: string;
+  yAxis?: string;
+  xShift?: number | string;
+  yShift?: number | string;
+}
+export function useShift(options: UseShiftOptions) {
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const { xAxis = 'x', yAxis = 'y', xShift = '0', yShift = '0' } = options;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  return {
+    xShift: convertToPx(xShift, plotWidth, xScale),
+    yShift: -convertToPx(yShift, plotHeight, yScale),
+  };
 }
