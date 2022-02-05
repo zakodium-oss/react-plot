@@ -2,6 +2,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
+import { useShift } from '../hooks';
 import type { SeriesPoint } from '../types';
 import { functionalStyle, useId, validateAxis } from '../utils';
 
@@ -14,12 +15,25 @@ export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
-  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
+  const {
+    lineStyle = {},
+    displayMarker = false,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
+    ...otherProps
+  } = props;
+  const { xAxis = 'x', yAxis = 'y' } = otherProps;
+  const { xShift, yShift } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
   const lineProps = {
     id,
     data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    xAxis,
+    yAxis,
     lineStyle: functionalStyle({}, lineStyle, { id }),
   };
 
@@ -53,7 +67,7 @@ export function BarSeries(props: BarSeriesProps) {
   }, [colorLine, legendDispatch, otherProps.label, shape, id]);
 
   return (
-    <g>
+    <g transform={`translate(${xShift},${yShift})`}>
       {props.hidden ? null : <BarSeriesRender {...lineProps} />}
       <ScatterSeries
         {...otherProps}

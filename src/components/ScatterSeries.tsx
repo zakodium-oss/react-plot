@@ -6,6 +6,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
+import { useShift } from '../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
@@ -52,9 +53,17 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     label,
     hidden,
     displayErrorBars = false,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
     ...otherProps
   } = props;
 
+  const { xShift, yShift } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -107,7 +116,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   };
 
   return (
-    <g>
+    <g transform={`translate(${xShift},${yShift})`}>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
       <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
     </g>

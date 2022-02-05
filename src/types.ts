@@ -44,6 +44,8 @@ export interface BaseSeriesProps<T = SeriesPoint> {
   data: Array<T>;
   label?: string;
   hidden?: boolean;
+  xShift?: number | string;
+  yShift?: number | string;
 }
 
 export type ActionType<Action, Payload = void> = Payload extends void

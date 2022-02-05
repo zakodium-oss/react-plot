@@ -7,6 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
+import { useShift } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { useId, validateAxis } from '../utils';
 
@@ -26,8 +27,23 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 ) {
   const id = useId(props.id, 'series');
   const [, legendDispatch] = useLegend();
-  const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
+  const {
+    lineStyle = {},
+    hidden,
+    xAxis = 'x',
+    yAxis = 'y',
+    data,
+    label,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
+  } = props;
 
+  const { xShift, yShift } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   useEffect(() => {
@@ -72,10 +88,11 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 
   const lineProps = {
     id,
-    data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    data,
+    xAxis,
+    yAxis,
     lineStyle,
+    transform: `translate(${xShift},${yShift})`,
   };
 
   return <RangeSeriesRender {...lineProps} />;
@@ -86,6 +103,7 @@ interface RangeSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function RangeSeriesRender({
@@ -93,6 +111,7 @@ function RangeSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: RangeSeriesRenderProps) {
   // Get scales from context
   const { axisContext } = usePlotContext();
@@ -120,5 +139,5 @@ function RangeSeriesRender({
     ...lineStyle,
   };
 
-  return <path style={style} d={path} fill="none" />;
+  return <path transform={transform} style={style} d={path} fill="none" />;
 }
