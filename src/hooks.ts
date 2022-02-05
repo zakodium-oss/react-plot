@@ -166,5 +166,5 @@ export function usePointPosition(config: UsePositionConfig[]) {
 export function useIsSeriesVisible(id: string) {
   const [legendState] = useLegend();
   const value = legendState.labels.find((label) => label.id === id);
-  return value ? value.isVisible : true;
+  return value?.isVisible;
 }

@@ -79,13 +79,17 @@ export function LineSeries(props: LineSeriesProps) {
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
   };
-  return isVisible ? (
+  return (
     <g>
-      <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
-      <ErrorBars {...errorBarsProps} />
+      {isVisible && (
+        <>
+          <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
+          <ErrorBars {...errorBarsProps} />
+        </>
+      )}
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
-  ) : null;
+  );
 }
 
 interface LineSeriesRenderProps {
