@@ -65,7 +65,6 @@ export function ScatterSeries(props: ScatterSeriesProps) {
           id,
           label,
           colorLine: 'white',
-          isVisible: true,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',

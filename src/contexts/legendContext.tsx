@@ -32,7 +32,7 @@ interface LegendState {
 }
 
 type LegendActions =
-  | ActionType<'ADD_LEGEND_LABEL', LegendLabelState>
+  | ActionType<'ADD_LEGEND_LABEL', Omit<LegendLabelState, 'isVisible'>>
   | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>
   | ActionType<'TOGGLE_VISIBILITY', { id: string }>;
 
@@ -58,7 +58,7 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
 
         const index = draft.labels.findIndex(({ id }) => newLegend.id === id);
         if (index < 0) {
-          draft.labels.push({ ...newLegend, shape });
+          draft.labels.push({ ...newLegend, shape, isVisible: true });
         } else {
           //isVisible should only updated in TOGGLE_VISIBILITY
           const isVisible = draft.labels[index].isVisible;

@@ -56,7 +56,6 @@ export function RangeSeries<T extends RangeSeriesPoint>(
       payload: {
         id,
         label,
-        isVisible: true,
         colorLine: lineStyle.stroke,
         range: {
           rangeColor: lineStyle.fill,

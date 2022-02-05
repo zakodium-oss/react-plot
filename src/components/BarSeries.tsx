@@ -44,7 +44,6 @@ export function BarSeries(props: BarSeriesProps) {
       type: 'ADD_LEGEND_LABEL',
       payload: {
         id,
-        isVisible: true,
         label: otherProps.label,
         colorLine,
         shape,

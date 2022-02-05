@@ -39,7 +39,6 @@ export function LineSeries(props: LineSeriesProps) {
           id,
           label: otherProps.label,
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-          isVisible: true,
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
