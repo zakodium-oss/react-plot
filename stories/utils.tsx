@@ -1,4 +1,6 @@
-import { LineSeries } from '../src';
+import { DecoratorFn } from '@storybook/react';
+
+import { LineSeries, PlotController } from '../src';
 
 import infrared from './data/infrared.json';
 
@@ -21,3 +23,9 @@ export function getInfraredSeries() {
     />
   );
 }
+
+export const PlotControllerDecorator: DecoratorFn = (Story) => (
+  <PlotController>
+    <Story />
+  </PlotController>
+);

@@ -1,11 +1,11 @@
 import { line } from 'd3-shape';
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
 import { useIsSeriesVisible } from '../hooks';
 import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
-import { functionalStyle, getNextId, validateAxis } from '../utils';
+import { functionalStyle, useId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
@@ -21,7 +21,7 @@ export function LineSeries(props: LineSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
   const {
     lineStyle: OldLineStyle,
     displayMarker = false,

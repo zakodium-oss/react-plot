@@ -1,6 +1,6 @@
 import { extent } from 'd3-array';
 import { area } from 'd3-shape';
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import {
@@ -9,7 +9,7 @@ import {
 } from '../contexts/plotContext';
 import { useIsSeriesVisible } from '../hooks';
 import type { BaseSeriesProps } from '../types';
-import { getNextId, validateAxis } from '../utils';
+import { useId, validateAxis } from '../utils';
 
 export interface RangeSeriesPoint {
   x: number;
@@ -25,7 +25,7 @@ export interface RangeSeriesProps<T extends RangeSeriesPoint>
 export function RangeSeries<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
   const [, legendDispatch] = useLegend();
   const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
 

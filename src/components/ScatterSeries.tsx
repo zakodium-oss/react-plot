@@ -1,5 +1,5 @@
 import { extent } from 'd3-array';
-import { SVGAttributes, useEffect, useMemo, useState } from 'react';
+import { SVGAttributes, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import {
@@ -18,7 +18,7 @@ import {
   functionalLabel,
   functionalShape,
   functionalStyle,
-  getNextId,
+  useId,
   validateAxis,
 } from '../utils';
 
@@ -44,7 +44,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   const { colorScaler } = usePlotContext();
   const [, legendDispatch] = useLegend();
 
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
 
   const {
     xAxis = 'x',

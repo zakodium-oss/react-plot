@@ -3,7 +3,10 @@ import { SVGProps } from 'react';
 import { usePosition } from '../../hooks';
 
 export interface AnnotationLineProps
-  extends Omit<SVGProps<SVGLineElement>, 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'> {
+  extends Omit<
+    SVGProps<SVGLineElement>,
+    'x' | 'y' | 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'
+  > {
   x1: number | string;
   x2: number | string;
   y1: number | string;
