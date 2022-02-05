@@ -27,11 +27,14 @@ export function LineSeries(props: LineSeriesProps) {
     displayMarker = false,
     displayErrorBars = false,
     hidden,
-    xShift: oldXShift = '0',
-    yShift: oldYShift = '0',
     ...otherProps
   } = props;
-  const { xAxis = 'x', yAxis = 'y' } = otherProps;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
+  } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
     yAxis,
@@ -79,6 +82,7 @@ export function LineSeries(props: LineSeriesProps) {
     xAxis,
     yAxis,
     lineStyle,
+    transform: `translate(${xShift},${yShift})`,
   };
   const errorBarsProps = {
     data: props.data,
@@ -88,9 +92,10 @@ export function LineSeries(props: LineSeriesProps) {
     style: props.errorBarsStyle,
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
+    transform: `translate(${xShift},${yShift})`,
   };
   return (
-    <g transform={`translate(${xShift},${yShift})`}>
+    <g>
       <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
       <ErrorBars {...errorBarsProps} />
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
@@ -104,6 +109,7 @@ interface LineSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function LineSeriesRender({
@@ -112,6 +118,7 @@ function LineSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -140,5 +147,5 @@ function LineSeriesRender({
     ...lineStyle,
   };
 
-  return <path style={style} d={path} fill="none" />;
+  return <path transform={transform} style={style} d={path} fill="none" />;
 }

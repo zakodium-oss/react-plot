@@ -15,14 +15,13 @@ export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
+  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
   const {
-    lineStyle = {},
-    displayMarker = false,
+    xAxis = 'x',
+    yAxis = 'y',
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
-    ...otherProps
-  } = props;
-  const { xAxis = 'x', yAxis = 'y' } = otherProps;
+  } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
     yAxis,
@@ -35,6 +34,7 @@ export function BarSeries(props: BarSeriesProps) {
     xAxis,
     yAxis,
     lineStyle: functionalStyle({}, lineStyle, { id }),
+    transform: `translate(${xShift},${yShift})`,
   };
 
   const colorLine = lineStyle?.stroke
@@ -67,7 +67,7 @@ export function BarSeries(props: BarSeriesProps) {
   }, [colorLine, legendDispatch, otherProps.label, shape, id]);
 
   return (
-    <g transform={`translate(${xShift},${yShift})`}>
+    <g>
       {props.hidden ? null : <BarSeriesRender {...lineProps} />}
       <ScatterSeries
         {...otherProps}
@@ -84,6 +84,7 @@ interface BarSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function BarSeriesRender({
@@ -92,6 +93,7 @@ function BarSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: BarSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -110,7 +112,7 @@ function BarSeriesRender({
   };
 
   return (
-    <g>
+    <g transform={transform}>
       {data.map(({ x, y }) => (
         <line
           style={style}

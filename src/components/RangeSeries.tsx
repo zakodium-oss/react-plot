@@ -7,7 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useShift } from '../hooks';
+import { useInvertShift, useShift } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { useId, validateAxis } from '../utils';
 
@@ -46,23 +46,28 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   });
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
+  const { xShift: xShiftInverted, yShift: yShiftInverted } = useInvertShift({
+    xShift,
+    yShift,
+  });
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
 
     const [y1Min, y1Max] = extent(data, (d) => d.y1);
     const [y2Min, y2Max] = extent(data, (d) => d.y2);
 
-    const x = { min: xMin, max: xMax, axisId: xAxis };
+    const x = { min: xMin, max: xMax, shift: xShiftInverted, axisId: xAxis };
     const y = {
       min: Math.min(y1Min, y2Min),
       max: Math.max(y1Max, y2Max),
+      shift: -yShiftInverted,
       axisId: yAxis,
     };
     dispatch({ type: 'newData', payload: { id, x, y, label } });
 
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label]);
+  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   useEffect(() => {
     legendDispatch({

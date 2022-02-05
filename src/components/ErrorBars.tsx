@@ -6,6 +6,7 @@ import { validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
   data: SeriesPoint[];
+  transform?: string;
   xAxis?: string;
   yAxis?: string;
   hidden?: boolean;
@@ -26,7 +27,14 @@ interface PointBarsProps {
 }
 
 export default function ErrorBars(props: ErrorBarsProps) {
-  const { xAxis = 'x', yAxis = 'y', data, hidden, ...otherProps } = props;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    data,
+    hidden,
+    transform,
+    ...otherProps
+  } = props;
   const { axisContext } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
 
@@ -53,7 +61,7 @@ export default function ErrorBars(props: ErrorBarsProps) {
     });
     return pointBars;
   }, [data, xScale, yScale, hidden, otherProps]);
-  return <g>{points}</g>;
+  return <g transform={transform}>{points}</g>;
 }
 
 function PointBars(props: PointBarsProps) {
