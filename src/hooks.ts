@@ -184,3 +184,19 @@ export function useShift(options: UseShiftOptions) {
     yShift: convertToPx(yShift, plotHeight, yScale),
   };
 }
+
+interface UseInvertOptions {
+  xAxis?: string;
+  yAxis?: string;
+  xShift: number;
+  yShift: number;
+}
+export function useInvertShift(options: UseInvertOptions) {
+  const { axisContext } = usePlotContext();
+  const { xAxis = 'x', yAxis = 'y', xShift = 0, yShift = 0 } = options;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  return {
+    xShift: toNumber(xScale?.invert(xShift)) - toNumber(xScale?.invert(0)),
+    yShift: toNumber(yScale?.invert(0)) - toNumber(yScale?.invert(yShift)),
+  };
+}
