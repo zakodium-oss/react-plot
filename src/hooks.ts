@@ -2,7 +2,7 @@ import { euclidean } from 'ml-distance-euclidean';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
-import { validateAxis } from './utils';
+import { toNumber, validateAxis } from './utils';
 
 type NumberOrString = number | string;
 
@@ -135,9 +135,7 @@ function convertValueAbs(
 function convertToPx(value: string | number, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number'
-    ? scale(1) > scale(0)
-      ? scale(value) - scale(0)
-      : scale(0) - scale(value)
+    ? scale(value) - scale(0)
     : convertString(value, total);
 }
 function convertDimensions(
@@ -183,6 +181,6 @@ export function useShift(options: UseShiftOptions) {
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
   return {
     xShift: convertToPx(xShift, plotWidth, xScale),
-    yShift: -convertToPx(yShift, plotHeight, yScale),
+    yShift: convertToPx(yShift, plotHeight, yScale),
   };
 }
