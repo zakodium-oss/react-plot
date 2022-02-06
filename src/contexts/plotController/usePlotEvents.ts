@@ -35,14 +35,12 @@ interface PlotEventsState {
   handlers: Set<RefObject<EventsHandlers>>;
 }
 
-const initialState: PlotEventsState = {
-  currentPlot: null,
-  plots: new Set(),
-  handlers: new Set(),
-};
-
 export function usePlotEventsState() {
-  const plotEvents = useRef<PlotEventsState>(initialState);
+  const plotEvents = useRef<PlotEventsState>({
+    currentPlot: null,
+    plots: new Set(),
+    handlers: new Set(),
+  });
 
   const userActions = useMemo<PlotEventsUserActions>(
     () => ({
@@ -69,6 +67,9 @@ export function usePlotEventsState() {
         eventType: MouseEventType,
         eventData: TrackingResult,
       ) {
+        if (!plotEvents.current.plots.has(plotId)) {
+          return;
+        }
         if (eventType === 'onMouseDown') {
           plotEvents.current.currentPlot = plotId;
         }
