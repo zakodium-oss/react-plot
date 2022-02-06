@@ -5,8 +5,9 @@ import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import { Text } from '../components/Annotations/Text';
 import { usePlotEvents } from '../contexts/plotController/plotControllerContext';
 
-export interface UseCrossHairOptions {
-  axisId?: { x: string; y: string };
+import { DualAxisOptions } from './types';
+
+export interface UseCrossHairOptions extends DualAxisOptions {
   color?: CSSProperties['stroke'];
   textStyle?: CSSProperties;
   lineStyle?: CSSProperties;
@@ -17,11 +18,11 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
   const [hover, setHover] = useState<Positions | null>(null);
   const {
     color = 'black',
-    axisId = { x: 'x', y: 'y' },
+    horizontalAxisId = 'x',
+    verticalAxisId = 'y',
     lineStyle,
     textStyle,
   } = options;
-  const { x, y } = axisId;
   usePlotEvents({
     onMouseMove({ coordinates }) {
       setHover(coordinates);
@@ -41,11 +42,23 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
 
   const annotations = (
     <>
-      <Line x1="0%" x2="100%" y1={hover[y]} y2={hover[y]} {...lineProps} />
-      <Line y1="0%" y2="100%" x1={hover[x]} x2={hover[x]} {...lineProps} />
+      <Line
+        x1="0%"
+        x2="100%"
+        y1={hover[verticalAxisId]}
+        y2={hover[verticalAxisId]}
+        {...lineProps}
+      />
+      <Line
+        y1="0%"
+        y2="100%"
+        x1={hover[horizontalAxisId]}
+        x2={hover[horizontalAxisId]}
+        {...lineProps}
+      />
       <Group
-        x={hover[x]}
-        y={hover[y]}
+        x={hover[horizontalAxisId]}
+        y={hover[verticalAxisId]}
         horizontalAlign="end"
         verticalAlign="end"
       >
@@ -56,7 +69,8 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
           y="0"
           style={textStyle}
         >
-          {hover[x].toFixed(2)} ,{hover[y].toFixed(2)}
+          {hover[horizontalAxisId].toFixed(2)} ,
+          {hover[verticalAxisId].toFixed(2)}
         </Text>
       </Group>
     </>
