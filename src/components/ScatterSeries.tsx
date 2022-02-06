@@ -59,8 +59,8 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   } = props;
 
   const { xShift, yShift } = useShift({
-    xAxis,
-    yAxis,
+    horizontalAxisId: xAxis,
+    verticalAxisId: yAxis,
     xShift: oldXShift,
     yShift: oldYShift,
   });

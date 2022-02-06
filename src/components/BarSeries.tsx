@@ -23,8 +23,8 @@ export function BarSeries(props: BarSeriesProps) {
     yShift: oldYShift = '0',
   } = otherProps;
   const { xShift, yShift } = useShift({
-    xAxis,
-    yAxis,
+    horizontalAxisId: xAxis,
+    verticalAxisId: yAxis,
     xShift: oldXShift,
     yShift: oldYShift,
   });
