@@ -2,6 +2,7 @@ import { euclidean } from 'ml-distance-euclidean';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
+import { DualAxisOptions } from './hooks/types';
 import { toNumber, validateAxis } from './utils';
 
 type NumberOrString = number | string;
@@ -169,32 +170,46 @@ export function usePointPosition(config: UsePositionConfig[]) {
     )
     .join(' ');
 }
-interface UseShiftOptions {
-  xAxis?: string;
-  yAxis?: string;
+interface UseShiftOptions extends DualAxisOptions {
   xShift?: number | string;
   yShift?: number | string;
 }
 export function useShift(options: UseShiftOptions) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const { xAxis = 'x', yAxis = 'y', xShift = '0', yShift = '0' } = options;
-  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  const {
+    horizontalAxisId = 'x',
+    verticalAxisId = 'y',
+    xShift = '0',
+    yShift = '0',
+  } = options;
+  const [xScale, yScale] = validateAxis(
+    axisContext,
+    horizontalAxisId,
+    verticalAxisId,
+  );
   return {
     xShift: convertToPx(xShift, plotWidth, xScale),
     yShift: convertToPx(yShift, plotHeight, yScale),
   };
 }
 
-interface UseInvertOptions {
-  xAxis?: string;
-  yAxis?: string;
-  xShift: number;
-  yShift: number;
+interface UseInvertOptions extends DualAxisOptions {
+  xShift?: number;
+  yShift?: number;
 }
 export function useInvertShift(options: UseInvertOptions) {
   const { axisContext } = usePlotContext();
-  const { xAxis = 'x', yAxis = 'y', xShift = 0, yShift = 0 } = options;
-  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  const {
+    horizontalAxisId = 'x',
+    verticalAxisId = 'y',
+    xShift = 0,
+    yShift = 0,
+  } = options;
+  const [xScale, yScale] = validateAxis(
+    axisContext,
+    horizontalAxisId,
+    verticalAxisId,
+  );
   return {
     xShift: toNumber(xScale?.invert(xShift)) - toNumber(xScale?.invert(0)),
     yShift: toNumber(yScale?.invert(0)) - toNumber(yScale?.invert(yShift)),
