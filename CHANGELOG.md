@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.15.1](https://www.github.com/zakodium/react-plot/compare/v0.15.0...v0.15.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* do not share state between plot controllers ([57bc640](https://www.github.com/zakodium/react-plot/commit/57bc640954e3951bfb7ef76983f6ecb2dcd8c0a2))
+
 ## [0.15.0](https://www.github.com/zakodium/react-plot/compare/v0.14.0...v0.15.0) (2022-02-04)
 
 
