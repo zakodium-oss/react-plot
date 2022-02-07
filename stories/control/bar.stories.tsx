@@ -11,6 +11,10 @@ export default {
     lineStyle: {
       stroke: 'black',
     },
+    xShift: '0',
+    yShift: '0',
+    xAxis: 'x',
+    yAxis: 'y',
     markerStyle: { fill: 'black' },
     hidden: false,
     label: 'Label',

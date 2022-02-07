@@ -7,6 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
+import { useShift } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { useId, validateAxis } from '../utils';
 
@@ -26,8 +27,23 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 ) {
   const id = useId(props.id, 'series');
   const [, legendDispatch] = useLegend();
-  const { lineStyle = {}, hidden, xAxis, yAxis, data, label } = props;
+  const {
+    lineStyle = {},
+    hidden,
+    xAxis = 'x',
+    yAxis = 'y',
+    data,
+    label,
+    xShift: propsXShift = '0',
+    yShift: propsYShift = '0',
+  } = props;
 
+  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
+    xAxis,
+    yAxis,
+    xShift: propsXShift,
+    yShift: propsYShift,
+  });
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   useEffect(() => {
@@ -36,17 +52,18 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     const [y1Min, y1Max] = extent(data, (d) => d.y1);
     const [y2Min, y2Max] = extent(data, (d) => d.y2);
 
-    const x = { min: xMin, max: xMax, axisId: xAxis };
+    const x = { min: xMin, max: xMax, shift: xShiftInverted, axisId: xAxis };
     const y = {
       min: Math.min(y1Min, y2Min),
       max: Math.max(y1Max, y2Max),
+      shift: yShiftInverted,
       axisId: yAxis,
     };
     dispatch({ type: 'newData', payload: { id, x, y, label } });
 
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label]);
+  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   useEffect(() => {
     legendDispatch({
@@ -72,10 +89,11 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 
   const lineProps = {
     id,
-    data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    data,
+    xAxis,
+    yAxis,
     lineStyle,
+    transform: `translate(${xShift},${yShift})`,
   };
 
   return <RangeSeriesRender {...lineProps} />;
@@ -86,6 +104,7 @@ interface RangeSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function RangeSeriesRender({
@@ -93,6 +112,7 @@ function RangeSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: RangeSeriesRenderProps) {
   // Get scales from context
   const { axisContext } = usePlotContext();
@@ -120,5 +140,5 @@ function RangeSeriesRender({
     ...lineStyle,
   };
 
-  return <path style={style} d={path} fill="none" />;
+  return <path transform={transform} style={style} d={path} fill="none" />;
 }
