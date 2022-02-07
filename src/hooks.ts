@@ -139,6 +139,13 @@ function convertToPx(value: string | number, total: number, scale?: Scales) {
     ? scale(value) - scale(0)
     : convertString(value, total);
 }
+function convertToScale(value: string | number, total: number, scale?: Scales) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number'
+    ? value
+    : toNumber(scale.invert(convertString(value, total))) -
+        toNumber(scale.invert(0));
+}
 function convertDimensions(
   value1: string | number,
   value2: string | number,
@@ -189,29 +196,8 @@ export function useShift(options: UseShiftOptions) {
   );
   return {
     xShift: convertToPx(xShift, plotWidth, xScale),
+    xShiftInverted: convertToScale(xShift, plotWidth, xScale),
     yShift: convertToPx(yShift, plotHeight, yScale),
-  };
-}
-
-interface UseInvertOptions extends DualAxisOptions {
-  xShift?: number;
-  yShift?: number;
-}
-export function useInvertShift(options: UseInvertOptions) {
-  const { axisContext } = usePlotContext();
-  const {
-    horizontalAxisId = 'x',
-    verticalAxisId = 'y',
-    xShift = 0,
-    yShift = 0,
-  } = options;
-  const [xScale, yScale] = validateAxis(
-    axisContext,
-    horizontalAxisId,
-    verticalAxisId,
-  );
-  return {
-    xShift: toNumber(xScale?.invert(xShift)) - toNumber(xScale?.invert(0)),
-    yShift: toNumber(yScale?.invert(0)) - toNumber(yScale?.invert(yShift)),
+    yShiftInverted: convertToScale(yShift, plotHeight, yScale),
   };
 }
