@@ -1,7 +1,9 @@
 import { Meta } from '@storybook/react';
+import { xyToXYObject } from 'ml-spectra-processing';
 
 import { Axis, LineSeries, Plot } from '../../src';
 import data from '../data/nmr.json';
+import stackData from '../data/stack-spectra.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -17,6 +19,41 @@ export function NmrExample() {
         yAxis="y"
         lineStyle={{ stroke: 'black' }}
       />
+      <Axis id="x" position="bottom" label="δ [ppm]" flip />
+      <Axis
+        id="y"
+        position="left"
+        label="Intensity / arbitrary"
+        hidden
+        paddingStart={0.1}
+        paddingEnd={0.1}
+      />
+    </Plot>
+  );
+}
+interface StackData {
+  x: number[];
+  y: number[];
+  color: string;
+}
+export function StackSpectra() {
+  const dataList = (stackData as StackData[]).map(({ x, y, color }) => ({
+    data: xyToXYObject({ x, y }),
+    color,
+  }));
+  const LineSeriesList = dataList.map(({ data, color }, i) => (
+    <LineSeries
+      // eslint-disable-next-line react/no-array-index-key
+      key={i}
+      data={data}
+      xAxis="x"
+      yAxis="y"
+      lineStyle={{ stroke: color }}
+    />
+  ));
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {LineSeriesList}
       <Axis id="x" position="bottom" label="δ [ppm]" flip />
       <Axis
         id="y"
