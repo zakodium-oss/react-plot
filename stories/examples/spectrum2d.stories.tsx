@@ -15,24 +15,33 @@ export function Spectrum2D() {
       y,
     })),
   );
-  const lineSeriesList = dataList.map((data, i) => (
-    <LineSeries
-      lineStyle={{ stroke: 'black' }}
-      // eslint-disable-next-line react/no-array-index-key
-      key={i}
-      data={data}
-      xShift={`${i * 5}`}
-      yShift={`${-i * 5}`}
-    />
-  ));
+  const lineSeriesList = dataList
+    .map((data, i) => (
+      <LineSeries
+        lineStyle={{ stroke: 'black', fill: 'white' }}
+        // eslint-disable-next-line react/no-array-index-key
+        key={i}
+        data={data}
+        xShift={`${i * 5}`}
+        yShift={`${-i * 5}`}
+      />
+    ))
+    .reverse();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {lineSeriesList}
-      <Axis id="x" position="bottom" label="P1" />
+      <Axis
+        id="x"
+        position="bottom"
+        label="P1"
+        paddingStart={0.05}
+        paddingEnd={0.05}
+      />
       <Axis
         id="y"
         position="left"
         label="P2"
+        hidden
         paddingStart={0.1}
         paddingEnd={0.1}
       />
