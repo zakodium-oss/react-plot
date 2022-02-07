@@ -1,8 +1,7 @@
 import { CSSProperties, useState } from 'react';
 
-import { Group } from '../components/Annotations/Group';
 import { AnnotationLineProps, Line } from '../components/Annotations/Line';
-import { Text } from '../components/Annotations/Text';
+import { AnnotationTextProps, Text } from '../components/Annotations/Text';
 import { usePlotEvents } from '../contexts/plotController/plotControllerContext';
 
 import { DualAxisOptions } from './types';
@@ -10,6 +9,7 @@ import { DualAxisOptions } from './types';
 export interface UseCrossHairOptions extends DualAxisOptions {
   color?: CSSProperties['stroke'];
   textStyle?: CSSProperties;
+  textTransform?: string;
   lineStyle?: CSSProperties;
 }
 
@@ -22,6 +22,7 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
     verticalAxisId = 'y',
     lineStyle,
     textStyle,
+    textTransform = '',
   } = options;
   usePlotEvents({
     onMouseMove({ coordinates }) {
@@ -36,6 +37,10 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
     color,
     strokeWidth: '2',
     style: lineStyle,
+  };
+  const textProps: Partial<AnnotationTextProps> = {
+    transform: `translate(-3 -2) ${textTransform}`,
+    style: textStyle,
   };
 
   if (!hover) return { annotations: null };
@@ -56,23 +61,16 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
         x2={hover[horizontalAxisId]}
         {...lineProps}
       />
-      <Group
+      <Text
+        text-anchor="end"
+        alignment-baseline="after-edge"
         x={hover[horizontalAxisId]}
         y={hover[verticalAxisId]}
-        horizontalAlign="end"
-        verticalAlign="end"
+        {...textProps}
       >
-        <Text
-          text-anchor="end"
-          alignment-baseline="baseline"
-          x="0"
-          y="0"
-          style={textStyle}
-        >
-          {hover[horizontalAxisId].toFixed(2)} ,
-          {hover[verticalAxisId].toFixed(2)}
-        </Text>
-      </Group>
+        {hover[horizontalAxisId]?.toFixed(2)} ,
+        {hover[verticalAxisId]?.toFixed(2)}
+      </Text>
     </>
   );
 

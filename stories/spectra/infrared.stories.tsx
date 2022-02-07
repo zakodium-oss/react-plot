@@ -18,9 +18,10 @@ export default {
   decorators: [PlotControllerDecorator],
   args: {
     color: 'black',
-    axisId: { x: 'x', y: 'y' },
+    horizontalAxisId: 'x',
+    verticalAxisId: 'y',
   },
-} as Meta;
+} as Meta<UseCrossHairOptions>;
 
 export function InfraredExample(props: UseCrossHairOptions) {
   const crossHair = useCrossHair(props);
