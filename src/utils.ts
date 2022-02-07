@@ -168,7 +168,7 @@ export function dataConvertDate(
 
 export function toNumber(value: number | Date) {
   if (typeof value === 'undefined') {
-    return 0;
+    return value;
   }
   if (typeof value === 'number') {
     return value;
