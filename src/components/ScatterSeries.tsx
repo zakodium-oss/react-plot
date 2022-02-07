@@ -6,7 +6,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useInvertShift, useShift } from '../hooks';
+import { useShift } from '../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
@@ -58,7 +58,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     ...otherProps
   } = props;
 
-  const { xShift, yShift } = useShift({
+  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
     horizontalAxisId: xAxis,
     verticalAxisId: yAxis,
     xShift: oldXShift,
@@ -93,16 +93,11 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
   ]);
-
-  const { xShift: xShiftInverted, yShift: yShiftInverted } = useInvertShift({
-    xShift,
-    yShift,
-  });
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
     const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
-    const y = { min: yMin, max: yMax, axisId: yAxis, shift: -yShiftInverted };
+    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
     dispatch({ type: 'newData', payload: { id, x, y, label, data } });
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });

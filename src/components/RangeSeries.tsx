@@ -7,7 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useInvertShift, useShift } from '../hooks';
+import { useShift } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { useId, validateAxis } from '../utils';
 
@@ -34,22 +34,18 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     yAxis = 'y',
     data,
     label,
-    xShift: oldXShift = '0',
-    yShift: oldYShift = '0',
+    xShift: propsXShift = '0',
+    yShift: propsYShift = '0',
   } = props;
 
-  const { xShift, yShift } = useShift({
+  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
     horizontalAxisId: xAxis,
     verticalAxisId: yAxis,
-    xShift: oldXShift,
-    yShift: oldYShift,
+    xShift: propsXShift,
+    yShift: propsYShift,
   });
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
-  const { xShift: xShiftInverted, yShift: yShiftInverted } = useInvertShift({
-    xShift,
-    yShift,
-  });
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
 
@@ -60,7 +56,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     const y = {
       min: Math.min(y1Min, y2Min),
       max: Math.max(y1Max, y2Max),
-      shift: -yShiftInverted,
+      shift: yShiftInverted,
       axisId: yAxis,
     };
     dispatch({ type: 'newData', payload: { id, x, y, label } });
