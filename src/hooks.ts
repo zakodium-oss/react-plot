@@ -2,7 +2,6 @@ import { euclidean } from 'ml-distance-euclidean';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
-import { DualAxisOptions } from './hooks/types';
 import { toNumber, validateAxis } from './utils';
 
 type NumberOrString = number | string;
@@ -177,23 +176,16 @@ export function usePointPosition(config: UsePositionConfig[]) {
     )
     .join(' ');
 }
-interface UseShiftOptions extends DualAxisOptions {
-  xShift?: number | string;
-  yShift?: number | string;
+interface UseShiftOptions {
+  xAxis: string;
+  yAxis: string;
+  xShift: number | string;
+  yShift: number | string;
 }
 export function useShift(options: UseShiftOptions) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const {
-    horizontalAxisId = 'x',
-    verticalAxisId = 'y',
-    xShift = '0',
-    yShift = '0',
-  } = options;
-  const [xScale, yScale] = validateAxis(
-    axisContext,
-    horizontalAxisId,
-    verticalAxisId,
-  );
+  const { xAxis, yAxis, xShift, yShift } = options;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
   return {
     xShift: convertToPx(xShift, plotWidth, xScale),
     xShiftInverted: convertToScale(xShift, plotWidth, xScale),

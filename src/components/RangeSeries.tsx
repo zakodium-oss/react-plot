@@ -39,8 +39,8 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   } = props;
 
   const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
-    horizontalAxisId: xAxis,
-    verticalAxisId: yAxis,
+    xAxis,
+    yAxis,
     xShift: propsXShift,
     yShift: propsYShift,
   });
