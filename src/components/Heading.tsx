@@ -1,7 +1,10 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useEffect } from 'react';
 import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
 
-import { usePlotContext } from '../contexts/plotContext';
+import {
+  usePlotContext,
+  usePlotDispatchContext,
+} from '../contexts/plotContext';
 import type { VerticalPosition } from '../types';
 
 export interface HeadingProps {
@@ -25,6 +28,8 @@ export function Heading({
 }: HeadingProps) {
   const { width, height } = usePlotContext();
 
+  const dispatch = usePlotDispatchContext();
+
   const defaultTitleStyle: CSSProperties = {
     dominantBaseline: 'hanging',
     textAnchor: 'middle',
@@ -39,7 +44,11 @@ export function Heading({
   };
 
   const headingBbox = useBBoxObserver();
-
+  useEffect(() => {
+    dispatch({ type: 'addHeading', payload: { position } });
+    // Delete information on unmount
+    return () => dispatch({ type: 'removeHeading' });
+  }, [dispatch, position]);
   return (
     <AlignGroup
       x={width / 2}
