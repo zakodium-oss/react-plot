@@ -28,6 +28,7 @@ import { PlotAxesOverrides } from './plotController/usePlotOverrides';
 interface PlotSeriesStateAxis {
   min: number;
   max: number;
+  shift: number;
   axisId: string;
 }
 
@@ -206,13 +207,13 @@ export function useAxisContext(
           ? overrides.min
           : axis.min !== undefined
           ? axis.min
-          : min(state.series, (d) => d[xY].min);
+          : min(state.series, (d) => d[xY].min + d[xY].shift);
       const axisMax =
         overrides?.max !== undefined
           ? overrides.max
           : axis.max !== undefined
           ? axis.max
-          : max(state.series, (d) => d[xY].max);
+          : max(state.series, (d) => d[xY].max + d[xY].shift);
 
       // Limits validation
       if (axisMin === undefined || axisMax === undefined) {

@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.16.0](https://www.github.com/zakodium/react-plot/compare/v0.15.0...v0.16.0) (2022-02-07)
+
+
+### Features
+
+* useCrossHair Hook  ([bafa435](https://www.github.com/zakodium/react-plot/commit/bafa435f5995344cbe1c5a56bfa522907b166a4c))
+
+
+### Bug Fixes
+
+* do not share state between plot controllers ([57bc640](https://www.github.com/zakodium/react-plot/commit/57bc640954e3951bfb7ef76983f6ecb2dcd8c0a2))
+
 ## [0.15.0](https://www.github.com/zakodium/react-plot/compare/v0.14.0...v0.15.0) (2022-02-04)
 
 

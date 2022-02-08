@@ -6,7 +6,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useIsSeriesVisible } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
@@ -53,10 +53,19 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     label,
     hidden,
     displayErrorBars = false,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
     ...otherProps
   } = props;
 
   const isVisible = useIsSeriesVisible(id);
+  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
+  const transform = `translate(${xShift},${yShift})`;
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -84,39 +93,48 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
   ]);
-
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
-    const x = { min: xMin, max: xMax, axisId: xAxis };
-    const y = { min: yMin, max: yMax, axisId: yAxis };
+    const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
+    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
     dispatch({ type: 'newData', payload: { id, x, y, label, data } });
-
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label]);
+  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   if (hidden) return null;
 
   // Render stateless plot component
-  const inheritedProps = { data, xAxis, yAxis };
+  const inheritedProps = {
+    data,
+    xAxis,
+    yAxis,
+  };
   const errorBarsProps = {
     hidden: !displayErrorBars,
     style: props.errorBarsStyle,
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
+    transform,
   };
 
   return isVisible ? (
     <g>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
-      <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
+      <ScatterSeriesRender
+        {...otherProps}
+        {...inheritedProps}
+        id={id}
+        transform={transform}
+      />
     </g>
   ) : null;
 }
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;
+  transform: string;
 }
 
 function ScatterSeriesRender({
@@ -129,6 +147,7 @@ function ScatterSeriesRender({
   markerStyle = {},
   pointLabel = '',
   pointLabelStyle = {},
+  transform,
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -176,5 +195,9 @@ function ScatterSeriesRender({
   ]);
   if (!markers) return null;
 
-  return <g className="markers">{markers}</g>;
+  return (
+    <g transform={transform} className="markers">
+      {markers}
+    </g>
+  );
 }

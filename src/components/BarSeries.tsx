@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
-import { useIsSeriesVisible } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import type { SeriesPoint } from '../types';
 import { functionalStyle, useId, validateAxis } from '../utils';
 
@@ -16,12 +16,25 @@ export function BarSeries(props: BarSeriesProps) {
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
   const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
+  } = otherProps;
+  const { xShift, yShift } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
   const lineProps = {
     id,
     data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    xAxis,
+    yAxis,
     lineStyle: functionalStyle({}, lineStyle, { id }),
+    transform: `translate(${xShift},${yShift})`,
   };
 
   const colorLine = lineStyle?.stroke
@@ -71,6 +84,7 @@ interface BarSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function BarSeriesRender({
@@ -79,6 +93,7 @@ function BarSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: BarSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -97,7 +112,7 @@ function BarSeriesRender({
   };
 
   return (
-    <g>
+    <g transform={transform}>
       {data.map(({ x, y }) => (
         <line
           style={style}
