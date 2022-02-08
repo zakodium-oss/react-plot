@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import {
   usePlotControls,
@@ -12,34 +12,36 @@ export interface UseGrabOptions extends DualAxisOptions {}
 
 export function useGrab(options: UseGrabOptions = {}) {
   const { horizontalAxisId = 'x', verticalAxisId = 'y' } = options;
-  const [cursor, setCursor] = useState<'' | 'grabbing' | 'grab'>('');
   const click = useRef<boolean>(false);
   const plotControls = usePlotControls();
   const { [horizontalAxisId]: x, [verticalAxisId]: y } = useMaxMin({
     xAxis: horizontalAxisId,
     yAxis: verticalAxisId,
   });
+
+  // TODO : cursor state
+  // const [cursor, setCursor] = useState<'' | 'grabbing' | 'grab'>('');
   usePlotEvents({
-    onKeyDown({ event: { altKey } }) {
-      if (altKey) {
-        setCursor('grab');
-      }
-    },
-    onKeyUp({ event: { altKey } }) {
-      if (!altKey) {
-        setCursor('');
-      }
-    },
-    onMouseDown({ event: { altKey } }) {
-      if (altKey) {
-        setCursor('grabbing');
-      }
+    // onKeyDown({ event: { altKey } }) {
+    //   if (altKey) {
+    //     setCursor('grab');
+    //   }
+    // },
+    // onKeyUp({ event: { altKey } }) {
+    //   if (!altKey) {
+    //     setCursor('');
+    //   }
+    // },
+    onMouseDown() {
+      // if (altKey) {
+      //   setCursor('grabbing');
+      // }
       click.current = true;
     },
-    onMouseUp({ event: { altKey } }) {
-      if (altKey) {
-        setCursor('grab');
-      }
+    onMouseUp() {
+      // if (altKey) {
+      //   setCursor('grab');
+      // }
       click.current = false;
     },
     onMouseMove({
@@ -63,5 +65,5 @@ export function useGrab(options: UseGrabOptions = {}) {
     },
   });
 
-  return { cursor, [horizontalAxisId]: x, [verticalAxisId]: y };
+  return { [horizontalAxisId]: x, [verticalAxisId]: y };
 }

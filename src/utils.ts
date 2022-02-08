@@ -1,5 +1,6 @@
 import { CSSProperties, useMemo } from 'react';
 
+import { Scales } from './components/Axis/types';
 import { PlotAxisContext } from './contexts/plotContext';
 import type {
   CSSFuncProps,
@@ -50,7 +51,7 @@ export function validateAxis(
   axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
-) {
+): [Scales, Scales] {
   const xAxis = axisContext[xKey];
   const yAxis = axisContext[yKey];
   if (!xAxis || !yAxis) return [undefined, undefined];

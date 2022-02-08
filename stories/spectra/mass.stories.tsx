@@ -54,7 +54,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     x: { max, min },
   } = useMaxMin();
   useScrollZoom();
-  const { cursor } = useGrab();
+  useGrab();
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
     ensureCase: true,
@@ -86,55 +86,8 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
-        svgStyle={{
-          cursor: cursor,
-        }}
-        // TODO: rewrite this differently.
-        // onKeyDown={({
-        //   event: { altKey },
-        //   x: { max: maxX, min: minX },
-        //   y: { max: maxY, min: minY },
-        // }) => {
-        //   if (!click.current) {
-        //     setPositions((positions) => ({
-        //       ...positions,
-        //       alt: altKey,
-        //       maxX,
-        //       minX,
-        //       maxY,
-        //       minY,
-        //     }));
-        //   }
-        // }}
-        // onKeyUp={({ event: { altKey } }) => {
-        //   if (!click.current || alt) {
-        //     click.current = false;
-        //     setPositions((positions) => ({ ...positions, alt: altKey }));
-        //   }
-        // }}
-        // onMouseMove={({
-        //   coordinates: { x },
-        //   movement: { x: movementX, y: movementY },
-        // }) => {
-        //   if (click.current) {
-        //     if (alt) {
-        //       setPositions((positions) => ({
-        //         ...positions,
-        //         maxX: maxX - movementX,
-        //         minX: minX - movementX,
-        //         maxY: maxY - movementY,
-        //         minY: minY - movementY,
-        //       }));
-        //     } else {
-        //       setPositions((positions) => ({
-        //         ...positions,
-        //         rectangle: {
-        //           x1: rectangle ? rectangle.x1 : x,
-        //           x2: x,
-        //         },
-        //       }));
-        //     }
-        //   }
+        // svgStyle={{
+        //   cursor: cursor,
         // }}
       >
         <LineSeries

@@ -14,14 +14,9 @@ export type MouseEventType =
   | 'onDoubleClick'
   | 'onWheel';
 
-export type KeyboardEventType = 'onKeyDown' | 'onKeyUp';
-
 export type EventsHandlers = {
   [key in MouseEventType]?: MouseEventHandler;
-} & {
-  [key in KeyboardEventType]?: MouseEventHandler;
 };
-
 export interface PlotEventsUserActions {
   registerHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
   unregisterHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
@@ -68,7 +63,7 @@ export function usePlotEventsState() {
       },
       handleEvent(
         plotId: string,
-        eventType: keyof EventsHandlers,
+        eventType: MouseEventType,
         eventData: TrackingResult,
       ) {
         if (!plotEvents.current.plots.has(plotId)) {
