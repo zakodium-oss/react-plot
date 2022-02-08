@@ -1,22 +1,37 @@
 import { extent } from 'd3-array';
-import { SVGAttributes, useEffect, useMemo, useState } from 'react';
+import { SVGAttributes, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { BaseSeriesProps, CSSFuncProps, SeriesPoint, Shape } from '../types';
-import { functionalStyle, getNextId, validateAxis } from '../utils';
+import { useShift } from '../hooks';
+import {
+  BaseSeriesProps,
+  CSSFuncProps,
+  LabelFuncProps,
+  SeriesPoint,
+  ShapeFuncProps,
+} from '../types';
+import {
+  functionalLabel,
+  functionalShape,
+  functionalStyle,
+  useId,
+  validateAxis,
+} from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { markersComps } from './Markers';
 
 export interface ScatterSeriesProps<T = SeriesPoint>
   extends BaseSeriesProps<T> {
-  markerShape?: Shape;
+  markerShape?: ShapeFuncProps<T>;
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
+  pointLabel?: LabelFuncProps<T>;
+  pointLabelStyle?: CSSFuncProps<T>;
   displayErrorBars?: boolean;
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
@@ -29,7 +44,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   const { colorScaler } = usePlotContext();
   const [, legendDispatch] = useLegend();
 
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
 
   const {
     xAxis = 'x',
@@ -38,9 +53,18 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     label,
     hidden,
     displayErrorBars = false,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
     ...otherProps
   } = props;
 
+  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
+  const transform = `translate(${xShift},${yShift})`;
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -69,39 +93,48 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
   ]);
-
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x);
     const [yMin, yMax] = extent(data, (d) => d.y);
-    const x = { min: xMin, max: xMax, axisId: xAxis };
-    const y = { min: yMin, max: yMax, axisId: yAxis };
+    const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
+    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
     dispatch({ type: 'newData', payload: { id, x, y, label, data } });
-
     // Delete information on unmount
     return () => dispatch({ type: 'removeData', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label]);
+  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   if (hidden) return null;
 
   // Render stateless plot component
-  const inheritedProps = { data, xAxis, yAxis };
+  const inheritedProps = {
+    data,
+    xAxis,
+    yAxis,
+  };
   const errorBarsProps = {
     hidden: !displayErrorBars,
     style: props.errorBarsStyle,
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
+    transform,
   };
 
   return (
     <g>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
-      <ScatterSeriesRender {...otherProps} {...inheritedProps} id={id} />
+      <ScatterSeriesRender
+        {...otherProps}
+        {...inheritedProps}
+        id={id}
+        transform={transform}
+      />
     </g>
   );
 }
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
   id: string;
+  transform: string;
 }
 
 function ScatterSeriesRender({
@@ -112,6 +145,9 @@ function ScatterSeriesRender({
   markerShape = 'circle',
   markerSize = 8,
   markerStyle = {},
+  pointLabel = '',
+  pointLabelStyle = {},
+  transform,
 }: ScatterSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -126,18 +162,20 @@ function ScatterSeriesRender({
     const color = colorScaler(id);
     const defaultColor = { fill: color, stroke: color };
 
-    // Show markers
-    const Marker = markersComps[markerShape];
-
     const markers = data.map((point, i) => {
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
 
+      // Show marker
+      const Marker = markersComps[functionalShape(markerShape, point, i, data)];
+      const label = functionalLabel(pointLabel, point, i, data);
+      const labelStyle = functionalStyle({}, pointLabelStyle, point, i, data);
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
+          {label ? <text style={labelStyle}>{label}</text> : null}
         </g>
       );
     });
@@ -149,11 +187,17 @@ function ScatterSeriesRender({
     colorScaler,
     id,
     data,
-    markerSize,
     markerStyle,
     markerShape,
+    pointLabel,
+    pointLabelStyle,
+    markerSize,
   ]);
   if (!markers) return null;
 
-  return <g className="markers">{markers}</g>;
+  return (
+    <g transform={transform} className="markers">
+      {markers}
+    </g>
+  );
 }

@@ -1,11 +1,11 @@
 import { euclidean } from 'ml-distance-euclidean';
-import React from 'react';
+import { useEffect, useRef } from 'react';
 
+import { PlotAxisContext, PlotSeriesState } from '../contexts/plotContext';
 import {
-  PlotAxisContext,
-  PlotSeriesState,
-  usePlotContext,
-} from '../contexts/plotContext';
+  MouseEventType,
+  PlotEventsPlotActions,
+} from '../contexts/plotController/usePlotEvents';
 import { SeriesPoint } from '../types';
 import { closestPoint, toNumber } from '../utils';
 
@@ -19,95 +19,68 @@ export interface ClosestInfo<T extends ClosestMethods> {
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
-  event: React.MouseEvent<SVGRectElement, MouseEvent>;
+  event: MouseEvent;
   coordinates: Record<string, number>;
+  clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
-export interface KeysResult {
-  event: React.KeyboardEvent<SVGRectElement>;
-  x: { max: number; min: number };
-  y: { max: number; min: number };
-}
+
 export interface TrackingProps {
-  onMouseMove?: (result: TrackingResult) => void;
-  onClick?: (result: TrackingResult) => void;
-  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  onMouseUp?: (result: TrackingResult) => void;
-  onMouseDown?: (result: TrackingResult) => void;
-  onDoubleClick?: (result: TrackingResult) => void;
-  onWheel?: (result: TrackingResult) => void;
-  onKeyPress?: (result: KeysResult) => void;
-  onKeyDown?: (result: KeysResult) => void;
-  onKeyUp?: (result: KeysResult) => void;
+  plotId: string;
+  plotEvents: PlotEventsPlotActions;
   stateSeries: PlotSeriesState[];
+  axisContext: Record<string, PlotAxisContext>;
+  plotWidth: number;
+  plotHeight: number;
 }
 
 const HORIZONTAL = ['bottom', 'top'];
-function infoFromKey(
-  event: React.KeyboardEvent<SVGRectElement>,
-  axisContext: Record<string, PlotAxisContext>,
-  plotHeight: number,
-  plotWidth: number,
-): KeysResult {
-  const { scale: scaleY } = axisContext.y;
-  const { scale: scaleX } = axisContext.x;
-  return {
-    event,
-    x: {
-      min: toNumber(scaleX.invert(0)),
-      max: toNumber(scaleX.invert(plotWidth)),
-    },
-    y: {
-      min: toNumber(scaleY.invert(plotHeight)),
-      max: toNumber(scaleY.invert(0)),
-    },
-  };
-}
-function infoFromWheel(
-  event: React.WheelEvent<SVGRectElement>,
-  axisContext: Record<string, PlotAxisContext>,
-  plotHeight: number,
-) {
-  const ratio = 1 + event.deltaY * -0.001;
-  //const { clientY } = event;
-  //const { top } = event.currentTarget.getBoundingClientRect();
-  // Calculate coordinates
-  let coordinates: TrackingResult['coordinates'] = {};
-  const { scale } = axisContext.y;
-  //const yPosition = clientY - top;
-  const yPosition = scale(0);
-  const y1 =
-    ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
 
-  const y2 =
-    ratio > 1
-      ? yPosition + (plotHeight - yPosition) / ratio
-      : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
-  coordinates.y1 = toNumber(scale.invert(y1));
-  coordinates.y2 = toNumber(scale.invert(y2));
+// function infoFromWheel(
+//   event: React.WheelEvent<SVGRectElement>,
+//   axisContext: Record<string, PlotAxisContext>,
+//   plotHeight: number,
+// ) {
+//   const ratio = 1 + event.deltaY * -0.001;
 
-  return {
-    event,
-    coordinates,
-  };
-}
+//   // Calculate coordinates
+//   let coordinates: TrackingResult['coordinates'] = {};
+//   const { scale } = axisContext.y;
+//   const yPosition = scale(0);
+//   const y1 =
+//     ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
+
+//   const y2 =
+//     ratio > 1
+//       ? yPosition + (plotHeight - yPosition) / ratio
+//       : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
+//   coordinates.y1 = toNumber(scale.invert(y1));
+//   coordinates.y2 = toNumber(scale.invert(y2));
+
+//   return {
+//     event,
+//     coordinates,
+//   };
+// }
+
 function infoFromMouse(
-  event: React.MouseEvent<SVGRectElement, MouseEvent>,
+  event: MouseEvent,
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
+  target: SVGRectElement,
 ): TrackingResult {
   const { clientX, clientY, movementX, movementY } = event;
-  const { left, top } = event.currentTarget.getBoundingClientRect();
+  const { left, top } = target.getBoundingClientRect();
 
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
-  let coordinates: TrackingResult['coordinates'] = {};
-  let movement: TrackingResult['movement'] = {};
+  const coordinates: TrackingResult['coordinates'] = {};
+  const clampedCoordinates: TrackingResult['clampedCoordinates'] = {};
+  const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
-    const { scale, position } = axisContext[key];
+    const { scale, clampInDomain, position } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] =
@@ -117,10 +90,13 @@ function infoFromMouse(
       movement[key] =
         toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
     }
+    clampedCoordinates[key] = clampInDomain(coordinates[key]);
   }
+
   return {
     event,
     coordinates,
+    clampedCoordinates,
     movement,
     getClosest: (method) =>
       closestCalculation(
@@ -193,59 +169,113 @@ function closestCalculation(
   return series;
 }
 
-export default function Tracking({
-  onMouseMove,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  onMouseDown,
-  onMouseUp,
-  onDoubleClick,
-  onWheel,
-  onKeyPress,
-  onKeyUp,
-  onKeyDown,
-  stateSeries,
-}: TrackingProps) {
-  const { axisContext, plotHeight, plotWidth } = usePlotContext();
+type NativeMouseEventType =
+  | 'mouseenter'
+  | 'mouseleave'
+  | 'mousedown'
+  | 'mouseup'
+  | 'mousemove'
+  | 'click'
+  | 'dblclick'
+  | 'wheel';
 
+const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
+  mouseenter: 'onMouseEnter',
+  mouseleave: 'onMouseLeave',
+  mousedown: 'onMouseDown',
+  mouseup: 'onMouseUp',
+  mousemove: 'onMouseMove',
+  click: 'onClick',
+  dblclick: 'onDoubleClick',
+  wheel: 'onWheel',
+};
+
+const mouseEvents: readonly NativeMouseEventType[] = [
+  'mouseenter',
+  'mouseleave',
+  'mousedown',
+  'mouseup',
+  'mousemove',
+  'click',
+  'dblclick',
+  'wheel',
+];
+
+const globalMouseEvents: readonly NativeMouseEventType[] = [
+  'mousemove',
+  'mouseup',
+];
+
+export default function Tracking({
+  plotId,
+  plotEvents,
+  stateSeries,
+  axisContext,
+  plotHeight,
+  plotWidth,
+}: TrackingProps) {
+  const rectRef = useRef<SVGRectElement>(null);
+  const plotDataRef = useRef({
+    plotId,
+    plotEvents,
+    stateSeries,
+    axisContext,
+    plotHeight,
+    plotWidth,
+  });
+  useEffect(() => {
+    plotDataRef.current = {
+      plotId,
+      plotEvents,
+      stateSeries,
+      axisContext,
+      plotHeight,
+      plotWidth,
+    };
+  }, [axisContext, plotEvents, plotHeight, plotId, plotWidth, stateSeries]);
+  useEffect(() => {
+    const rect = rectRef.current;
+    if (!rectRef) return;
+
+    function mouseEventListener(event: MouseEvent) {
+      if (event.type === 'mousedown') {
+        globalMouseEvents.forEach((mouseEvent) =>
+          window.addEventListener(mouseEvent, mouseEventListener),
+        );
+      } else if (event.type === 'mouseup') {
+        globalMouseEvents.forEach((mouseEvent) =>
+          window.removeEventListener(mouseEvent, mouseEventListener),
+        );
+      }
+
+      const info = infoFromMouse(
+        event,
+        plotDataRef.current.axisContext,
+        plotDataRef.current.stateSeries,
+        rect,
+      );
+      plotEvents.handleEvent(plotId, mouseEventMap[event.type], info);
+    }
+
+    mouseEvents.forEach((mouseEvent) =>
+      rect.addEventListener(mouseEvent, mouseEventListener),
+    );
+
+    return () => {
+      mouseEvents.forEach((mouseEvent) =>
+        rect.removeEventListener(mouseEvent, mouseEventListener),
+      );
+      globalMouseEvents.forEach((mouseEvent) =>
+        window.removeEventListener(mouseEvent, mouseEventListener),
+      );
+    };
+  }, [plotId, plotEvents]);
   return (
     <rect
-      tabIndex={0}
-      focusable
+      ref={rectRef}
       width={plotWidth}
       height={plotHeight}
-      className="tracking"
       style={{ fillOpacity: 0, outline: 'none' }}
-      onClick={(event) => {
-        onClick?.(infoFromMouse(event, axisContext, stateSeries));
-      }}
-      onKeyPress={(event) => {
-        onKeyPress?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
-      }}
-      onKeyDown={(event) => {
-        onKeyDown?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
-      }}
-      onKeyUp={(event) => {
-        onKeyUp?.(infoFromKey(event, axisContext, plotHeight, plotWidth));
-      }}
-      onMouseMove={(event) => {
-        onMouseMove?.(infoFromMouse(event, axisContext, stateSeries));
-      }}
-      onMouseEnter={(event) => onMouseEnter?.(event)}
-      onMouseLeave={(event) => onMouseLeave?.(event)}
-      onMouseDown={(event) =>
-        onMouseDown?.(infoFromMouse(event, axisContext, stateSeries))
-      }
-      onMouseUp={(event) =>
-        onMouseUp?.(infoFromMouse(event, axisContext, stateSeries))
-      }
-      onDoubleClick={(event) =>
-        onDoubleClick?.(infoFromMouse(event, axisContext, stateSeries))
-      }
-      onWheel={(event) =>
-        onWheel?.(infoFromWheel(event, axisContext, plotHeight))
-      }
     />
   );
 }

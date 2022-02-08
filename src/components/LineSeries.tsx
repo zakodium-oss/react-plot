@@ -1,15 +1,18 @@
 import { line } from 'd3-shape';
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
-import type { CSSFuncProps, SeriesPoint } from '../types';
-import { functionalStyle, getNextId, validateAxis } from '../utils';
+import { useShift } from '../hooks';
+import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
+import { functionalStyle, useId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
-export interface LineSeriesProps extends ScatterSeriesProps {
+export interface LineSeriesProps
+  extends Omit<ScatterSeriesProps, 'markerShape'> {
+  markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
 }
@@ -18,7 +21,7 @@ export function LineSeries(props: LineSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
-  const [id] = useState(() => props.id || `series-${getNextId()}`);
+  const id = useId(props.id, 'series');
   const {
     lineStyle: OldLineStyle,
     displayMarker = false,
@@ -26,6 +29,18 @@ export function LineSeries(props: LineSeriesProps) {
     hidden,
     ...otherProps
   } = props;
+  const {
+    xAxis = 'x',
+    yAxis = 'y',
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
+  } = otherProps;
+  const { xShift, yShift } = useShift({
+    xAxis,
+    yAxis,
+    xShift: oldXShift,
+    yShift: oldYShift,
+  });
   const lineStyle = functionalStyle({}, OldLineStyle, { id });
   useEffect(() => {
     if (!hidden) {
@@ -64,18 +79,20 @@ export function LineSeries(props: LineSeriesProps) {
   const lineProps = {
     id,
     data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    xAxis,
+    yAxis,
     lineStyle,
+    transform: `translate(${xShift},${yShift})`,
   };
   const errorBarsProps = {
     data: props.data,
-    xAxis: props.xAxis || 'x',
-    yAxis: props.yAxis || 'y',
+    xAxis,
+    yAxis,
     hidden: !displayErrorBars,
     style: props.errorBarsStyle,
     capStyle: props.errorBarsCapStyle,
     capSize: props.errorBarsCapSize,
+    transform: `translate(${xShift},${yShift})`,
   };
   return (
     <g>
@@ -92,6 +109,7 @@ interface LineSeriesRenderProps {
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
+  transform: string;
 }
 
 function LineSeriesRender({
@@ -100,6 +118,7 @@ function LineSeriesRender({
   xAxis,
   yAxis,
   lineStyle,
+  transform,
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
@@ -128,5 +147,5 @@ function LineSeriesRender({
     ...lineStyle,
   };
 
-  return <path style={style} d={path} fill="none" />;
+  return <path transform={transform} style={style} d={path} fill="none" />;
 }

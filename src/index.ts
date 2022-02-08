@@ -10,6 +10,7 @@ export * from './components/BarSeries';
 export * from './components/LineSeries';
 export * from './components/RangeSeries';
 export * from './components/ScatterSeries';
+export * from './components/FunctionSeries';
 
 export * from './components/Legend';
 
@@ -17,4 +18,12 @@ export * from './components/Heading';
 
 export * from './components/Annotations/Annotation';
 
+export * from './hooks/index';
+
 export type { SeriesPoint, TickLabelFormat, TickPosition } from './types';
+
+export {
+  PlotController,
+  usePlotControls,
+  usePlotEvents,
+} from './contexts/plotController/plotControllerContext';

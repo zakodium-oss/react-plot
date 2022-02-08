@@ -2,7 +2,7 @@ import { euclidean } from 'ml-distance-euclidean';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
-import { validateAxis } from './utils';
+import { toNumber, validateAxis } from './utils';
 
 type NumberOrString = number | string;
 
@@ -101,8 +101,8 @@ export function useDirectedEllipsePosition(
   };
 }
 function convertString(value: string, total: number) {
-  return value.endsWith('%')
-    ? (Number(value.slice(0, -1)) * total) / 100
+  return value.trim().endsWith('%')
+    ? (Number(value.trim().slice(0, -1)) * total) / 100
     : Number(value);
 }
 function convertValue(value: string | number, total: number, scale?: Scales) {
@@ -129,7 +129,21 @@ function convertValueAbs(
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? Math.abs(scale(0) - scale(value))
+    : Math.abs(convertString(value, total));
+}
+
+function convertToPx(value: string | number, total: number, scale?: Scales) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number'
+    ? scale(value) - scale(0)
     : convertString(value, total);
+}
+function convertToScale(value: string | number, total: number, scale?: Scales) {
+  if (scale === undefined) return 0;
+  return typeof value === 'number'
+    ? value
+    : toNumber(scale.invert(convertString(value, total))) -
+        toNumber(scale.invert(0));
 }
 function convertDimensions(
   value1: string | number,
@@ -161,4 +175,21 @@ export function usePointPosition(config: UsePositionConfig[]) {
         )}`,
     )
     .join(' ');
+}
+interface UseShiftOptions {
+  xAxis: string;
+  yAxis: string;
+  xShift: number | string;
+  yShift: number | string;
+}
+export function useShift(options: UseShiftOptions) {
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const { xAxis, yAxis, xShift, yShift } = options;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  return {
+    xShift: convertToPx(xShift, plotWidth, xScale),
+    xShiftInverted: convertToScale(xShift, plotWidth, xScale),
+    yShift: convertToPx(yShift, plotHeight, yScale),
+    yShiftInverted: convertToScale(yShift, plotHeight, yScale),
+  };
 }

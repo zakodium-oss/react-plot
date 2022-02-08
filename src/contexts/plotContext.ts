@@ -23,9 +23,12 @@ import type {
 } from '../types';
 import { validatePosition } from '../utils';
 
+import { PlotAxesOverrides } from './plotController/usePlotOverrides';
+
 interface PlotSeriesStateAxis {
   min: number;
   max: number;
+  shift: number;
   axisId: string;
 }
 
@@ -75,6 +78,8 @@ interface PlotAxisContextGeneric<
     | ScaleTime<number, number>,
 > {
   scale: Scale;
+  domain: readonly [number, number];
+  clampInDomain: (value: number) => number;
   tickLabelFormat: TickLabelFormat;
   position: Position;
 }
@@ -184,6 +189,7 @@ interface SizeProps {
 
 export function useAxisContext(
   state: PlotState,
+  axesOverrides: PlotAxesOverrides,
   { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {
@@ -191,14 +197,23 @@ export function useAxisContext(
 
     for (const id in state.axes) {
       const axis = state.axes[id];
+      const overrides = axesOverrides[id];
       const isHorizontal = ['top', 'bottom'].includes(axis.position);
       const xY = isHorizontal ? 'x' : 'y';
 
-      // Get limits from state or data
+      // Get limits from override (context), state (axis props), or data.
       const axisMin =
-        axis.min !== undefined ? axis.min : min(state.series, (d) => d[xY].min);
+        overrides?.min !== undefined
+          ? overrides.min
+          : axis.min !== undefined
+          ? axis.min
+          : min(state.series, (d) => d[xY].min + d[xY].shift);
       const axisMax =
-        axis.max !== undefined ? axis.max : max(state.series, (d) => d[xY].max);
+        overrides?.max !== undefined
+          ? overrides.max
+          : axis.max !== undefined
+          ? axis.max
+          : max(state.series, (d) => d[xY].max + d[xY].shift);
 
       // Limits validation
       if (axisMin === undefined || axisMax === undefined) {
@@ -216,6 +231,15 @@ export function useAxisContext(
       const maxPad = diff * (axis.paddingEnd || 0);
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
+      const domain = [axisMin - minPad, axisMax + maxPad] as const;
+
+      const clampInDomain = function clampInDomain(value: number) {
+        return value < domain[0]
+          ? domain[0]
+          : value > domain[1]
+          ? domain[1]
+          : value;
+      };
 
       switch (axis.scale) {
         case 'log': {
@@ -224,8 +248,10 @@ export function useAxisContext(
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLog()
-              .domain([axisMin - minPad, axisMax + maxPad])
+              .domain(domain)
               .range(axis.flip ? range.reverse() : range),
+            domain,
+            clampInDomain,
           };
           break;
         }
@@ -235,8 +261,10 @@ export function useAxisContext(
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
             scale: scaleTime()
-              .domain([axisMin - minPad, axisMax + maxPad])
+              .domain(domain)
               .range(axis.flip ? range.reverse() : range),
+            domain,
+            clampInDomain,
           };
           break;
         }
@@ -247,15 +275,17 @@ export function useAxisContext(
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
             scale: scaleLinear()
-              .domain([axisMin - minPad, axisMax + maxPad])
+              .domain(domain)
               .range(axis.flip ? range.reverse() : range),
+            domain,
+            clampInDomain,
           };
           break;
         }
       }
     }
     return axisContext;
-  }, [state, plotWidth, plotHeight]);
+  }, [state.axes, state.series, axesOverrides, plotWidth, plotHeight]);
 
   return context;
 }

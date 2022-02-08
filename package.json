@@ -1,6 +1,6 @@
 {
   "name": "react-plot",
-  "version": "0.14.0",
+  "version": "0.16.0",
   "description": "Library of React components to render SVG 2D plots.",
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
@@ -66,6 +66,7 @@
     "eslint": "^8.8.0",
     "mass-tools": "^0.60.27",
     "ml-dataset-iris": "^1.2.1",
+    "ml-directional-distribution": "^0.1.0",
     "ml-pca": "^4.0.2",
     "ml-regression-simple-linear": "^2.0.3",
     "ml-spectra-processing": "^9.0.0",

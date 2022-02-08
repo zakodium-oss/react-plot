@@ -4,6 +4,7 @@ import { Annotations } from '../components/Annotations/Annotation';
 import { Axis } from '../components/Axis/Axis';
 import { ParallelAxis } from '../components/Axis/ParallelAxis';
 import { BarSeries } from '../components/BarSeries';
+import { FunctionSeries } from '../components/FunctionSeries';
 import { Heading } from '../components/Heading';
 import { Legend } from '../components/Legend';
 import { LineSeries } from '../components/LineSeries';
@@ -43,6 +44,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       console.error('Invalid Plot child:', child);
       throw new Error('invalid Plot child');
     } else if (
+      child.type === FunctionSeries ||
       child.type === LineSeries ||
       child.type === ScatterSeries ||
       child.type === RangeSeries ||

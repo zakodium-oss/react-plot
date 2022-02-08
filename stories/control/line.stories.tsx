@@ -19,10 +19,12 @@ export default {
       stroke: 'black',
     },
     markerStyle: { fill: 'black' },
-
+    xShift: '0',
+    yShift: '0',
+    xAxis: 'x',
+    yAxis: 'y',
     hidden: false,
     label: 'Label',
-
     markerShape: 'circle',
 
     markerSize: 10,

@@ -107,28 +107,29 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           }
           click.current = true;
         }}
-        onKeyDown={({
-          event: { altKey },
-          x: { max: maxX, min: minX },
-          y: { max: maxY, min: minY },
-        }) => {
-          if (!click.current) {
-            setPositions((positions) => ({
-              ...positions,
-              alt: altKey,
-              maxX,
-              minX,
-              maxY,
-              minY,
-            }));
-          }
-        }}
-        onKeyUp={({ event: { altKey } }) => {
-          if (!click.current || alt) {
-            click.current = false;
-            setPositions((positions) => ({ ...positions, alt: altKey }));
-          }
-        }}
+        // TODO: rewrite this differently.
+        // onKeyDown={({
+        //   event: { altKey },
+        //   x: { max: maxX, min: minX },
+        //   y: { max: maxY, min: minY },
+        // }) => {
+        //   if (!click.current) {
+        //     setPositions((positions) => ({
+        //       ...positions,
+        //       alt: altKey,
+        //       maxX,
+        //       minX,
+        //       maxY,
+        //       minY,
+        //     }));
+        //   }
+        // }}
+        // onKeyUp={({ event: { altKey } }) => {
+        //   if (!click.current || alt) {
+        //     click.current = false;
+        //     setPositions((positions) => ({ ...positions, alt: altKey }));
+        //   }
+        // }}
         onMouseUp={() => {
           if (click.current && !alt && rectangle.x1 !== rectangle.x2) {
             setPositions((positions) => ({

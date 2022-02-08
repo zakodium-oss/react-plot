@@ -31,7 +31,12 @@ export type CSSFuncProps<T> = {
     | ((point: T, index?: number, data?: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
-
+export type ShapeFuncProps<T> =
+  | ((point: T, index?: number, data?: T[]) => Shape)
+  | Shape;
+export type LabelFuncProps<T> =
+  | ((point: T, index?: number, data?: T[]) => string)
+  | string;
 export interface BaseSeriesProps<T = SeriesPoint> {
   id?: string;
   xAxis?: string;
@@ -39,6 +44,8 @@ export interface BaseSeriesProps<T = SeriesPoint> {
   data: Array<T>;
   label?: string;
   hidden?: boolean;
+  xShift?: number | string;
+  yShift?: number | string;
 }
 
 export type ActionType<Action, Payload = void> = Payload extends void
