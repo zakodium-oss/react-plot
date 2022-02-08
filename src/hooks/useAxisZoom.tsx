@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 
 import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import {
@@ -28,7 +28,10 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     rectangleStyle,
     lineStyle,
   } = options;
-
+  const [maxMin, setMaxMin] = useState<{ max?: number; min?: number }>({
+    max: undefined,
+    min: undefined,
+  });
   const plotControls = usePlotControls();
 
   const startMoveEnd = useStartMoveEnd({
@@ -38,9 +41,12 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
       if (start === end) {
         return;
       }
+      const min = Math.min(start, end);
+      const max = Math.max(start, end);
+      setMaxMin({ max, min });
       plotControls.setAxis(axisId, {
-        min: Math.min(start, end),
-        max: Math.max(start, end),
+        min,
+        max,
       });
     },
   });
@@ -49,6 +55,10 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxis(axisId);
+      setMaxMin({
+        max: undefined,
+        min: undefined,
+      });
     },
   });
 
@@ -91,5 +101,5 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     );
   }
 
-  return { annotations };
+  return { annotations, ...maxMin };
 }
