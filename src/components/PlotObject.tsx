@@ -51,15 +51,7 @@ export interface PlotObjectPlot {
     height: number;
     margin?: Partial<Margins>;
   };
-  svg?: Pick<
-    PlotProps,
-    | 'plotViewportStyle'
-    | 'seriesViewportStyle'
-    | 'onClick'
-    | 'onMouseMove'
-    | 'onMouseEnter'
-    | 'onMouseLeave'
-  > & {
+  svg?: Pick<PlotProps, 'plotViewportStyle' | 'seriesViewportStyle'> & {
     className?: string;
     id?: string;
     style?: PlotProps['svgStyle'];
