@@ -14,6 +14,8 @@ import {
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
+import { useMaxMin } from '../../src/hooks';
+import { useGrab } from '../../src/hooks/useGrab';
 import { useScrollZoom } from '../../src/hooks/useScrollZoom';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
@@ -47,8 +49,12 @@ interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const { annotations, min, max } = useAxisZoom();
+  const { annotations } = useAxisZoom();
+  const {
+    x: { max, min },
+  } = useMaxMin();
   useScrollZoom();
+  const { cursor } = useGrab();
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
     ensureCase: true,
@@ -80,9 +86,9 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
     <div>
       <Plot
         {...DEFAULT_PLOT_CONFIG}
-        // svgStyle={{
-        //   cursor: `${alt ? (click.current ? 'grabbing' : 'grab') : ''}`,
-        // }}
+        svgStyle={{
+          cursor: cursor,
+        }}
         // TODO: rewrite this differently.
         // onKeyDown={({
         //   event: { altKey },

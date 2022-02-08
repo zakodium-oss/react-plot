@@ -5,6 +5,7 @@ import { PlotAxisContext, PlotSeriesState } from '../contexts/plotContext';
 import {
   MouseEventType,
   PlotEventsPlotActions,
+  KeyboardEventType,
 } from '../contexts/plotController/usePlotEvents';
 import { SeriesPoint } from '../types';
 import { closestPoint, toNumber } from '../utils';
@@ -178,8 +179,10 @@ type NativeMouseEventType =
   | 'click'
   | 'dblclick'
   | 'wheel';
-
-const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
+const mouseEventMap: Record<
+  NativeMouseEventType,
+  MouseEventType | KeyboardEventType
+> = {
   mouseenter: 'onMouseEnter',
   mouseleave: 'onMouseLeave',
   mousedown: 'onMouseDown',
@@ -189,7 +192,6 @@ const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
   dblclick: 'onDoubleClick',
   wheel: 'onWheel',
 };
-
 const mouseEvents: readonly NativeMouseEventType[] = [
   'mouseenter',
   'mouseleave',
@@ -200,12 +202,17 @@ const mouseEvents: readonly NativeMouseEventType[] = [
   'dblclick',
   'wheel',
 ];
-
 const globalMouseEvents: readonly NativeMouseEventType[] = [
   'mousemove',
   'mouseup',
 ];
 
+type NativeKeyboardEventType = 'keydown' | 'keyup';
+const keyboardEvents: NativeKeyboardEventType[] = ['keydown', 'keyup'];
+const keyboardEventMap: Record<NativeKeyboardEventType, KeyboardEventType> = {
+  keyup: 'onKeyDown',
+  keydown: 'onKeyUp',
+};
 export default function Tracking({
   plotId,
   plotEvents,
@@ -263,22 +270,30 @@ export default function Tracking({
       );
       plotEvents.handleEvent(plotId, 'onWheel', info);
     }
+    function keyboardEventListener(event: KeyboardEvent) {
+      plotEvents.handleEvent(plotId, keyboardEventMap[event.type], { event });
+    }
     mouseEvents.forEach((mouseEvent) => {
       if (mouseEvent === 'wheel') {
         return rect.addEventListener(mouseEvent, wheelEventListener);
       }
       return rect.addEventListener(mouseEvent, mouseEventListener);
     });
-    rect.addEventListener('onWheel', wheelEventListener);
+    keyboardEvents.forEach((keyboardEvent) =>
+      rect.addEventListener(keyboardEvent, keyboardEventListener),
+    );
     return () => {
       mouseEvents.forEach((mouseEvent) => {
         if (mouseEvent === 'wheel') {
           return rect.removeEventListener(mouseEvent, wheelEventListener);
         }
-        rect.removeEventListener(mouseEvent, mouseEventListener);
+        return rect.removeEventListener(mouseEvent, mouseEventListener);
       });
       globalMouseEvents.forEach((mouseEvent) =>
         window.removeEventListener(mouseEvent, mouseEventListener),
+      );
+      keyboardEvents.forEach((keyboardEvent) =>
+        rect.removeEventListener(keyboardEvent, keyboardEventListener),
       );
     };
   }, [plotId, plotEvents]);
