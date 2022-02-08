@@ -1,5 +1,14 @@
 # Changelog
 
+### [0.16.1](https://www.github.com/zakodium/react-plot/compare/v0.16.0...v0.16.1) (2022-02-08)
+
+
+### Bug Fixes
+
+* heading ([7755fb6](https://www.github.com/zakodium/react-plot/commit/7755fb64f334681c35b3665296274e48beed9573))
+* remove event props from plot object props ([930fd26](https://www.github.com/zakodium/react-plot/commit/930fd2638651932878fe552d7248b29b3e9b5a06))
+* update packages ([728eadd](https://www.github.com/zakodium/react-plot/commit/728eadd0ad42477f4225bff74bfd4426b88655e9))
+
 ## [0.16.0](https://www.github.com/zakodium/react-plot/compare/v0.15.0...v0.16.0) (2022-02-07)
 
 
