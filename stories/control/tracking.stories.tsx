@@ -1,19 +1,18 @@
 import { Meta } from '@storybook/react';
-import { useState } from 'react';
 
-import {
-  Axis,
-  LineSeries,
-  Plot,
-  Annotation,
-  Annotations,
-  SeriesPoint,
-} from '../../src';
-import { ClosestInfoResult } from '../../src/components/Tracking';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { Axis, LineSeries, Plot, Annotations, SeriesPoint } from '../../src';
+import { ClosestMethods } from '../../src/components/Tracking';
+import useClosestInfo from '../../src/hooks/useClosestInfo';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'API/Tracking',
+  decorators: [PlotControllerDecorator],
+  component: Tracking,
+  args: {
+    method: ClosestMethods.euclidean,
+    displayMarker: false,
+  },
 } as Meta;
 
 const data = [
@@ -24,29 +23,19 @@ const data = [
   { x: 5, y: 10 },
 ];
 
-interface Positions {
-  coordinates: Record<string, number>;
-  position: Record<'x' | 'y', number>;
-}
-
 interface TrackingProps {
   data: SeriesPoint[][];
   displayMarker?: boolean;
+  method: ClosestMethods;
 }
-function Tracking({ data, displayMarker }: TrackingProps) {
-  const [hover, setHover] = useState<Positions | null>(null);
-  const [closest, setClosest] = useState<ClosestInfoResult | null>(null);
+function Tracking({ data, displayMarker, method }: TrackingProps) {
+  const { annotations, infoDiv } = useClosestInfo({
+    method,
+  });
 
   return (
-    <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
-          setHover({ coordinates, position: { x: pageX, y: pageY } });
-        }}
-        onClick={({ getClosest }) => setClosest(getClosest('euclidean'))}
-        onMouseLeave={() => setHover(null)}
-      >
+    <div className="relative">
+      <Plot {...DEFAULT_PLOT_CONFIG}>
         {data.map((subdata, i) => (
           <LineSeries
             // eslint-disable-next-line react/no-array-index-key
@@ -60,66 +49,22 @@ function Tracking({ data, displayMarker }: TrackingProps) {
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
         <Axis id="y" position="left" />
-        {closest && (
-          <Annotations>
-            {Object.entries(closest).map(([id, info]) => (
-              <Annotation.Shape
-                key={id}
-                shape="circle"
-                x={info.point.x}
-                y={info.point.y}
-                size={5}
-              />
-            ))}
-          </Annotations>
-        )}
+        <Annotations>{annotations}</Annotations>
       </Plot>
-      {hover && (
-        <div
-          style={{
-            position: 'absolute',
-            left: hover.position.x + 5,
-            top: hover.position.y + 5,
-            borderStyle: 'solid',
-            padding: '5px',
-            backgroundColor: 'white',
-          }}
-        >
-          <b>VALUES</b>
-          {Object.keys(hover.coordinates).map((key) => (
-            <div key={key}>
-              {key}: {Math.round(hover.coordinates[key] * 100) / 100}
-            </div>
-          ))}
-        </div>
-      )}
-      {closest && (
-        <div>
-          <b>Closest point</b>
-          {Object.keys(closest).map((key) => (
-            <p key={key}>
-              <b>{closest[key].label}</b>
-              <span>
-                {' x: '}
-                {Math.round((closest[key].point.x || 0) * 100) / 100}
-              </span>
-              <span>
-                {' y: '}
-                {Math.round((closest[key].point.y || 0) * 100) / 100}
-              </span>
-            </p>
-          ))}
-        </div>
-      )}
+      {infoDiv}
     </div>
   );
 }
 
-export function TrackingExample() {
-  return <Tracking data={[data]} displayMarker />;
+interface TrackingExampleProps {
+  method: ClosestMethods;
 }
 
-export function TrackingBig() {
+export function TrackingExample(props: TrackingExampleProps) {
+  return <Tracking data={[data]} displayMarker method={props.method} />;
+}
+
+export function TrackingBig(props: TrackingExampleProps) {
   const len = 100000;
   let data1: SeriesPoint[] = new Array(len);
   let data2: SeriesPoint[] = new Array(len);
@@ -133,6 +78,6 @@ export function TrackingBig() {
       y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
     };
   }
-  return <Tracking data={[data1, data2]} />;
+  return <Tracking data={[data1, data2]} method={props.method} />;
 }
 TrackingBig.storyName = 'Tracking on medium amount of data';

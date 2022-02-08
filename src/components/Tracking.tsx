@@ -12,11 +12,15 @@ import { closestPoint, toNumber } from '../utils';
 export interface ClosestInfo<T extends ClosestMethods> {
   point: SeriesPoint;
   label: string;
-  axis: T extends 'euclidean'
+  axis: T extends ClosestMethods.euclidean
     ? Record<'x' | 'y', PlotAxisContext>
     : PlotAxisContext;
 }
-export type ClosestMethods = 'x' | 'y' | 'euclidean';
+export enum ClosestMethods {
+  x = 'x',
+  y = 'y',
+  euclidean = 'euclidean',
+}
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
   event: MouseEvent;
