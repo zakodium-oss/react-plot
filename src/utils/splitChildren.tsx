@@ -94,6 +94,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       if (heading !== null) {
         throw new Error('Plot can only have one Heading element');
       }
+      heading = child;
     } else if (child.type === Legend) {
       if (legend !== null) {
         throw new Error('Plot can only have one Legend element');
