@@ -76,10 +76,8 @@ export function Control(props: LegendProps) {
   );
 }
 
-type TestProps = LegendProps & { hidden: boolean };
-
-export function WithTwoSeries(props: TestProps) {
-  const { hidden, ...otherProps } = props;
+export function WithHiddenSerie(props: LegendProps) {
+  const [hidden, setHidden] = useState(false);
   const [highlightSeries, setHighlightSeries] = useState<
     Record<string, boolean>
   >({ undefined });
@@ -93,50 +91,53 @@ export function WithTwoSeries(props: TestProps) {
     strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
   };
   return (
-    <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend
-        {...otherProps}
-        labelStyle={{
-          fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
-          cursor: 'hand',
-        }}
-        onClick={({ id }) => updateHightlight(id)}
-        lineStyle={lineStyle}
-      />
-      <LineSeries
-        data={data1}
-        lineStyle={lineStyle}
-        xAxis="x"
-        yAxis="y"
-        label="Label line series"
-      />
-      <LineSeries
-        data={data2}
-        markerStyle={{ fill: 'green' }}
-        lineStyle={{
-          stroke: 'blue',
-          ...lineStyle,
-        }}
-        markerShape="square"
-        displayMarker
-        xAxis="x"
-        yAxis="y"
-        label="Label line series 2"
-        hidden={hidden}
-      />
-      <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" label="Y" />
-    </Plot>
+    <>
+      <div>
+        <button type="button" onClick={() => setHidden((hidden) => !hidden)}>
+          {hidden ? 'Show series 2' : 'Hide series 2'}
+        </button>
+      </div>
+      <Plot {...DEFAULT_PLOT_CONFIG}>
+        <Legend
+          {...props}
+          labelStyle={{
+            fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
+            cursor: 'hand',
+          }}
+          onClick={({ id }) => updateHightlight(id)}
+          lineStyle={lineStyle}
+        />
+        <LineSeries
+          data={data1}
+          lineStyle={lineStyle}
+          xAxis="x"
+          yAxis="y"
+          label="Label line series"
+        />
+        <LineSeries
+          data={data2}
+          markerStyle={{ fill: 'green' }}
+          lineStyle={{
+            stroke: 'blue',
+            ...lineStyle,
+          }}
+          markerShape="square"
+          displayMarker
+          xAxis="x"
+          yAxis="y"
+          label="Label line series 2"
+          hidden={hidden}
+        />
+        <Axis id="x" position="bottom" label="X" />
+        <Axis id="y" position="left" label="Y" />
+      </Plot>
+    </>
   );
 }
 
-WithTwoSeries.storyName = 'With two series';
-WithTwoSeries.args = {
-  hidden: false,
-};
+WithHiddenSerie.storyName = 'With hidden serie';
 
-type TestShowHideProps = LegendProps & { showHide: boolean };
-export function WithShowHide(props: TestShowHideProps) {
+export function WithShowHide(props: LegendProps) {
   const { showHide, ...otherProps } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
