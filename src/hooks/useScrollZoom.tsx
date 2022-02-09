@@ -1,6 +1,9 @@
+import { useState } from 'react';
+
 import {
   usePlotControls,
   usePlotEvents,
+  usePlotOverrides,
 } from '../contexts/plotController/plotControllerContext';
 
 export interface UseScrollZoomOptions {
@@ -16,15 +19,25 @@ export function useScrollZoom(options: UseScrollZoomOptions = {}) {
 
   const plotControls = usePlotControls();
 
+  const {
+    axes: { [axisId]: oldY },
+  } = usePlotOverrides();
+  const [y, setY] = useState(oldY);
+
   usePlotEvents({
     onWheel({ coordinates: { y1, y2 } }) {
-      const min = Math.min(y1, y2);
-      const max = Math.max(y1, y2);
-      plotControls.setAxis(axisId, { min, max });
+      const minMax = {
+        min: Math.min(y1, y2),
+        max: Math.max(y1, y2),
+      };
+      plotControls.setAxis(axisId, minMax);
+      setY(minMax);
     },
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxis(axisId);
+      setY(undefined);
     },
   });
+  return y;
 }

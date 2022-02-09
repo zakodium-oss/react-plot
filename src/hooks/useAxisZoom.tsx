@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useState } from 'react';
 
 import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import {
@@ -8,6 +8,7 @@ import {
 import {
   usePlotControls,
   usePlotEvents,
+  usePlotOverrides,
 } from '../contexts/plotController/plotControllerContext';
 
 import { useStartMoveEnd } from './useStartMoveEnd';
@@ -28,8 +29,12 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     rectangleStyle,
     lineStyle,
   } = options;
-  const plotControls = usePlotControls();
 
+  const {
+    axes: { [axisId]: oldX },
+  } = usePlotOverrides();
+  const [x, setX] = useState(oldX);
+  const plotControls = usePlotControls();
   const startMoveEnd = useStartMoveEnd({
     onEnd(data) {
       const start = startMoveEnd.start.clampedCoordinates[axisId];
@@ -37,10 +42,12 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
       if (start === end) {
         return;
       }
-      plotControls.setAxis(axisId, {
+      const minMax = {
         min: Math.min(start, end),
         max: Math.max(start, end),
-      });
+      };
+      plotControls.setAxis(axisId, minMax);
+      setX(minMax);
     },
   });
 
@@ -48,11 +55,12 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxis(axisId);
+      setX(undefined);
     },
   });
 
   if (!startMoveEnd?.end) {
-    return { annotations: null };
+    return { annotations: null, ...x };
   }
 
   const start = startMoveEnd.start.clampedCoordinates[axisId];
@@ -90,5 +98,5 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     );
   }
 
-  return { annotations };
+  return { annotations, ...x };
 }
