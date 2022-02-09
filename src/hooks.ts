@@ -1,8 +1,8 @@
 import { euclidean } from 'ml-distance-euclidean';
+import { useMemo } from 'react';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
-import { usePlotOverrides } from './contexts/plotController/plotControllerContext';
 import { toNumber, validateAxis } from './utils';
 
 type NumberOrString = number | string;
@@ -200,15 +200,19 @@ interface AxisId {
 }
 export function useMaxMin(options: AxisId = {}) {
   const { xAxis = 'x', yAxis = 'y' } = options;
-  const overrides = usePlotOverrides();
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const [xScale, yScale] = useMemo(
+    () => validateAxis(axisContext, xAxis, yAxis),
+    [axisContext, xAxis, yAxis],
+  );
   return {
     [xAxis]: {
-      max: overrides[xAxis]?.max,
-      min: overrides[xAxis]?.min,
+      max: toNumber(xScale?.invert(plotWidth)),
+      min: toNumber(xScale?.invert(0)),
     },
     [yAxis]: {
-      max: overrides[yAxis]?.max,
-      min: overrides[yAxis]?.min,
+      max: toNumber(yScale?.invert(0)),
+      min: toNumber(yScale?.invert(plotHeight)),
     },
   };
 }
