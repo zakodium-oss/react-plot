@@ -7,7 +7,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useShift } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import type { BaseSeriesProps } from '../types';
 import { useId, validateAxis } from '../utils';
 
@@ -65,6 +65,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     return () => dispatch({ type: 'removeData', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
@@ -96,7 +97,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     transform: `translate(${xShift},${yShift})`,
   };
 
-  return <RangeSeriesRender {...lineProps} />;
+  return isVisible ? <RangeSeriesRender {...lineProps} /> : null;
 }
 
 interface RangeSeriesRenderProps {

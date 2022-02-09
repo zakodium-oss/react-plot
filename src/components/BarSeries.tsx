@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
-import { useShift } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import type { SeriesPoint } from '../types';
 import { functionalStyle, useId, validateAxis } from '../utils';
 
@@ -51,7 +51,7 @@ export function BarSeries(props: BarSeriesProps) {
       hidden: !displayMarker,
     };
   }, [color, displayMarker, figure]);
-
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     legendDispatch({
       type: 'ADD_LEGEND_LABEL',
@@ -66,7 +66,7 @@ export function BarSeries(props: BarSeriesProps) {
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [colorLine, legendDispatch, otherProps.label, shape, id]);
 
-  return (
+  return isVisible ? (
     <g>
       {props.hidden ? null : <BarSeriesRender {...lineProps} />}
       <ScatterSeries
@@ -75,7 +75,7 @@ export function BarSeries(props: BarSeriesProps) {
         id={id}
       />
     </g>
-  );
+  ) : null;
 }
 
 interface BarSeriesRenderProps {

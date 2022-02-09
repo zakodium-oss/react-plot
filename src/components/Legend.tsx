@@ -120,6 +120,7 @@ export type LegendProps = {
   }) => void;
   labelStyle?: CSSFuncProps<{ id: string }>;
   lineStyle?: CSSFuncProps<{ id: string }>;
+  showHide?: boolean;
 } & { [K in Position]?: number };
 
 export function Legend({
@@ -128,11 +129,12 @@ export function Legend({
   onClick,
   labelStyle: oldLabelStyle,
   lineStyle,
+  showHide = false,
   ...legendOffsets
 }: LegendProps) {
   const { plotWidth, plotHeight } = usePlotContext();
   const plotDispatch = usePlotDispatchContext();
-  const [state] = useLegend();
+  const [state, legendDispatch] = useLegend();
   const legendOffset = useContext(legendOffsetContext);
 
   const alignGroupProps = useMemo(() => {
@@ -150,18 +152,34 @@ export function Legend({
     return () => plotDispatch({ type: 'removeLegend' });
   }, [plotDispatch, position, margin]);
 
+  function onClickLegendItem(
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    id: string,
+  ) {
+    onClick?.({ event, id });
+    if (showHide) {
+      legendDispatch({
+        type: 'TOGGLE_VISIBILITY',
+        payload: { id },
+      });
+    }
+  }
+
   return (
     <AlignGroup {...alignGroupProps}>
       {state.labels.map((value, index) => {
         const xPos = 10;
         const yPos = (index + 1) * 16 - xPos + 5;
-        const labelStyle = functionalStyle({}, oldLabelStyle, { id: value.id });
-        const style = functionalStyle({}, lineStyle, { id: value.id });
+        const { id } = value;
+        const labelStyle = functionalStyle({}, oldLabelStyle, { id });
+        const style = functionalStyle({}, lineStyle, { id });
         if (value.range) {
           return (
             <g
+              onClick={(event) => onClickLegendItem(event, id)}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
+              style={{ opacity: value.isVisible ? '1' : '0.6' }}
             >
               {getRangeShape({
                 index,
@@ -185,11 +203,10 @@ export function Legend({
         const Marker = markersComps[value.shape.figure];
         return (
           <g
-            onClick={(event) => {
-              onClick?.({ event, id: value.id });
-            }}
+            onClick={(event) => onClickLegendItem(event, id)}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
+            style={{ opacity: value.isVisible ? '1' : '0.6' }}
           >
             {getLineShape({ index, color: value.colorLine, style })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>

@@ -12,8 +12,8 @@ import type { ActionType, Shape } from '../types';
 
 interface LegendLabelState {
   id: string;
+  isVisible: boolean;
   label?: string;
-
   shape?: {
     figure: Shape;
     color: string;
@@ -32,8 +32,9 @@ interface LegendState {
 }
 
 type LegendActions =
-  | ActionType<'ADD_LEGEND_LABEL', LegendLabelState>
-  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>;
+  | ActionType<'ADD_LEGEND_LABEL', Omit<LegendLabelState, 'isVisible'>>
+  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>
+  | ActionType<'TOGGLE_VISIBILITY', { id: string }>;
 
 type LegendDispatch = Dispatch<LegendActions>;
 type LegendContext = [LegendState, LegendDispatch];
@@ -57,9 +58,11 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
 
         const index = draft.labels.findIndex(({ id }) => newLegend.id === id);
         if (index < 0) {
-          draft.labels.push({ ...newLegend, shape });
+          draft.labels.push({ ...newLegend, shape, isVisible: true });
         } else {
-          draft.labels[index] = { ...newLegend, shape };
+          //isVisible should only updated in TOGGLE_VISIBILITY
+          const isVisible = draft.labels[index].isVisible;
+          draft.labels[index] = { ...newLegend, isVisible, shape };
         }
         return;
       }
@@ -68,6 +71,14 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         const index = draft.labels.findIndex((val) => val.id === id);
         if (index !== -1) {
           draft.labels.splice(index, 1);
+        }
+        return;
+      }
+      case 'TOGGLE_VISIBILITY': {
+        const { id } = action.payload;
+        const index = draft.labels.findIndex((val) => val.id === id);
+        if (index !== -1) {
+          draft.labels[index].isVisible = !draft.labels[index].isVisible;
         }
         return;
       }

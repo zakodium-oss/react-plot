@@ -3,7 +3,7 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
 import { usePlotContext } from '../contexts/plotContext';
-import { useShift } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, useId, validateAxis } from '../utils';
 
@@ -42,6 +42,7 @@ export function LineSeries(props: LineSeriesProps) {
     yShift: oldYShift,
   });
   const lineStyle = functionalStyle({}, OldLineStyle, { id });
+  const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
       legendDispatch({
@@ -49,9 +50,7 @@ export function LineSeries(props: LineSeriesProps) {
         payload: {
           id,
           label: otherProps.label,
-
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
@@ -96,8 +95,12 @@ export function LineSeries(props: LineSeriesProps) {
   };
   return (
     <g>
-      <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
-      <ErrorBars {...errorBarsProps} />
+      {isVisible && (
+        <>
+          <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
+          <ErrorBars {...errorBarsProps} />
+        </>
+      )}
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
   );
