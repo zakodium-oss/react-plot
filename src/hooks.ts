@@ -1,5 +1,4 @@
 import { euclidean } from 'ml-distance-euclidean';
-import { useMemo } from 'react';
 
 import { Scales } from './components/Axis/types';
 import { usePlotContext } from './contexts/plotContext';
@@ -192,27 +191,5 @@ export function useShift(options: UseShiftOptions) {
     xShiftInverted: convertToScale(xShift, plotWidth, xScale),
     yShift: convertToPx(yShift, plotHeight, yScale),
     yShiftInverted: convertToScale(yShift, plotHeight, yScale),
-  };
-}
-interface AxisId {
-  xAxis?: string;
-  yAxis?: string;
-}
-export function useMaxMin(options: AxisId = {}) {
-  const { xAxis = 'x', yAxis = 'y' } = options;
-  const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = useMemo(
-    () => validateAxis(axisContext, xAxis, yAxis),
-    [axisContext, xAxis, yAxis],
-  );
-  return {
-    [xAxis]: {
-      max: toNumber(xScale?.invert(plotWidth)),
-      min: toNumber(xScale?.invert(0)),
-    },
-    [yAxis]: {
-      max: toNumber(yScale?.invert(0)),
-      min: toNumber(yScale?.invert(plotHeight)),
-    },
   };
 }
