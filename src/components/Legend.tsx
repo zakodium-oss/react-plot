@@ -152,6 +152,19 @@ export function Legend({
     return () => plotDispatch({ type: 'removeLegend' });
   }, [plotDispatch, position, margin]);
 
+  function onClickLegendItem(
+    event: React.MouseEvent<SVGGElement, MouseEvent>,
+    id: string,
+  ) {
+    onClick?.({ event, id });
+    if (showHide) {
+      legendDispatch({
+        type: 'TOGGLE_VISIBILITY',
+        payload: { id },
+      });
+    }
+  }
+
   return (
     <AlignGroup {...alignGroupProps}>
       {state.labels.map((value, index) => {
@@ -163,15 +176,7 @@ export function Legend({
         if (value.range) {
           return (
             <g
-              onClick={(event) => {
-                onClick?.({ event, id });
-                if (showHide) {
-                  legendDispatch({
-                    type: 'TOGGLE_VISIBILITY',
-                    payload: { id },
-                  });
-                }
-              }}
+              onClick={(event) => onClickLegendItem(event, id)}
               key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
               transform={`translate(${xPos}, ${0})`}
               style={{ opacity: value.isVisible ? '1' : '0.6' }}
@@ -198,15 +203,7 @@ export function Legend({
         const Marker = markersComps[value.shape.figure];
         return (
           <g
-            onClick={(event) => {
-              onClick?.({ event, id });
-              if (showHide) {
-                legendDispatch({
-                  type: 'TOGGLE_VISIBILITY',
-                  payload: { id },
-                });
-              }
-            }}
+            onClick={(event) => onClickLegendItem(event, id)}
             key={`${value.colorLine}/${value.shape.color}-${value.label}`}
             transform={`translate(${xPos}, ${0})`}
             style={{ opacity: value.isVisible ? '1' : '0.6' }}
