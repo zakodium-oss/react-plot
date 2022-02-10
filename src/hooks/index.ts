@@ -3,3 +3,4 @@ export * from './useDrawRectangle';
 export * from './useRectangularZoom';
 export * from './useStartMoveEnd';
 export * from './useCrossHair';
+export * from './useDrawPath';

@@ -9,3 +9,7 @@ export interface RectangleOptions {
   color?: CSSProperties['stroke'];
   style?: CSSProperties;
 }
+export interface PathOptions {
+  color?: CSSProperties['stroke'];
+  style?: CSSProperties;
+}
