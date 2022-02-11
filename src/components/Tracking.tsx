@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 
 import { PlotAxisContext, PlotSeriesState } from '../contexts/plotContext';
 import {
+  KeyboardEventType,
   MouseEventType,
   PlotEventsPlotActions,
 } from '../contexts/plotController/usePlotEvents';
@@ -19,11 +20,12 @@ export interface ClosestInfo<T extends ClosestMethods> {
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
-  event: MouseEvent;
+  event: MouseEvent | KeyboardEvent;
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
+  axisDomains?: Record<string, [number, number]>;
 }
 
 export interface TrackingProps {
@@ -189,7 +191,6 @@ const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
   dblclick: 'onDoubleClick',
   wheel: 'onWheel',
 };
-
 const mouseEvents: readonly NativeMouseEventType[] = [
   'mouseenter',
   'mouseleave',
@@ -206,6 +207,17 @@ const globalMouseEvents: readonly NativeMouseEventType[] = [
   'mouseup',
 ];
 
+type NativeKeyboardEventType = 'keypress' | 'keydown' | 'keyup';
+const keyboardEventMap: Record<NativeKeyboardEventType, KeyboardEventType> = {
+  keypress: 'onKeyPress',
+  keydown: 'onKeyDown',
+  keyup: 'onKeyUp',
+};
+const keyboardEvents: NativeKeyboardEventType[] = [
+  'keypress',
+  'keydown',
+  'keyup',
+];
 export default function Tracking({
   plotId,
   plotEvents,
@@ -256,11 +268,19 @@ export default function Tracking({
       );
       plotEvents.handleEvent(plotId, mouseEventMap[event.type], info);
     }
-
+    function keyboardEventListener(event: KeyboardEvent) {
+      const axisDomains = Object.entries(plotDataRef.current.axisContext).map(
+        ([axis, { domain }]) => ({ [axis]: domain }),
+      );
+      const info = { event, axisDomains };
+      plotEvents.handleEvent(plotId, keyboardEventMap[event.type], info);
+    }
     mouseEvents.forEach((mouseEvent) =>
       rect.addEventListener(mouseEvent, mouseEventListener),
     );
-
+    keyboardEvents.forEach((keyboardEvent) =>
+      rect.addEventListener(keyboardEvent, keyboardEventListener),
+    );
     return () => {
       mouseEvents.forEach((mouseEvent) =>
         rect.removeEventListener(mouseEvent, mouseEventListener),
@@ -268,10 +288,15 @@ export default function Tracking({
       globalMouseEvents.forEach((mouseEvent) =>
         window.removeEventListener(mouseEvent, mouseEventListener),
       );
+      keyboardEvents.forEach((keyboardEvent) =>
+        rect.removeEventListener(keyboardEvent, keyboardEventListener),
+      );
     };
   }, [plotId, plotEvents]);
   return (
     <rect
+      tabIndex={0}
+      focusable
       ref={rectRef}
       width={plotWidth}
       height={plotHeight}

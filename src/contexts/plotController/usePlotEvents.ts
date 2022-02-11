@@ -3,6 +3,7 @@ import { RefObject, useMemo, useRef } from 'react';
 import { TrackingResult } from '../../components/Tracking';
 
 type MouseEventHandler = (result: TrackingResult) => void;
+type KeyboardEventHandler = (result: TrackingResult) => void;
 
 export type MouseEventType =
   | 'onMouseEnter'
@@ -13,9 +14,11 @@ export type MouseEventType =
   | 'onClick'
   | 'onDoubleClick'
   | 'onWheel';
-
+export type KeyboardEventType = 'onKeyDown' | 'onKeyUp' | 'onKeyPress';
 export type EventsHandlers = {
   [key in MouseEventType]?: MouseEventHandler;
+} & {
+  [key in KeyboardEventType]?: KeyboardEventHandler;
 };
 
 export interface PlotEventsUserActions {
@@ -64,7 +67,7 @@ export function usePlotEventsState() {
       },
       handleEvent(
         plotId: string,
-        eventType: MouseEventType,
+        eventType: keyof EventsHandlers,
         eventData: TrackingResult,
       ) {
         if (!plotEvents.current.plots.has(plotId)) {
