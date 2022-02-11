@@ -20,7 +20,7 @@ export interface ClosestInfo<T extends ClosestMethods> {
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult {
-  event: MouseEvent | KeyboardEvent;
+  event: MouseEvent;
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
