@@ -18,10 +18,10 @@ export interface ClosestInfo<T extends ClosestMethods> {
 }
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
-export interface TrackingResult {
-  event: MouseEvent;
-  coordinates: Record<string, number>;
-  clampedCoordinates: Record<string, number>;
+export interface TrackingResult<EventType extends MouseEvent = MouseEvent> {
+  event: EventType;
+  coordinates?: Record<string, number>;
+  clampedCoordinates?: Record<string, number>;
   movement?: Record<string, number>;
   newDomain?: Record<string, [number, number]>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
@@ -38,39 +38,34 @@ export interface TrackingProps {
 
 const HORIZONTAL = ['bottom', 'top'];
 
-function infoFromWheel(
-  event: WheelEvent,
-  axisContext: Record<string, PlotAxisContext>,
-  plotHeight: number,
-) {
-  const ratio = 1 + event.deltaY * -0.001;
-
-  // Calculate coordinates
-  let newDomain: TrackingResult['newDomain'] = {};
-  for (const key in axisContext) {
-    const { scale } = axisContext[key];
-    const position = scale(0);
-    const min =
-      ratio > 1 ? position * (1 - 1 / ratio) : position * (1 - 1 / ratio);
-
-    const max =
-      ratio > 1
-        ? position + (plotHeight - position) / ratio
-        : plotHeight + (plotHeight - position) * (1 / ratio - 1);
-    newDomain[key] = [toNumber(scale.invert(min)), toNumber(scale.invert(max))];
-  }
-  return {
-    event,
-    newDomain,
-  };
-}
-
-function infoFromMouse(
-  event: MouseEvent,
+function infoFromMouse<EventType extends MouseEvent | WheelEvent = MouseEvent>(
+  event: EventType,
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
+  plotHeight: number,
+  plotWidth: number,
   target: SVGRectElement,
-): TrackingResult {
+): TrackingResult<EventType> {
+  if (event instanceof WheelEvent) {
+    const ratio = 1 + event.deltaY * -0.001; // Calculate coordinates
+    let newDomain: TrackingResult['newDomain'] = {};
+    for (const key in axisContext) {
+      const { scale, position } = axisContext[key];
+      const total = HORIZONTAL.includes(position) ? plotWidth : plotHeight;
+      const pos = scale(0);
+      const min = ratio > 1 ? pos * (1 - 1 / ratio) : pos * (1 - 1 / ratio);
+
+      const max =
+        ratio > 1
+          ? pos + (total - pos) / ratio
+          : total + (total - pos) * (1 / ratio - 1);
+      newDomain[key] = [
+        toNumber(scale.invert(min)),
+        toNumber(scale.invert(max)),
+      ];
+    }
+    return { event, newDomain };
+  }
   const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = target.getBoundingClientRect();
 
@@ -246,21 +241,15 @@ export default function Tracking({
         );
       }
       let info;
+      info = infoFromMouse(
+        event,
+        plotDataRef.current.axisContext,
+        plotDataRef.current.stateSeries,
+        plotDataRef.current.plotHeight,
+        plotDataRef.current.plotWidth,
+        rect,
+      );
 
-      if (event instanceof WheelEvent && event.type === 'wheel') {
-        info = infoFromWheel(
-          event,
-          plotDataRef.current.axisContext,
-          plotDataRef.current.plotHeight,
-        );
-      } else {
-        info = infoFromMouse(
-          event,
-          plotDataRef.current.axisContext,
-          plotDataRef.current.stateSeries,
-          rect,
-        );
-      }
       plotEvents.handleEvent(plotId, mouseEventMap[event.type], info);
     }
     mouseEvents.forEach((mouseEvent) => {
