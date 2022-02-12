@@ -4,9 +4,11 @@ import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import { AnnotationTextProps, Text } from '../components/Annotations/Text';
 import { usePlotEvents } from '../contexts/plotController/plotControllerContext';
 
-import { DualAxisOptions } from './types';
+import { ControllerHookOptions, DualAxisOptions } from './types';
 
-export interface UseCrossHairOptions extends DualAxisOptions {
+export interface UseCrossHairOptions
+  extends ControllerHookOptions,
+    DualAxisOptions {
   color?: CSSProperties['stroke'];
   textStyle?: CSSProperties;
   textTransform?: string;
@@ -24,14 +26,17 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
     textStyle,
     textTransform = '',
   } = options;
-  usePlotEvents({
-    onMouseMove({ coordinates }) {
-      setHover(coordinates);
+  usePlotEvents(
+    {
+      onMouseMove({ coordinates }) {
+        setHover(coordinates);
+      },
+      onMouseLeave() {
+        setHover(null);
+      },
     },
-    onMouseLeave() {
-      setHover(null);
-    },
-  });
+    options,
+  );
 
   const lineProps: Partial<AnnotationLineProps> = {
     color,
