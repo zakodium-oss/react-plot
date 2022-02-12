@@ -83,8 +83,5 @@
     "immer": "^9.0.12",
     "ml-distance-euclidean": "^2.0.0",
     "react-d3-utils": "^0.5.0"
-  },
-  "volta": {
-    "node": "16.13.1"
   }
 }
