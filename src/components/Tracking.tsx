@@ -23,6 +23,7 @@ export interface TrackingResult {
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
+  newDomain?: Record<string, [number, number]>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 
@@ -45,22 +46,22 @@ function infoFromWheel(
   const ratio = 1 + event.deltaY * -0.001;
 
   // Calculate coordinates
-  let coordinates: TrackingResult['coordinates'] = {};
-  const { scale } = axisContext.y;
-  const yPosition = scale(0);
-  const y1 =
-    ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
+  let newDomain: TrackingResult['newDomain'] = {};
+  for (const key in axisContext) {
+    const { scale } = axisContext[key];
+    const position = scale(0);
+    const min =
+      ratio > 1 ? position * (1 - 1 / ratio) : position * (1 - 1 / ratio);
 
-  const y2 =
-    ratio > 1
-      ? yPosition + (plotHeight - yPosition) / ratio
-      : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
-  coordinates.y1 = toNumber(scale.invert(y1));
-  coordinates.y2 = toNumber(scale.invert(y2));
-
+    const max =
+      ratio > 1
+        ? position + (plotHeight - position) / ratio
+        : plotHeight + (plotHeight - position) * (1 / ratio - 1);
+    newDomain[key] = [toNumber(scale.invert(min)), toNumber(scale.invert(max))];
+  }
   return {
     event,
-    coordinates,
+    newDomain,
   };
 }
 
@@ -234,7 +235,7 @@ export default function Tracking({
     const rect = rectRef.current;
     if (!rectRef) return;
 
-    function mouseEventListener(event: MouseEvent) {
+    function mouseEventListener(event: MouseEvent | WheelEvent) {
       if (event.type === 'mousedown') {
         globalMouseEvents.forEach((mouseEvent) =>
           window.addEventListener(mouseEvent, mouseEventListener),
@@ -244,33 +245,29 @@ export default function Tracking({
           window.removeEventListener(mouseEvent, mouseEventListener),
         );
       }
-      const info = infoFromMouse(
-        event,
-        plotDataRef.current.axisContext,
-        plotDataRef.current.stateSeries,
-        rect,
-      );
+      let info;
+
+      if (event instanceof WheelEvent && event.type === 'wheel') {
+        info = infoFromWheel(
+          event,
+          plotDataRef.current.axisContext,
+          plotDataRef.current.plotHeight,
+        );
+      } else {
+        info = infoFromMouse(
+          event,
+          plotDataRef.current.axisContext,
+          plotDataRef.current.stateSeries,
+          rect,
+        );
+      }
       plotEvents.handleEvent(plotId, mouseEventMap[event.type], info);
     }
-    function wheelEventListener(event: WheelEvent) {
-      const info = infoFromWheel(
-        event,
-        plotDataRef.current.axisContext,
-        plotDataRef.current.plotHeight,
-      );
-      plotEvents.handleEvent(plotId, 'onWheel', info);
-    }
     mouseEvents.forEach((mouseEvent) => {
-      if (mouseEvent === 'wheel') {
-        return rect.addEventListener(mouseEvent, wheelEventListener);
-      }
       return rect.addEventListener(mouseEvent, mouseEventListener);
     });
     return () => {
       mouseEvents.forEach((mouseEvent) => {
-        if (mouseEvent === 'wheel') {
-          return rect.removeEventListener(mouseEvent, wheelEventListener);
-        }
         return rect.removeEventListener(mouseEvent, mouseEventListener);
       });
       globalMouseEvents.forEach((mouseEvent) =>

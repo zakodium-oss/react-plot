@@ -25,7 +25,11 @@ export function useScrollZoom(options: UseScrollZoomOptions = {}) {
   const [y, setY] = useState(oldY);
 
   usePlotEvents({
-    onWheel({ coordinates: { y1, y2 } }) {
+    onWheel({
+      newDomain: {
+        [axisId]: [y1, y2],
+      },
+    }) {
       const minMax = {
         min: Math.min(y1, y2),
         max: Math.max(y1, y2),
