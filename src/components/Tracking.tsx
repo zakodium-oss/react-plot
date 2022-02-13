@@ -174,6 +174,7 @@ type NativeMouseEventType =
   | 'click'
   | 'dblclick'
   | 'wheel';
+
 const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
   mouseenter: 'onMouseEnter',
   mouseleave: 'onMouseLeave',
@@ -184,6 +185,7 @@ const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
   dblclick: 'onDoubleClick',
   wheel: 'onWheel',
 };
+
 const mouseEvents: readonly NativeMouseEventType[] = [
   'mouseenter',
   'mouseleave',
@@ -240,8 +242,7 @@ export default function Tracking({
           window.removeEventListener(mouseEvent, mouseEventListener),
         );
       }
-      let info;
-      info = infoFromMouse(
+      const info = infoFromMouse(
         event,
         plotDataRef.current.axisContext,
         plotDataRef.current.stateSeries,
