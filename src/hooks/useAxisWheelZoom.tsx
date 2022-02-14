@@ -1,17 +1,14 @@
-import { useState } from 'react';
-
 import {
   usePlotControls,
   usePlotEvents,
-  usePlotOverrides,
 } from '../contexts/plotController/plotControllerContext';
 
-export interface UseScrollZoomOptions {
+export interface UseAxisWheelZoomOptions {
   direction?: 'horizontal' | 'vertical';
   axisId?: string;
 }
 
-export function useScrollZoom(options: UseScrollZoomOptions = {}) {
+export function useAxisWheelZoom(options: UseAxisWheelZoomOptions = {}) {
   const {
     direction = 'vertical',
     axisId = direction === 'horizontal' ? 'x' : 'y',
@@ -19,29 +16,20 @@ export function useScrollZoom(options: UseScrollZoomOptions = {}) {
 
   const plotControls = usePlotControls();
 
-  const {
-    axes: { [axisId]: oldY },
-  } = usePlotOverrides();
-  const [y, setY] = useState(oldY);
-
   usePlotEvents({
     onWheel({
-      newDomain: {
+      domain: {
         [axisId]: [y1, y2],
       },
     }) {
-      const minMax = {
+      plotControls.setAxis(axisId, {
         min: Math.min(y1, y2),
         max: Math.max(y1, y2),
-      };
-      plotControls.setAxis(axisId, minMax);
-      setY(minMax);
+      });
     },
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxis(axisId);
-      setY(undefined);
     },
   });
-  return y;
 }
