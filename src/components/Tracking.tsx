@@ -23,7 +23,7 @@ export interface TrackingResult<EventType extends MouseEvent = MouseEvent> {
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
-  domain?: Record<string, [number, number]>;
+  domains?: Record<string, readonly [number, number]>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 
@@ -42,33 +42,23 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
   event: EventType,
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
-  plotHeight: number,
-  plotWidth: number,
   target: SVGRectElement,
 ): TrackingResult<EventType> {
   const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = target.getBoundingClientRect();
   const onWheel = event instanceof WheelEvent;
-  const ratio = onWheel ? 1 + event.deltaY * -0.001 : 0;
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
   const coordinates: TrackingResult['coordinates'] = {};
   const clampedCoordinates: TrackingResult['clampedCoordinates'] = {};
-  const domain: TrackingResult['domain'] = {};
+  const domains: TrackingResult['domains'] = {};
   const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
-    const { scale, clampInDomain, position } = axisContext[key];
+    const { scale, clampInDomain, position, domain } = axisContext[key];
     const isHorizontal = HORIZONTAL.includes(position);
     if (onWheel) {
-      const total = isHorizontal ? plotWidth : plotHeight;
-      const pos = isHorizontal ? xPosition : scale(0);
-      const min = ratio > 1 ? pos * (1 - 1 / ratio) : pos * (1 - 1 / ratio);
-      const max =
-        ratio > 1
-          ? pos + (total - pos) / ratio
-          : total + (total - pos) * (1 / ratio - 1);
-      domain[key] = [toNumber(scale.invert(min)), toNumber(scale.invert(max))];
+      domains[key] = domain;
     }
     if (isHorizontal) {
       coordinates[key] = toNumber(scale.invert(xPosition));
@@ -93,7 +83,7 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
         stateSeries,
         axisContext,
       ),
-    domain,
+    domains,
   };
 }
 
@@ -239,8 +229,6 @@ export default function Tracking({
         event,
         plotDataRef.current.axisContext,
         plotDataRef.current.stateSeries,
-        plotDataRef.current.plotHeight,
-        plotDataRef.current.plotWidth,
         rect,
       );
 
