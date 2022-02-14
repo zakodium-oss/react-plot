@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react';
+import { CSSProperties } from 'react';
 
 import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import {
@@ -8,7 +8,6 @@ import {
 import {
   usePlotControls,
   usePlotEvents,
-  usePlotOverrides,
 } from '../contexts/plotController/plotControllerContext';
 
 import { useStartMoveEnd } from './useStartMoveEnd';
@@ -30,10 +29,6 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     lineStyle,
   } = options;
 
-  const {
-    axes: { [axisId]: oldX },
-  } = usePlotOverrides();
-  const [x, setX] = useState(oldX);
   const plotControls = usePlotControls();
   const startMoveEnd = useStartMoveEnd({
     onEnd(data) {
@@ -42,12 +37,10 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
       if (start === end) {
         return;
       }
-      const minMax = {
+      plotControls.setAxis(axisId, {
         min: Math.min(start, end),
         max: Math.max(start, end),
-      };
-      plotControls.setAxis(axisId, minMax);
-      setX(minMax);
+      });
     },
   });
 
@@ -55,12 +48,11 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     onDoubleClick({ event: { button } }) {
       if (button !== 0) return;
       plotControls.resetAxis(axisId);
-      setX(undefined);
     },
   });
 
   if (!startMoveEnd?.end) {
-    return { annotations: null, ...x };
+    return { annotations: null };
   }
 
   const start = startMoveEnd.start.clampedCoordinates[axisId];
@@ -98,5 +90,5 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     );
   }
 
-  return { annotations, ...x };
+  return { annotations };
 }
