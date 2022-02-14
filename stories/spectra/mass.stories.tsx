@@ -10,11 +10,12 @@ import {
   LineSeries,
   Plot,
   useAxisZoom,
+  useAxisWheelZoom,
+  usePlotControllerAxis,
 } from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
-import { useScrollZoom } from '../../src/hooks/useScrollZoom';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -47,8 +48,9 @@ interface AdvancedMassExampleProps {
   mf: string;
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const { annotations, max, min } = useAxisZoom();
-  useScrollZoom();
+  const zoom = useAxisZoom();
+  useAxisWheelZoom();
+  const { max, min } = usePlotControllerAxis('x');
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
     ensureCase: true,
@@ -118,7 +120,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
               </Text>
             </Group>
           ))}
-          {annotations}
+          {zoom.annotations}
         </Annotations>
         <Axis
           displayPrimaryGridLines
