@@ -91,6 +91,10 @@ export interface PlotProps {
    */
   seriesViewportStyle?: CSSProperties;
   /**
+   * Id of the parent PlotController that will control this plot.
+   */
+  controllerId?: string;
+  /**
    * All plot elements.
    */
   children: ReactNode;
@@ -118,6 +122,7 @@ export function Plot(props: PlotProps) {
     svgClassName,
     plotViewportStyle = {},
     seriesViewportStyle = {},
+    controllerId,
     children,
   } = props;
 
@@ -141,14 +146,14 @@ export function Plot(props: PlotProps) {
     throw new Error('height is mandatory');
   }
 
-  const plotEvents = usePlotEventsPlotContext();
+  const plotEvents = usePlotEventsPlotContext({ controllerId });
   useEffect(() => {
     if (!plotEvents) return;
     plotEvents.registerPlot(plotId);
     return () => plotEvents.unregisterPlot(plotId);
   }, [plotEvents, plotId]);
 
-  const plotOverrides = usePlotOverrides();
+  const plotOverrides = usePlotOverrides({ controllerId });
 
   // Bounding boxes used to adapt viewport size.
   const headingBbox = useBBoxObserver();

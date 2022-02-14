@@ -3,17 +3,22 @@ import {
   usePlotEvents,
 } from '../contexts/plotController/plotControllerContext';
 
-import { DualAxisOptions, RectangleOptions } from './types';
+import {
+  ControllerHookOptions,
+  DualAxisOptions,
+  RectangleOptions,
+} from './types';
 import { useDrawRectangle } from './useDrawRectangle';
 
 export interface UseRectangularZoomOptions
-  extends DualAxisOptions,
+  extends ControllerHookOptions,
+    DualAxisOptions,
     RectangleOptions {}
 
 export function useRectangularZoom(options: UseRectangularZoomOptions = {}) {
   const { horizontalAxisId = 'x', verticalAxisId = 'y' } = options;
 
-  const plotControls = usePlotControls();
+  const plotControls = usePlotControls(options);
   const { annotations } = useDrawRectangle({
     ...options,
     onDraw({ x1, x2, y1, y2 }) {
@@ -29,12 +34,15 @@ export function useRectangularZoom(options: UseRectangularZoomOptions = {}) {
       });
     },
   });
-  usePlotEvents({
-    onDoubleClick({ event: { button } }) {
-      if (button !== 0) return;
-      plotControls.resetAxes([horizontalAxisId, verticalAxisId]);
+  usePlotEvents(
+    {
+      onDoubleClick({ event: { button } }) {
+        if (button !== 0) return;
+        plotControls.resetAxes([horizontalAxisId, verticalAxisId]);
+      },
     },
-  });
+    options,
+  );
 
   return { annotations };
 }

@@ -1,10 +1,15 @@
 import { Rectangle } from '../components/Annotations/Rectangle';
 
-import { DualAxisOptions, RectangleOptions } from './types';
+import {
+  ControllerHookOptions,
+  DualAxisOptions,
+  RectangleOptions,
+} from './types';
 import { useStartMoveEnd } from './useStartMoveEnd';
 
 export interface UseDrawRectangleOptions
-  extends DualAxisOptions,
+  extends ControllerHookOptions,
+    DualAxisOptions,
     RectangleOptions {
   onDraw?: (rectangle: {
     x1: number;
@@ -16,6 +21,7 @@ export interface UseDrawRectangleOptions
 
 export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
   const {
+    controllerId,
     horizontalAxisId = 'x',
     verticalAxisId = 'y',
     color = 'red',
@@ -24,6 +30,7 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
   } = options;
 
   const startMoveEnd = useStartMoveEnd({
+    controllerId,
     onEnd(data) {
       const x1 = startMoveEnd.start.clampedCoordinates[horizontalAxisId];
       const x2 = data.clampedCoordinates[horizontalAxisId];
