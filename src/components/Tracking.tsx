@@ -59,9 +59,10 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
   const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
     const { scale, clampInDomain, position } = axisContext[key];
+    const isHorizontal = HORIZONTAL.includes(position);
     if (onWheel) {
-      const total = HORIZONTAL.includes(position) ? plotWidth : plotHeight;
-      const pos = HORIZONTAL.includes(position) ? clientY - top : scale(0);
+      const total = isHorizontal ? plotWidth : plotHeight;
+      const pos = isHorizontal ? xPosition : scale(0);
       const min = ratio > 1 ? pos * (1 - 1 / ratio) : pos * (1 - 1 / ratio);
       const max =
         ratio > 1
@@ -69,7 +70,7 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
           : total + (total - pos) * (1 / ratio - 1);
       domain[key] = [toNumber(scale.invert(min)), toNumber(scale.invert(max))];
     }
-    if (HORIZONTAL.includes(position)) {
+    if (isHorizontal) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] =
         toNumber(scale.invert(movementX)) - toNumber(scale.invert(0));

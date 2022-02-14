@@ -49,8 +49,8 @@ interface AdvancedMassExampleProps {
 }
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const zoom = useAxisZoom();
-  useAxisWheelZoom();
-  const { max, min } = usePlotControllerAxis('x');
+  useAxisWheelZoom({ direction: 'horizontal' });
+  const { max, min } = usePlotControllerAxis({ axisId: 'x' });
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
     ensureCase: true,
