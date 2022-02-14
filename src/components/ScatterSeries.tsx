@@ -6,7 +6,7 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../contexts/plotContext';
-import { useShift } from '../hooks';
+import { useIsSeriesVisible, useShift } from '../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
@@ -58,6 +58,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     ...otherProps
   } = props;
 
+  const isVisible = useIsSeriesVisible(id);
   const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
     xAxis,
     yAxis,
@@ -73,7 +74,6 @@ export function ScatterSeries(props: ScatterSeriesProps) {
           id,
           label,
           colorLine: 'white',
-
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: 'circle',
@@ -119,7 +119,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     transform,
   };
 
-  return (
+  return isVisible ? (
     <g>
       <ErrorBars {...inheritedProps} {...errorBarsProps} />
       <ScatterSeriesRender
@@ -129,7 +129,7 @@ export function ScatterSeries(props: ScatterSeriesProps) {
         transform={transform}
       />
     </g>
-  );
+  ) : null;
 }
 
 interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {

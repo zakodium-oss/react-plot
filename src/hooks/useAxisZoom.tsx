@@ -10,9 +10,10 @@ import {
   usePlotEvents,
 } from '../contexts/plotController/plotControllerContext';
 
+import { ControllerHookOptions } from './types';
 import { useStartMoveEnd } from './useStartMoveEnd';
 
-export interface UseAxisZoomOptions {
+export interface UseAxisZoomOptions extends ControllerHookOptions {
   direction?: 'horizontal' | 'vertical';
   axisId?: string;
   color?: CSSProperties['stroke'];
@@ -22,6 +23,7 @@ export interface UseAxisZoomOptions {
 
 export function useAxisZoom(options: UseAxisZoomOptions = {}) {
   const {
+    controllerId,
     direction = 'horizontal',
     axisId = direction === 'horizontal' ? 'x' : 'y',
     color = 'red',
@@ -29,8 +31,10 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     lineStyle,
   } = options;
 
-  const plotControls = usePlotControls();
+  const plotControls = usePlotControls(options);
+
   const startMoveEnd = useStartMoveEnd({
+    controllerId,
     onEnd(data) {
       const start = startMoveEnd.start.clampedCoordinates[axisId];
       const end = data.clampedCoordinates[axisId];
@@ -44,12 +48,15 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     },
   });
 
-  usePlotEvents({
-    onDoubleClick({ event: { button } }) {
-      if (button !== 0) return;
-      plotControls.resetAxis(axisId);
+  usePlotEvents(
+    {
+      onDoubleClick({ event: { button } }) {
+        if (button !== 0) return;
+        plotControls.resetAxis(axisId);
+      },
     },
-  });
+    options,
+  );
 
   if (!startMoveEnd?.end) {
     return { annotations: null };

@@ -1,5 +1,8 @@
-import { createContext, ReactNode, useContext, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 
+import { ControllerHookOptions } from '../../hooks/types';
+
+import { createNestableContext } from './nestableContext';
 import {
   EventsHandlers,
   PlotEventsPlotActions,
@@ -13,33 +16,41 @@ import {
   usePlotOverridesState,
 } from './usePlotOverrides';
 
-const plotOverridesContext = createContext<PlotOverridesState>(
+const plotOverridesContext = createNestableContext<PlotOverridesState>(
   initialPlotOverridesState,
 );
 
-export function usePlotOverrides(): PlotOverridesState {
-  return useContext(plotOverridesContext);
+export function usePlotOverrides(
+  options?: ControllerHookOptions,
+): PlotOverridesState {
+  return plotOverridesContext.useNestedContext(options?.controllerId);
 }
 
-const plotControlsContext = createContext<PlotControls | null>(null);
+const plotControlsContext = createNestableContext<PlotControls | null>(null);
 
-export function usePlotControls(): PlotControls {
-  const plotControls = useContext(plotControlsContext);
+export function usePlotControls(options?: ControllerHookOptions): PlotControls {
+  const id = options?.controllerId;
+  const plotControls = plotControlsContext.useNestedContext(id);
   if (!plotControls) {
     throw new Error(
-      'usePlotControls must be called in a child of PlotController',
+      `usePlotControls must be called in a child of PlotController (id=${id})`,
     );
   }
   return plotControls;
 }
 
-const plotEventsUserContext = createContext<PlotEventsUserActions | null>(null);
+const plotEventsUserContext =
+  createNestableContext<PlotEventsUserActions | null>(null);
 
-export function usePlotEvents(handlers: EventsHandlers) {
-  const userContext = useContext(plotEventsUserContext);
+export function usePlotEvents(
+  handlers: EventsHandlers,
+  options?: ControllerHookOptions,
+) {
+  const id = options?.controllerId;
+  const userContext = plotEventsUserContext.useNestedContext(id);
   if (!userContext) {
     throw new Error(
-      'usePlotEvents must be called in a child of PlotController',
+      `usePlotEvents must be called in a child of PlotController (id=${id})`,
     );
   }
 
@@ -53,28 +64,37 @@ export function usePlotEvents(handlers: EventsHandlers) {
   }, [userContext]);
 }
 
-const plotEventsPlotContext = createContext<PlotEventsPlotActions | null>(null);
+const plotEventsPlotContext =
+  createNestableContext<PlotEventsPlotActions | null>(null);
 
-export function usePlotEventsPlotContext() {
-  return useContext(plotEventsPlotContext);
+export function usePlotEventsPlotContext(options?: ControllerHookOptions) {
+  return plotEventsPlotContext.useNestedContext(options?.controllerId);
 }
 
 interface PlotControllerProps {
+  id?: string;
   children: ReactNode;
 }
 
 export function PlotController(props: PlotControllerProps) {
+  const { id, children } = props;
   const { userActions, plotActions } = usePlotEventsState();
   const { overrides, controls } = usePlotOverridesState();
   return (
-    <plotOverridesContext.Provider value={overrides}>
-      <plotControlsContext.Provider value={controls}>
-        <plotEventsUserContext.Provider value={userActions}>
-          <plotEventsPlotContext.Provider value={plotActions}>
-            {props.children}
-          </plotEventsPlotContext.Provider>
-        </plotEventsUserContext.Provider>
-      </plotControlsContext.Provider>
-    </plotOverridesContext.Provider>
+    <plotOverridesContext.NestedContextProvider id={id} value={overrides}>
+      <plotControlsContext.NestedContextProvider id={id} value={controls}>
+        <plotEventsUserContext.NestedContextProvider
+          id={id}
+          value={userActions}
+        >
+          <plotEventsPlotContext.NestedContextProvider
+            id={id}
+            value={plotActions}
+          >
+            {children}
+          </plotEventsPlotContext.NestedContextProvider>
+        </plotEventsUserContext.NestedContextProvider>
+      </plotControlsContext.NestedContextProvider>
+    </plotOverridesContext.NestedContextProvider>
   );
 }
