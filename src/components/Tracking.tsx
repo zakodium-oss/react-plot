@@ -20,10 +20,10 @@ export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
 export interface TrackingResult<EventType extends MouseEvent = MouseEvent> {
   event: EventType;
-  coordinates?: Record<string, number>;
-  clampedCoordinates?: Record<string, number>;
+  coordinates: Record<string, number>;
+  clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
-  newDomain?: Record<string, [number, number]>;
+  domain?: Record<string, [number, number]>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 
@@ -38,7 +38,7 @@ export interface TrackingProps {
 
 const HORIZONTAL = ['bottom', 'top'];
 
-function infoFromMouse<EventType extends MouseEvent | WheelEvent = MouseEvent>(
+function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
   event: EventType,
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
@@ -46,37 +46,29 @@ function infoFromMouse<EventType extends MouseEvent | WheelEvent = MouseEvent>(
   plotWidth: number,
   target: SVGRectElement,
 ): TrackingResult<EventType> {
-  if (event instanceof WheelEvent) {
-    const ratio = 1 + event.deltaY * -0.001; // Calculate coordinates
-    let newDomain: TrackingResult['newDomain'] = {};
-    for (const key in axisContext) {
-      const { scale, position } = axisContext[key];
-      const total = HORIZONTAL.includes(position) ? plotWidth : plotHeight;
-      const pos = scale(0);
-      const min = ratio > 1 ? pos * (1 - 1 / ratio) : pos * (1 - 1 / ratio);
-
-      const max =
-        ratio > 1
-          ? pos + (total - pos) / ratio
-          : total + (total - pos) * (1 / ratio - 1);
-      newDomain[key] = [
-        toNumber(scale.invert(min)),
-        toNumber(scale.invert(max)),
-      ];
-    }
-    return { event, newDomain };
-  }
   const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = target.getBoundingClientRect();
-
+  const onWheel = event instanceof WheelEvent;
+  const ratio = onWheel ? 1 + event.deltaY * -0.001 : 0;
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
   const coordinates: TrackingResult['coordinates'] = {};
   const clampedCoordinates: TrackingResult['clampedCoordinates'] = {};
+  const domain: TrackingResult['domain'] = {};
   const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
     const { scale, clampInDomain, position } = axisContext[key];
+    if (onWheel) {
+      const total = HORIZONTAL.includes(position) ? plotWidth : plotHeight;
+      const pos = HORIZONTAL.includes(position) ? clientY - top : scale(0);
+      const min = ratio > 1 ? pos * (1 - 1 / ratio) : pos * (1 - 1 / ratio);
+      const max =
+        ratio > 1
+          ? pos + (total - pos) / ratio
+          : total + (total - pos) * (1 / ratio - 1);
+      domain[key] = [toNumber(scale.invert(min)), toNumber(scale.invert(max))];
+    }
     if (HORIZONTAL.includes(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] =
@@ -88,7 +80,6 @@ function infoFromMouse<EventType extends MouseEvent | WheelEvent = MouseEvent>(
     }
     clampedCoordinates[key] = clampInDomain(coordinates[key]);
   }
-
   return {
     event,
     coordinates,
@@ -101,6 +92,7 @@ function infoFromMouse<EventType extends MouseEvent | WheelEvent = MouseEvent>(
         stateSeries,
         axisContext,
       ),
+    domain,
   };
 }
 
