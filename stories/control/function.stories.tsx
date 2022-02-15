@@ -9,11 +9,12 @@ import {
   FunctionSeriesProps,
   useRectangularZoom,
 } from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'API/FunctionSeries',
   component: FunctionSeries,
+  decorators: [PlotControllerDecorator],
   args: {
     xAxis: 'x',
     max: 50,
