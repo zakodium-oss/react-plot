@@ -23,7 +23,7 @@ export interface TrackingResult<EventType extends MouseEvent = MouseEvent> {
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
   movement?: Record<string, number>;
-  domains?: Record<string, readonly [number, number]>;
+  domains: Record<string, readonly [number, number]>;
   getClosest?: (method: ClosestMethods) => ClosestInfoResult;
 }
 
@@ -46,7 +46,6 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
 ): TrackingResult<EventType> {
   const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = target.getBoundingClientRect();
-  const onWheel = event instanceof WheelEvent;
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
@@ -57,9 +56,6 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
   for (const key in axisContext) {
     const { scale, clampInDomain, position, domain } = axisContext[key];
     const isHorizontal = HORIZONTAL.includes(position);
-    if (onWheel) {
-      domains[key] = domain;
-    }
     if (isHorizontal) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] =
@@ -70,6 +66,8 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
         toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
     }
     clampedCoordinates[key] = clampInDomain(coordinates[key]);
+
+    domains[key] = domain;
   }
   return {
     event,
