@@ -55,15 +55,12 @@ function infoFromMouse<EventType extends MouseEvent = MouseEvent>(
   const movement: TrackingResult['movement'] = {};
   for (const key in axisContext) {
     const { scale, clampInDomain, position, domain } = axisContext[key];
-    const isHorizontal = HORIZONTAL.includes(position);
-    if (isHorizontal) {
+    if (HORIZONTAL.includes(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
-      movement[key] =
-        toNumber(scale.invert(movementX)) - toNumber(scale.invert(0));
+      movement[key] = toNumber(scale.invert(movementX)) - domain[0];
     } else {
       coordinates[key] = toNumber(scale.invert(yPosition));
-      movement[key] =
-        toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
+      movement[key] = toNumber(scale.invert(movementY)) - domain[1];
     }
     clampedCoordinates[key] = clampInDomain(coordinates[key]);
 
