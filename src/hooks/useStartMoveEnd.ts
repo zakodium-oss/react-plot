@@ -33,14 +33,14 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
   usePlotEvents(
     {
       onMouseDown(result) {
-        if (result.event.button !== 0) return;
+        if (result.event.button !== 0 || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
         setData({ start: { coordinates, clampedCoordinates } });
         ref.current?.onStart?.(result);
       },
       onMouseMove(result) {
         // TODO: boolean that says if mouse is currently down?
-        if (!data) return;
+        if (!data || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
         setData((data) => ({
           ...data,
@@ -49,7 +49,7 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
         ref.current?.onMove?.(result);
       },
       onMouseUp(result) {
-        if (result.event.button !== 0 || !data) return;
+        if (result.event.button !== 0 || !data || result.event.altKey) return;
         setData(null);
         ref.current?.onEnd?.(result);
       },
