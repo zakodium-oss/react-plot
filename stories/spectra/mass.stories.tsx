@@ -16,6 +16,7 @@ import {
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
 import { Text } from '../../src/components/Annotations/Text';
+import { useGrab } from '../../src/hooks/useGrab';
 import data from '../data/mass.json';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -50,6 +51,7 @@ interface AdvancedMassExampleProps {
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const zoom = useAxisZoom();
   useAxisWheelZoom();
+  useGrab();
   const { max, min } = usePlotControllerAxis({ axisId: 'x' });
   // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
   const isotopicDistribution = new IsotopicDistribution(mf, {
