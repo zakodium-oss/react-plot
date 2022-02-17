@@ -5,4 +5,4 @@ export * from './useStartMoveEnd';
 export * from './useCrossHair';
 export * from './useAxisWheelZoom';
 export * from './usePlotControllerAxis';
-export * from './useGrab';
+export * from './usePan';

@@ -7,12 +7,11 @@ import {
 
 import { DualAxisOptions, ControllerHookOptions } from './types';
 
-export interface UseGrabOptions
-  extends DualAxisOptions,
-    ControllerHookOptions {}
+export interface UsePanOptions extends DualAxisOptions, ControllerHookOptions {}
 
-export function useGrab(options: UseGrabOptions = {}) {
+export function usePan(options: UsePanOptions = {}) {
   const { horizontalAxisId = 'x', verticalAxisId = 'y' } = options;
+
   const click = useRef<boolean>(false);
   const plotControls = usePlotControls(options);
 
