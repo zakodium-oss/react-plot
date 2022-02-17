@@ -6,3 +6,4 @@ export * from './useCrossHair';
 export * from './useAxisWheelZoom';
 export * from './usePlotControllerAxis';
 export * from './usePan';
+export * from './useDrawPath';
