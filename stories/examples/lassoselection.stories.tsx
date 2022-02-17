@@ -8,6 +8,7 @@ import {
   ScatterSeries,
   useLassoSelection,
   UseLassoSelectionOptions,
+  SeriesPoint,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -16,8 +17,13 @@ export default {
   decorators: [PlotControllerDecorator],
   args: {
     style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
-    defaultStyle: { fill: 'red', stroke: 'none' },
-    hoveredStyle: { fill: 'blue' },
+    defaultStyle: {
+      fill: (point: SeriesPoint) => (point.x > 32 ? 'red' : 'green'),
+      stroke: 'none',
+    },
+    hoveredStyle: {
+      fill: (point: SeriesPoint) => (point.x > 32 ? 'blue' : 'black'),
+    },
   },
 } as Meta;
 
