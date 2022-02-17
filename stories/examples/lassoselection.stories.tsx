@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react';
-import pointInPolygon from 'point-in-polygon';
 
 import {
   Axis,
@@ -7,14 +6,19 @@ import {
   Annotations,
   Annotation,
   ScatterSeries,
-  useDrawPath,
-  SeriesPoint,
+  useLassoSelection,
+  UseLassoSelectionOptions,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Lasso Selection',
   decorators: [PlotControllerDecorator],
+  args: {
+    style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
+    defaultStyle: { fill: 'red', stroke: 'none' },
+    hoveredStyle: { fill: 'blue' },
+  },
 } as Meta;
 
 const dataVertical = {
@@ -42,11 +46,8 @@ const dataVertical = {
     width: 3.42602050534316,
   },
 };
-export function LassoSelection() {
-  const path = useDrawPath({
-    type: 'polygone',
-    style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
-  });
+export function LassoSelection(options: UseLassoSelectionOptions) {
+  const path = useLassoSelection(options);
   const {
     ellipse,
     data: { x, y },
@@ -54,17 +55,7 @@ export function LassoSelection() {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG} width={600} height={600}>
       <ScatterSeries
-        markerStyle={{
-          fill: ({ x, y }: SeriesPoint) => {
-            return pointInPolygon(
-              [x, y],
-              path.points.map(({ x, y }) => [x, y]),
-            )
-              ? 'black'
-              : 'blue';
-          },
-          stroke: 'none',
-        }}
+        markerStyle={path.style}
         data={x.map((x, index) => ({ x, y: y[index] }))}
         xAxis="x"
         yAxis="y"
