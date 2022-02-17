@@ -8,16 +8,18 @@ import { ControllerHookOptions } from './types';
 export interface UseAxisWheelZoomOptions extends ControllerHookOptions {
   direction?: 'horizontal' | 'vertical';
   axisId?: string;
-  zoomCenter?: 'mouse' | number;
-  zoomSpeed?: number;
+  center?: 'mouse' | number;
+  factor?: number;
+  invert?: boolean;
 }
 
 export function useAxisWheelZoom(options: UseAxisWheelZoomOptions = {}) {
   const {
     direction = 'vertical',
     axisId = direction === 'horizontal' ? 'x' : 'y',
-    zoomCenter = 0,
-    zoomSpeed = 1,
+    center = 0,
+    factor = 1,
+    invert = false,
   } = options;
 
   const plotControls = usePlotControls(options);
@@ -32,9 +34,9 @@ export function useAxisWheelZoom(options: UseAxisWheelZoomOptions = {}) {
         },
       }) {
         if (event instanceof WheelEvent) {
-          const position = zoomCenter === 'mouse' ? mousePosition : zoomCenter;
+          const position = center === 'mouse' ? mousePosition : center;
 
-          const ratio = 1 + event.deltaY * -0.001 * zoomSpeed;
+          const ratio = 1 + event.deltaY * (invert ? -0.001 : 0.001) * factor;
           const min = position - (position - oldMin) * ratio;
           const max = position + (oldMax - position) * ratio;
 
