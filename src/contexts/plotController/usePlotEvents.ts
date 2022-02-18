@@ -17,7 +17,6 @@ export type MouseEventType =
 export type EventsHandlers = {
   [key in MouseEventType]?: MouseEventHandler;
 };
-
 export interface PlotEventsUserActions {
   registerHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
   unregisterHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
