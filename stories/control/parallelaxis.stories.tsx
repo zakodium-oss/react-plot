@@ -25,6 +25,17 @@ const data = [
   { x: 3, y: 16 },
   { x: 4, y: 18 },
 ];
+export function Control(props: ParallelAxisProps) {
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <LineSeries data={data} xAxis="x" yAxis="y" />
+      <Axis id="x" position="bottom" label="X" />
+      <Axis id="y" position="left" label="Y" />
+      <ParallelAxis {...props} />
+    </Plot>
+  );
+}
+
 const data2 = [
   { x: 1, y: -2 },
   { x: 2, y: 3 },
@@ -42,22 +53,30 @@ const data2 = [
 function toFahrenheit(x: number) {
   return `${(x * 9) / 5 + 32}`;
 }
-export function Control(props: ParallelAxisProps) {
-  return (
-    <Plot {...DEFAULT_PLOT_CONFIG}>
-      <LineSeries data={data} xAxis="x" yAxis="y" />
-      <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" label="Y" />
-      <ParallelAxis {...props} />
-    </Plot>
-  );
-}
-
 export function WithTickFormat(props: ParallelAxisProps) {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data2} xAxis="x" yAxis="y" displayMarker />
-      <Axis id="x" position="bottom" label="months" />
+      <Axis
+        id="x"
+        position="bottom"
+        label="months"
+        tickLabelFormat={(x: number) => months[x - 1]}
+      />
       <Axis
         id="y"
         position="left"
