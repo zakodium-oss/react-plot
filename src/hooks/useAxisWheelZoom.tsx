@@ -35,8 +35,8 @@ export function useAxisWheelZoom(options: UseAxisWheelZoomOptions = {}) {
       }) {
         if (event instanceof WheelEvent) {
           const position = center === 'mouse' ? mousePosition : center;
-
-          const ratio = 1 + event.deltaY * (invert ? -0.001 : 0.001) * factor;
+          const delta = event.deltaY * (invert ? -0.001 : 0.001) * factor;
+          const ratio = delta < 0 ? -1 / (delta - 1) : 1 + delta;
           const min = position - (position - oldMin) * ratio;
           const max = position + (oldMax - position) * ratio;
 
