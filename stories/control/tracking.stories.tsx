@@ -1,8 +1,20 @@
 import { Meta } from '@storybook/react';
+import { useState } from 'react';
 
-import { Axis, LineSeries, Plot, Annotations, SeriesPoint } from '../../src';
-import { ClosestMethods } from '../../src/components/Tracking';
-import useClosestInfo from '../../src/hooks/useClosestInfo';
+import {
+  Axis,
+  LineSeries,
+  Plot,
+  Annotations,
+  SeriesPoint,
+  usePlotEvents,
+  Annotation,
+  Legend,
+} from '../../src';
+import {
+  ClosestInfoResult,
+  ClosestMethods,
+} from '../../src/components/Tracking';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
@@ -29,13 +41,67 @@ interface TrackingProps {
   method: ClosestMethods;
 }
 function Tracking({ data, displayMarker, method }: TrackingProps) {
-  const { annotations, infoDiv } = useClosestInfo({
-    method,
+  const [hover, setHover] = useState<{
+    event: MouseEvent;
+    closest: ClosestInfoResult;
+  } | null>(null);
+  usePlotEvents({
+    onMouseMove({ getClosest, event }) {
+      setHover({
+        event,
+        closest: getClosest(method),
+      });
+    },
+    onMouseLeave() {
+      setHover(null);
+    },
   });
 
+  const annotations = hover ? (
+    <>
+      {Object.entries(hover.closest).map(([id, info]) => (
+        <Annotation.Shape
+          key={id}
+          shape="circle"
+          x={info.point.x}
+          y={info.point.y}
+          size={5}
+        />
+      ))}
+    </>
+  ) : null;
+
+  const infoDiv = hover ? (
+    <div
+      style={{
+        position: 'fixed',
+        left: hover.event.clientX + 10,
+        top: hover.event.clientY + 10,
+        borderStyle: 'solid',
+        padding: '5px',
+        backgroundColor: 'white',
+      }}
+    >
+      <b>Closest point</b>
+      {Object.keys(hover.closest).map((key) => (
+        <p key={key}>
+          <b>{hover.closest[key].label}</b>
+          <span>
+            {' x: '}
+            {Math.round((hover.closest[key].point.x || 0) * 100) / 100}
+          </span>
+          <span>
+            {' y: '}
+            {Math.round((hover.closest[key].point.y || 0) * 100) / 100}
+          </span>
+        </p>
+      ))}
+    </div>
+  ) : null;
   return (
     <div className="relative">
       <Plot {...DEFAULT_PLOT_CONFIG}>
+        <Legend position="embedded" />
         {data.map((subdata, i) => (
           <LineSeries
             // eslint-disable-next-line react/no-array-index-key
