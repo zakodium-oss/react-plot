@@ -23,24 +23,39 @@ export default {
   component: Tracking,
   args: {
     method: 'euclidean',
-    displayMarker: false,
+  },
+  argTypes: {
+    method: {
+      type: {
+        name: 'enum',
+        value: ['x', 'y', 'euclidean'],
+      },
+    },
   },
 } as Meta;
 
-const data = [
-  { x: 1, y: 10 },
-  { x: 2, y: 5 },
-  { x: 3, y: 3 },
-  { x: 4, y: 5 },
-  { x: 5, y: 10 },
-];
-
 interface TrackingProps {
-  data: SeriesPoint[][];
-  displayMarker?: boolean;
   method: ClosestMethods;
 }
-function Tracking({ data, displayMarker, method }: TrackingProps) {
+
+const len = 100000;
+let serie1: SeriesPoint[] = new Array(len);
+let serie2: SeriesPoint[] = new Array(len);
+for (let i = 0; i < len; i++) {
+  serie1[i] = {
+    x: i - 100,
+    y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
+  };
+  serie2[i] = {
+    x: i - 100,
+    y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
+  };
+}
+const data = [serie1, serie2];
+
+export function Tracking(props: TrackingProps) {
+  const { method } = props;
+
   const [hover, setHover] = useState<{
     event: MouseEvent;
     closest: ClosestInfoResult;
@@ -79,12 +94,11 @@ function Tracking({ data, displayMarker, method }: TrackingProps) {
         top: hover.event.clientY + 10,
         borderStyle: 'solid',
         padding: '5px',
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
       }}
     >
-      <b>Closest point</b>
       {Object.keys(hover.closest).map((key) => (
-        <p key={key}>
+        <div key={key}>
           <b>{hover.closest[key].label}</b>
           <span>
             {' x: '}
@@ -94,12 +108,12 @@ function Tracking({ data, displayMarker, method }: TrackingProps) {
             {' y: '}
             {Math.round((hover.closest[key].point.y || 0) * 100) / 100}
           </span>
-        </p>
+        </div>
       ))}
     </div>
   ) : null;
   return (
-    <div className="relative">
+    <>
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <Legend position="embedded" />
         {data.map((subdata, i) => (
@@ -109,7 +123,6 @@ function Tracking({ data, displayMarker, method }: TrackingProps) {
             data={subdata}
             xAxis="x"
             yAxis="y"
-            displayMarker={displayMarker}
             label={`Series ${i + 1}`}
           />
         ))}
@@ -118,32 +131,6 @@ function Tracking({ data, displayMarker, method }: TrackingProps) {
         <Annotations>{annotations}</Annotations>
       </Plot>
       {infoDiv}
-    </div>
+    </>
   );
 }
-
-interface TrackingExampleProps {
-  method: ClosestMethods;
-}
-
-export function TrackingExample(props: TrackingExampleProps) {
-  return <Tracking data={[data]} displayMarker method={props.method} />;
-}
-
-export function TrackingBig(props: TrackingExampleProps) {
-  const len = 100000;
-  let data1: SeriesPoint[] = new Array(len);
-  let data2: SeriesPoint[] = new Array(len);
-  for (let i = 0; i < len; i++) {
-    data1[i] = {
-      x: i - 100,
-      y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
-    };
-    data2[i] = {
-      x: i - 100,
-      y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
-    };
-  }
-  return <Tracking data={[data1, data2]} method={props.method} />;
-}
-TrackingBig.storyName = 'Tracking on medium amount of data';
