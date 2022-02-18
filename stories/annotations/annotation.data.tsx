@@ -15,8 +15,8 @@ export function AnnotationPlot(props: { children: ReactNode }) {
         id="y"
         position="left"
         label="Y"
-        paddingStart={0.05}
-        paddingEnd={0.05}
+        paddingStart="5%"
+        paddingEnd="5%"
       />
     </Plot>
   );

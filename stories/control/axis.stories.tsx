@@ -20,6 +20,8 @@ export default {
     tickPosition: 'outer',
     primaryTickLength: 5,
     secondaryTickLength: 2,
+    paddingStart: 0,
+    paddingEnd: 0,
   },
   parameters: {
     controls: {

@@ -20,8 +20,8 @@ export interface AxisProps {
   min?: number;
   max?: number;
 
-  paddingStart?: number;
-  paddingEnd?: number;
+  paddingStart?: number | string;
+  paddingEnd?: number | string;
 
   flip?: boolean;
   scale?: 'linear' | 'log' | 'time';
@@ -67,8 +67,8 @@ export function Axis({
   position,
   min,
   max,
-  paddingStart,
-  paddingEnd,
+  paddingStart = 0,
+  paddingEnd = 0,
   flip = false,
   scale = 'linear',
 
@@ -102,20 +102,6 @@ export function Axis({
   );
 
   useEffect(() => {
-    const minPadding = paddingStart || 0;
-    const maxPadding = paddingEnd || 0;
-
-    if (minPadding < 0 || minPadding > 1) {
-      throw new Error(
-        `Padding ${position} (${minPadding}) is not between 0 and 1`,
-      );
-    }
-    if (maxPadding < 0 || maxPadding > 1) {
-      throw new Error(
-        `Padding ${position} (${maxPadding}) is not between 0 and 1`,
-      );
-    }
-
     dispatch({
       type: 'newAxis',
       payload: {
@@ -123,8 +109,8 @@ export function Axis({
         position,
         min,
         max,
-        paddingStart: minPadding,
-        paddingEnd: maxPadding,
+        paddingStart,
+        paddingEnd,
         flip,
         scale,
         innerOffset,

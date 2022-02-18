@@ -39,7 +39,7 @@ export function MassExample() {
         id="y"
         position="left"
         label="Relative intensity [%]"
-        paddingEnd={0.1}
+        paddingEnd="10%"
       />
     </Plot>
   );

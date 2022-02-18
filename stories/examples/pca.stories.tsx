@@ -111,15 +111,15 @@ export function PCAExample() {
         id="x"
         position="bottom"
         label="PC 1"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
       <Axis
         id="y"
         position="left"
         label="PC 2"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
     </Plot>
   );

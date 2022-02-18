@@ -72,8 +72,8 @@ export function NasdaqExample(props: Props) {
           position="left"
           label="Nasdaq value [USD]"
           displayPrimaryGridLines
-          paddingStart={0.1}
-          paddingEnd={0.1}
+          paddingStart="10%"
+          paddingEnd="10%"
         />
       </Plot>
     );
