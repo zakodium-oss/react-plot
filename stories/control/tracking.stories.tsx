@@ -22,7 +22,7 @@ export default {
   decorators: [PlotControllerDecorator],
   component: Tracking,
   args: {
-    method: ClosestMethods.euclidean,
+    method: 'euclidean',
     displayMarker: false,
   },
 } as Meta;
