@@ -319,66 +319,61 @@ function computeAxisPadding(
     return { min: 0, max: 0 };
   } else if (isMaxForced) {
     // Only handle min.
-    const { padding1 } = convertAxisPadding(paddingStart, 0, diff, size);
-    return { min: padding1, max: 0 };
+    const newPadding = convertAxisPadding(paddingStart, 0, diff, size);
+    return { min: newPadding.start, max: 0 };
   } else if (isMinForced) {
     // Only handle max.
-    const { padding1 } = convertAxisPadding(paddingEnd, 0, diff, size);
-    return { min: 0, max: padding1 };
+    const newPadding = convertAxisPadding(0, paddingEnd, diff, size);
+    return { min: 0, max: newPadding.end };
   } else {
     // Handle both.
-    const { padding1, padding2 } = convertAxisPadding(
-      paddingStart,
-      paddingEnd,
-      diff,
-      size,
-    );
-    return { min: padding1, max: padding2 };
+    const newPadding = convertAxisPadding(paddingStart, paddingEnd, diff, size);
+    return { min: newPadding.start, max: newPadding.end };
   }
 }
 
 function convertAxisPadding(
-  padding1: string | number,
-  padding2: string | number,
+  paddingStart: string | number,
+  paddingEnd: string | number,
   diff: number,
   size: number,
 ) {
-  let finalPadding1: number;
-  let finalPadding2: number;
+  let finalPaddingStart: number;
+  let finalPaddingEnd: number;
 
   // Padding as a number is an absolute value added to the current range.
   let totalKnown = diff;
-  if (typeof padding1 === 'number') {
-    totalKnown += padding1;
-    finalPadding1 = padding1;
+  if (typeof paddingStart === 'number') {
+    totalKnown += paddingStart;
+    finalPaddingStart = paddingStart;
   }
-  if (typeof padding2 === 'number') {
-    totalKnown += padding2;
-    finalPadding2 = padding2;
+  if (typeof paddingEnd === 'number') {
+    totalKnown += paddingEnd;
+    finalPaddingEnd = paddingEnd;
   }
 
   // Padding as a string is converted to a percentage of the total size.
-  let percent1 = 0;
-  let percent2 = 0;
-  if (typeof padding1 === 'string') {
-    const padding1Px = toPx(padding1, size);
-    percent1 = padding1Px / size;
+  let percentStart = 0;
+  let percentEnd = 0;
+  if (typeof paddingStart === 'string') {
+    const paddingStartPx = toPx(paddingStart, size);
+    percentStart = paddingStartPx / size;
   }
-  if (typeof padding2 === 'string') {
-    const padding2Px = toPx(padding2, size);
-    percent2 = padding2Px / size;
+  if (typeof paddingEnd === 'string') {
+    const paddingEndPx = toPx(paddingEnd, size);
+    percentEnd = paddingEndPx / size;
   }
 
-  const totalPercent = percent1 + percent2;
+  const totalPercent = percentStart + percentEnd;
   if (totalPercent !== 0) {
     const totalPadding = (totalPercent * totalKnown) / (1 - totalPercent);
-    finalPadding1 = (percent1 / totalPercent) * totalPadding;
-    finalPadding2 = (percent2 / totalPercent) * totalPadding;
+    finalPaddingStart = (percentStart / totalPercent) * totalPadding;
+    finalPaddingEnd = (percentEnd / totalPercent) * totalPadding;
   }
 
   return {
-    padding1: finalPadding1,
-    padding2: finalPadding2,
+    start: finalPaddingStart,
+    end: finalPaddingEnd,
   };
 }
 
