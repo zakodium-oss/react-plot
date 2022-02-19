@@ -29,19 +29,19 @@ export function usePan(options: UsePanOptions = {}) {
       //     setCursor('');
       //   }
       // },
-      onMouseDown() {
+      onPointerDown() {
         // if (altKey) {
         //   setCursor('grabbing');
         // }
         click.current = true;
       },
-      onMouseUp() {
+      onPointerUp() {
         // if (altKey) {
         //   setCursor('grab');
         // }
         click.current = false;
       },
-      onMouseMove({
+      onPointerMove({
         event: { altKey },
         movement: {
           [horizontalAxisId]: xMovement,

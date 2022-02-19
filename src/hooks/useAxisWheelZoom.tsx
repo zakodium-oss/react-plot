@@ -8,7 +8,7 @@ import { ControllerHookOptions } from './types';
 export interface UseAxisWheelZoomOptions extends ControllerHookOptions {
   direction?: 'horizontal' | 'vertical';
   axisId?: string;
-  center?: 'mouse' | number;
+  center?: 'pointer' | number;
   factor?: number;
   invert?: boolean;
 }
@@ -28,23 +28,22 @@ export function useAxisWheelZoom(options: UseAxisWheelZoomOptions = {}) {
     {
       onWheel({
         event,
-        coordinates: { [axisId]: mousePosition },
+        coordinates: { [axisId]: pointerPosition },
         domains: {
           [axisId]: [oldMin, oldMax],
         },
       }) {
-        if (event instanceof WheelEvent) {
-          const position = center === 'mouse' ? mousePosition : center;
-          const delta = event.deltaY * (invert ? -0.001 : 0.001) * factor;
-          const ratio = delta < 0 ? -1 / (delta - 1) : 1 + delta;
-          const min = position - (position - oldMin) * ratio;
-          const max = position + (oldMax - position) * ratio;
+        event.preventDefault();
+        const position = center === 'pointer' ? pointerPosition : center;
+        const delta = event.deltaY * (invert ? -0.001 : 0.001) * factor;
+        const ratio = delta < 0 ? -1 / (delta - 1) : 1 + delta;
+        const min = position - (position - oldMin) * ratio;
+        const max = position + (oldMax - position) * ratio;
 
-          plotControls.setAxis(axisId, {
-            min,
-            max,
-          });
-        }
+        plotControls.setAxis(axisId, {
+          min,
+          max,
+        });
       },
       onDoubleClick({ event: { button } }) {
         if (button !== 0) return;

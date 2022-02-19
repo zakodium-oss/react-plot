@@ -61,13 +61,13 @@ export function Tracking(props: TrackingProps) {
     closest: ClosestInfoResult;
   } | null>(null);
   usePlotEvents({
-    onMouseMove({ getClosest, event }) {
+    onPointerMove({ getClosest, event }) {
       setHover({
         event,
         closest: getClosest(method),
       });
     },
-    onMouseLeave() {
+    onPointerLeave() {
       setHover(null);
     },
   });

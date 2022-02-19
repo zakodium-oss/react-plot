@@ -28,10 +28,10 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
   } = options;
   usePlotEvents(
     {
-      onMouseMove({ coordinates }) {
+      onPointerMove({ coordinates }) {
         setHover(coordinates);
       },
-      onMouseLeave() {
+      onPointerLeave() {
         setHover(null);
       },
     },

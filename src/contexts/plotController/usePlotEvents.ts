@@ -2,21 +2,39 @@ import { RefObject, useMemo, useRef } from 'react';
 
 import { TrackingResult } from '../../components/Tracking';
 
-type MouseEventHandler = (result: TrackingResult) => void;
+type EventHandler<NativeEventType extends MouseEvent> = (
+  result: TrackingResult<NativeEventType>,
+) => void;
 
-export type MouseEventType =
-  | 'onMouseEnter'
-  | 'onMouseLeave'
-  | 'onMouseDown'
-  | 'onMouseUp'
-  | 'onMouseMove'
-  | 'onClick'
-  | 'onDoubleClick'
-  | 'onWheel';
+type PointerEventName =
+  | 'onPointerEnter'
+  | 'onPointerDown'
+  | 'onPointerMove'
+  | 'onPointerUp'
+  | 'onPointerLeave';
+type ClickEventName = 'onClick' | 'onDoubleClick';
+type WheelEventName = 'onWheel';
+export type EventName = PointerEventName | ClickEventName | WheelEventName;
 
-export type EventsHandlers = {
-  [key in MouseEventType]?: MouseEventHandler;
+type PointerEventHandlers = {
+  [key in PointerEventName]?: EventHandler<PointerEvent>;
 };
+type ClickEventHandlers = {
+  [key in ClickEventName]?: EventHandler<MouseEvent>;
+};
+type WheelEventHandlers = {
+  [key in WheelEventName]?: EventHandler<WheelEvent>;
+};
+export type EventsHandlers = PointerEventHandlers &
+  ClickEventHandlers &
+  WheelEventHandlers;
+
+type EventMap = {
+  [key in PointerEventName]: PointerEvent;
+} & { [key in ClickEventName]: MouseEvent } & {
+  [key in WheelEventName]: WheelEvent;
+};
+
 export interface PlotEventsUserActions {
   registerHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
   unregisterHandlers: (handlersRef: RefObject<EventsHandlers>) => void;
@@ -25,7 +43,11 @@ export interface PlotEventsUserActions {
 export interface PlotEventsPlotActions {
   registerPlot: (plotId: string) => void;
   unregisterPlot: (plotId: string) => void;
-  handleEvent: (plotId: string, eventType: string, eventData: unknown) => void;
+  handleEvent: <T extends EventName>(
+    plotId: string,
+    eventName: T,
+    eventData: TrackingResult<EventMap[T]>,
+  ) => void;
 }
 
 interface PlotEventsState {
@@ -61,18 +83,18 @@ export function usePlotEventsState() {
       unregisterPlot(plotId: string) {
         plotEvents.current.plots.delete(plotId);
       },
-      handleEvent(
+      handleEvent<T extends EventName>(
         plotId: string,
-        eventType: MouseEventType,
-        eventData: TrackingResult,
+        eventName: T,
+        eventData: TrackingResult<EventMap[T]>,
       ) {
         if (!plotEvents.current.plots.has(plotId)) {
           return;
         }
-        if (eventType === 'onMouseDown') {
+        if (eventName === 'onPointerDown') {
           plotEvents.current.currentPlot = plotId;
         }
-        if (eventType === 'onMouseUp') {
+        if (eventName === 'onPointerUp') {
           plotEvents.current.currentPlot = null;
         }
         if (
@@ -84,8 +106,9 @@ export function usePlotEventsState() {
         }
 
         for (const handler of plotEvents.current.handlers) {
-          if (handler.current[eventType]) {
-            handler.current[eventType](eventData);
+          if (handler.current[eventName]) {
+            // @ts-expect-error eventData is guaranteed to be compatible with eventName.
+            handler.current[eventName](eventData);
           }
         }
       },
