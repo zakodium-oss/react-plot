@@ -9,14 +9,14 @@ export function usePathData(options: UseStartMoveEndOptions) {
   }, [options]);
   const [data, setData] = useState<Record<string, number>[]>(null);
   usePlotEvents({
-    onMouseDown(result) {
+    onPointerDown(result) {
       if (result.event.button !== 0) return;
       const { clampedCoordinates } = result;
       setData([clampedCoordinates]);
       ref.current?.onStart?.(result);
     },
-    onMouseMove(result) {
-      // TODO: boolean that says if mouse is currently down?
+    onPointerMove(result) {
+      // TODO: boolean that says if pointer is currently down?
       if (!data) return;
       const { clampedCoordinates } = result;
       let isDuplicated = true;
@@ -30,7 +30,7 @@ export function usePathData(options: UseStartMoveEndOptions) {
       setData((data) => data.concat(clampedCoordinates));
       ref.current?.onMove?.(result);
     },
-    onMouseUp(result) {
+    onPointerUp(result) {
       if (result.event.button !== 0 || !data) return;
       setData(null);
       ref.current?.onEnd?.(result);

@@ -5,7 +5,9 @@ import { usePlotEvents } from '../contexts/plotController/plotControllerContext'
 
 import { ControllerHookOptions } from './types';
 
-export type UseStartMoveEndCallback = (data: TrackingResult) => void;
+export type UseStartMoveEndCallback = (
+  data: TrackingResult<PointerEvent>,
+) => void;
 
 export interface UseStartMoveEndOptions extends ControllerHookOptions {
   onStart?: UseStartMoveEndCallback;
@@ -32,14 +34,14 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
   const [data, setData] = useState<UseStartMoveEndState | null>(null);
   usePlotEvents(
     {
-      onMouseDown(result) {
+      onPointerDown(result) {
         if (result.event.button !== 0 || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
         setData({ start: { coordinates, clampedCoordinates } });
         ref.current?.onStart?.(result);
       },
-      onMouseMove(result) {
-        // TODO: boolean that says if mouse is currently down?
+      onPointerMove(result) {
+        // TODO: boolean that says if pointer is currently down?
         if (!data || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
         setData((data) => ({
@@ -48,7 +50,7 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
         }));
         ref.current?.onMove?.(result);
       },
-      onMouseUp(result) {
+      onPointerUp(result) {
         if (result.event.button !== 0 || !data || result.event.altKey) return;
         setData(null);
         ref.current?.onEnd?.(result);
