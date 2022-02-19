@@ -81,8 +81,8 @@ export function WithTickFormat(props: ParallelAxisProps) {
         id="y"
         position="left"
         label="temperature (°C)"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
       <ParallelAxis {...props} />
     </Plot>

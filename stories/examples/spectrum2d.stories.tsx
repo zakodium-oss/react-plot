@@ -34,16 +34,16 @@ export function Spectrum2D() {
         id="x"
         position="bottom"
         label="P1"
-        paddingStart={0.05}
-        paddingEnd={0.05}
+        paddingStart="5%"
+        paddingEnd="5%"
       />
       <Axis
         id="y"
         position="left"
         label="P2"
         hidden
-        paddingStart={0.1}
-        paddingEnd={0.1}
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );

@@ -25,8 +25,8 @@ export function NmrExample() {
         position="left"
         label="Intensity / arbitrary"
         hidden
-        paddingStart={0.1}
-        paddingEnd={0.1}
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );
@@ -60,8 +60,8 @@ export function StackSpectra() {
         position="left"
         label="Intensity / arbitrary"
         hidden
-        paddingStart={0.1}
-        paddingEnd={0.1}
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );

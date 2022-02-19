@@ -12,27 +12,12 @@ export default {
     xMax: 6,
     yMin: 0,
     yMax: 6,
-    paddingLeft: 0.01,
-    paddingRight: 0.01,
-    paddingTop: 0.01,
-    paddingBottom: 0.01,
   },
 } as Meta;
 
 type Props = Record<string, number>;
 export function Control(props: Props) {
-  const {
-    width,
-    height,
-    xMin,
-    xMax,
-    yMax,
-    yMin,
-    paddingLeft,
-    paddingRight,
-    paddingTop,
-    paddingBottom,
-  } = props;
+  const { width, height, xMin, xMax, yMax, yMin } = props;
   return (
     <Plot width={width} height={height}>
       <Heading
@@ -76,8 +61,6 @@ export function Control(props: Props) {
         displayPrimaryGridLines
         min={xMin}
         max={xMax}
-        paddingStart={paddingLeft}
-        paddingEnd={paddingRight}
       />
       <Axis
         id="y"
@@ -86,8 +69,6 @@ export function Control(props: Props) {
         displayPrimaryGridLines
         min={yMin}
         max={yMax}
-        paddingStart={paddingBottom}
-        paddingEnd={paddingTop}
       />
       <Axis id="y" position="right" label="Drain current [mA]" />
       <Axis id="x" position="top" />

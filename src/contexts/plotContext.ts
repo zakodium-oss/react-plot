@@ -201,19 +201,30 @@ export function useAxisContext(
       const isHorizontal = ['top', 'bottom'].includes(axis.position);
       const xY = isHorizontal ? 'x' : 'y';
 
-      // Get limits from override (context), state (axis props), or data.
-      const axisMin =
-        overrides?.min !== undefined
-          ? overrides.min
-          : axis.min !== undefined
-          ? axis.min
-          : min(state.series, (d) => d[xY].min + d[xY].shift);
-      const axisMax =
-        overrides?.max !== undefined
-          ? overrides.max
-          : axis.max !== undefined
-          ? axis.max
-          : max(state.series, (d) => d[xY].max + d[xY].shift);
+      // Get axis boundaries from override (context), state (axis props), or data.
+      let isAxisMinForced = false;
+      let axisMin: number;
+      if (overrides?.min !== undefined) {
+        axisMin = overrides.min;
+        isAxisMinForced = true;
+      } else if (axis.min !== undefined) {
+        axisMin = axis.min;
+        isAxisMinForced = true;
+      } else {
+        axisMin = min(state.series, (d) => d[xY].min + d[xY].shift);
+      }
+
+      let isAxisMaxForced = false;
+      let axisMax: number;
+      if (overrides?.max !== undefined) {
+        axisMax = overrides.max;
+        isAxisMaxForced = true;
+      } else if (axis.max !== undefined) {
+        axisMax = axis.max;
+        isAxisMaxForced = true;
+      } else {
+        axisMax = max(state.series, (d) => d[xY].max + d[xY].shift);
+      }
 
       // Limits validation
       if (axisMin === undefined || axisMax === undefined) {
@@ -225,13 +236,17 @@ export function useAxisContext(
         );
       }
 
-      // Limits paddings
-      const diff = axisMax - axisMin;
-      const minPad = diff * (axis.paddingStart || 0);
-      const maxPad = diff * (axis.paddingEnd || 0);
+      const axisSize = isHorizontal ? plotWidth : plotHeight;
+      const padding = computeAxisPadding(
+        axis,
+        axisMax - axisMin,
+        axisSize,
+        isAxisMinForced,
+        isAxisMaxForced,
+      );
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
-      const domain = [axisMin - minPad, axisMax + maxPad] as const;
+      const domain = [axisMin - padding.min, axisMax + padding.max] as const;
 
       const clampInDomain = function clampInDomain(value: number) {
         return value < domain[0]
@@ -288,4 +303,84 @@ export function useAxisContext(
   }, [state.axes, state.series, axesOverrides, plotWidth, plotHeight]);
 
   return context;
+}
+
+function computeAxisPadding(
+  axis: PlotAxisState,
+  diff: number,
+  size: number,
+  isMinForced: boolean,
+  isMaxForced: boolean,
+) {
+  const { paddingStart, paddingEnd } = axis;
+
+  if (isMinForced && isMaxForced) {
+    // No padding when both min and max are forced.
+    return { min: 0, max: 0 };
+  } else if (isMaxForced) {
+    // Only handle min.
+    const newPadding = convertAxisPadding(paddingStart, 0, diff, size);
+    return { min: newPadding.start, max: 0 };
+  } else if (isMinForced) {
+    // Only handle max.
+    const newPadding = convertAxisPadding(0, paddingEnd, diff, size);
+    return { min: 0, max: newPadding.end };
+  } else {
+    // Handle both.
+    const newPadding = convertAxisPadding(paddingStart, paddingEnd, diff, size);
+    return { min: newPadding.start, max: newPadding.end };
+  }
+}
+
+function convertAxisPadding(
+  paddingStart: string | number,
+  paddingEnd: string | number,
+  diff: number,
+  size: number,
+) {
+  let finalPaddingStart: number;
+  let finalPaddingEnd: number;
+
+  // Padding as a number is an absolute value added to the current range.
+  let totalKnown = diff;
+  if (typeof paddingStart === 'number') {
+    totalKnown += paddingStart;
+    finalPaddingStart = paddingStart;
+  }
+  if (typeof paddingEnd === 'number') {
+    totalKnown += paddingEnd;
+    finalPaddingEnd = paddingEnd;
+  }
+
+  // Padding as a string is converted to a percentage of the total size.
+  let percentStart = 0;
+  let percentEnd = 0;
+  if (typeof paddingStart === 'string') {
+    const paddingStartPx = toPx(paddingStart, size);
+    percentStart = paddingStartPx / size;
+  }
+  if (typeof paddingEnd === 'string') {
+    const paddingEndPx = toPx(paddingEnd, size);
+    percentEnd = paddingEndPx / size;
+  }
+
+  const totalPercent = percentStart + percentEnd;
+  if (totalPercent !== 0) {
+    const totalPadding = (totalPercent * totalKnown) / (1 - totalPercent);
+    finalPaddingStart = (percentStart / totalPercent) * totalPadding;
+    finalPaddingEnd = (percentEnd / totalPercent) * totalPadding;
+  }
+
+  return {
+    start: finalPaddingStart,
+    end: finalPaddingEnd,
+  };
+}
+
+function toPx(padding: string, size: number): number {
+  if (padding.endsWith('%')) {
+    return (Number(padding.slice(0, -1)) / 100) * size;
+  } else {
+    return Number(padding);
+  }
 }

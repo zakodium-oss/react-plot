@@ -41,8 +41,8 @@ export function Control(
         label="y=4*sin(2*x)"
       />
       <Annotations>{zoom.annotations}</Annotations>
-      <Axis paddingStart={0.1} paddingEnd={0.1} id="x" position="bottom" />
-      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
+      <Axis paddingStart="10%" paddingEnd="10%" id="x" position="bottom" />
+      <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
     </Plot>
   );
 }

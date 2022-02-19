@@ -54,6 +54,7 @@ interface UseDirectedEllipsePositionConfig {
   y2: NumberOrString;
   width: NumberOrString;
 }
+
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
@@ -66,6 +67,7 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
     ry: convertValueAbs(ry, plotHeight, yScale),
   };
 }
+
 export function useDirectedEllipsePosition(
   props: UseDirectedEllipsePositionConfig,
 ) {
@@ -101,15 +103,18 @@ export function useDirectedEllipsePosition(
     rotation: radsToDegs(rotation),
   };
 }
+
 function convertString(value: string, total: number) {
-  return value.trim().endsWith('%')
-    ? (Number(value.trim().slice(0, -1)) * total) / 100
+  return value.endsWith('%')
+    ? (Number(value.slice(0, -1)) * total) / 100
     : Number(value);
 }
+
 function convertValue(value: string | number, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number' ? scale(value) : convertString(value, total);
 }
+
 function convertMinValue(
   value1: string | number,
   value2: string | number,
@@ -139,6 +144,7 @@ function convertToPx(value: string | number, total: number, scale?: Scales) {
     ? scale(value) - scale(0)
     : convertString(value, total);
 }
+
 function convertToScale(value: string | number, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number'
@@ -146,6 +152,7 @@ function convertToScale(value: string | number, total: number, scale?: Scales) {
     : toNumber(scale.invert(convertString(value, total))) -
         toNumber(scale.invert(0));
 }
+
 function convertDimensions(
   value1: string | number,
   value2: string | number,
@@ -162,6 +169,7 @@ function convertDimensions(
         : convertString(value1, total)),
   );
 }
+
 export function usePointPosition(config: UsePositionConfig[]) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
@@ -177,17 +185,20 @@ export function usePointPosition(config: UsePositionConfig[]) {
     )
     .join(' ');
 }
+
 export function useIsSeriesVisible(id: string) {
   const [legendState] = useLegend();
   const value = legendState.labels.find((label) => label.id === id);
   return value?.isVisible;
 }
+
 interface UseShiftOptions {
   xAxis: string;
   yAxis: string;
   xShift: number | string;
   yShift: number | string;
 }
+
 export function useShift(options: UseShiftOptions) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const { xAxis, yAxis, xShift, yShift } = options;

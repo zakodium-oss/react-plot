@@ -101,8 +101,8 @@ export function PCA() {
             <Axis
               id="y"
               position="left"
-              paddingStart={0.05}
-              paddingEnd={0.05}
+              paddingStart="5%"
+              paddingEnd="5%"
               hidden
             />
             {series}

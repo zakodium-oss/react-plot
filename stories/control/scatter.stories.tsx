@@ -73,15 +73,15 @@ export function Control(props: ScatterSeriesProps) {
         id="x"
         position="bottom"
         label="X"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
       <Axis
         id="y"
         position="left"
         label="Y"
-        paddingEnd={0.1}
-        paddingStart={0.2}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
     </Plot>
   );

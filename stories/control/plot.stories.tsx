@@ -36,7 +36,7 @@ export function Control(args: PlotProps) {
       <Legend position="embedded" />
       <LineSeries data={data} xAxis="x" yAxis="y" label="Line" />
       <Axis id="x" position="bottom" />
-      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
+      <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
     </Plot>
   );
 }
