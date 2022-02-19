@@ -4,6 +4,6 @@ export * from './useRectangularZoom';
 export * from './useStartMoveEnd';
 export * from './useCrossHair';
 export * from './useAxisWheelZoom';
-export * from './usePlotControllerAxis';
+export * from './usePlotControllerAxes';
 export * from './usePan';
 export * from './useDrawPath';

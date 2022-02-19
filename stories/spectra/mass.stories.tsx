@@ -11,7 +11,7 @@ import {
   Plot,
   useAxisZoom,
   useAxisWheelZoom,
-  usePlotControllerAxis,
+  usePlotControllerAxes,
   usePan,
 } from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
@@ -52,42 +52,40 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const zoom = useAxisZoom();
   useAxisWheelZoom();
   usePan();
-  const { max, min } = usePlotControllerAxis({ axisId: 'x' });
-  // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
-  const isotopicDistribution = new IsotopicDistribution(mf, {
-    ensureCase: true,
-  });
+  const { x } = usePlotControllerAxes();
 
-  const profileXY = isotopicDistribution.getGaussian({
-    maxValue: 100,
-  });
-  const profile = xyToXYObject(profileXY);
+  const { profile, centroid } = useMemo(() => {
+    const isotopicDistribution = new IsotopicDistribution(mf, {
+      ensureCase: true,
+    });
 
-  const centroid = isotopicDistribution.getTable({
-    maxValue: 100,
-  });
+    const profileXY = isotopicDistribution.getGaussian({
+      maxValue: 100,
+    });
 
-  // calculating the bestPeaks should be done each time the zoom (from, to) is changing and should create the new annotations
+    return {
+      profile: xyToXYObject(profileXY),
+      centroid: isotopicDistribution.getTable({
+        maxValue: 100,
+      }),
+    };
+  }, [mf]);
+
   const bestPeaks = useMemo(
     () =>
       getBestPeaks(centroid, {
-        from: min,
-        to: max,
+        from: x?.min ?? -Infinity,
+        to: x?.max ?? Infinity,
         limit: 5,
         numberSlots: 10,
         threshold: 0.01,
       }),
-    [centroid, max, min],
+    [centroid, x],
   );
 
   return (
     <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        // svgStyle={{
-        //   cursor: cursor,
-        // }}
-      >
+      <Plot {...DEFAULT_PLOT_CONFIG}>
         <LineSeries
           data={profile}
           lineStyle={{ stroke: 'green' }}
@@ -131,6 +129,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           label="Mass [m/z]"
         />
         <Axis
+          paddingEnd="40"
           displayPrimaryGridLines
           id="y"
           position="left"
