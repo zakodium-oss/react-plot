@@ -3,11 +3,14 @@ import { useState } from 'react';
 
 import {
   Axis,
+  BarSeries,
   Legend,
   LegendProps,
   LineSeries,
   ParallelAxis,
   Plot,
+  RangeSeries,
+  ScatterSeries,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -22,8 +25,8 @@ export default {
 const data1 = [
   { x: 0, y: 10 },
   { x: 1, y: 12 },
-  { x: 2, y: 14 },
-  { x: 3, y: 16 },
+  { x: 2, y: 6 },
+  { x: 3, y: 3 },
   { x: 4, y: 18 },
 ];
 
@@ -37,12 +40,19 @@ const data2 = [
 
 const data3 = [
   { x: 0, y: 12 },
-  { x: 1, y: 4 },
-  { x: 2, y: 23 },
-  { x: 3, y: 10 },
-  { x: 4, y: 15 },
+  { x: 0.5, y: 4 },
+  { x: 3.5, y: 23 },
+  { x: 4, y: 10 },
+  { x: 6, y: 15 },
 ];
 
+const data4 = [
+  { x: 0, y1: 11, y2: 10 },
+  { x: 1, y1: 6, y2: 3 },
+  { x: 3, y1: 25, y2: 20 },
+  { x: 4.5, y1: 11, y2: 9 },
+  { x: 6, y1: 14, y2: 11 },
+];
 export function Control(props: LegendProps) {
   const [highlight, setHighlight] = useState<boolean>(false);
   const lineStyle = {
@@ -155,29 +165,37 @@ export function WithShowHide(props: LegendProps) {
         yAxis="y"
         label="Label line series"
       />
-      <LineSeries
+      <BarSeries
         data={data2}
-        markerStyle={{ fill: 'green' }}
-        lineStyle={{
-          stroke: 'blue',
-        }}
-        markerShape="square"
-        displayMarker
-        xAxis="x"
-        yAxis="y"
-        label="Label line series 2"
-      />
-      <LineSeries
-        data={data3}
         lineStyle={{
           stroke: 'green',
         }}
-        xAxis="x"
-        yAxis="y"
-        label="Label line series 3"
+        label="Label Bar series"
       />
-      <Axis id="x" position="bottom" label="X" />
-      <Axis id="y" position="left" label="Y" />
+      <ScatterSeries
+        data={data3}
+        markerStyle={{ fill: 'blue' }}
+        label="Label Scatter series"
+      />
+      <RangeSeries
+        data={data4}
+        lineStyle={{ fill: 'grey', stroke: 'black' }}
+        label="Label Range series"
+      />
+      <Axis
+        id="x"
+        position="bottom"
+        label="X"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
+      <Axis
+        id="y"
+        position="left"
+        label="Y"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
     </Plot>
   );
 }
