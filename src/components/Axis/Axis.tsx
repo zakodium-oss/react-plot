@@ -93,6 +93,7 @@ export function Axis({
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
+  const axisId = id || xY;
 
   const innerOffset = getInnerOffset(
     hidden,
@@ -103,9 +104,9 @@ export function Axis({
 
   useEffect(() => {
     dispatch({
-      type: 'newAxis',
+      type: 'addAxis',
       payload: {
-        id: id || xY,
+        id: axisId,
         position,
         min,
         max,
@@ -117,11 +118,10 @@ export function Axis({
       },
     });
 
-    return () => dispatch({ type: 'removeAxis', payload: { id: id || xY } });
+    return () => dispatch({ type: 'removeAxis', payload: { id: axisId } });
   }, [
     dispatch,
     flip,
-    id,
     innerOffset,
     max,
     min,
@@ -129,10 +129,10 @@ export function Axis({
     paddingStart,
     position,
     scale,
-    xY,
+    axisId,
   ]);
 
-  const currentAxis = axisContext[id || xY];
+  const currentAxis = axisContext[axisId];
   if (!currentAxis) return null;
 
   const childProps = {
@@ -164,8 +164,7 @@ export function Axis({
         scale={currentAxis.scale as ScaleLinear<number, number>}
       />
     );
-  }
-  if (scale === 'time') {
+  } else if (scale === 'time') {
     return (
       <TimeAxis
         {...childProps}

@@ -97,9 +97,9 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     const [yMin, yMax] = extent(data, (d) => d.y);
     const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
     const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
-    dispatch({ type: 'newData', payload: { id, x, y, label, data } });
+    dispatch({ type: 'addSeries', payload: { id, x, y, label, data } });
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', payload: { id } });
+    return () => dispatch({ type: 'removeSeries', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   if (hidden) return null;

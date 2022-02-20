@@ -25,11 +25,12 @@ import { validatePosition } from '../utils';
 
 import { PlotAxesOverrides } from './plotController/usePlotOverrides';
 
-interface PlotSeriesStateAxis {
-  min: number;
-  max: number;
-  shift: number;
-  axisId: string;
+export interface PlotState {
+  headingPosition: VerticalPosition | null;
+  legendPosition: LegendPosition | null;
+  legendMargin: number;
+  series: PlotSeriesState[];
+  axes: Record<string, PlotAxisState>;
 }
 
 export interface PlotSeriesState {
@@ -40,12 +41,11 @@ export interface PlotSeriesState {
   data?: SeriesPoint[];
 }
 
-export interface PlotState {
-  headingPosition: VerticalPosition | null;
-  legendPosition: LegendPosition | null;
-  legendMargin: number;
-  series: PlotSeriesState[];
-  axes: Record<string, PlotAxisState>;
+interface PlotSeriesStateAxis {
+  min: number;
+  max: number;
+  shift: number;
+  axisId: string;
 }
 
 export type PlotAxisState = Pick<
@@ -59,13 +59,14 @@ export type PlotAxisState = Pick<
   | 'scale'
   | 'tickLabelFormat'
 > & {
+  id: string;
   innerOffset: number;
 };
 
 export type PlotReducerActions =
-  | ActionType<'newData', PlotSeriesState>
-  | ActionType<'removeData', { id: string }>
-  | ActionType<'newAxis', { id: string } & PlotAxisState>
+  | ActionType<'addSeries', PlotSeriesState>
+  | ActionType<'removeSeries', { id: string }>
+  | ActionType<'addAxis', PlotAxisState>
   | ActionType<'removeAxis', { id: string }>
   | ActionType<'addHeading', { position: VerticalPosition }>
   | ActionType<'removeHeading'>
@@ -100,24 +101,24 @@ export interface PlotContext {
 
 export function plotReducer(state: PlotState, action: PlotReducerActions) {
   switch (action.type) {
-    case 'newData': {
+    case 'addSeries': {
       state.series.push(action.payload);
       break;
     }
-    case 'removeData': {
+    case 'removeSeries': {
       const { id } = action.payload;
       const seriesFiltered = state.series.filter((series) => series.id !== id);
       state.series = seriesFiltered;
       break;
     }
-    case 'newAxis': {
+    case 'addAxis': {
       const { id, position, ...values } = action.payload;
       let currentAxis = state.axes[id];
       if (currentAxis) {
         validatePosition(currentAxis.position, position, id);
         state.axes[id] = { ...currentAxis, position, ...values };
       } else {
-        state.axes[id] = { position, ...values };
+        state.axes[id] = { id, position, ...values };
       }
       break;
     }

@@ -59,10 +59,10 @@ export function RangeSeries<T extends RangeSeriesPoint>(
       shift: yShiftInverted,
       axisId: yAxis,
     };
-    dispatch({ type: 'newData', payload: { id, x, y, label } });
+    dispatch({ type: 'addSeries', payload: { id, x, y, label } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', payload: { id } });
+    return () => dispatch({ type: 'removeSeries', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   const isVisible = useIsSeriesVisible(id);
