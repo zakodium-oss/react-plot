@@ -20,12 +20,14 @@ export default {
   decorators: [PlotControllerDecorator],
 } as Meta;
 
+type Datum = typeof data[number];
+
 export function PCAExample() {
   const zoom = useRectangularZoom();
   const categories = [...new Set(data.map((datum) => datum.category))].map(
     (category) => ({
       label: category,
-      color: data.find((datum) => datum.category === category).color,
+      color: (data.find((datum) => datum.category === category) as Datum).color,
       x: data
         .filter((datum) => datum.category === category)
         .map((datum) => datum.x),

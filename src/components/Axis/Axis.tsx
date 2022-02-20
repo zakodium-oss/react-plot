@@ -115,6 +115,7 @@ export function Axis({
         flip,
         scale,
         innerOffset,
+        tickLabelFormat,
       },
     });
 

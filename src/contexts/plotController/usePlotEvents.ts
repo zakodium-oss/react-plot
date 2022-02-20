@@ -106,7 +106,7 @@ export function usePlotEventsState() {
         }
 
         for (const handler of plotEvents.current.handlers) {
-          if (handler.current[eventName]) {
+          if (handler.current?.[eventName]) {
             // @ts-expect-error eventData is guaranteed to be compatible with eventName.
             handler.current[eventName](eventData);
           }

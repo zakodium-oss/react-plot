@@ -47,10 +47,10 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   useEffect(() => {
-    const [xMin, xMax] = extent(data, (d) => d.x);
+    const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
 
-    const [y1Min, y1Max] = extent(data, (d) => d.y1);
-    const [y2Min, y2Max] = extent(data, (d) => d.y2);
+    const [y1Min, y1Max] = extent(data, (d) => d.y1) as [number, number];
+    const [y2Min, y2Max] = extent(data, (d) => d.y2) as [number, number];
 
     const x = { min: xMin, max: xMax, shift: xShiftInverted, axisId: xAxis };
     const y = {

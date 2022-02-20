@@ -23,7 +23,7 @@ export function LineSeries(props: LineSeriesProps) {
 
   const id = useId(props.id, 'series');
   const {
-    lineStyle: OldLineStyle,
+    lineStyle: lineStyleFromProps = {},
     displayMarker = false,
     displayErrorBars = false,
     hidden,
@@ -41,7 +41,7 @@ export function LineSeries(props: LineSeriesProps) {
     xShift: oldXShift,
     yShift: oldYShift,
   });
-  const lineStyle = functionalStyle({}, OldLineStyle, { id });
+  const lineStyle = functionalStyle({}, lineStyleFromProps, { id });
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
@@ -97,7 +97,7 @@ export function LineSeries(props: LineSeriesProps) {
     <g>
       {isVisible && (
         <>
-          <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
+          <LineSeriesRender {...lineProps} />
           <ErrorBars {...errorBarsProps} />
         </>
       )}

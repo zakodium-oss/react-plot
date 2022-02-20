@@ -60,7 +60,7 @@ export function AxisLeftTimeControl(props: AxisControlProps) {
         paddingEnd="10%"
         paddingStart="10%"
       />
-      <Axis id="y" position="left" scale="time" {...props} />
+      <Axis {...props} id="y" position="left" scale="time" />
     </Plot>
   );
 }
@@ -69,7 +69,7 @@ export function AxisBottomTimeControl(props: AxisControlProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {timeSeriesX}
-      <Axis id="x" position="bottom" scale="time" paddingEnd="10%" {...props} />
+      <Axis {...props} id="x" position="bottom" scale="time" paddingEnd="10%" />
       <Axis id="y" position="left" label="Label" />
     </Plot>
   );
@@ -81,11 +81,11 @@ export function AxisRightTimeControl(props: AxisControlProps) {
       {timeSeriesY}
       <Axis id="x" position="bottom" label="Label" />
       <Axis
+        {...props}
         id="y"
         position="right"
         scale="time"
         paddingStart="10%"
-        {...props}
       />
     </Plot>
   );

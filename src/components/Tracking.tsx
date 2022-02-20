@@ -11,7 +11,7 @@ import { closestPoint, toNumber } from '../utils';
 
 export interface ClosestInfo<MethodName extends ClosestMethods> {
   point: SeriesPoint;
-  label: string;
+  label?: string;
   axis: MethodName extends 'euclidean'
     ? Record<'x' | 'y', PlotAxisContext>
     : PlotAxisContext;
@@ -22,9 +22,9 @@ export interface TrackingResult<NativeEventType extends MouseEvent> {
   event: NativeEventType;
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
-  movement?: Record<string, number>;
+  movement: Record<string, number>;
   domains: Record<string, readonly [number, number]>;
-  getClosest?: (method: ClosestMethods) => ClosestInfoResult;
+  getClosest: (method: ClosestMethods) => ClosestInfoResult;
 }
 
 export interface TrackingProps {
@@ -210,7 +210,7 @@ export default function Tracking({
   }, [axisContext, plotEvents, plotHeight, plotId, plotWidth, stateSeries]);
   useEffect(() => {
     const rect = rectRef.current;
-    if (!rectRef) return;
+    if (!rect) return;
 
     function eventListener<NativeEventType extends MouseEvent>(
       nativeEvent: NativeEventType,
@@ -228,7 +228,7 @@ export default function Tracking({
         nativeEvent,
         plotDataRef.current.axisContext,
         plotDataRef.current.stateSeries,
-        rect,
+        rect as SVGRectElement,
       );
 
       plotEvents.handleEvent(plotId, nativeEventMap[nativeEvent.type], info);

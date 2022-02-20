@@ -7,6 +7,8 @@ import { ControllerHookOptions } from './types';
 
 export type UseStartMoveEndCallback = (
   data: TrackingResult<PointerEvent>,
+  start: UseStartMoveEndPosition,
+  end: UseStartMoveEndPosition,
 ) => void;
 
 export interface UseStartMoveEndOptions extends ControllerHookOptions {
@@ -15,15 +17,14 @@ export interface UseStartMoveEndOptions extends ControllerHookOptions {
   onEnd?: UseStartMoveEndCallback;
 }
 
+export interface UseStartMoveEndPosition {
+  coordinates: Record<string, number>;
+  clampedCoordinates: Record<string, number>;
+}
+
 export interface UseStartMoveEndState {
-  start: {
-    coordinates: Record<string, number>;
-    clampedCoordinates: Record<string, number>;
-  };
-  end?: {
-    coordinates: Record<string, number>;
-    clampedCoordinates: Record<string, number>;
-  };
+  start: UseStartMoveEndPosition;
+  end?: UseStartMoveEndPosition;
 }
 
 export function useStartMoveEnd(options: UseStartMoveEndOptions) {
@@ -37,23 +38,30 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
       onPointerDown(result) {
         if (result.event.button !== 0 || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
-        setData({ start: { coordinates, clampedCoordinates } });
-        ref.current?.onStart?.(result);
+        const position = { coordinates, clampedCoordinates };
+        setData({ start: position });
+        ref.current?.onStart?.(result, position, position);
       },
       onPointerMove(result) {
         // TODO: boolean that says if pointer is currently down?
         if (!data || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
-        setData((data) => ({
-          ...data,
-          end: { coordinates, clampedCoordinates },
-        }));
-        ref.current?.onMove?.(result);
+        const position = { coordinates, clampedCoordinates };
+        setData((data) => {
+          if (!data) return null;
+          return {
+            ...data,
+            end: position,
+          };
+        });
+        ref.current?.onMove?.(result, data.start, position);
       },
       onPointerUp(result) {
         if (result.event.button !== 0 || !data || result.event.altKey) return;
         setData(null);
-        ref.current?.onEnd?.(result);
+        if (data.end) {
+          ref.current?.onEnd?.(result, data.start, data.end);
+        }
       },
     },
     options,

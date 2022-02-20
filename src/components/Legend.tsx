@@ -71,7 +71,7 @@ function translation(
         position,
       );
       const x = horizontalValue;
-      const y = (-legendOffsets.bottom || 0) - legendOffset;
+      const y = -(legendOffsets.bottom || 0) - legendOffset;
       return { x, y, horizontalAlign: 'middle', verticalAlign: 'end' };
     }
     case 'right': {
@@ -100,7 +100,7 @@ function translation(
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendOffsets, 'top', 'bottom', position);
       const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = (-legendOffsets.right || 0) - legendOffset;
+      const x = -(legendOffsets.right || 0) - legendOffset;
       return { x, y, horizontalAlign: 'end', verticalAlign: 'middle' };
     }
     default: {
@@ -115,8 +115,8 @@ export type LegendProps = {
   position?: LegendPosition;
   margin?: number;
   onClick?: (args: {
-    event?: React.MouseEvent<SVGGElement, MouseEvent>;
-    id?: string;
+    event: React.MouseEvent<SVGGElement, MouseEvent>;
+    id: string;
   }) => void;
   labelStyle?: CSSFuncProps<{ id: string }>;
   lineStyle?: CSSFuncProps<{ id: string }>;
@@ -128,9 +128,9 @@ export function Legend(options: LegendProps) {
     position = 'embedded',
     margin = 10,
     onClick,
-    lineStyle: funcLineStyle,
+    lineStyle: funcLineStyle = {},
     showHide = true,
-    labelStyle: funcLabelStyle,
+    labelStyle: funcLabelStyle = {},
     ...legendOffsets
   } = options;
   const { plotWidth, plotHeight } = usePlotContext();
@@ -176,14 +176,15 @@ export function Legend(options: LegendProps) {
           { id },
         );
         const lineStyle = functionalStyle({}, funcLineStyle, { id });
-        const height = parseInt(labelStyle?.fontSize.toString(), 10);
+        // TODO: fix this as it's not guaranteed that `fontSize` can be parsed as a string.
+        const height = parseInt(String(labelStyle.fontSize), 10);
         const xPos = 10;
         const yPos = index * height + height / 2 + 3;
         if (value.range) {
           return (
             <g
               onClick={(event) => onClickLegendItem(event, id)}
-              key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
+              key={index}
               transform={`translate(${xPos}, ${0})`}
               style={{ opacity: value.isVisible ? '1' : '0.6' }}
             >
@@ -195,23 +196,21 @@ export function Legend(options: LegendProps) {
                 height,
               })}
 
-              <text
-                style={labelStyle}
-                key={`text-${value.label}-${index}`}
-                x={30}
-                y={`${(index + 1) * height}`}
-              >
+              <text style={labelStyle} x={30} y={`${(index + 1) * height}`}>
                 {value.label}
               </text>
             </g>
           );
         }
 
-        const Marker = markersComps[value.shape.figure];
+        let Marker;
+        if (value.shape) {
+          Marker = markersComps[value.shape.figure];
+        }
         return (
           <g
             onClick={(event) => onClickLegendItem(event, id)}
-            key={`${value.colorLine}/${value.shape.color}-${value.label}`}
+            key={index}
             transform={`translate(${xPos}, ${0})`}
             style={{ opacity: value.isVisible ? '1' : '0.6' }}
           >
@@ -222,17 +221,12 @@ export function Legend(options: LegendProps) {
               height,
             })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>
-              {!value.shape.hidden && (
+              {value.shape && Marker && !value.shape.hidden && (
                 <Marker size={10} style={{ fill: value.shape.color }} />
               )}
             </g>
 
-            <text
-              style={labelStyle}
-              key={`text-${value.label}-${index}`}
-              x={30}
-              y={`${(index + 1) * height}`}
-            >
+            <text style={labelStyle} x={30} y={`${(index + 1) * height}`}>
               {value.label}
             </text>
           </g>
@@ -244,7 +238,7 @@ export function Legend(options: LegendProps) {
 
 function getLineShape(config: {
   index: number;
-  color: string;
+  color?: string;
   style?: CSSProperties;
   height?: number;
   width?: number;
@@ -268,8 +262,8 @@ function getLineShape(config: {
 
 function getRangeShape(config: {
   index: number;
-  rangeColor: string;
-  lineColor: string;
+  rangeColor?: string;
+  lineColor?: string;
   style?: CSSProperties;
   height?: number;
 }) {

@@ -41,6 +41,7 @@ function BaseExample({
   if (!csv) return <div>Loading...</div>;
 
   const [analysis] = processorFunction(csv);
+  // @ts-expect-error See https://github.com/cheminfo/analysis/issues/17
   const { variables, meta } = analysis.getMeasurementXY(selector);
   const y =
     yScale === 'log'

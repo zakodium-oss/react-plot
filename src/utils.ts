@@ -51,7 +51,7 @@ export function validateAxis(
   axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
-): [Scales, Scales] {
+): [Scales, Scales] | [undefined, undefined] {
   const xAxis = axisContext[xKey];
   const yAxis = axisContext[yKey];
   if (!xAxis || !yAxis) return [undefined, undefined];
@@ -135,8 +135,8 @@ export function functionalLabel<T>(
  * validate series point Error
  */
 export function validateSeriesPointError(
-  error: SeriesPointError,
-): SeriesPointError {
+  error?: SeriesPointError,
+): SeriesPointError | null {
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;

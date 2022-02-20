@@ -37,7 +37,7 @@ export interface PlotSeriesState {
   id: string;
   x: PlotSeriesStateAxis;
   y: PlotSeriesStateAxis;
-  label: string;
+  label?: string;
   data?: SeriesPoint[];
 }
 
@@ -50,17 +50,13 @@ interface PlotSeriesStateAxis {
 
 export type PlotAxisState = Pick<
   AxisProps,
-  | 'position'
-  | 'min'
-  | 'max'
-  | 'paddingStart'
-  | 'paddingEnd'
-  | 'flip'
-  | 'scale'
-  | 'tickLabelFormat'
+  'position' | 'min' | 'max' | 'flip' | 'scale'
 > & {
   id: string;
   innerOffset: number;
+  paddingStart: string | number;
+  paddingEnd: string | number;
+  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
 };
 
 export type PlotReducerActions =
@@ -81,7 +77,7 @@ interface PlotAxisContextGeneric<
   scale: Scale;
   domain: readonly [number, number];
   clampInDomain: (value: number) => number;
-  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date>;
+  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
   position: Position;
 }
 
@@ -205,26 +201,26 @@ export function useAxisContext(
       // Get axis boundaries from override (context), state (axis props), or data.
       let isAxisMinForced = false;
       let axisMin: number;
-      if (overrides?.min !== undefined) {
+      if (overrides?.min != null) {
         axisMin = overrides.min;
         isAxisMinForced = true;
-      } else if (axis.min !== undefined) {
+      } else if (axis.min != null) {
         axisMin = axis.min;
         isAxisMinForced = true;
       } else {
-        axisMin = min(state.series, (d) => d[xY].min + d[xY].shift);
+        axisMin = min(state.series, (d) => d[xY].min + d[xY].shift) as number;
       }
 
       let isAxisMaxForced = false;
       let axisMax: number;
-      if (overrides?.max !== undefined) {
+      if (overrides?.max != null) {
         axisMax = overrides.max;
         isAxisMaxForced = true;
-      } else if (axis.max !== undefined) {
+      } else if (axis.max != null) {
         axisMax = axis.max;
         isAxisMaxForced = true;
       } else {
-        axisMax = max(state.series, (d) => d[xY].max + d[xY].shift);
+        axisMax = max(state.series, (d) => d[xY].max + d[xY].shift) as number;
       }
 
       // Limits validation
@@ -339,8 +335,8 @@ function convertAxisPadding(
   diff: number,
   size: number,
 ) {
-  let finalPaddingStart: number;
-  let finalPaddingEnd: number;
+  let finalPaddingStart = 0;
+  let finalPaddingEnd = 0;
 
   // Padding as a number is an absolute value added to the current range.
   let totalKnown = diff;

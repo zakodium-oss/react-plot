@@ -21,10 +21,10 @@ interface LegendLabelState {
   };
 
   range?: {
-    rangeColor: string;
+    rangeColor?: string;
   };
 
-  colorLine: string | null;
+  colorLine?: string;
 }
 
 interface LegendState {

@@ -95,8 +95,8 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     otherProps.markerStyle?.fill,
   ]);
   useEffect(() => {
-    const [xMin, xMax] = extent(data, (d) => d.x);
-    const [yMin, yMax] = extent(data, (d) => d.y);
+    const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
+    const [yMin, yMax] = extent(data, (d) => d.y) as [number, number];
     const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
     const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
     dispatch({ type: 'addSeries', payload: { id, x, y, label, data } });
@@ -137,6 +137,8 @@ interface ScatterSeriesRenderProps<T extends SeriesPoint>
   extends Omit<ScatterSeriesProps<T>, 'label'> {
   id: string;
   transform: string;
+  xAxis: string;
+  yAxis: string;
 }
 
 function ScatterSeriesRender<T extends SeriesPoint>({

@@ -18,10 +18,10 @@ export interface AxisCommonProps {
   primaryGridLineStyle?: CSSProperties;
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
-  primaryTickLength?: number;
+  primaryTickLength: number;
   primaryTickStyle?: CSSProperties;
   innerOffset: number;
-  secondaryTickLength?: number;
+  secondaryTickLength: number;
   scale: Scales;
   secondaryTickStyle?: CSSProperties;
 }

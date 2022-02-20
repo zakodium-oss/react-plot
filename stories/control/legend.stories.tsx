@@ -80,7 +80,7 @@ export function WithHiddenSerie(props: LegendProps) {
   const [hidden, setHidden] = useState(false);
   const [highlightSeries, setHighlightSeries] = useState<
     Record<string, boolean>
-  >({ undefined });
+  >({});
   const updateHightlight = (id: string) => {
     setHighlightSeries((highlightSeries) => ({
       ...highlightSeries,
