@@ -1,3 +1,4 @@
+// TODO: rename to iv.stories.tsx when https://github.com/cheminfo/nmr-processing/issues/141 is fixed.
 import { Meta } from '@storybook/react';
 import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
