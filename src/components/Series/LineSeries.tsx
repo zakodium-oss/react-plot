@@ -4,15 +4,22 @@ import { CSSProperties, useEffect, useMemo } from 'react';
 import { useLegend } from '../../contexts/legendContext';
 import { usePlotContext } from '../../contexts/plotContext';
 import { useIsSeriesVisible, useShift } from '../../hooks';
-import type { CSSFuncProps, SeriesPoint, Shape } from '../../types';
+import type {
+  CSSFuncProps,
+  SeriesCallback,
+  SeriesPoint,
+  Shape,
+  XYBoundaries,
+} from '../../types';
 import { functionalStyle, useId, validateAxis } from '../../utils';
 import ErrorBars from '../ErrorBars';
 
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
-  extends Omit<ScatterSeriesProps<T>, 'markerShape'> {
-  data: ReadonlyArray<T>;
+  extends Omit<ScatterSeriesProps<T>, 'data' | 'markerShape'> {
+  data: ReadonlyArray<T> | SeriesCallback<T>;
+  boundaries?: Partial<XYBoundaries>;
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
@@ -26,6 +33,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
 
   const id = useId(props.id, 'series');
   const {
+    data,
     lineStyle: lineStyleFromProps = {},
     displayMarker = false,
     displayErrorBars = false,
@@ -38,13 +46,25 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
   } = otherProps;
+
   const { xShift, yShift } = useShift({
     xAxis,
     yAxis,
     xShift: oldXShift,
     yShift: oldYShift,
   });
+
   const lineStyle = functionalStyle({}, lineStyleFromProps, { id });
+
+  const finalData = useMemo(() => {
+    if (typeof data === 'function') {
+      // TODO: use real boundaries.
+      return data({ x: { min: 0, max: 0 }, y: { min: 0, max: 0 } });
+    } else {
+      return data;
+    }
+  }, [data]);
+
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
@@ -76,18 +96,19 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     otherProps.markerStyle,
     otherProps.markerStyle?.fill,
   ]);
+
   if (hidden) return null;
 
   const lineProps = {
     id,
-    data: props.data,
+    data: finalData,
     xAxis,
     yAxis,
     lineStyle,
     transform: `translate(${xShift},${yShift})`,
   };
   const errorBarsProps = {
-    data: props.data,
+    data: finalData,
     xAxis,
     yAxis,
     hidden: !displayErrorBars,
@@ -104,6 +125,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
           <ErrorBars {...errorBarsProps} />
         </>
       )}
+      {/* TODO: refactor and use ScatterSeries */}
       <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
     </g>
   );

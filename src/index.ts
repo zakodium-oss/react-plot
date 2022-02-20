@@ -21,6 +21,8 @@ export * from './components/Annotations/Annotation';
 export * from './hooks/index';
 
 export type {
+  Boundaries,
+  XYBoundaries,
   SeriesPoint,
   SeriesPointWithError,
   SeriesPointError,

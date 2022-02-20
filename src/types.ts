@@ -19,6 +19,8 @@ export type Margins = Partial<Record<Position, number>>;
 
 export type SeriesPointError = number | [number | null, number | null] | null;
 
+export type SeriesCallback<T> = (boundaries: XYBoundaries) => ReadonlyArray<T>;
+
 export interface SeriesPoint {
   x: number;
   y: number;
@@ -27,6 +29,16 @@ export interface SeriesPoint {
 export interface SeriesPointWithError extends SeriesPoint {
   xError?: SeriesPointError;
   yError?: SeriesPointError;
+}
+
+export interface Boundaries {
+  min: number;
+  max: number;
+}
+
+export interface XYBoundaries {
+  x: Boundaries;
+  y: Boundaries;
 }
 
 export type CSSFuncProps<T> = {
