@@ -1,4 +1,5 @@
 import { line } from 'd3-shape';
+import { euclidean } from 'ml-distance-euclidean';
 import { CSSProperties, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../contexts/legendContext';
@@ -8,6 +9,7 @@ import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
 import { functionalStyle, useId, validateAxis } from '../utils';
 
 import ErrorBars from './ErrorBars';
+import GradientDefs from './GradientDefs ';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps
@@ -15,6 +17,7 @@ export interface LineSeriesProps
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
+  gradientStyle?: (point: SeriesPoint) => string;
 }
 
 export function LineSeries(props: LineSeriesProps) {
@@ -27,6 +30,7 @@ export function LineSeries(props: LineSeriesProps) {
     displayMarker = false,
     displayErrorBars = false,
     hidden,
+    gradientStyle,
     ...otherProps
   } = props;
   const {
@@ -82,6 +86,7 @@ export function LineSeries(props: LineSeriesProps) {
     yAxis,
     lineStyle,
     transform: `translate(${xShift},${yShift})`,
+    gradientStyle,
   };
   const errorBarsProps = {
     data: props.data,
@@ -113,6 +118,7 @@ interface LineSeriesRenderProps {
   yAxis: string;
   lineStyle: CSSProperties;
   transform: string;
+  gradientStyle?: (point: SeriesPoint) => string;
 }
 
 function LineSeriesRender({
@@ -122,11 +128,11 @@ function LineSeriesRender({
   yAxis,
   lineStyle,
   transform,
+  gradientStyle,
 }: LineSeriesRenderProps) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
-
   // calculates the path to display
   const color = colorScaler(id);
   const path = useMemo(() => {
@@ -145,10 +151,33 @@ function LineSeriesRender({
 
   // default style
   const style = {
-    stroke: color,
     strokeWidth: 2,
     ...lineStyle,
+    stroke: gradientStyle ? `url(#gradient-${id})` : color,
   };
 
-  return <path transform={transform} style={style} d={path} fill="none" />;
+  function calculateOffset(data, i) {
+    return euclidean([data[i - 1].x, data[i - 1].y], [data[i].x, data[i].y]);
+  }
+  let x = 0;
+  return (
+    <g>
+      {gradientStyle && (
+        <GradientDefs
+          colors={data
+            .map((point, i) => {
+              if (i === 0) x = 0;
+              else x += calculateOffset(data, i);
+              return {
+                color: gradientStyle(point),
+                offset: x,
+              };
+            })
+            .reverse()}
+          id={`gradient-${id}`}
+        />
+      )}
+      <path transform={transform} style={style} d={path} fill="none" />
+    </g>
+  );
 }
