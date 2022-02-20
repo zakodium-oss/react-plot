@@ -2,10 +2,9 @@ import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import MassTools from 'mass-tools';
+import IsotopicDistribution from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
-
-const { IsotopicDistribution, getBestPeaks } = MassTools;
+import { getBestPeaks } from 'ms-spectrum';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
