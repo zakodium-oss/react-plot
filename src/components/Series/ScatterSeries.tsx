@@ -1,29 +1,28 @@
 import { extent } from 'd3-array';
 import { SVGAttributes, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
+} from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
   LabelFuncProps,
   SeriesPoint,
   ShapeFuncProps,
-} from '../types';
+} from '../../types';
 import {
   functionalLabel,
   functionalShape,
   functionalStyle,
   useId,
   validateAxis,
-} from '../utils';
-
-import ErrorBars from './ErrorBars';
-import { markersComps } from './Markers';
+} from '../../utils';
+import ErrorBars from '../ErrorBars';
+import { markersComps } from '../Markers';
 
 export interface ScatterSeriesProps<T = SeriesPoint>
   extends BaseSeriesProps<T> {

@@ -15,9 +15,9 @@ import type { AnnotationTextProps } from './Annotations/Text';
 import { Axis, AxisProps } from './Axis/Axis';
 import { ParallelAxis, ParallelAxisProps } from './Axis/ParallelAxis';
 import { Legend, LegendProps } from './Legend';
-import { LineSeries, LineSeriesProps } from './LineSeries';
 import { Plot, PlotProps } from './Plot';
-import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
+import { LineSeries, LineSeriesProps } from './Series/LineSeries';
+import { ScatterSeries, ScatterSeriesProps } from './Series/ScatterSeries';
 
 export type PlotObjectAnnotations =
   // This for each annotation option

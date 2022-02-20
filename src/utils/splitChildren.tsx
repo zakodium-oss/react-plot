@@ -3,13 +3,13 @@ import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 import { Annotations } from '../components/Annotations/Annotation';
 import { Axis } from '../components/Axis/Axis';
 import { ParallelAxis } from '../components/Axis/ParallelAxis';
-import { BarSeries } from '../components/BarSeries';
-import { FunctionSeries } from '../components/FunctionSeries';
 import { Heading } from '../components/Heading';
 import { Legend } from '../components/Legend';
-import { LineSeries } from '../components/LineSeries';
-import { RangeSeries } from '../components/RangeSeries';
-import { ScatterSeries } from '../components/ScatterSeries';
+import { BarSeries } from '../components/Series/BarSeries';
+import { FunctionSeries } from '../components/Series/FunctionSeries';
+import { LineSeries } from '../components/Series/LineSeries';
+import { RangeSeries } from '../components/Series/RangeSeries';
+import { ScatterSeries } from '../components/Series/ScatterSeries';
 
 interface PlotChildren {
   seriesAndAnnotations: ReactElement[];

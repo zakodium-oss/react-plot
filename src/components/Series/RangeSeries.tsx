@@ -2,14 +2,14 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
-import type { BaseSeriesProps } from '../types';
-import { useId, validateAxis } from '../utils';
+} from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
+import type { BaseSeriesProps } from '../../types';
+import { useId, validateAxis } from '../../utils';
 
 export interface RangeSeriesPoint {
   x: number;

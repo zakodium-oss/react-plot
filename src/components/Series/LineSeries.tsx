@@ -1,13 +1,13 @@
 import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
-import { usePlotContext } from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
-import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
-import { functionalStyle, useId, validateAxis } from '../utils';
+import { useLegend } from '../../contexts/legendContext';
+import { usePlotContext } from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
+import type { CSSFuncProps, SeriesPoint, Shape } from '../../types';
+import { functionalStyle, useId, validateAxis } from '../../utils';
+import ErrorBars from '../ErrorBars';
 
-import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps

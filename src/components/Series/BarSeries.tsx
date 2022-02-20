@@ -1,10 +1,10 @@
 import { CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
-import { usePlotContext } from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
-import type { SeriesPoint } from '../types';
-import { functionalStyle, useId, validateAxis } from '../utils';
+import { useLegend } from '../../contexts/legendContext';
+import { usePlotContext } from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
+import type { SeriesPoint } from '../../types';
+import { functionalStyle, useId, validateAxis } from '../../utils';
 
 import { LineSeriesProps } from './LineSeries';
 import { ScatterSeries } from './ScatterSeries';
