@@ -68,7 +68,7 @@ export function BarSeries(props: BarSeriesProps) {
 
   return (
     <g>
-      {!props.hidden && isVisible && <BarSeriesRender {...lineProps} />}
+      {!props.hidden && isVisible ? <BarSeriesRender {...lineProps} /> : null}
       <ScatterSeries
         {...otherProps}
         hidden={!displayMarker || props.hidden}
