@@ -81,7 +81,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         const { line, text } = getPositions(scale(tick), true);
         return (
           <Tick
-            key={tick}
+            key={String(tick)}
             line={line}
             text={text}
             secondary

@@ -1,26 +1,36 @@
 import { Meta } from '@storybook/react';
 
-import { Plot, Heading, Legend, LineSeries, Axis } from '../src';
+import {
+  Plot,
+  Heading,
+  Legend,
+  LineSeries,
+  Axis,
+  VerticalPosition,
+  LegendPosition,
+} from '../src';
+
+const args = {
+  hiddenTicks: false,
+  width: 550,
+  height: 500,
+  displayPlot: true,
+  plotLabel: 'Vg = 5V',
+  displayPrimaryGridLines: true,
+  headingPosition: 'top' as VerticalPosition,
+  legendPosition: 'right' as LegendPosition,
+  hidden: false,
+  xFlip: false,
+  yFlip: false,
+};
 
 export default {
   title: 'Plot/General options',
   component: Plot,
-  args: {
-    hiddenTicks: false,
-    width: 550,
-    height: 500,
-    displayPlot: true,
-    plotLabel: 'Vg = 5V',
-    displayPrimaryGridLines: true,
-    headingPosition: 'top',
-    legendPosition: 'right',
-    hidden: false,
-    xFlip: false,
-    yFlip: false,
-  },
+  args,
 } as Meta;
 
-export function Control(props) {
+export function Control(props: typeof args) {
   const {
     displayPlot,
     plotLabel,

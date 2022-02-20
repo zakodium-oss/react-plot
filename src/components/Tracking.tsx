@@ -86,7 +86,7 @@ function infoFromEvent<NativeEventType extends MouseEvent>(
 
 function closestCalculation(
   method: ClosestMethods,
-  coordinates: Record<'x' | 'y', number>,
+  coordinates: Record<string, number>,
   stateSeries: PlotSeriesState[],
   axisContext: Record<string, PlotAxisContext>,
 ): ClosestInfoResult {
@@ -231,7 +231,11 @@ export default function Tracking({
         rect as SVGRectElement,
       );
 
-      plotEvents.handleEvent(plotId, nativeEventMap[nativeEvent.type], info);
+      plotEvents.handleEvent(
+        plotId,
+        nativeEventMap[nativeEvent.type as NativeEventName],
+        info,
+      );
     }
     nativeEventNames.forEach((eventName) => {
       rect.addEventListener(eventName, eventListener);

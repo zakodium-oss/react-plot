@@ -89,9 +89,12 @@ export function functionalStyle<T>(
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
+    // @ts-expect-error Type is too complex
     if (typeof elementStyle[key] === 'function') {
+      // @ts-expect-error Type is too complex
       style[key] = elementStyle[key](point, index, data);
     } else {
+      // @ts-expect-error Type is too complex
       style[key] = elementStyle[key];
     }
   }
@@ -136,7 +139,7 @@ export function functionalLabel<T>(
  */
 export function validateSeriesPointError(
   error?: SeriesPointError,
-): SeriesPointError | null {
+): Exclude<SeriesPointError, number> | null {
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;

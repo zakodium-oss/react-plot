@@ -26,6 +26,9 @@ export type {
   SeriesPointError,
   TickLabelFormat,
   TickPosition,
+  Position,
+  VerticalPosition,
+  HorizontalPosition,
 } from './types';
 
 export {

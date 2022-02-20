@@ -88,7 +88,7 @@ export function WithHiddenSerie(props: LegendProps) {
     }));
   };
   const lineStyle = {
-    strokeWidth: ({ id }) => (highlightSeries[id] ? '5' : ''),
+    strokeWidth: ({ id }: { id: string }) => (highlightSeries[id] ? '5' : ''),
   };
   return (
     <>

@@ -1,6 +1,8 @@
 import { Meta } from '@storybook/react';
+// @ts-expect-error untyped module
 import IsotopicDistribution from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
+// @ts-expect-error untyped module
 import { getBestPeaks } from 'ms-spectrum';
 import { useMemo } from 'react';
 
@@ -46,9 +48,17 @@ export function MassExample() {
   );
 }
 
+interface Peak {
+  label: string;
+  x: number;
+  y: number;
+  shortLabel: string;
+}
+
 interface AdvancedMassExampleProps {
   mf: string;
 }
+
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
   const zoom = useAxisZoom();
   useAxisWheelZoom();
@@ -100,7 +110,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           lineStyle={{ stroke: 'red' }}
         />
         <Annotations>
-          {bestPeaks.map((peak) => (
+          {bestPeaks.map((peak: Peak) => (
             <Group key={peak.label} x={peak.x} y={peak.y}>
               <Line
                 x1="0"
