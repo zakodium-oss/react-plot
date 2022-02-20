@@ -81,7 +81,7 @@ interface PlotAxisContextGeneric<
   scale: Scale;
   domain: readonly [number, number];
   clampInDomain: (value: number) => number;
-  tickLabelFormat: TickLabelFormat;
+  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date>;
   position: Position;
 }
 

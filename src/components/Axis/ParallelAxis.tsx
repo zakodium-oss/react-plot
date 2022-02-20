@@ -1,12 +1,13 @@
-import { ScaleLinear, ScaleLogarithmic } from 'd3-scale';
+import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 
 import { usePlotContext } from '../../contexts/plotContext';
-import type { Position } from '../../types';
+import type { Position, TickLabelFormat } from '../../types';
 import { getInnerOffset } from '../../utils/axis';
 
 import { AxisProps } from './Axis';
 import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
+import TimeAxis from './TimeAxis';
 
 function parallelPosition<T extends Position>(position: T): T {
   switch (position) {
@@ -81,7 +82,6 @@ export function ParallelAxis(props: ParallelAxisProps) {
     plotWidth,
     plotHeight,
     position,
-    tickLabelFormat,
     displayPrimaryGridLines: false,
     hidden,
     primaryTickLength,
@@ -97,13 +97,23 @@ export function ParallelAxis(props: ParallelAxisProps) {
     return (
       <LinearAxis
         {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
         scale={scale as ScaleLinear<number, number>}
+      />
+    );
+  } else if (type === 'time') {
+    return (
+      <TimeAxis
+        {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<Date>}
+        scale={scale as ScaleTime<number, number>}
       />
     );
   } else {
     return (
       <LogAxis
         {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
         scale={scale as ScaleLogarithmic<number, number>}
       />
     );

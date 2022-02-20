@@ -1,11 +1,11 @@
 import { useMemo, SVGAttributes } from 'react';
 
 import { usePlotContext } from '../contexts/plotContext';
-import type { SeriesPoint } from '../types';
+import type { SeriesPointWithError } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
-  data: SeriesPoint[];
+  data: SeriesPointWithError[];
   transform?: string;
   xAxis?: string;
   yAxis?: string;

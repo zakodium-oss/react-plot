@@ -19,13 +19,7 @@ export default {
   title: 'Examples/PCA example of ecstasy',
   decorators: [PlotControllerDecorator],
 } as Meta;
-interface Point {
-  label: string;
-  x: number;
-  y: number;
-  color: string;
-  id: string;
-}
+
 export function PCAExample() {
   const zoom = useRectangularZoom();
   const categories = [...new Set(data.map((datum) => datum.category))].map(
@@ -72,15 +66,15 @@ export function PCAExample() {
       <Heading title="Principal component analysis of XTC infrared spectra" />
       <ScatterSeries
         markerStyle={{
-          fill: (point: Point) => point.color,
+          fill: (point) => point.color,
           stroke: 'none',
         }}
         pointLabelStyle={{
           fontSize: '12px',
-          fill: (point: Point) => point.color,
+          fill: (point) => point.color,
           transform: 'translate(3px, -3px)',
         }}
-        pointLabel={(point: Point) => point.label}
+        pointLabel={(point) => point.label}
         data={data}
         xAxis="x"
         yAxis="y"

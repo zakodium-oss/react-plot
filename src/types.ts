@@ -22,6 +22,9 @@ export type SeriesPointError = number | [number | null, number | null] | null;
 export interface SeriesPoint {
   x: number;
   y: number;
+}
+
+export interface SeriesPointWithError extends SeriesPoint {
   xError?: SeriesPointError;
   yError?: SeriesPointError;
 }
@@ -37,7 +40,7 @@ export type ShapeFuncProps<T> =
 export type LabelFuncProps<T> =
   | ((point: T, index?: number, data?: T[]) => string)
   | string;
-export interface BaseSeriesProps<T = SeriesPoint> {
+export interface BaseSeriesProps<T> {
   id?: string;
   xAxis?: string;
   yAxis?: string;
@@ -52,6 +55,6 @@ export type ActionType<Action, Payload = void> = Payload extends void
   ? { type: Action }
   : { type: Action; payload: Payload };
 
-export type TickLabelFormat = (value: number | Date) => string;
+export type TickLabelFormat<T = number> = (value: T) => string;
 
 export type TickPosition = 'inner' | 'outer' | 'center';

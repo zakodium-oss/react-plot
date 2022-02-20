@@ -6,7 +6,7 @@ import {
   LineSeries,
   Plot,
   LineSeriesProps,
-  SeriesPoint,
+  SeriesPointWithError,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -37,7 +37,7 @@ export default {
     errorBarsCapStyle: { stroke: 'blue' },
   },
 } as Meta<LineSeriesProps>;
-const data: SeriesPoint[] = [
+const data: SeriesPointWithError[] = [
   {
     x: 0,
     y: 10,

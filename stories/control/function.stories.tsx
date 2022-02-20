@@ -15,27 +15,19 @@ export default {
   title: 'API/FunctionSeries',
   component: FunctionSeries,
   decorators: [PlotControllerDecorator],
-  args: {
-    xAxis: 'x',
-    max: 50,
-    min: 0,
-  },
-} as Meta<FunctionSeriesProps & { min?: number; max?: number }>;
+} as Meta<Omit<FunctionSeriesProps, 'getY'>>;
 
 function getY(x: number) {
   return 4 * Math.sin(2 * x);
 }
-export function Control(
-  props: FunctionSeriesProps & { min?: number; max?: number },
-) {
-  const { max, min, ...otherProps } = props;
+export function Control(props: FunctionSeriesProps) {
   const zoom = useRectangularZoom();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <Legend position="embedded" />
       <FunctionSeries
+        {...props}
         getY={getY}
-        {...otherProps}
         xAxis="x"
         yAxis="y"
         label="y=4*sin(2*x)"

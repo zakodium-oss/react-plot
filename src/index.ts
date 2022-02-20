@@ -20,7 +20,13 @@ export * from './components/Annotations/Annotation';
 
 export * from './hooks/index';
 
-export type { SeriesPoint, TickLabelFormat, TickPosition } from './types';
+export type {
+  SeriesPoint,
+  SeriesPointWithError,
+  SeriesPointError,
+  TickLabelFormat,
+  TickPosition,
+} from './types';
 
 export {
   PlotController,

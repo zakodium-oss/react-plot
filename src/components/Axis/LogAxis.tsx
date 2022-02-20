@@ -6,11 +6,11 @@ import HorizontalAxis from './HorizontalAxis';
 import VerticalAxis from './VerticalAxis';
 import { AxisChildProps } from './types';
 
-interface LogAxisProps extends AxisChildProps {
+interface LogAxisProps extends AxisChildProps<number> {
   scale: ScaleLogarithmic<number, number>;
 }
 
-export default function LinearAxis(props: LogAxisProps) {
+export default function LogAxis(props: LogAxisProps) {
   const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);

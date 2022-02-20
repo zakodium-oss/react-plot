@@ -24,7 +24,7 @@ import {
 import ErrorBars from '../ErrorBars';
 import { markersComps } from '../Markers';
 
-export interface ScatterSeriesProps<T = SeriesPoint>
+export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps<T> {
   markerShape?: ShapeFuncProps<T>;
   markerSize?: number;
@@ -37,7 +37,9 @@ export interface ScatterSeriesProps<T = SeriesPoint>
   errorBarsCapSize?: number;
 }
 
-export function ScatterSeries(props: ScatterSeriesProps) {
+export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
+  props: ScatterSeriesProps<T>,
+) {
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
@@ -131,12 +133,13 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   ) : null;
 }
 
-interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
+interface ScatterSeriesRenderProps<T extends SeriesPoint>
+  extends Omit<ScatterSeriesProps<T>, 'label'> {
   id: string;
   transform: string;
 }
 
-function ScatterSeriesRender({
+function ScatterSeriesRender<T extends SeriesPoint>({
   id,
   data,
   xAxis,
@@ -147,7 +150,7 @@ function ScatterSeriesRender({
   pointLabel = '',
   pointLabelStyle = {},
   transform,
-}: ScatterSeriesRenderProps) {
+}: ScatterSeriesRenderProps<T>) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);

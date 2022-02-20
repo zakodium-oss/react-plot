@@ -34,8 +34,8 @@ export interface AxisRendererProps extends AxisCommonProps {
   primaryTicks: TicksType[];
 }
 
-export interface AxisChildProps extends AxisCommonProps {
-  tickLabelFormat?: TickLabelFormat;
+export interface AxisChildProps<ScaleType> extends AxisCommonProps {
+  tickLabelFormat?: TickLabelFormat<ScaleType>;
 }
 
 export type TicksType = PrimaryLinearTicks | PrimaryLogTicks | TimeTicks;
