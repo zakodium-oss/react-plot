@@ -80,3 +80,31 @@ export function Control(props: LineSeriesProps) {
     </Plot>
   );
 }
+const data2 = [
+  { x: 1, y: 10 },
+  { x: 2, y: 5 },
+  { x: 3, y: 3 },
+  { x: 4, y: 5 },
+  { x: 5, y: 10 },
+  { x: 8, y: 5 },
+  { x: 9, y: 1 },
+];
+export function GradientLine() {
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <LineSeries
+        data={data2}
+        xAxis="x"
+        yAxis="y"
+        lineStyle={{ strokeWidth: 2 }}
+        gradientStyle={({ x }: SeriesPoint) => {
+          if (x <= 1) return 'red';
+          if (x >= 8) return 'blue';
+          return undefined;
+        }}
+      />
+      <Axis id="x" position="bottom" label="X" />
+      <Axis id="y" position="left" label="Y" paddingEnd="10%" />
+    </Plot>
+  );
+}
