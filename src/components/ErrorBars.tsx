@@ -5,7 +5,7 @@ import type { SeriesPointWithError } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
-  data: SeriesPointWithError[];
+  data: ReadonlyArray<SeriesPointWithError>;
   transform?: string;
   xAxis?: string;
   yAxis?: string;

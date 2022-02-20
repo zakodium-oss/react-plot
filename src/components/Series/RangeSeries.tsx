@@ -101,7 +101,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 }
 
 interface RangeSeriesRenderProps {
-  data: RangeSeriesPoint[];
+  data: ReadonlyArray<RangeSeriesPoint>;
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

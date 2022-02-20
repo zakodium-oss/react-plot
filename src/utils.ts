@@ -85,7 +85,7 @@ export function functionalStyle<T>(
   elementStyle: CSSFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
@@ -107,7 +107,7 @@ export function functionalShape<T>(
   elementStyle: ShapeFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): Shape {
   let shape: Shape;
   if (typeof elementStyle === 'function') {
@@ -124,7 +124,7 @@ export function functionalLabel<T>(
   elementStyle: LabelFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): string {
   let shape: string;
   if (typeof elementStyle === 'function') {
@@ -146,7 +146,7 @@ export function validateSeriesPointError(
 }
 
 export function closestPoint<T, R>(
-  data: T[],
+  data: ReadonlyArray<T>,
   value: R,
   distanceFun: (a: T, b: R) => number,
 ): T {

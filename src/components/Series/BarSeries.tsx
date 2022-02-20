@@ -80,7 +80,7 @@ export function BarSeries(props: BarSeriesProps) {
 
 interface BarSeriesRenderProps {
   id: string;
-  data: SeriesPoint[];
+  data: ReadonlyArray<SeriesPoint>;
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

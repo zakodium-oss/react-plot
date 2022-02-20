@@ -38,7 +38,7 @@ export interface PlotSeriesState {
   x: PlotSeriesStateAxis;
   y: PlotSeriesStateAxis;
   label?: string;
-  data?: SeriesPoint[];
+  data?: ReadonlyArray<SeriesPoint>;
 }
 
 interface PlotSeriesStateAxis {

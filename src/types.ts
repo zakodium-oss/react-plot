@@ -34,17 +34,20 @@ export type CSSFuncProps<T> = {
     | ((point: T, index?: number, data?: T[]) => CSSProperties[key])
     | CSSProperties[key];
 };
+
 export type ShapeFuncProps<T> =
-  | ((point: T, index?: number, data?: T[]) => Shape)
+  | ((point: T, index?: number, data?: ReadonlyArray<T>) => Shape)
   | Shape;
+
 export type LabelFuncProps<T> =
-  | ((point: T, index?: number, data?: T[]) => string)
+  | ((point: T, index?: number, data?: ReadonlyArray<T>) => string)
   | string;
+
 export interface BaseSeriesProps<T> {
+  data: ReadonlyArray<T>;
   id?: string;
   xAxis?: string;
   yAxis?: string;
-  data: Array<T>;
   label?: string;
   hidden?: boolean;
   xShift?: number | string;

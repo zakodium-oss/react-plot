@@ -10,14 +10,17 @@ import ErrorBars from '../ErrorBars';
 
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
-export interface LineSeriesProps
-  extends Omit<ScatterSeriesProps, 'markerShape'> {
+export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
+  extends Omit<ScatterSeriesProps<T>, 'markerShape'> {
+  data: ReadonlyArray<T>;
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
 }
 
-export function LineSeries(props: LineSeriesProps) {
+export function LineSeries<T extends SeriesPoint = SeriesPoint>(
+  props: LineSeriesProps<T>,
+) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
@@ -108,7 +111,7 @@ export function LineSeries(props: LineSeriesProps) {
 
 interface LineSeriesRenderProps {
   id: string;
-  data: SeriesPoint[];
+  data: ReadonlyArray<SeriesPoint>;
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;
