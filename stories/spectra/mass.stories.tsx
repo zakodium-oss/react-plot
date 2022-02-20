@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react';
-import { IsotopicDistribution, getBestPeaks } from 'mass-tools';
+import IsotopicDistribution from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
+import { getBestPeaks } from 'ms-spectrum';
 import { useMemo } from 'react';
 
 import {
