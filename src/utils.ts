@@ -1,5 +1,6 @@
 import { CSSProperties, useMemo } from 'react';
 
+import { Scales } from './components/Axis/types';
 import { PlotAxisContext } from './contexts/plotContext';
 import type {
   CSSFuncProps,
@@ -50,7 +51,7 @@ export function validateAxis(
   axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
-) {
+): [Scales, Scales] | [undefined, undefined] {
   const xAxis = axisContext[xKey];
   const yAxis = axisContext[yKey];
   if (!xAxis || !yAxis) return [undefined, undefined];
@@ -84,13 +85,16 @@ export function functionalStyle<T>(
   elementStyle: CSSFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): CSSProperties {
   let style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
+    // @ts-expect-error Type is too complex
     if (typeof elementStyle[key] === 'function') {
+      // @ts-expect-error Type is too complex
       style[key] = elementStyle[key](point, index, data);
     } else {
+      // @ts-expect-error Type is too complex
       style[key] = elementStyle[key];
     }
   }
@@ -103,7 +107,7 @@ export function functionalShape<T>(
   elementStyle: ShapeFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): Shape {
   let shape: Shape;
   if (typeof elementStyle === 'function') {
@@ -120,7 +124,7 @@ export function functionalLabel<T>(
   elementStyle: LabelFuncProps<T>,
   point: T,
   index?: number,
-  data?: T[],
+  data?: ReadonlyArray<T>,
 ): string {
   let shape: string;
   if (typeof elementStyle === 'function') {
@@ -134,15 +138,15 @@ export function functionalLabel<T>(
  * validate series point Error
  */
 export function validateSeriesPointError(
-  error: SeriesPointError,
-): SeriesPointError {
+  error?: SeriesPointError,
+): Exclude<SeriesPointError, number> | null {
   if (typeof error === 'number') return [error, error];
   else if (Array.isArray(error) && error.length >= 2) return error;
   return null;
 }
 
 export function closestPoint<T, R>(
-  data: T[],
+  data: ReadonlyArray<T>,
   value: R,
   distanceFun: (a: T, b: R) => number,
 ): T {

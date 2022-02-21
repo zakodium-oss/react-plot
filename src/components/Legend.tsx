@@ -71,7 +71,7 @@ function translation(
         position,
       );
       const x = horizontalValue;
-      const y = (-legendOffsets.bottom || 0) - legendOffset;
+      const y = -(legendOffsets.bottom || 0) - legendOffset;
       return { x, y, horizontalAlign: 'middle', verticalAlign: 'end' };
     }
     case 'right': {
@@ -100,7 +100,7 @@ function translation(
         value: verticalValue = plotHeight / 2,
       } = exclusiveProps(legendOffsets, 'top', 'bottom', position);
       const y = verticalKey === 'bottom' ? -verticalValue : verticalValue;
-      const x = (-legendOffsets.right || 0) - legendOffset;
+      const x = -(legendOffsets.right || 0) - legendOffset;
       return { x, y, horizontalAlign: 'end', verticalAlign: 'middle' };
     }
     default: {
@@ -112,26 +112,27 @@ function translation(
 export type LegendPosition = Position | 'embedded';
 
 export type LegendProps = {
-  position: LegendPosition;
+  position?: LegendPosition;
   margin?: number;
   onClick?: (args: {
-    event?: React.MouseEvent<SVGGElement, MouseEvent>;
-    id?: string;
+    event: React.MouseEvent<SVGGElement, MouseEvent>;
+    id: string;
   }) => void;
   labelStyle?: CSSFuncProps<{ id: string }>;
   lineStyle?: CSSFuncProps<{ id: string }>;
   showHide?: boolean;
 } & { [K in Position]?: number };
 
-export function Legend({
-  position,
-  margin = 10,
-  onClick,
-  labelStyle: oldLabelStyle,
-  lineStyle,
-  showHide = false,
-  ...legendOffsets
-}: LegendProps) {
+export function Legend(options: LegendProps) {
+  const {
+    position = 'embedded',
+    margin = 10,
+    onClick,
+    lineStyle: funcLineStyle = {},
+    showHide = true,
+    labelStyle: funcLabelStyle = {},
+    ...legendOffsets
+  } = options;
   const { plotWidth, plotHeight } = usePlotContext();
   const plotDispatch = usePlotDispatchContext();
   const [state, legendDispatch] = useLegend();
@@ -168,16 +169,22 @@ export function Legend({
   return (
     <AlignGroup {...alignGroupProps}>
       {state.labels.map((value, index) => {
-        const xPos = 10;
-        const yPos = (index + 1) * 16 - xPos + 5;
         const { id } = value;
-        const labelStyle = functionalStyle({}, oldLabelStyle, { id });
-        const style = functionalStyle({}, lineStyle, { id });
+        const labelStyle = functionalStyle(
+          { fontSize: '16px' },
+          funcLabelStyle,
+          { id },
+        );
+        const lineStyle = functionalStyle({}, funcLineStyle, { id });
+        // TODO: fix this as it's not guaranteed that `fontSize` can be parsed as a string.
+        const height = parseInt(String(labelStyle.fontSize), 10);
+        const xPos = 10;
+        const yPos = index * height + height / 2 + 3;
         if (value.range) {
           return (
             <g
               onClick={(event) => onClickLegendItem(event, id)}
-              key={`${value.colorLine}/${value.range.rangeColor}-${value.label}`}
+              key={index}
               transform={`translate(${xPos}, ${0})`}
               style={{ opacity: value.isVisible ? '1' : '0.6' }}
             >
@@ -185,42 +192,41 @@ export function Legend({
                 index,
                 rangeColor: value.range.rangeColor,
                 lineColor: value.colorLine,
-                style,
+                style: lineStyle,
+                height,
               })}
 
-              <text
-                style={labelStyle}
-                key={`text-${value.label}-${index}`}
-                x={30}
-                y={`${index + 1}em`}
-              >
+              <text style={labelStyle} x={30} y={`${(index + 1) * height}`}>
                 {value.label}
               </text>
             </g>
           );
         }
 
-        const Marker = markersComps[value.shape.figure];
+        let Marker;
+        if (value.shape) {
+          Marker = markersComps[value.shape.figure];
+        }
         return (
           <g
             onClick={(event) => onClickLegendItem(event, id)}
-            key={`${value.colorLine}/${value.shape.color}-${value.label}`}
+            key={index}
             transform={`translate(${xPos}, ${0})`}
             style={{ opacity: value.isVisible ? '1' : '0.6' }}
           >
-            {getLineShape({ index, color: value.colorLine, style })}
+            {getLineShape({
+              index,
+              color: value.colorLine,
+              style: lineStyle,
+              height,
+            })}
             <g transform={`translate(${xPos - 1}, ${yPos})`}>
-              {!value.shape.hidden && (
+              {value.shape && Marker && !value.shape.hidden && (
                 <Marker size={10} style={{ fill: value.shape.color }} />
               )}
             </g>
 
-            <text
-              style={labelStyle}
-              key={`text-${value.label}-${index}`}
-              x={30}
-              y={`${index + 1}em`}
-            >
+            <text style={labelStyle} x={30} y={`${(index + 1) * height}`}>
               {value.label}
             </text>
           </g>
@@ -232,12 +238,15 @@ export function Legend({
 
 function getLineShape(config: {
   index: number;
-  color: string;
+  color?: string;
   style?: CSSProperties;
+  height?: number;
+  width?: number;
 }) {
+  const { index, color, style = {}, height = 16 } = config;
   const x = 0;
-  // TODO: do not hardcode values
-  const y = (config.index + 1) * 16 - x - 5;
+  const { strokeWidth = '2px' } = style;
+  const y = index * height + height / 2 + 3;
 
   return (
     <line
@@ -245,24 +254,27 @@ function getLineShape(config: {
       x2={x + 20}
       y1={y}
       y2={y}
-      stroke={config.color}
-      style={config.style}
+      stroke={color}
+      style={{ ...style, strokeWidth }}
     />
   );
 }
 
 function getRangeShape(config: {
   index: number;
-  rangeColor: string;
-  lineColor: string;
+  rangeColor?: string;
+  lineColor?: string;
   style?: CSSProperties;
+  height?: number;
 }) {
-  const { index, rangeColor, lineColor, style = {} } = config;
+  const { index, rangeColor, lineColor, style = {}, height = 16 } = config;
+  const { strokeWidth = '15px' } = style;
+  const lineHeight = parseInt(strokeWidth?.toString(), 10) / 5;
   const x = 0;
-  const y = (index + 1) * 16 - x - 12;
+  const y = index * height + height / 2 - lineHeight;
   return (
     <g transform={`translate(${x}, ${y})`}>
-      <rect width="20" height="10" fill={rangeColor} />
+      <rect width="20" height={lineHeight * 3} fill={rangeColor} />
       <line
         style={style}
         x1={0}
@@ -270,17 +282,17 @@ function getRangeShape(config: {
         x2={20}
         y2={0}
         stroke={lineColor}
-        strokeWidth={3}
+        strokeWidth={lineHeight}
       />
 
       <line
         style={style}
         x1={0}
-        y1={10}
+        y1={lineHeight * 3}
         x2={20}
-        y2={10}
+        y2={lineHeight * 3}
         stroke={lineColor}
-        strokeWidth={3}
+        strokeWidth={lineHeight}
       />
     </g>
   );

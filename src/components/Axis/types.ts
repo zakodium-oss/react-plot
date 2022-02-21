@@ -18,10 +18,10 @@ export interface AxisCommonProps {
   primaryGridLineStyle?: CSSProperties;
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
-  primaryTickLength?: number;
+  primaryTickLength: number;
   primaryTickStyle?: CSSProperties;
   innerOffset: number;
-  secondaryTickLength?: number;
+  secondaryTickLength: number;
   scale: Scales;
   secondaryTickStyle?: CSSProperties;
 }
@@ -34,8 +34,8 @@ export interface AxisRendererProps extends AxisCommonProps {
   primaryTicks: TicksType[];
 }
 
-export interface AxisChildProps extends AxisCommonProps {
-  tickLabelFormat?: TickLabelFormat;
+export interface AxisChildProps<ScaleType> extends AxisCommonProps {
+  tickLabelFormat?: TickLabelFormat<ScaleType>;
 }
 
 export type TicksType = PrimaryLinearTicks | PrimaryLogTicks | TimeTicks;

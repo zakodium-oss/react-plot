@@ -6,7 +6,7 @@ export function createNestableContext<T>(defaultValue: T) {
   function useNestedContext(id?: string): T {
     const values = useContext(context);
     if (values.has(id)) {
-      return values.get(id);
+      return values.get(id) as T;
     }
     return defaultValue;
   }

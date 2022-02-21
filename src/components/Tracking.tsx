@@ -3,27 +3,28 @@ import { useEffect, useRef } from 'react';
 
 import { PlotAxisContext, PlotSeriesState } from '../contexts/plotContext';
 import {
-  MouseEventType,
+  EventName,
   PlotEventsPlotActions,
 } from '../contexts/plotController/usePlotEvents';
 import { SeriesPoint } from '../types';
 import { closestPoint, toNumber } from '../utils';
 
-export interface ClosestInfo<T extends ClosestMethods> {
+export interface ClosestInfo<MethodName extends ClosestMethods> {
   point: SeriesPoint;
-  label: string;
-  axis: T extends 'euclidean'
+  label?: string;
+  axis: MethodName extends 'euclidean'
     ? Record<'x' | 'y', PlotAxisContext>
     : PlotAxisContext;
 }
 export type ClosestMethods = 'x' | 'y' | 'euclidean';
 export type ClosestInfoResult = Record<string, ClosestInfo<ClosestMethods>>;
-export interface TrackingResult {
-  event: MouseEvent;
+export interface TrackingResult<NativeEventType extends MouseEvent> {
+  event: NativeEventType;
   coordinates: Record<string, number>;
   clampedCoordinates: Record<string, number>;
-  movement?: Record<string, number>;
-  getClosest?: (method: ClosestMethods) => ClosestInfoResult;
+  movement: Record<string, number>;
+  domains: Record<string, readonly [number, number]>;
+  getClosest: (method: ClosestMethods) => ClosestInfoResult;
 }
 
 export interface TrackingProps {
@@ -37,80 +38,55 @@ export interface TrackingProps {
 
 const HORIZONTAL = ['bottom', 'top'];
 
-// function infoFromWheel(
-//   event: React.WheelEvent<SVGRectElement>,
-//   axisContext: Record<string, PlotAxisContext>,
-//   plotHeight: number,
-// ) {
-//   const ratio = 1 + event.deltaY * -0.001;
-
-//   // Calculate coordinates
-//   let coordinates: TrackingResult['coordinates'] = {};
-//   const { scale } = axisContext.y;
-//   const yPosition = scale(0);
-//   const y1 =
-//     ratio > 1 ? yPosition * (1 - 1 / ratio) : yPosition * (1 - 1 / ratio);
-
-//   const y2 =
-//     ratio > 1
-//       ? yPosition + (plotHeight - yPosition) / ratio
-//       : plotHeight + (plotHeight - yPosition) * (1 / ratio - 1);
-//   coordinates.y1 = toNumber(scale.invert(y1));
-//   coordinates.y2 = toNumber(scale.invert(y2));
-
-//   return {
-//     event,
-//     coordinates,
-//   };
-// }
-
-function infoFromMouse(
-  event: MouseEvent,
+function infoFromEvent<NativeEventType extends MouseEvent>(
+  event: NativeEventType,
   axisContext: Record<string, PlotAxisContext>,
   stateSeries: PlotSeriesState[],
   target: SVGRectElement,
-): TrackingResult {
+): TrackingResult<NativeEventType> {
+  type TrackingResultType = TrackingResult<NativeEventType>;
   const { clientX, clientY, movementX, movementY } = event;
   const { left, top } = target.getBoundingClientRect();
-
   // Calculate coordinates
   const xPosition = clientX - left;
   const yPosition = clientY - top;
-  const coordinates: TrackingResult['coordinates'] = {};
-  const clampedCoordinates: TrackingResult['clampedCoordinates'] = {};
-  const movement: TrackingResult['movement'] = {};
+  const coordinates: TrackingResultType['coordinates'] = {};
+  const clampedCoordinates: TrackingResultType['clampedCoordinates'] = {};
+  const domains: TrackingResultType['domains'] = {};
+  const movement: TrackingResultType['movement'] = {};
   for (const key in axisContext) {
-    const { scale, clampInDomain, position } = axisContext[key];
+    const { scale, clampInDomain, position, domain } = axisContext[key];
     if (HORIZONTAL.includes(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
-      movement[key] =
-        toNumber(scale.invert(movementX)) - toNumber(scale.invert(0));
+      movement[key] = toNumber(scale.invert(movementX)) - domain[0];
     } else {
       coordinates[key] = toNumber(scale.invert(yPosition));
-      movement[key] =
-        toNumber(scale.invert(movementY)) - toNumber(scale.invert(0));
+      movement[key] = toNumber(scale.invert(movementY)) - domain[1];
     }
     clampedCoordinates[key] = clampInDomain(coordinates[key]);
-  }
 
+    domains[key] = domain;
+  }
   return {
     event,
     coordinates,
     clampedCoordinates,
     movement,
-    getClosest: (method) =>
-      closestCalculation(
+    getClosest(method) {
+      return closestCalculation(
         method,
         { x: xPosition, y: yPosition },
         stateSeries,
         axisContext,
-      ),
+      );
+    },
+    domains,
   };
 }
 
 function closestCalculation(
   method: ClosestMethods,
-  coordinates: Record<'x' | 'y', number>,
+  coordinates: Record<string, number>,
   stateSeries: PlotSeriesState[],
   axisContext: Record<string, PlotAxisContext>,
 ): ClosestInfoResult {
@@ -169,41 +145,40 @@ function closestCalculation(
   return series;
 }
 
-type NativeMouseEventType =
-  | 'mouseenter'
-  | 'mouseleave'
-  | 'mousedown'
-  | 'mouseup'
-  | 'mousemove'
+type NativeEventName =
+  | 'pointerenter'
+  | 'pointerdown'
+  | 'pointermove'
+  | 'pointerup'
+  | 'pointerleave'
   | 'click'
   | 'dblclick'
   | 'wheel';
 
-const mouseEventMap: Record<NativeMouseEventType, MouseEventType> = {
-  mouseenter: 'onMouseEnter',
-  mouseleave: 'onMouseLeave',
-  mousedown: 'onMouseDown',
-  mouseup: 'onMouseUp',
-  mousemove: 'onMouseMove',
+const nativeEventMap: Record<NativeEventName, EventName> = {
+  pointerenter: 'onPointerEnter',
+  pointerdown: 'onPointerDown',
+  pointermove: 'onPointerMove',
+  pointerup: 'onPointerUp',
+  pointerleave: 'onPointerLeave',
   click: 'onClick',
   dblclick: 'onDoubleClick',
   wheel: 'onWheel',
 };
 
-const mouseEvents: readonly NativeMouseEventType[] = [
-  'mouseenter',
-  'mouseleave',
-  'mousedown',
-  'mouseup',
-  'mousemove',
+const nativeEventNames: readonly NativeEventName[] = [
+  'pointerenter',
+  'pointerdown',
+  'pointermove',
+  'pointerup',
+  'pointerleave',
   'click',
   'dblclick',
   'wheel',
 ];
-
-const globalMouseEvents: readonly NativeMouseEventType[] = [
-  'mousemove',
-  'mouseup',
+const globalNativeEventNames: readonly NativeEventName[] = [
+  'pointermove',
+  'pointerup',
 ];
 
 export default function Tracking({
@@ -235,38 +210,42 @@ export default function Tracking({
   }, [axisContext, plotEvents, plotHeight, plotId, plotWidth, stateSeries]);
   useEffect(() => {
     const rect = rectRef.current;
-    if (!rectRef) return;
+    if (!rect) return;
 
-    function mouseEventListener(event: MouseEvent) {
-      if (event.type === 'mousedown') {
-        globalMouseEvents.forEach((mouseEvent) =>
-          window.addEventListener(mouseEvent, mouseEventListener),
+    function eventListener<NativeEventType extends MouseEvent>(
+      nativeEvent: NativeEventType,
+    ) {
+      if (nativeEvent.type === 'pointerdown') {
+        globalNativeEventNames.forEach((pointerEvent) =>
+          window.addEventListener(pointerEvent, eventListener),
         );
-      } else if (event.type === 'mouseup') {
-        globalMouseEvents.forEach((mouseEvent) =>
-          window.removeEventListener(mouseEvent, mouseEventListener),
+      } else if (nativeEvent.type === 'pointerup') {
+        globalNativeEventNames.forEach((pointerEvent) =>
+          window.removeEventListener(pointerEvent, eventListener),
         );
       }
-
-      const info = infoFromMouse(
-        event,
+      const info = infoFromEvent(
+        nativeEvent,
         plotDataRef.current.axisContext,
         plotDataRef.current.stateSeries,
-        rect,
+        rect as SVGRectElement,
       );
-      plotEvents.handleEvent(plotId, mouseEventMap[event.type], info);
+
+      plotEvents.handleEvent(
+        plotId,
+        nativeEventMap[nativeEvent.type as NativeEventName],
+        info,
+      );
     }
-
-    mouseEvents.forEach((mouseEvent) =>
-      rect.addEventListener(mouseEvent, mouseEventListener),
-    );
-
+    nativeEventNames.forEach((eventName) => {
+      rect.addEventListener(eventName, eventListener);
+    });
     return () => {
-      mouseEvents.forEach((mouseEvent) =>
-        rect.removeEventListener(mouseEvent, mouseEventListener),
-      );
-      globalMouseEvents.forEach((mouseEvent) =>
-        window.removeEventListener(mouseEvent, mouseEventListener),
+      nativeEventNames.forEach((eventName) => {
+        rect.removeEventListener(eventName, eventListener);
+      });
+      globalNativeEventNames.forEach((eventName) =>
+        window.removeEventListener(eventName, eventListener),
       );
     };
   }, [plotId, plotEvents]);
@@ -275,7 +254,9 @@ export default function Tracking({
       ref={rectRef}
       width={plotWidth}
       height={plotHeight}
-      style={{ fillOpacity: 0, outline: 'none' }}
+      style={{
+        fillOpacity: 0,
+      }}
     />
   );
 }

@@ -1,18 +1,31 @@
 import { Meta } from '@storybook/react';
-import { IsotopicDistribution, getBestPeaks } from 'mass-tools';
+// @ts-expect-error untyped module
+import IsotopicDistribution from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
-import { useMemo, useRef, useState } from 'react';
+// @ts-expect-error untyped module
+import { getBestPeaks } from 'ms-spectrum';
+import { useMemo } from 'react';
 
-import { Annotations, Axis, BarSeries, LineSeries, Plot } from '../../src';
+import {
+  Annotations,
+  Axis,
+  BarSeries,
+  LineSeries,
+  Plot,
+  useAxisZoom,
+  useAxisWheelZoom,
+  usePlotControllerAxes,
+  usePan,
+} from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
-import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
 import data from '../data/mass.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Experimental spectra/Mass',
+  decorators: [PlotControllerDecorator],
 } as Meta;
 
 export function MassExample() {
@@ -29,166 +42,61 @@ export function MassExample() {
         id="y"
         position="left"
         label="Relative intensity [%]"
-        paddingEnd={0.1}
+        paddingEnd="10%"
       />
     </Plot>
   );
 }
 
-interface Positions {
-  rectangle?: {
-    x1: number;
-    x2: number;
-  } | null;
-  alt: boolean;
-  minX?: number;
-  maxX?: number;
-  minY?: number;
-  maxY?: number;
+interface Peak {
+  label: string;
+  x: number;
+  y: number;
+  shortLabel: string;
 }
 
 interface AdvancedMassExampleProps {
   mf: string;
 }
+
 export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const [{ rectangle, minX, maxX, minY, maxY, alt }, setPositions] =
-    useState<Positions | null>({
-      rectangle: null,
-      minX: undefined,
-      maxX: undefined,
-      minY: undefined,
-      maxY: undefined,
-      alt: false,
+  const zoom = useAxisZoom();
+  useAxisWheelZoom();
+  usePan();
+  const { x } = usePlotControllerAxes();
+
+  const { profile, centroid } = useMemo(() => {
+    const isotopicDistribution = new IsotopicDistribution(mf, {
+      ensureCase: true,
     });
-  let click = useRef<boolean>(false);
-  // we calculate the 'profile' and 'centroid', this should be done only if `mf` is changing
-  const isotopicDistribution = new IsotopicDistribution(mf, {
-    ensureCase: true,
-  });
 
-  const profileXY = isotopicDistribution.getGaussian({
-    maxValue: 100,
-  });
-  const profile = xyToXYObject(profileXY);
+    const profileXY = isotopicDistribution.getGaussian({
+      maxValue: 100,
+    });
 
-  const centroid = isotopicDistribution.getTable({
-    maxValue: 100,
-  });
+    return {
+      profile: xyToXYObject(profileXY),
+      centroid: isotopicDistribution.getTable({
+        maxValue: 100,
+      }),
+    };
+  }, [mf]);
 
-  // calculating the bestPeaks should be done each time the zoom (from, to) is changing and should create the new annotations
   const bestPeaks = useMemo(
     () =>
       getBestPeaks(centroid, {
-        from: minX,
-        to: maxX,
+        from: x?.min ?? -Infinity,
+        to: x?.max ?? Infinity,
         limit: 5,
         numberSlots: 10,
         threshold: 0.01,
       }),
-    [centroid, maxX, minX],
+    [centroid, x],
   );
 
   return (
     <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        svgStyle={{
-          cursor: `${alt ? (click.current ? 'grabbing' : 'grab') : ''}`,
-        }}
-        onMouseDown={({ coordinates: { x } }) => {
-          if (!alt) {
-            setPositions((positions) => ({
-              ...positions,
-              rectangle: {
-                x1: x,
-                x2: x,
-              },
-            }));
-          }
-          click.current = true;
-        }}
-        // TODO: rewrite this differently.
-        // onKeyDown={({
-        //   event: { altKey },
-        //   x: { max: maxX, min: minX },
-        //   y: { max: maxY, min: minY },
-        // }) => {
-        //   if (!click.current) {
-        //     setPositions((positions) => ({
-        //       ...positions,
-        //       alt: altKey,
-        //       maxX,
-        //       minX,
-        //       maxY,
-        //       minY,
-        //     }));
-        //   }
-        // }}
-        // onKeyUp={({ event: { altKey } }) => {
-        //   if (!click.current || alt) {
-        //     click.current = false;
-        //     setPositions((positions) => ({ ...positions, alt: altKey }));
-        //   }
-        // }}
-        onMouseUp={() => {
-          if (click.current && !alt && rectangle.x1 !== rectangle.x2) {
-            setPositions((positions) => ({
-              ...positions,
-              rectangle: null,
-              minX: Math.min(rectangle.x1, rectangle.x2),
-              maxX: Math.max(rectangle.x1, rectangle.x2),
-            }));
-          }
-          click.current = false;
-        }}
-        onMouseLeave={() => {
-          setPositions((positions) => ({
-            ...positions,
-            rectangle: null,
-          }));
-          click.current = false;
-        }}
-        onMouseMove={({
-          coordinates: { x },
-          movement: { x: movementX, y: movementY },
-        }) => {
-          if (click.current) {
-            if (alt) {
-              setPositions((positions) => ({
-                ...positions,
-                maxX: maxX - movementX,
-                minX: minX - movementX,
-                maxY: maxY - movementY,
-                minY: minY - movementY,
-              }));
-            } else {
-              setPositions((positions) => ({
-                ...positions,
-                rectangle: {
-                  x1: rectangle ? rectangle.x1 : x,
-                  x2: x,
-                },
-              }));
-            }
-          }
-        }}
-        onDoubleClick={() => {
-          setPositions((positions) => ({
-            ...positions,
-            minX: undefined,
-            maxX: undefined,
-            minY: undefined,
-            maxY: undefined,
-          }));
-        }}
-        onWheel={({ coordinates: { y1, y2 } }) => {
-          setPositions((positions) => ({
-            ...positions,
-            minY: Math.min(y1, y2),
-            maxY: Math.max(y1, y2),
-          }));
-        }}
-      >
+      <Plot {...DEFAULT_PLOT_CONFIG}>
         <LineSeries
           data={profile}
           lineStyle={{ stroke: 'green' }}
@@ -202,7 +110,7 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
           lineStyle={{ stroke: 'red' }}
         />
         <Annotations>
-          {bestPeaks.map((peak) => (
+          {bestPeaks.map((peak: Peak) => (
             <Group key={peak.label} x={peak.x} y={peak.y}>
               <Line
                 x1="0"
@@ -223,28 +131,16 @@ export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
               </Text>
             </Group>
           ))}
-          {rectangle && (
-            <Rectangle
-              color="red"
-              style={{ fillOpacity: 0.2, stroke: 'red' }}
-              x1={rectangle.x1}
-              y1="540"
-              x2={rectangle.x2}
-              y2="0"
-            />
-          )}
+          {zoom.annotations}
         </Annotations>
         <Axis
           displayPrimaryGridLines
-          min={minX}
-          max={maxX}
           id="x"
           position="bottom"
           label="Mass [m/z]"
         />
         <Axis
-          min={minY}
-          max={maxY}
+          paddingEnd="40"
           displayPrimaryGridLines
           id="y"
           position="left"

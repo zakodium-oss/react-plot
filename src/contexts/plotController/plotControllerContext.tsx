@@ -33,7 +33,9 @@ export function usePlotControls(options?: ControllerHookOptions): PlotControls {
   const plotControls = plotControlsContext.useNestedContext(id);
   if (!plotControls) {
     throw new Error(
-      `usePlotControls must be called in a child of PlotController (id=${id})`,
+      `usePlotControls must be called in a child of PlotController (id=${String(
+        id,
+      )})`,
     );
   }
   return plotControls;
@@ -50,7 +52,9 @@ export function usePlotEvents(
   const userContext = plotEventsUserContext.useNestedContext(id);
   if (!userContext) {
     throw new Error(
-      `usePlotEvents must be called in a child of PlotController (id=${id})`,
+      `usePlotEvents must be called in a child of PlotController (id=${String(
+        id,
+      )})`,
     );
   }
 

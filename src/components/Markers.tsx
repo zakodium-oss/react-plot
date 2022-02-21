@@ -2,7 +2,7 @@ import { CSSProperties } from 'react';
 
 export interface MarkersProps {
   size: number;
-  style: CSSProperties;
+  style?: CSSProperties;
 }
 
 export const markersComps = {
@@ -77,7 +77,7 @@ export function Star({ style, size }: MarkersProps) {
   const ext = Array.from(getPolyPoints(size, 5, 0));
   const int = Array.from(getPolyPoints(size / 2.5, 5, (2 * Math.PI) / 10));
 
-  const points = [];
+  const points: string[] = [];
   for (let i = 0; i < ext.length; i++) {
     points.push(ext[i], int[i]);
   }

@@ -1,11 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { SeriesPoint } from '..';
 import { Polygon } from '../components/Annotations/Polygon';
 import { Polyline } from '../components/Annotations/Polyline';
 
 import { ControllerHookOptions, DualAxisOptions, PathOptions } from './types';
-import { usePathData } from './usePathData';
+import { useStartMoveEnd } from './useStartMoveEnd';
 
 export interface UseDrawPathOptions
   extends ControllerHookOptions,
@@ -27,24 +27,39 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     onDrawing,
   } = options;
 
-  const data = usePathData({
-    onMove() {
-      if (!data) {
-        return;
-      }
+  const [data, setData] = useState<Record<string, number>[] | null>(null);
+  useStartMoveEnd({
+    ...options,
+    onStart(result) {
+      setData([result.clampedCoordinates]);
+    },
+    onMove(result) {
+      setData((previousData) => {
+        if (!previousData) return null;
+        const { clampedCoordinates } = result;
+        let isDuplicated = true;
+        for (const key in clampedCoordinates) {
+          if (
+            previousData[previousData.length - 1][key] !==
+            clampedCoordinates[key]
+          ) {
+            isDuplicated = false;
+            break;
+          }
+        }
+        if (isDuplicated) return previousData;
+        return previousData.concat(clampedCoordinates);
+      });
       onDrawing?.(points);
     },
     onEnd() {
-      if (!data) {
-        return;
-      }
+      if (!data) return;
+      setData(null);
       onDraw?.(points);
     },
   });
   const points = useMemo(() => {
-    if (!data) {
-      return [];
-    }
+    if (!data) return [];
     return data.map((d) => ({
       x: d[horizontalAxisId],
       y: d[verticalAxisId],

@@ -23,8 +23,8 @@ export function RamanExample() {
         position="left"
         label="Intensity / arbitrary"
         hiddenTicks
-        paddingStart={0.1}
-        paddingEnd={0.1}
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );

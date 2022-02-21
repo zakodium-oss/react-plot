@@ -1,3 +1,4 @@
+// TODO: rename to iv.stories.tsx when https://github.com/cheminfo/nmr-processing/issues/141 is fixed.
 import { Meta } from '@storybook/react';
 import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
@@ -40,6 +41,7 @@ function BaseExample({
   if (!csv) return <div>Loading...</div>;
 
   const [analysis] = processorFunction(csv);
+  // @ts-expect-error See https://github.com/cheminfo/analysis/issues/17
   const { variables, meta } = analysis.getMeasurementXY(selector);
   const y =
     yScale === 'log'

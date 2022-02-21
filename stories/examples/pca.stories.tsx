@@ -1,50 +1,33 @@
 import { Meta } from '@storybook/react';
 import { getDirectionalEllipse } from 'ml-directional-distribution';
-import { useState, useRef, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { Axis, Plot, Heading, ScatterSeries, Annotations } from '../../src';
+import {
+  Axis,
+  Plot,
+  Heading,
+  ScatterSeries,
+  Annotations,
+  useRectangularZoom,
+} from '../../src';
 import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
-import { Rectangle } from '../../src/components/Annotations/Rectangle';
 import { Text } from '../../src/components/Annotations/Text';
 import data from '../data/pca2.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/PCA example of ecstasy',
+  decorators: [PlotControllerDecorator],
 } as Meta;
-interface Point {
-  label: string;
-  x: number;
-  y: number;
-  color: string;
-  id: string;
-}
-interface RectanglePositions {
-  position?: {
-    x1: number;
-    y1: number;
-    x2: number;
-    y2: number;
-  } | null;
-  minX: number;
-  maxX: number;
-  minY: number;
-  maxY: number;
-}
+
+type Datum = typeof data[number];
+
 export function PCAExample() {
-  const [{ position, minX, maxX, minY, maxY }, setPositions] =
-    useState<RectanglePositions | null>({
-      position: null,
-      minX: undefined,
-      maxX: undefined,
-      minY: undefined,
-      maxY: undefined,
-    });
-  let click = useRef<boolean>(false);
+  const zoom = useRectangularZoom();
   const categories = [...new Set(data.map((datum) => datum.category))].map(
     (category) => ({
       label: category,
-      color: data.find((datum) => datum.category === category).color,
+      color: (data.find((datum) => datum.category === category) as Datum).color,
       x: data
         .filter((datum) => datum.category === category)
         .map((datum) => datum.x),
@@ -81,73 +64,19 @@ export function PCAExample() {
   }, [categories]);
 
   return (
-    <Plot
-      {...DEFAULT_PLOT_CONFIG}
-      onMouseDown={({ coordinates: { x, y } }) => {
-        setPositions({
-          position: {
-            x1: x,
-            y1: y,
-            x2: x,
-            y2: y,
-          },
-          minX,
-          maxX,
-          minY,
-          maxY,
-        });
-        click.current = true;
-      }}
-      onMouseUp={() => {
-        click.current = false;
-        if (position.x1 !== position.x2) {
-          setPositions({
-            position: null,
-            minX: Math.min(position.x1, position.x2),
-            maxX: Math.max(position.x1, position.x2),
-            minY: Math.min(position.y1, position.y2),
-            maxY: Math.max(position.y1, position.y2),
-          });
-        }
-      }}
-      onMouseMove={({ coordinates: { x, y } }) => {
-        if (click.current) {
-          setPositions((positions) => ({
-            ...positions,
-            position: {
-              x1: position ? position.x1 : x,
-              y1: position ? position.y1 : y,
-              x2: x,
-              y2: y,
-            },
-          }));
-        }
-      }}
-      onMouseLeave={() => {
-        setPositions((positions) => ({ ...positions, position: null }));
-        click.current = false;
-      }}
-      onDoubleClick={() => {
-        setPositions({
-          minX: undefined,
-          maxX: undefined,
-          minY: undefined,
-          maxY: undefined,
-        });
-      }}
-    >
+    <Plot {...DEFAULT_PLOT_CONFIG}>
       <Heading title="Principal component analysis of XTC infrared spectra" />
       <ScatterSeries
         markerStyle={{
-          fill: (point: Point) => point.color,
+          fill: (point) => point.color,
           stroke: 'none',
         }}
         pointLabelStyle={{
           fontSize: '12px',
-          fill: (point: Point) => point.color,
+          fill: (point) => point.color,
           transform: 'translate(3px, -3px)',
         }}
-        pointLabel={(point: Point) => point.label}
+        pointLabel={(point) => point.label}
         data={data}
         xAxis="x"
         yAxis="y"
@@ -172,34 +101,21 @@ export function PCAExample() {
             </Text>
           </g>
         ))}
-        {position && (
-          <Rectangle
-            color="red"
-            style={{ fillOpacity: 0.2, stroke: 'red' }}
-            x1={position.x1}
-            y1={position.y1}
-            x2={position.x2}
-            y2={position.y2}
-          />
-        )}
+        {zoom.annotations}
       </Annotations>
       <Axis
-        min={minX}
-        max={maxX}
         id="x"
         position="bottom"
         label="PC 1"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
       <Axis
-        min={minY}
-        max={maxY}
         id="y"
         position="left"
         label="PC 2"
-        paddingEnd={0.1}
-        paddingStart={0.1}
+        paddingEnd="10%"
+        paddingStart="10%"
       />
     </Plot>
   );

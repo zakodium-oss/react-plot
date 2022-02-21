@@ -19,7 +19,7 @@ export function Covid19Cases() {
         lineStyle={{ stroke: 'red', strokeWidth: 2 }}
       />
       <Axis id="x" position="bottom" label="Week" />
-      <Axis id="y" position="left" label="Number of cases" paddingEnd={0.1} />
+      <Axis id="y" position="left" label="Number of cases" paddingEnd="10%" />
     </Plot>
   );
 }

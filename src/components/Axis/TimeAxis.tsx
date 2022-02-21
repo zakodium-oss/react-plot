@@ -6,7 +6,7 @@ import HorizontalAxis from './HorizontalAxis';
 import VerticalAxis from './VerticalAxis';
 import { AxisChildProps } from './types';
 
-interface TimeAxisProps extends AxisChildProps {
+interface TimeAxisProps extends AxisChildProps<Date> {
   scale: ScaleTime<number, number>;
 }
 

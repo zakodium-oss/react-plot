@@ -16,8 +16,8 @@ export interface UseLassoSelectionOptions
 }
 export function useLassoSelection(options: UseLassoSelectionOptions) {
   const {
-    defaultStyle,
-    hoveredStyle,
+    defaultStyle = {},
+    hoveredStyle = {},
     style: pathStyle = {
       fillOpacity: '0.2',
       stroke: 'black',
@@ -33,12 +33,18 @@ export function useLassoSelection(options: UseLassoSelectionOptions) {
     close: true,
     onDrawing(points) {
       const polygonePoints = points.map(({ x, y }) => [x, y]);
-      const newStyle = style;
+      const newStyle: CSSFuncProps<SeriesPoint> = style;
       for (const key in hoveredStyle) {
+        // @ts-expect-error Type is too complex
         newStyle[key] = (point: SeriesPoint) =>
-          pointInPolygon([point.x, point.y], polygonePoints)
-            ? functionalStyle({}, hoveredStyle, point)[key]
-            : functionalStyle({}, defaultStyle, point)[key];
+          // @ts-expect-error Type is too complex
+          functionalStyle(
+            {},
+            pointInPolygon([point.x, point.y], polygonePoints)
+              ? hoveredStyle
+              : defaultStyle,
+            point,
+          )[key];
       }
       setStyle(newStyle);
     },

@@ -1,31 +1,30 @@
 import { extent } from 'd3-array';
 import { SVGAttributes, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
+} from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
 import {
   BaseSeriesProps,
   CSSFuncProps,
   LabelFuncProps,
   SeriesPoint,
   ShapeFuncProps,
-} from '../types';
+} from '../../types';
 import {
   functionalLabel,
   functionalShape,
   functionalStyle,
   useId,
   validateAxis,
-} from '../utils';
+} from '../../utils';
+import ErrorBars from '../ErrorBars';
+import { markersComps } from '../Markers';
 
-import ErrorBars from './ErrorBars';
-import { markersComps } from './Markers';
-
-export interface ScatterSeriesProps<T = SeriesPoint>
+export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps<T> {
   markerShape?: ShapeFuncProps<T>;
   markerSize?: number;
@@ -38,7 +37,9 @@ export interface ScatterSeriesProps<T = SeriesPoint>
   errorBarsCapSize?: number;
 }
 
-export function ScatterSeries(props: ScatterSeriesProps) {
+export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
+  props: ScatterSeriesProps<T>,
+) {
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   const { colorScaler } = usePlotContext();
@@ -94,13 +95,13 @@ export function ScatterSeries(props: ScatterSeriesProps) {
     otherProps.markerStyle?.fill,
   ]);
   useEffect(() => {
-    const [xMin, xMax] = extent(data, (d) => d.x);
-    const [yMin, yMax] = extent(data, (d) => d.y);
+    const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
+    const [yMin, yMax] = extent(data, (d) => d.y) as [number, number];
     const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
     const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
-    dispatch({ type: 'newData', payload: { id, x, y, label, data } });
+    dispatch({ type: 'addSeries', payload: { id, x, y, label, data } });
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', payload: { id } });
+    return () => dispatch({ type: 'removeSeries', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   if (hidden) return null;
@@ -132,12 +133,15 @@ export function ScatterSeries(props: ScatterSeriesProps) {
   ) : null;
 }
 
-interface ScatterSeriesRenderProps extends Omit<ScatterSeriesProps, 'label'> {
+interface ScatterSeriesRenderProps<T extends SeriesPoint>
+  extends Omit<ScatterSeriesProps<T>, 'label'> {
   id: string;
   transform: string;
+  xAxis: string;
+  yAxis: string;
 }
 
-function ScatterSeriesRender({
+function ScatterSeriesRender<T extends SeriesPoint>({
   id,
   data,
   xAxis,
@@ -148,7 +152,7 @@ function ScatterSeriesRender({
   pointLabel = '',
   pointLabelStyle = {},
   transform,
-}: ScatterSeriesRenderProps) {
+}: ScatterSeriesRenderProps<T>) {
   // Get scales from context
   const { axisContext, colorScaler } = usePlotContext();
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);

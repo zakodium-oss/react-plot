@@ -6,7 +6,7 @@ import HorizontalAxis from './HorizontalAxis';
 import VerticalAxis from './VerticalAxis';
 import { AxisChildProps } from './types';
 
-interface LinearAxisProps extends AxisChildProps {
+interface LinearAxisProps extends AxisChildProps<number> {
   scale: ScaleLinear<number, number>;
 }
 

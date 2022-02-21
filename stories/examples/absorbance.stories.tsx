@@ -69,8 +69,8 @@ export function Absorbance() {
         position="left"
         label="Absorbance"
         displayPrimaryGridLines
-        paddingStart={0.02}
-        paddingEnd={0.1}
+        paddingStart="2%"
+        paddingEnd="10%"
       />
     </Plot>
   );

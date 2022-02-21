@@ -35,15 +35,15 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
 
   const startMoveEnd = useStartMoveEnd({
     controllerId,
-    onEnd(data) {
-      const start = startMoveEnd.start.clampedCoordinates[axisId];
-      const end = data.clampedCoordinates[axisId];
-      if (start === end) {
+    onEnd(_, start, end) {
+      const startCoord = start.clampedCoordinates[axisId];
+      const endCoord = end.clampedCoordinates[axisId];
+      if (startCoord === endCoord) {
         return;
       }
       plotControls.setAxis(axisId, {
-        min: Math.min(start, end),
-        max: Math.max(start, end),
+        min: Math.min(startCoord, endCoord),
+        max: Math.max(startCoord, endCoord),
       });
     },
   });

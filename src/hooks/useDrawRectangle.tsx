@@ -31,11 +31,11 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
 
   const startMoveEnd = useStartMoveEnd({
     controllerId,
-    onEnd(data) {
-      const x1 = startMoveEnd.start.clampedCoordinates[horizontalAxisId];
-      const x2 = data.clampedCoordinates[horizontalAxisId];
-      const y1 = startMoveEnd.start.clampedCoordinates[verticalAxisId];
-      const y2 = data.clampedCoordinates[verticalAxisId];
+    onEnd(_, start, end) {
+      const x1 = start.clampedCoordinates[horizontalAxisId];
+      const x2 = end.clampedCoordinates[horizontalAxisId];
+      const y1 = start.clampedCoordinates[verticalAxisId];
+      const y2 = end.clampedCoordinates[verticalAxisId];
       if (x1 === x2 || y1 === y2) {
         return;
       }

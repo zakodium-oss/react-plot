@@ -14,12 +14,14 @@ export default {
     scale: 'linear',
     displayPrimaryGridLines: false,
     hidden: false,
-    tickLabelFormat: (value) => String(value),
+    tickLabelFormat: (value: number) => String(value),
     hiddenLine: false,
     hiddenTicks: false,
     tickPosition: 'outer',
     primaryTickLength: 5,
     secondaryTickLength: 2,
+    paddingStart: 0,
+    paddingEnd: 0,
   },
   parameters: {
     controls: {

@@ -24,7 +24,7 @@ export function Heading({
   subtitle,
   subtitleStyle,
   subtitleClass,
-  position,
+  position = 'top',
 }: HeadingProps) {
   const { width, height } = usePlotContext();
 

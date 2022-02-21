@@ -5,7 +5,11 @@ import { usePlotEvents } from '../contexts/plotController/plotControllerContext'
 
 import { ControllerHookOptions } from './types';
 
-export type UseStartMoveEndCallback = (data: TrackingResult) => void;
+export type UseStartMoveEndCallback = (
+  data: TrackingResult<PointerEvent>,
+  start: UseStartMoveEndPosition,
+  end: UseStartMoveEndPosition,
+) => void;
 
 export interface UseStartMoveEndOptions extends ControllerHookOptions {
   onStart?: UseStartMoveEndCallback;
@@ -13,15 +17,14 @@ export interface UseStartMoveEndOptions extends ControllerHookOptions {
   onEnd?: UseStartMoveEndCallback;
 }
 
+export interface UseStartMoveEndPosition {
+  coordinates: Record<string, number>;
+  clampedCoordinates: Record<string, number>;
+}
+
 export interface UseStartMoveEndState {
-  start: {
-    coordinates: Record<string, number>;
-    clampedCoordinates: Record<string, number>;
-  };
-  end?: {
-    coordinates: Record<string, number>;
-    clampedCoordinates: Record<string, number>;
-  };
+  start: UseStartMoveEndPosition;
+  end?: UseStartMoveEndPosition;
 }
 
 export function useStartMoveEnd(options: UseStartMoveEndOptions) {
@@ -32,26 +35,33 @@ export function useStartMoveEnd(options: UseStartMoveEndOptions) {
   const [data, setData] = useState<UseStartMoveEndState | null>(null);
   usePlotEvents(
     {
-      onMouseDown(result) {
-        if (result.event.button !== 0) return;
+      onPointerDown(result) {
+        if (result.event.button !== 0 || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
-        setData({ start: { coordinates, clampedCoordinates } });
-        ref.current?.onStart?.(result);
+        const position = { coordinates, clampedCoordinates };
+        setData({ start: position });
+        ref.current?.onStart?.(result, position, position);
       },
-      onMouseMove(result) {
-        // TODO: boolean that says if mouse is currently down?
-        if (!data) return;
+      onPointerMove(result) {
+        // TODO: boolean that says if pointer is currently down?
+        if (!data || result.event.altKey) return;
         const { coordinates, clampedCoordinates } = result;
-        setData((data) => ({
-          ...data,
-          end: { coordinates, clampedCoordinates },
-        }));
-        ref.current?.onMove?.(result);
+        const position = { coordinates, clampedCoordinates };
+        setData((data) => {
+          if (!data) return null;
+          return {
+            ...data,
+            end: position,
+          };
+        });
+        ref.current?.onMove?.(result, data.start, position);
       },
-      onMouseUp(result) {
-        if (result.event.button !== 0 || !data) return;
+      onPointerUp(result) {
+        if (result.event.button !== 0 || !data || result.event.altKey) return;
         setData(null);
-        ref.current?.onEnd?.(result);
+        if (data.end) {
+          ref.current?.onEnd?.(result, data.start, data.end);
+        }
       },
     },
     options,

@@ -5,48 +5,117 @@ import {
   Axis,
   LineSeries,
   Plot,
-  Annotation,
   Annotations,
   SeriesPoint,
+  usePlotEvents,
+  Annotation,
+  Legend,
 } from '../../src';
-import { ClosestInfoResult } from '../../src/components/Tracking';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import {
+  ClosestInfoResult,
+  ClosestMethods,
+} from '../../src/components/Tracking';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'API/Tracking',
+  decorators: [PlotControllerDecorator],
+  component: Tracking,
+  args: {
+    method: 'euclidean',
+  },
+  argTypes: {
+    method: {
+      type: {
+        name: 'enum',
+        value: ['x', 'y', 'euclidean'],
+      },
+    },
+  },
 } as Meta;
 
-const data = [
-  { x: 1, y: 10 },
-  { x: 2, y: 5 },
-  { x: 3, y: 3 },
-  { x: 4, y: 5 },
-  { x: 5, y: 10 },
-];
-
-interface Positions {
-  coordinates: Record<string, number>;
-  position: Record<'x' | 'y', number>;
-}
-
 interface TrackingProps {
-  data: SeriesPoint[][];
-  displayMarker?: boolean;
+  method: ClosestMethods;
 }
-function Tracking({ data, displayMarker }: TrackingProps) {
-  const [hover, setHover] = useState<Positions | null>(null);
-  const [closest, setClosest] = useState<ClosestInfoResult | null>(null);
 
+const len = 100000;
+let serie1: SeriesPoint[] = new Array(len);
+let serie2: SeriesPoint[] = new Array(len);
+for (let i = 0; i < len; i++) {
+  serie1[i] = {
+    x: i - 100,
+    y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
+  };
+  serie2[i] = {
+    x: i - 100,
+    y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
+  };
+}
+const data = [serie1, serie2];
+
+export function Tracking(props: TrackingProps) {
+  const { method } = props;
+
+  const [hover, setHover] = useState<{
+    event: MouseEvent;
+    closest: ClosestInfoResult;
+  } | null>(null);
+  usePlotEvents({
+    onPointerMove({ getClosest, event }) {
+      setHover({
+        event,
+        closest: getClosest(method),
+      });
+    },
+    onPointerLeave() {
+      setHover(null);
+    },
+  });
+
+  const annotations = hover ? (
+    <>
+      {Object.entries(hover.closest).map(([id, info]) => (
+        <Annotation.Shape
+          key={id}
+          shape="circle"
+          x={info.point.x}
+          y={info.point.y}
+          size={5}
+        />
+      ))}
+    </>
+  ) : null;
+
+  const infoDiv = hover ? (
+    <div
+      style={{
+        position: 'fixed',
+        left: hover.event.clientX + 10,
+        top: hover.event.clientY + 10,
+        borderStyle: 'solid',
+        padding: '5px',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      }}
+    >
+      {Object.keys(hover.closest).map((key) => (
+        <div key={key}>
+          <b>{hover.closest[key].label}</b>
+          <span>
+            {' x: '}
+            {Math.round((hover.closest[key].point.x || 0) * 100) / 100}
+          </span>
+          <span>
+            {' y: '}
+            {Math.round((hover.closest[key].point.y || 0) * 100) / 100}
+          </span>
+        </div>
+      ))}
+    </div>
+  ) : null;
   return (
-    <div>
-      <Plot
-        {...DEFAULT_PLOT_CONFIG}
-        onMouseMove={({ coordinates, event: { pageX, pageY } }) => {
-          setHover({ coordinates, position: { x: pageX, y: pageY } });
-        }}
-        onClick={({ getClosest }) => setClosest(getClosest('euclidean'))}
-        onMouseLeave={() => setHover(null)}
-      >
+    <>
+      <Plot {...DEFAULT_PLOT_CONFIG}>
+        <Legend position="embedded" />
         {data.map((subdata, i) => (
           <LineSeries
             // eslint-disable-next-line react/no-array-index-key
@@ -54,85 +123,14 @@ function Tracking({ data, displayMarker }: TrackingProps) {
             data={subdata}
             xAxis="x"
             yAxis="y"
-            displayMarker={displayMarker}
             label={`Series ${i + 1}`}
           />
         ))}
         <Axis id="x" position="bottom" label="time [s]" />
         <Axis id="y" position="left" />
-        {closest && (
-          <Annotations>
-            {Object.entries(closest).map(([id, info]) => (
-              <Annotation.Shape
-                key={id}
-                shape="circle"
-                x={info.point.x}
-                y={info.point.y}
-                size={5}
-              />
-            ))}
-          </Annotations>
-        )}
+        <Annotations>{annotations}</Annotations>
       </Plot>
-      {hover && (
-        <div
-          style={{
-            position: 'absolute',
-            left: hover.position.x + 5,
-            top: hover.position.y + 5,
-            borderStyle: 'solid',
-            padding: '5px',
-            backgroundColor: 'white',
-          }}
-        >
-          <b>VALUES</b>
-          {Object.keys(hover.coordinates).map((key) => (
-            <div key={key}>
-              {key}: {Math.round(hover.coordinates[key] * 100) / 100}
-            </div>
-          ))}
-        </div>
-      )}
-      {closest && (
-        <div>
-          <b>Closest point</b>
-          {Object.keys(closest).map((key) => (
-            <p key={key}>
-              <b>{closest[key].label}</b>
-              <span>
-                {' x: '}
-                {Math.round((closest[key].point.x || 0) * 100) / 100}
-              </span>
-              <span>
-                {' y: '}
-                {Math.round((closest[key].point.y || 0) * 100) / 100}
-              </span>
-            </p>
-          ))}
-        </div>
-      )}
-    </div>
+      {infoDiv}
+    </>
   );
 }
-
-export function TrackingExample() {
-  return <Tracking data={[data]} displayMarker />;
-}
-
-export function TrackingBig() {
-  const len = 100000;
-  let data1: SeriesPoint[] = new Array(len);
-  let data2: SeriesPoint[] = new Array(len);
-  for (let i = 0; i < len; i++) {
-    data1[i] = {
-      x: i - 100,
-      y: Math.abs(Math.sin((i * 4 * Math.PI) / len)),
-    };
-    data2[i] = {
-      x: i - 100,
-      y: Math.abs(Math.cos((i * 4 * Math.PI) / len)),
-    };
-  }
-  return <Tracking data={[data1, data2]} />;
-}
-TrackingBig.storyName = 'Tracking on medium amount of data';

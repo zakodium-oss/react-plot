@@ -49,7 +49,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     ...otherProps
   } = props;
   // Primary Ticks
-  let elements = primaryTicks.map((tick) => {
+  let elements: Array<JSX.Element | null> = primaryTicks.map((tick) => {
     const { line, text } = getPositions(tick.position);
     return (
       <Tick
@@ -81,7 +81,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
         const { line, text } = getPositions(scale(tick), true);
         return (
           <Tick
-            key={tick}
+            key={String(tick)}
             line={line}
             text={text}
             secondary

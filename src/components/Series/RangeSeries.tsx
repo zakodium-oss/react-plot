@@ -2,14 +2,14 @@ import { extent } from 'd3-array';
 import { area } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
-import type { BaseSeriesProps } from '../types';
-import { useId, validateAxis } from '../utils';
+} from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
+import type { BaseSeriesProps } from '../../types';
+import { useId, validateAxis } from '../../utils';
 
 export interface RangeSeriesPoint {
   x: number;
@@ -47,10 +47,10 @@ export function RangeSeries<T extends RangeSeriesPoint>(
   // Update plot context with data description
   const dispatch = usePlotDispatchContext();
   useEffect(() => {
-    const [xMin, xMax] = extent(data, (d) => d.x);
+    const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
 
-    const [y1Min, y1Max] = extent(data, (d) => d.y1);
-    const [y2Min, y2Max] = extent(data, (d) => d.y2);
+    const [y1Min, y1Max] = extent(data, (d) => d.y1) as [number, number];
+    const [y2Min, y2Max] = extent(data, (d) => d.y2) as [number, number];
 
     const x = { min: xMin, max: xMax, shift: xShiftInverted, axisId: xAxis };
     const y = {
@@ -59,10 +59,10 @@ export function RangeSeries<T extends RangeSeriesPoint>(
       shift: yShiftInverted,
       axisId: yAxis,
     };
-    dispatch({ type: 'newData', payload: { id, x, y, label } });
+    dispatch({ type: 'addSeries', payload: { id, x, y, label } });
 
     // Delete information on unmount
-    return () => dispatch({ type: 'removeData', payload: { id } });
+    return () => dispatch({ type: 'removeSeries', payload: { id } });
   }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
 
   const isVisible = useIsSeriesVisible(id);
@@ -101,7 +101,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 }
 
 interface RangeSeriesRenderProps {
-  data: RangeSeriesPoint[];
+  data: ReadonlyArray<RangeSeriesPoint>;
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

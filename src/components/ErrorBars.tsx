@@ -1,11 +1,11 @@
 import { useMemo, SVGAttributes } from 'react';
 
 import { usePlotContext } from '../contexts/plotContext';
-import type { SeriesPoint } from '../types';
+import type { SeriesPointWithError } from '../types';
 import { validateAxis, validateSeriesPointError } from '../utils';
 
 export interface ErrorBarsProps {
-  data: SeriesPoint[];
+  data: ReadonlyArray<SeriesPointWithError>;
   transform?: string;
   xAxis?: string;
   yAxis?: string;
@@ -51,10 +51,10 @@ export default function ErrorBars(props: ErrorBarsProps) {
         <PointBars // eslint-disable-next-line react/no-array-index-key
           key={`ErrorBars-${i}`}
           origin={{ x: xScale(point.x), y: yScale(point.y) }}
-          bottom={yError ? yScale(point.y - yError[0]) : null}
-          top={yError ? yScale(point.y + yError[1]) : null}
-          left={xError ? xScale(point.x - xError[0]) : null}
-          right={xError ? xScale(point.x + xError[1]) : null}
+          bottom={yError ? yScale(point.y - (yError[0] || 0)) : null}
+          top={yError ? yScale(point.y + (yError[1] || 0)) : null}
+          left={xError ? xScale(point.x - (xError[0] || 0)) : null}
+          right={xError ? xScale(point.x + (xError[1] || 0)) : null}
           {...otherProps}
         />
       );

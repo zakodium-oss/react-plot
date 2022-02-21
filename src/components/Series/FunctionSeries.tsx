@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { usePlotContext } from '../contexts/plotContext';
-import { SeriesPoint } from '../types';
-import { toNumber } from '../utils';
+import { usePlotContext } from '../../contexts/plotContext';
+import { SeriesPoint } from '../../types';
+import { toNumber } from '../../utils';
 
 import { LineSeries, LineSeriesProps } from './LineSeries';
 

@@ -1,29 +1,32 @@
 import { line } from 'd3-shape';
 import { CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../contexts/legendContext';
-import { usePlotContext } from '../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../hooks';
-import type { CSSFuncProps, SeriesPoint, Shape } from '../types';
-import { functionalStyle, useId, validateAxis } from '../utils';
+import { useLegend } from '../../contexts/legendContext';
+import { usePlotContext } from '../../contexts/plotContext';
+import { useIsSeriesVisible, useShift } from '../../hooks';
+import type { CSSFuncProps, SeriesPoint, Shape } from '../../types';
+import { functionalStyle, useId, validateAxis } from '../../utils';
+import ErrorBars from '../ErrorBars';
 
-import ErrorBars from './ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
-export interface LineSeriesProps
-  extends Omit<ScatterSeriesProps, 'markerShape'> {
+export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
+  extends Omit<ScatterSeriesProps<T>, 'markerShape'> {
+  data: ReadonlyArray<T>;
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
   displayMarker?: boolean;
 }
 
-export function LineSeries(props: LineSeriesProps) {
+export function LineSeries<T extends SeriesPoint = SeriesPoint>(
+  props: LineSeriesProps<T>,
+) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
 
   const id = useId(props.id, 'series');
   const {
-    lineStyle: OldLineStyle,
+    lineStyle: lineStyleFromProps = {},
     displayMarker = false,
     displayErrorBars = false,
     hidden,
@@ -41,7 +44,7 @@ export function LineSeries(props: LineSeriesProps) {
     xShift: oldXShift,
     yShift: oldYShift,
   });
-  const lineStyle = functionalStyle({}, OldLineStyle, { id });
+  const lineStyle = functionalStyle({}, lineStyleFromProps, { id });
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
@@ -97,7 +100,7 @@ export function LineSeries(props: LineSeriesProps) {
     <g>
       {isVisible && (
         <>
-          <LineSeriesRender lineStyle={lineStyle} {...lineProps} />
+          <LineSeriesRender {...lineProps} />
           <ErrorBars {...errorBarsProps} />
         </>
       )}
@@ -108,7 +111,7 @@ export function LineSeries(props: LineSeriesProps) {
 
 interface LineSeriesRenderProps {
   id: string;
-  data: SeriesPoint[];
+  data: ReadonlyArray<SeriesPoint>;
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

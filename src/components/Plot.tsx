@@ -50,6 +50,13 @@ const defaultSvgStyle: CSSProperties = {
   overflow: 'visible',
   fontFamily: 'Arial, Helvetica, sans-serif',
   userSelect: 'none',
+  // Without this, Safari on iOS still triggers selection from a long press.
+  WebkitUserSelect: 'none',
+};
+
+const defaultEventSvgStyle: CSSProperties = {
+  // Prevent default touch behavior on the plot only when events are enabled.
+  touchAction: 'none',
 };
 
 export interface PlotProps {
@@ -101,12 +108,12 @@ export interface PlotProps {
 
   // TODO: remove all these from the types after all stories have been migrated.
   // These are only here to avoid TypeScript errors in the mean time.
-  onClick?: (result: TrackingResult) => void;
-  onMouseMove?: (result: TrackingResult) => void;
-  onMouseUp?: (result: TrackingResult) => void;
-  onMouseDown?: (result: TrackingResult) => void;
-  onDoubleClick?: (result: TrackingResult) => void;
-  onWheel?: (event: TrackingResult) => void;
+  onClick?: (result: TrackingResult<MouseEvent>) => void;
+  onMouseMove?: (result: TrackingResult<MouseEvent>) => void;
+  onMouseUp?: (result: TrackingResult<MouseEvent>) => void;
+  onMouseDown?: (result: TrackingResult<MouseEvent>) => void;
+  onDoubleClick?: (result: TrackingResult<MouseEvent>) => void;
+  onWheel?: (event: TrackingResult<MouseEvent>) => void;
   onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
   onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 }
@@ -205,6 +212,12 @@ export function Plot(props: PlotProps) {
     };
   }, [width, height, plotWidth, plotHeight, axisContext, colorScaler]);
 
+  const finalSvgStyle: CSSProperties = {
+    ...defaultSvgStyle,
+    ...(plotEvents ? defaultEventSvgStyle : null),
+    ...svgStyle,
+  };
+
   return (
     <plotContext.Provider value={plotContextValue}>
       <plotDispatchContext.Provider value={dispatch}>
@@ -213,7 +226,7 @@ export function Plot(props: PlotProps) {
             xmlns="http://www.w3.org/2000/svg"
             width={width}
             height={height}
-            style={{ ...defaultSvgStyle, ...svgStyle }}
+            style={finalSvgStyle}
             id={svgId}
             className={svgClassName}
           >

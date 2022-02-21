@@ -6,7 +6,7 @@ import {
   LineSeries,
   Plot,
   LineSeriesProps,
-  SeriesPoint,
+  SeriesPointWithError,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -37,7 +37,7 @@ export default {
     errorBarsCapStyle: { stroke: 'blue' },
   },
 } as Meta<LineSeriesProps>;
-const data: SeriesPoint[] = [
+const data: SeriesPointWithError[] = [
   {
     x: 0,
     y: 10,
@@ -74,7 +74,7 @@ export function Control(props: LineSeriesProps) {
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries {...props} data={data} xAxis="x" yAxis="y" />
       <Axis id="x" position="bottom" />
-      <Axis id="y" position="left" paddingStart={0.1} paddingEnd={0.1} />
+      <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
 
       <Legend position="embedded" />
     </Plot>

@@ -10,7 +10,7 @@
     "outDir": "lib",
     "removeComments": false,
     "sourceMap": false,
-    "strict": false,
+    "strict": true,
     "target": "es2019"
   },
   "include": ["src/**/*", "stories/**/*"],

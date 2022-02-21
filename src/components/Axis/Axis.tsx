@@ -20,8 +20,8 @@ export interface AxisProps {
   min?: number;
   max?: number;
 
-  paddingStart?: number;
-  paddingEnd?: number;
+  paddingStart?: number | string;
+  paddingEnd?: number | string;
 
   flip?: boolean;
   scale?: 'linear' | 'log' | 'time';
@@ -52,7 +52,7 @@ export interface AxisProps {
    * With time scale the default values is d3's smart tickFormat
    * With other types of scales the default is converting the value to a string
    */
-  tickLabelFormat?: TickLabelFormat;
+  tickLabelFormat?: TickLabelFormat<number> | TickLabelFormat<Date>;
   tickLabelStyle?: CSSProperties;
 
   primaryTickLength?: number;
@@ -67,8 +67,8 @@ export function Axis({
   position,
   min,
   max,
-  paddingStart,
-  paddingEnd,
+  paddingStart = 0,
+  paddingEnd = 0,
   flip = false,
   scale = 'linear',
 
@@ -78,7 +78,9 @@ export function Axis({
   labelStyle,
   hidden = false,
   tickLabelStyle,
-  tickLabelFormat = scale === 'time' ? undefined : (value) => String(value),
+  tickLabelFormat = scale === 'time'
+    ? undefined
+    : (value: number) => String(value),
   hiddenLine = false,
   lineStyle,
   primaryGridLineStyle,
@@ -93,6 +95,7 @@ export function Axis({
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
 
   const xY = ['top', 'bottom'].includes(position) ? 'x' : 'y';
+  const axisId = id || xY;
 
   const innerOffset = getInnerOffset(
     hidden,
@@ -102,40 +105,26 @@ export function Axis({
   );
 
   useEffect(() => {
-    const minPadding = paddingStart || 0;
-    const maxPadding = paddingEnd || 0;
-
-    if (minPadding < 0 || minPadding > 1) {
-      throw new Error(
-        `Padding ${position} (${minPadding}) is not between 0 and 1`,
-      );
-    }
-    if (maxPadding < 0 || maxPadding > 1) {
-      throw new Error(
-        `Padding ${position} (${maxPadding}) is not between 0 and 1`,
-      );
-    }
-
     dispatch({
-      type: 'newAxis',
+      type: 'addAxis',
       payload: {
-        id: id || xY,
+        id: axisId,
         position,
         min,
         max,
-        paddingStart: minPadding,
-        paddingEnd: maxPadding,
+        paddingStart,
+        paddingEnd,
         flip,
         scale,
         innerOffset,
+        tickLabelFormat,
       },
     });
 
-    return () => dispatch({ type: 'removeAxis', payload: { id: id || xY } });
+    return () => dispatch({ type: 'removeAxis', payload: { id: axisId } });
   }, [
     dispatch,
     flip,
-    id,
     innerOffset,
     max,
     min,
@@ -143,10 +132,10 @@ export function Axis({
     paddingStart,
     position,
     scale,
-    xY,
+    axisId,
   ]);
 
-  const currentAxis = axisContext[id || xY];
+  const currentAxis = axisContext[axisId];
   if (!currentAxis) return null;
 
   const childProps = {
@@ -158,7 +147,6 @@ export function Axis({
     labelStyle,
     tickLabelStyle,
     position,
-    tickLabelFormat,
     hiddenLine,
     primaryGridLineStyle,
     lineStyle,
@@ -175,14 +163,15 @@ export function Axis({
     return (
       <LinearAxis
         {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
         scale={currentAxis.scale as ScaleLinear<number, number>}
       />
     );
-  }
-  if (scale === 'time') {
+  } else if (scale === 'time') {
     return (
       <TimeAxis
         {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<Date>}
         scale={currentAxis.scale as ScaleTime<number, number>}
       />
     );
@@ -190,6 +179,7 @@ export function Axis({
     return (
       <LogAxis
         {...childProps}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
         scale={currentAxis.scale as ScaleLogarithmic<number, number>}
       />
     );

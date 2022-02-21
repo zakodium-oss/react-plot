@@ -31,8 +31,8 @@ export function BitcoinPrice() {
         id="y"
         position="left"
         label="$$$"
-        paddingStart={0.1}
-        paddingEnd={0.1}
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );
