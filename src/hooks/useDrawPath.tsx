@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 
+import { SeriesPoint } from '..';
 import { Polygon } from '../components/Annotations/Polygon';
 import { Polyline } from '../components/Annotations/Polyline';
 
@@ -10,8 +11,9 @@ export interface UseDrawPathOptions
   extends ControllerHookOptions,
     DualAxisOptions,
     PathOptions {
-  type?: 'polyline' | 'polygone';
-  onDraw?: (path: { data: Record<string, number>[] }) => void;
+  close?: boolean;
+  onDraw?: (points: SeriesPoint[]) => void;
+  onDrawing?: (points: SeriesPoint[]) => void;
 }
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {
@@ -19,17 +21,24 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     horizontalAxisId = 'x',
     verticalAxisId = 'y',
     color = 'black',
-    type = 'polyline',
+    close = false,
     style,
     onDraw,
+    onDrawing,
   } = options;
 
   const data = usePathData({
+    onMove() {
+      if (!data) {
+        return;
+      }
+      onDrawing?.(points);
+    },
     onEnd() {
       if (!data) {
         return;
       }
-      onDraw?.({ data });
+      onDraw?.(points);
     },
   });
   const points = useMemo(() => {
@@ -42,20 +51,12 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     }));
   }, [data, horizontalAxisId, verticalAxisId]);
   return {
-    points,
     annotations:
       data !== null ? (
-        type === 'polygone' ? (
+        close ? (
           <Polygon color={color} style={style} points={points} />
         ) : (
-          <Polyline
-            color={color}
-            style={style}
-            points={data.map((d) => ({
-              x: d[horizontalAxisId],
-              y: d[verticalAxisId],
-            }))}
-          />
+          <Polyline color={color} style={style} points={points} />
         )
       ) : null,
   };

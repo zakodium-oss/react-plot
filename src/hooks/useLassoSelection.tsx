@@ -1,5 +1,5 @@
 import pointInPolygon from 'point-in-polygon';
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import { SeriesPoint, useDrawPath } from '..';
 import { CSSFuncProps } from '../types';
@@ -25,22 +25,25 @@ export function useLassoSelection(options: UseLassoSelectionOptions) {
     },
     ...otherProps
   } = options;
-  const { points, annotations } = useDrawPath({
+  const [style, setStyle] = useState<CSSFuncProps<SeriesPoint>>({
+    ...defaultStyle,
+  });
+  const { annotations } = useDrawPath({
     style: pathStyle,
-    type: 'polygone',
+    close: true,
+    onDrawing(points) {
+      const polygonePoints = points.map(({ x, y }) => [x, y]);
+      const newStyle = style;
+      for (const key in hoveredStyle) {
+        newStyle[key] = (point: SeriesPoint) =>
+          pointInPolygon([point.x, point.y], polygonePoints)
+            ? functionalStyle({}, hoveredStyle, point)[key]
+            : functionalStyle({}, defaultStyle, point)[key];
+      }
+      setStyle(newStyle);
+    },
     ...otherProps,
   });
-  const polygonePoints = points.map(({ x, y }) => [x, y]);
-  const style = useMemo(() => {
-    const style = { ...defaultStyle };
-    for (const key in hoveredStyle) {
-      style[key] = (point: SeriesPoint) =>
-        pointInPolygon([point.x, point.y], polygonePoints)
-          ? functionalStyle({}, hoveredStyle, point)[key]
-          : functionalStyle({}, defaultStyle, point)[key];
-    }
-    return style;
-  }, [defaultStyle, hoveredStyle, polygonePoints]);
 
   return { annotations, style };
 }
