@@ -31,7 +31,7 @@ export function useLassoSelection(options: UseLassoSelectionOptions) {
   const { annotations } = useDrawPath({
     style: pathStyle,
     close: true,
-    onDrawing(points) {
+    onDraw(points) {
       const polygonePoints = points.map(({ x, y }) => [x, y]);
       const newStyle: CSSFuncProps<SeriesPoint> = style;
       for (const key in hoveredStyle) {

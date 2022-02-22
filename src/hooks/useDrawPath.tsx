@@ -13,7 +13,7 @@ export interface UseDrawPathOptions
     PathOptions {
   close?: boolean;
   onDraw?: (points: SeriesPoint[]) => void;
-  onDrawing?: (points: SeriesPoint[]) => void;
+  onEnd?: (points: SeriesPoint[]) => void;
 }
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {
@@ -24,7 +24,7 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     close = false,
     style,
     onDraw,
-    onDrawing,
+    onEnd,
   } = options;
 
   const [data, setData] = useState<Record<string, number>[] | null>(null);
@@ -50,12 +50,12 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
         if (isDuplicated) return previousData;
         return previousData.concat(clampedCoordinates);
       });
-      onDrawing?.(points);
+      onDraw?.(points);
     },
     onEnd() {
       if (!data) return;
       setData(null);
-      onDraw?.(points);
+      onEnd?.(points);
     },
   });
   const points = useMemo(() => {
