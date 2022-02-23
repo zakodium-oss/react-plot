@@ -208,7 +208,9 @@ export function useAxisContext(
         axisMin = axis.min;
         isAxisMinForced = true;
       } else {
-        axisMin = min(state.series, (d) => d[xY].min + d[xY].shift) as number;
+        axisMin = min(state.series, (d) =>
+          d[xY].axisId === id ? d[xY].min + d[xY].shift : undefined,
+        ) as number;
       }
 
       let isAxisMaxForced = false;
@@ -220,7 +222,9 @@ export function useAxisContext(
         axisMax = axis.max;
         isAxisMaxForced = true;
       } else {
-        axisMax = max(state.series, (d) => d[xY].max + d[xY].shift) as number;
+        axisMax = max(state.series, (d) =>
+          d[xY].axisId === id ? d[xY].max + d[xY].shift : undefined,
+        ) as number;
       }
 
       // Limits validation
