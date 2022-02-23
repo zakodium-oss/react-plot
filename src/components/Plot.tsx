@@ -32,7 +32,7 @@ import { useId } from '../utils';
 import { splitChildren } from '../utils/splitChildren';
 import { usePlotSizes } from '../utils/usePlotSizes';
 
-import Tracking, { TrackingResult } from './Tracking';
+import Tracking from './Tracking';
 import TransparentRect from './TransparentRect';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
@@ -105,17 +105,6 @@ export interface PlotProps {
    * All plot elements.
    */
   children: ReactNode;
-
-  // TODO: remove all these from the types after all stories have been migrated.
-  // These are only here to avoid TypeScript errors in the mean time.
-  onClick?: (result: TrackingResult<MouseEvent>) => void;
-  onMouseMove?: (result: TrackingResult<MouseEvent>) => void;
-  onMouseUp?: (result: TrackingResult<MouseEvent>) => void;
-  onMouseDown?: (result: TrackingResult<MouseEvent>) => void;
-  onDoubleClick?: (result: TrackingResult<MouseEvent>) => void;
-  onWheel?: (event: TrackingResult<MouseEvent>) => void;
-  onMouseEnter?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
-  onMouseLeave?: (event: React.MouseEvent<SVGRectElement, MouseEvent>) => void;
 }
 
 export function Plot(props: PlotProps) {
