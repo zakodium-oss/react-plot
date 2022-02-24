@@ -7,5 +7,3 @@ export * from './useAxisWheelZoom';
 export * from './usePlotControllerAxes';
 export * from './usePan';
 export * from './useDrawPath';
-
-export * from './useLassoSelection';

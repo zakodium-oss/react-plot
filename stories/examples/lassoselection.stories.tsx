@@ -1,4 +1,6 @@
 import { Meta } from '@storybook/react';
+import pointInPolygon from 'point-in-polygon';
+import { useState } from 'react';
 
 import {
   Axis,
@@ -6,25 +8,14 @@ import {
   Annotations,
   Annotation,
   ScatterSeries,
-  useLassoSelection,
-  UseLassoSelectionOptions,
   SeriesPoint,
+  useDrawPath,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Lasso Selection',
   decorators: [PlotControllerDecorator],
-  args: {
-    style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
-    defaultStyle: {
-      fill: (point: SeriesPoint) => (point.x > 32 ? 'red' : 'green'),
-      stroke: 'none',
-    },
-    hoveredStyle: {
-      fill: (point: SeriesPoint) => (point.x > 32 ? 'blue' : 'black'),
-    },
-  },
 } as Meta;
 
 const dataVertical = {
@@ -52,8 +43,17 @@ const dataVertical = {
     width: 3.42602050534316,
   },
 };
-export function LassoSelection(options: UseLassoSelectionOptions) {
-  const path = useLassoSelection(options);
+export function LassoSelection() {
+  const [points, setPoints] = useState<SeriesPoint[]>([]);
+  const path = useDrawPath({
+    close: true,
+    style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
+    onDraw(Newpoints) {
+      if (Newpoints && Newpoints !== []) {
+        setPoints(Newpoints);
+      }
+    },
+  });
   const {
     ellipse,
     data: { x, y },
@@ -61,7 +61,17 @@ export function LassoSelection(options: UseLassoSelectionOptions) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG} width={600} height={600}>
       <ScatterSeries
-        markerStyle={path.style}
+        markerStyle={{
+          fill: ({ x, y }: SeriesPoint) => {
+            return pointInPolygon(
+              [x, y],
+              points.map(({ x, y }) => [x, y]),
+            )
+              ? 'black'
+              : 'blue';
+          },
+          stroke: 'none',
+        }}
         data={x.map((x, index) => ({ x, y: y[index] }))}
         xAxis="x"
         yAxis="y"
