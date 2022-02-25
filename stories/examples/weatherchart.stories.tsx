@@ -66,7 +66,7 @@ export function WeatherChart() {
           strokeDasharray: 'none',
         }}
       />
-      <Axis max={5} min={0} id="z" position="right" label="rainfall(mm/h)" />
+      <Axis id="z" position="right" label="rainfall(mm/h)" paddingEnd={0.05} />
     </Plot>
   );
 }

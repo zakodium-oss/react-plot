@@ -1,14 +1,22 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import {
+  Annotations,
+  Axis,
+  LineSeries,
+  Plot,
+  useRectangularZoom,
+} from '../../src';
 import data from '../data/spectrum2d.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Spectrum 2D',
+  decorators: [PlotControllerDecorator],
 } as Meta;
 
 export function Spectrum2D() {
+  const zoom = useRectangularZoom();
   const dataList = data.y.map((yArray) =>
     yArray.map((y, i) => ({
       x: data.x[i],
@@ -30,6 +38,7 @@ export function Spectrum2D() {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {lineSeriesList}
+      <Annotations>{zoom.annotations}</Annotations>
       <Axis
         id="x"
         position="bottom"
