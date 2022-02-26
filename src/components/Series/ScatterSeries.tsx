@@ -58,13 +58,13 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     label,
     hidden,
     displayErrorBars = false,
-    xShift: oldXShift = '0',
-    yShift: oldYShift = '0',
+    xShift: oldXShift = 0,
+    yShift: oldYShift = 0,
     ...otherProps
   } = props;
 
   const isVisible = useIsSeriesVisible(id);
-  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
+  const { xShift, yShift } = useShift({
     xAxis,
     yAxis,
     xShift: oldXShift,
@@ -101,12 +101,12 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
     const [yMin, yMax] = extent(data, (d) => d.y) as [number, number];
-    const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShiftInverted };
-    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShiftInverted };
+    const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShift };
+    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShift };
     dispatch({ type: 'addSeries', payload: { id, x, y, label, data } });
     // Delete information on unmount
     return () => dispatch({ type: 'removeSeries', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
+  }, [dispatch, id, data, xAxis, yAxis, label, xShift, yShift]);
 
   if (hidden) return null;
 

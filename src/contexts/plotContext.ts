@@ -44,7 +44,7 @@ export interface PlotSeriesState {
 interface PlotSeriesStateAxis {
   min: number;
   max: number;
-  shift: number;
+  shift: number | string;
   axisId: string;
 }
 
@@ -209,7 +209,7 @@ export function useAxisContext(
         isAxisMinForced = true;
       } else {
         axisMin = min(state.series, (d) =>
-          d[xY].axisId === id ? d[xY].min + d[xY].shift : undefined,
+          d[xY].axisId === id ? d[xY].min : undefined,
         ) as number;
       }
 
@@ -223,7 +223,7 @@ export function useAxisContext(
         isAxisMaxForced = true;
       } else {
         axisMax = max(state.series, (d) =>
-          d[xY].axisId === id ? d[xY].max + d[xY].shift : undefined,
+          d[xY].axisId === id ? d[xY].max : undefined,
         ) as number;
       }
 
