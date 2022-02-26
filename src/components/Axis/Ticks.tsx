@@ -19,7 +19,6 @@ export interface TickProps {
   strokeColor?: string;
   strokeHeight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
-  alignment?: SVGAttributes<SVGTextElement>['alignmentBaseline'];
   labelStyle?: CSSProperties;
   style?: CSSProperties;
 }
