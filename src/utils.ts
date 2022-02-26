@@ -181,12 +181,6 @@ export function toNumber(value: number | Date) {
   return value.getTime();
 }
 
-export function pointsCenter(points: SeriesPoint[]) {
-  let x = 0;
-  let y = 0;
-  points.forEach((point) => {
-    x += point.x;
-    y += point.y;
-  });
-  return { x: x / points.length, y: y / points.length };
+export function middlePoint(point1: SeriesPoint, point2: SeriesPoint) {
+  return { x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2 };
 }
