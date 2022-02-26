@@ -13,7 +13,7 @@ import { ScatterSeries } from '../components/Series/ScatterSeries';
 
 interface PlotChildren {
   series: ReactElement[];
-  annotations: ReactElement | null;
+  annotations: ReactElement[];
   topAxis: ReactElement | null;
   rightAxis: ReactElement | null;
   bottomAxis: ReactElement | null;
@@ -39,7 +39,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
 
   let series: ReactElement[] = [];
 
-  let annotations: ReactElement | null = null;
+  let annotations: ReactElement[] = [];
 
   for (let child of Children.toArray(children)) {
     if (typeof child !== 'object' || !isValidElement(child)) {
@@ -55,7 +55,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
     ) {
       series.push(child);
     } else if (child.type === Annotations) {
-      annotations = child;
+      annotations.push(child);
     } else if (child.type === Axis) {
       switch (child.props.position) {
         case 'top': {

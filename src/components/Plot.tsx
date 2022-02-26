@@ -213,37 +213,6 @@ export function Plot(props: PlotProps) {
       <plotDispatchContext.Provider value={dispatch}>
         <LegendProvider>
           <div style={{ position: 'relative', width: width, height: height }}>
-            {/* Annottions & Tracking layer */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={width}
-              height={height}
-              style={{
-                ...finalSvgStyle,
-                position: 'absolute',
-                top: '0',
-                left: '0',
-                zIndex: '10',
-              }}
-              id={svgId ? `${svgId}-2` : undefined}
-              className={svgClassName}
-            >
-              <g transform={`translate(${leftOffset}, ${topOffset})`}>
-                <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
-                  {annotations}
-                </g>
-                {plotEvents ? (
-                  <Tracking
-                    plotId={plotId}
-                    plotEvents={plotEvents}
-                    stateSeries={state.series}
-                    axisContext={axisContext}
-                    plotWidth={plotWidth}
-                    plotHeight={plotHeight}
-                  />
-                ) : null}
-              </g>
-            </svg>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={width}
@@ -303,6 +272,36 @@ export function Plot(props: PlotProps) {
               </g>
 
               <g ref={headingBbox.ref}>{heading}</g>
+            </svg>{' '}
+            {/* Annottions & Tracking layer */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={width}
+              height={height}
+              style={{
+                ...finalSvgStyle,
+                position: 'absolute',
+                top: '0',
+                left: '0',
+              }}
+              id={svgId ? `${svgId}-2` : undefined}
+              className={svgClassName}
+            >
+              <g transform={`translate(${leftOffset}, ${topOffset})`}>
+                <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
+                  {annotations}
+                </g>
+                {plotEvents ? (
+                  <Tracking
+                    plotId={plotId}
+                    plotEvents={plotEvents}
+                    stateSeries={state.series}
+                    axisContext={axisContext}
+                    plotWidth={plotWidth}
+                    plotHeight={plotHeight}
+                  />
+                ) : null}
+              </g>
             </svg>
           </div>
         </LegendProvider>
