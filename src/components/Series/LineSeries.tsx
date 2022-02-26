@@ -29,7 +29,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   const id = useId(props.id, 'series');
   const {
     lineStyle: lineStyleFromProps = {},
-    displayMarker = false,
+    displayMarkers = false,
     displayErrorBars = false,
     hidden,
     ...otherProps
@@ -59,7 +59,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
             figure: otherProps.markerShape || 'circle',
-            hidden: !displayMarker,
+            hidden: !displayMarkers,
           },
         },
       });
@@ -69,7 +69,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   }, [
     hidden,
     colorScaler,
-    displayMarker,
+    displayMarkers,
     id,
     legendDispatch,
     lineStyle?.stroke,
@@ -106,7 +106,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
           <ErrorBars {...errorBarsProps} />
         </>
       )}
-      <ScatterSeries {...otherProps} hidden={!displayMarker} id={id} />
+      <ScatterSeries {...otherProps} hidden={!displayMarkers} id={id} />
     </g>
   );
 }

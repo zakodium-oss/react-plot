@@ -7,7 +7,7 @@ export default {
   title: 'API/BarSeries',
   component: BarSeries,
   args: {
-    displayMarker: true,
+    displayMarkers: true,
     lineStyle: {
       stroke: 'black',
     },

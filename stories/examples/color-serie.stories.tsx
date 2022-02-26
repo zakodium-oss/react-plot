@@ -21,7 +21,7 @@ export function ColorSerie() {
       <Heading title="COVID-19 cases in USA (2020)" />
       <ScatterSeries
         data={data1}
-        displayMarker={false}
+        displayMarkers={false}
         displayLines
         xAxis="x"
         yAxis="y"

@@ -15,7 +15,7 @@ export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
-  const { lineStyle = {}, displayMarker = false, ...otherProps } = props;
+  const { lineStyle = {}, displayMarkers = false, ...otherProps } = props;
   const {
     xAxis = 'x',
     yAxis = 'y',
@@ -48,9 +48,9 @@ export function BarSeries(props: BarSeriesProps) {
     return {
       color,
       figure,
-      hidden: !displayMarker,
+      hidden: !displayMarkers,
     };
-  }, [color, displayMarker, figure]);
+  }, [color, displayMarkers, figure]);
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     legendDispatch({
@@ -71,7 +71,7 @@ export function BarSeries(props: BarSeriesProps) {
       {!props.hidden && isVisible && <BarSeriesRender {...lineProps} />}
       <ScatterSeries
         {...otherProps}
-        hidden={!displayMarker || props.hidden}
+        hidden={!displayMarkers || props.hidden}
         id={id}
       />
     </g>

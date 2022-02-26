@@ -28,7 +28,7 @@ import { markersComps } from '../Markers';
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps<T> {
   markerShape?: ShapeFuncProps<T>;
-  displayMarker?: boolean;
+  displayMarkers?: boolean;
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
   pointLabel?: LabelFuncProps<T>;
@@ -155,7 +155,7 @@ function ScatterSeriesRender<T extends SeriesPoint>({
   markerStyle = {},
   pointLabel = '',
   pointLabelStyle = {},
-  displayMarker = true,
+  displayMarkers = true,
   lineStyle: pointLineStyle = {},
   displayLines = false,
   transform,
@@ -214,7 +214,7 @@ function ScatterSeriesRender<T extends SeriesPoint>({
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
           {Lines}
-          {displayMarker ? (
+          {displayMarkers ? (
             <Marker
               size={markerSize}
               style={{ stroke: style.fill, ...style }}
@@ -238,7 +238,7 @@ function ScatterSeriesRender<T extends SeriesPoint>({
     pointLabelStyle,
     pointLineStyle,
     displayLines,
-    displayMarker,
+    displayMarkers,
     markerSize,
   ]);
   if (!markers) return null;

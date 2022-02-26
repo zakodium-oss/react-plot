@@ -31,7 +31,7 @@ export function HorizontalZoom() {
   const zoom = useAxisZoom();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <LineSeries data={data} displayMarker />
+      <LineSeries data={data} displayMarkers />
       <Annotations>{zoom.annotations}</Annotations>
       <Axis position="bottom" label="time [s]" />
       <Axis position="left" />
