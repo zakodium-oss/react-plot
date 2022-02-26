@@ -5,6 +5,7 @@ import { PlotAxisContext } from './contexts/plotContext';
 import type {
   CSSFuncProps,
   LabelFuncProps,
+  SeriesPoint,
   SeriesPointError,
   Shape,
   ShapeFuncProps,
@@ -178,4 +179,14 @@ export function toNumber(value: number | Date) {
     return value;
   }
   return value.getTime();
+}
+
+export function pointsCenter(points: SeriesPoint[]) {
+  let x = 0;
+  let y = 0;
+  points.forEach((point) => {
+    x += point.x;
+    y += point.y;
+  });
+  return { x: x / points.length, y: y / points.length };
 }
