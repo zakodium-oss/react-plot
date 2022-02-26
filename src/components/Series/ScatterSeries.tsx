@@ -18,7 +18,7 @@ import {
   functionalLabel,
   functionalShape,
   functionalStyle,
-  pointsCenter,
+  middlePoint,
   useId,
   validateAxis,
 } from '../../utils';
@@ -183,10 +183,10 @@ function ScatterSeriesRender<T extends SeriesPoint>({
       const Lines = [];
       if (displayLines) {
         const lineStyle = functionalStyle({}, pointLineStyle, point, i, data);
-        const prePoint = i > 0 ? pointsCenter([point, data[i - 1]]) : undefined;
+        const prePoint = i > 0 ? middlePoint(point, data[i - 1]) : undefined;
 
         const nextPoint = data[i + 1]
-          ? pointsCenter([point, data[i + 1]])
+          ? middlePoint(point, data[i + 1])
           : undefined;
         const PreviousLine = prePoint ? (
           <line
