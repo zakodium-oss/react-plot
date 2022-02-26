@@ -38,7 +38,7 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     yShift: propsYShift = '0',
   } = props;
 
-  const { xShift, xShiftInverted, yShift, yShiftInverted } = useShift({
+  const { xShift, yShift } = useShift({
     xAxis,
     yAxis,
     xShift: propsXShift,
@@ -52,18 +52,18 @@ export function RangeSeries<T extends RangeSeriesPoint>(
     const [y1Min, y1Max] = extent(data, (d) => d.y1) as [number, number];
     const [y2Min, y2Max] = extent(data, (d) => d.y2) as [number, number];
 
-    const x = { min: xMin, max: xMax, shift: xShiftInverted, axisId: xAxis };
+    const x = { min: xMin, max: xMax, shift: propsXShift, axisId: xAxis };
     const y = {
       min: Math.min(y1Min, y2Min),
       max: Math.max(y1Max, y2Max),
-      shift: yShiftInverted,
+      shift: propsYShift,
       axisId: yAxis,
     };
     dispatch({ type: 'addSeries', payload: { id, x, y, label } });
 
     // Delete information on unmount
     return () => dispatch({ type: 'removeSeries', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label, xShiftInverted, yShiftInverted]);
+  }, [dispatch, id, data, xAxis, yAxis, label, propsXShift, propsYShift]);
 
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {

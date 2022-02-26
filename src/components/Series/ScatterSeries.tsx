@@ -101,12 +101,12 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
     const [yMin, yMax] = extent(data, (d) => d.y) as [number, number];
-    const x = { min: xMin, max: xMax, axisId: xAxis, shift: xShift };
-    const y = { min: yMin, max: yMax, axisId: yAxis, shift: yShift };
+    const x = { min: xMin, max: xMax, axisId: xAxis, shift: oldXShift };
+    const y = { min: yMin, max: yMax, axisId: yAxis, shift: oldYShift };
     dispatch({ type: 'addSeries', payload: { id, x, y, label, data } });
     // Delete information on unmount
     return () => dispatch({ type: 'removeSeries', payload: { id } });
-  }, [dispatch, id, data, xAxis, yAxis, label, xShift, yShift]);
+  }, [dispatch, id, data, xAxis, yAxis, label, oldXShift, oldYShift]);
 
   if (hidden) return null;
 
