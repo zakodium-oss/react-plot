@@ -18,6 +18,7 @@ import {
   functionalLabel,
   functionalShape,
   functionalStyle,
+  middlePoint,
   useId,
   validateAxis,
 } from '../../utils';
@@ -27,6 +28,7 @@ import { markersComps } from '../Markers';
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps<T> {
   markerShape?: ShapeFuncProps<T>;
+  displayMarker?: boolean;
   markerSize?: number;
   markerStyle?: CSSFuncProps<T>;
   pointLabel?: LabelFuncProps<T>;
@@ -35,6 +37,8 @@ export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   errorBarsStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapStyle?: SVGAttributes<SVGLineElement>;
   errorBarsCapSize?: number;
+  lineStyle?: CSSFuncProps<T>;
+  displayLines?: boolean;
 }
 
 export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
@@ -151,6 +155,9 @@ function ScatterSeriesRender<T extends SeriesPoint>({
   markerStyle = {},
   pointLabel = '',
   pointLabelStyle = {},
+  displayMarker = true,
+  lineStyle: pointLineStyle = {},
+  displayLines = false,
   transform,
 }: ScatterSeriesRenderProps<T>) {
   // Get scales from context
@@ -165,7 +172,6 @@ function ScatterSeriesRender<T extends SeriesPoint>({
 
     const color = colorScaler(id);
     const defaultColor = { fill: color, stroke: color };
-
     const markers = data.map((point, i) => {
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
 
@@ -173,12 +179,47 @@ function ScatterSeriesRender<T extends SeriesPoint>({
       const Marker = markersComps[functionalShape(markerShape, point, i, data)];
       const label = functionalLabel(pointLabel, point, i, data);
       const labelStyle = functionalStyle({}, pointLabelStyle, point, i, data);
+
+      const Lines = [];
+      if (displayLines) {
+        const lineStyle = functionalStyle({}, pointLineStyle, point, i, data);
+        const prePoint = i > 0 ? middlePoint(point, data[i - 1]) : undefined;
+
+        const nextPoint = data[i + 1]
+          ? middlePoint(point, data[i + 1])
+          : undefined;
+        const PreviousLine = prePoint ? (
+          <line
+            x1={0}
+            y1={0}
+            x2={xScale(prePoint.x) - xScale(point.x)}
+            y2={yScale(prePoint.y) - yScale(point.y)}
+            style={{ stroke: style.fill, ...lineStyle }}
+          />
+        ) : null;
+        const NextLine = nextPoint ? (
+          <line
+            x1={0}
+            y1={0}
+            x2={xScale(nextPoint.x) - xScale(point.x)}
+            y2={yScale(nextPoint.y) - yScale(point.y)}
+            style={{ stroke: style.fill, ...lineStyle }}
+          />
+        ) : null;
+        Lines.push(PreviousLine, NextLine);
+      }
       return (
         <g // eslint-disable-next-line react/no-array-index-key
           key={`markers-${i}`}
           transform={`translate(${xScale(point.x)}, ${yScale(point.y)})`}
         >
-          <Marker size={markerSize} style={{ stroke: style.fill, ...style }} />
+          {Lines}
+          {displayMarker ? (
+            <Marker
+              size={markerSize}
+              style={{ stroke: style.fill, ...style }}
+            />
+          ) : null}
           {label ? <text style={labelStyle}>{label}</text> : null}
         </g>
       );
@@ -195,6 +236,9 @@ function ScatterSeriesRender<T extends SeriesPoint>({
     markerShape,
     pointLabel,
     pointLabelStyle,
+    pointLineStyle,
+    displayLines,
+    displayMarker,
     markerSize,
   ]);
   if (!markers) return null;

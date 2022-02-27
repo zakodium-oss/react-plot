@@ -11,11 +11,13 @@ import ErrorBars from '../ErrorBars';
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
 export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
-  extends Omit<ScatterSeriesProps<T>, 'markerShape'> {
+  extends Omit<
+    ScatterSeriesProps<T>,
+    'markerShape' | 'lineStyle' | 'displayLines'
+  > {
   data: ReadonlyArray<T>;
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
-  displayMarker?: boolean;
 }
 
 export function LineSeries<T extends SeriesPoint = SeriesPoint>(

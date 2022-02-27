@@ -5,6 +5,7 @@ import { PlotAxisContext } from './contexts/plotContext';
 import type {
   CSSFuncProps,
   LabelFuncProps,
+  SeriesPoint,
   SeriesPointError,
   Shape,
   ShapeFuncProps,
@@ -178,4 +179,8 @@ export function toNumber(value: number | Date) {
     return value;
   }
   return value.getTime();
+}
+
+export function middlePoint(point1: SeriesPoint, point2: SeriesPoint) {
+  return { x: (point1.x + point2.x) / 2, y: (point1.y + point2.y) / 2 };
 }

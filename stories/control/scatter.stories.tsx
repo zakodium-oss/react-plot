@@ -7,7 +7,7 @@ import {
   ScatterSeries,
   ScatterSeriesProps,
 } from '../../src';
-import { SeriesPointWithError } from '../../src/types';
+import { SeriesPoint, SeriesPointWithError } from '../../src/types';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -86,3 +86,35 @@ export function Control(props: ScatterSeriesProps) {
     </Plot>
   );
 }
+export function DisplayLines(props: ScatterSeriesProps) {
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <Legend position="embedded" />
+
+      <ScatterSeries {...props} data={data} xAxis="x" yAxis="y" />
+      <Axis
+        id="x"
+        position="bottom"
+        label="X"
+        paddingEnd="10%"
+        paddingStart="10%"
+      />
+      <Axis
+        id="y"
+        position="left"
+        label="Y"
+        paddingEnd="10%"
+        paddingStart="10%"
+      />
+    </Plot>
+  );
+}
+DisplayLines.args = {
+  displayLines: true,
+  lineStyle: {
+    stroke: ({ y }: SeriesPoint) => {
+      return y > 14 ? 'red' : 'green';
+    },
+  },
+  displayErrorBars: false,
+};
