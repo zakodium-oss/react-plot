@@ -284,7 +284,7 @@ export function Plot(props: PlotProps) {
                 top: '0',
                 left: '0',
               }}
-              id={svgId ? `${svgId}-2` : undefined}
+              id={svgId ? `${svgId}-annotations` : undefined}
               className={svgClassName}
             >
               <g transform={`translate(${leftOffset}, ${topOffset})`}>
