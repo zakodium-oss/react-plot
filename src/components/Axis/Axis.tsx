@@ -133,6 +133,7 @@ export function Axis({
     position,
     scale,
     axisId,
+    tickLabelFormat,
   ]);
 
   const currentAxis = axisContext[axisId];

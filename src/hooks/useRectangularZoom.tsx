@@ -21,7 +21,7 @@ export function useRectangularZoom(options: UseRectangularZoomOptions = {}) {
   const plotControls = usePlotControls(options);
   const { annotations } = useDrawRectangle({
     ...options,
-    onDraw({ x1, x2, y1, y2 }) {
+    onEnd({ x1, x2, y1, y2 }) {
       plotControls.setAxes({
         [horizontalAxisId]: {
           min: Math.min(x1, x2),

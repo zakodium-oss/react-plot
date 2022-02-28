@@ -14,6 +14,6 @@ export interface RectangleOptions {
   style?: CSSProperties;
 }
 export interface PathOptions {
-  color?: CSSProperties['stroke'];
+  color?: CSSProperties['stroke' | 'fill'];
   style?: CSSProperties;
 }

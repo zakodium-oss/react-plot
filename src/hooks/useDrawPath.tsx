@@ -1,21 +1,30 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
+import { SeriesPoint } from '..';
+import { Polygon } from '../components/Annotations/Polygon';
 import { Polyline } from '../components/Annotations/Polyline';
 
-import { DualAxisOptions, PathOptions } from './types';
+import { ControllerHookOptions, DualAxisOptions, PathOptions } from './types';
 import { useStartMoveEnd } from './useStartMoveEnd';
 
-export interface UseDrawPathOptions extends DualAxisOptions, PathOptions {
-  onDraw?: (path: { data: Record<string, number>[] }) => void;
+export interface UseDrawPathOptions
+  extends ControllerHookOptions,
+    DualAxisOptions,
+    PathOptions {
+  close?: boolean;
+  onDraw?: (points: SeriesPoint[]) => void;
+  onEnd?: (points: SeriesPoint[]) => void;
 }
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {
   const {
     horizontalAxisId = 'x',
     verticalAxisId = 'y',
-    color = 'red',
+    color = 'black',
+    close = false,
     style,
     onDraw,
+    onEnd,
   } = options;
 
   const [data, setData] = useState<Record<string, number>[] | null>(null);
@@ -41,25 +50,29 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
         if (isDuplicated) return previousData;
         return previousData.concat(clampedCoordinates);
       });
+      onDraw?.(points);
     },
     onEnd() {
       if (!data) return;
       setData(null);
-      onDraw?.({ data });
+      onEnd?.(points);
     },
   });
-
+  const points = useMemo(() => {
+    if (!data) return [];
+    return data.map((d) => ({
+      x: d[horizontalAxisId],
+      y: d[verticalAxisId],
+    }));
+  }, [data, horizontalAxisId, verticalAxisId]);
   return {
     annotations:
       data !== null ? (
-        <Polyline
-          color={color}
-          style={style}
-          points={data.map((d) => ({
-            x: d[horizontalAxisId],
-            y: d[verticalAxisId],
-          }))}
-        />
+        close ? (
+          <Polygon color={color} style={style} points={points} />
+        ) : (
+          <Polyline color={color} style={style} points={points} />
+        )
       ) : null,
   };
 }
