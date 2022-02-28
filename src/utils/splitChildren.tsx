@@ -12,7 +12,8 @@ import { RangeSeries } from '../components/Series/RangeSeries';
 import { ScatterSeries } from '../components/Series/ScatterSeries';
 
 interface PlotChildren {
-  seriesAndAnnotations: ReactElement[];
+  series: ReactElement[];
+  annotations: ReactElement[];
   topAxis: ReactElement | null;
   rightAxis: ReactElement | null;
   bottomAxis: ReactElement | null;
@@ -36,7 +37,9 @@ export function splitChildren(children: ReactNode): PlotChildren {
 
   let legend: ReactElement | null = null;
 
-  let seriesAndAnnotations: ReactElement[] = [];
+  let series: ReactElement[] = [];
+
+  let annotations: ReactElement[] = [];
 
   for (let child of Children.toArray(children)) {
     if (typeof child !== 'object' || !isValidElement(child)) {
@@ -48,10 +51,11 @@ export function splitChildren(children: ReactNode): PlotChildren {
       child.type === LineSeries ||
       child.type === ScatterSeries ||
       child.type === RangeSeries ||
-      child.type === BarSeries ||
-      child.type === Annotations
+      child.type === BarSeries
     ) {
-      seriesAndAnnotations.push(child);
+      series.push(child);
+    } else if (child.type === Annotations) {
+      annotations.push(child);
     } else if (child.type === Axis) {
       switch (child.props.position) {
         case 'top': {
@@ -150,6 +154,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
     leftAxis,
     heading,
     legend,
-    seriesAndAnnotations,
+    series,
+    annotations,
   };
 }

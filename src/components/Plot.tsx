@@ -126,7 +126,8 @@ export function Plot(props: PlotProps) {
   const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
 
   const {
-    seriesAndAnnotations,
+    series,
+    annotations,
     topAxis,
     rightAxis,
     bottomAxis,
@@ -211,72 +212,98 @@ export function Plot(props: PlotProps) {
     <plotContext.Provider value={plotContextValue}>
       <plotDispatchContext.Provider value={dispatch}>
         <LegendProvider>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={width}
-            height={height}
-            style={finalSvgStyle}
-            id={svgId}
-            className={svgClassName}
-          >
-            {/* Plot viewport */}
-            <TransparentRect
+          <div style={{ position: 'relative', width: width, height: height }}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
               width={width}
               height={height}
-              style={plotViewportStyle}
-            />
-
-            {/* Series viewport */}
-            <g transform={`translate(${leftOffset}, ${topOffset})`}>
+              style={{
+                ...finalSvgStyle,
+                position: 'absolute',
+                top: '0',
+                left: '0',
+              }}
+              id={svgId}
+              className={svgClassName}
+            >
+              {/* Plot viewport */}
               <TransparentRect
-                width={plotWidth}
-                height={plotHeight}
-                style={seriesViewportStyle}
+                width={width}
+                height={height}
+                style={plotViewportStyle}
               />
 
-              {/* Prevents the chart from being drawn outside of the viewport */}
-              <clipPath id={`seriesViewportClip-${plotId}`}>
-                <rect width={plotWidth} height={plotHeight} />
-              </clipPath>
+              {/* Series viewport */}
+              <g transform={`translate(${leftOffset}, ${topOffset})`}>
+                <TransparentRect
+                  width={plotWidth}
+                  height={plotHeight}
+                  style={seriesViewportStyle}
+                />
 
-              <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
-                {seriesAndAnnotations}
+                {/* Prevents the chart from being drawn outside of the viewport */}
+                <clipPath id={`seriesViewportClip-${plotId}`}>
+                  <rect width={plotWidth} height={plotHeight} />
+                </clipPath>
+
+                <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
+                  {series}
+                </g>
+
+                <bboxContext.Provider value={topAxisBbox.ref}>
+                  <g>{topAxis}</g>
+                </bboxContext.Provider>
+
+                <bboxContext.Provider value={rightAxisBbox.ref}>
+                  <g>{rightAxis}</g>
+                </bboxContext.Provider>
+
+                <bboxContext.Provider value={bottomAxisBbox.ref}>
+                  <g>{bottomAxis}</g>
+                </bboxContext.Provider>
+
+                <bboxContext.Provider value={leftAxisBbox.ref}>
+                  <g>{leftAxis}</g>
+                </bboxContext.Provider>
+
+                <legendOffsetContext.Provider value={legendOffset}>
+                  <g ref={legendBbox.ref}>{legend}</g>
+                </legendOffsetContext.Provider>
               </g>
 
-              <bboxContext.Provider value={topAxisBbox.ref}>
-                <g>{topAxis}</g>
-              </bboxContext.Provider>
-
-              <bboxContext.Provider value={rightAxisBbox.ref}>
-                <g>{rightAxis}</g>
-              </bboxContext.Provider>
-
-              <bboxContext.Provider value={bottomAxisBbox.ref}>
-                <g>{bottomAxis}</g>
-              </bboxContext.Provider>
-
-              <bboxContext.Provider value={leftAxisBbox.ref}>
-                <g>{leftAxis}</g>
-              </bboxContext.Provider>
-
-              <legendOffsetContext.Provider value={legendOffset}>
-                <g ref={legendBbox.ref}>{legend}</g>
-              </legendOffsetContext.Provider>
-
-              {plotEvents ? (
-                <Tracking
-                  plotId={plotId}
-                  plotEvents={plotEvents}
-                  stateSeries={state.series}
-                  axisContext={axisContext}
-                  plotWidth={plotWidth}
-                  plotHeight={plotHeight}
-                />
-              ) : null}
-            </g>
-
-            <g ref={headingBbox.ref}>{heading}</g>
-          </svg>
+              <g ref={headingBbox.ref}>{heading}</g>
+            </svg>
+            {/* Annottions & Tracking layer */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={width}
+              height={height}
+              style={{
+                ...finalSvgStyle,
+                position: 'absolute',
+                top: '0',
+                left: '0',
+              }}
+              id={svgId ? `${svgId}-annotations` : undefined}
+              className={svgClassName}
+            >
+              <g transform={`translate(${leftOffset}, ${topOffset})`}>
+                <g style={{ clipPath: `url(#seriesViewportClip-${plotId})` }}>
+                  {annotations}
+                </g>
+                {plotEvents ? (
+                  <Tracking
+                    plotId={plotId}
+                    plotEvents={plotEvents}
+                    stateSeries={state.series}
+                    axisContext={axisContext}
+                    plotWidth={plotWidth}
+                    plotHeight={plotHeight}
+                  />
+                ) : null}
+              </g>
+            </svg>
+          </div>
         </LegendProvider>
       </plotDispatchContext.Provider>
     </plotContext.Provider>

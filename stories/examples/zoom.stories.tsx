@@ -147,7 +147,7 @@ export function SynchronizedZoom() {
   const yAxis = <Axis min={0} max={50} position="left" label="PC 2" />;
 
   return (
-    <div>
+    <div style={{ display: 'flex', gap: '10px' }}>
       <Plot {...DEFAULT_PLOT_CONFIG} width={300} height={600}>
         {series}
         <Annotations>
