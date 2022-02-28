@@ -272,7 +272,7 @@ export function Plot(props: PlotProps) {
               </g>
 
               <g ref={headingBbox.ref}>{heading}</g>
-            </svg>{' '}
+            </svg>
             {/* Annottions & Tracking layer */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
