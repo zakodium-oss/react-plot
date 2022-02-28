@@ -70,7 +70,7 @@ export function WithTickFormat(props: ParallelAxisProps) {
   ];
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <LineSeries data={data2} xAxis="x" yAxis="y" displayMarker />
+      <LineSeries data={data2} xAxis="x" yAxis="y" displayMarkers />
       <Axis
         id="x"
         position="bottom"

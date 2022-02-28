@@ -20,7 +20,7 @@ export function BitcoinPrice() {
         xAxis="x"
         yAxis="y"
         lineStyle={{ stroke: 'green', strokeWidth: 2 }}
-        displayMarker
+        displayMarkers
         displayErrorBars
         markerStyle={{ fill: 'green', stroke: 'none' }}
         errorBarsCapSize={8}

@@ -37,7 +37,7 @@ export function Control(props: Props) {
         yAxis="y"
         lineStyle={{ strokeWidth: 3 }}
         label="Vg = 7V"
-        displayMarker={false}
+        displayMarkers={false}
       />
       <LineSeries
         data={[
@@ -50,7 +50,7 @@ export function Control(props: Props) {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker
+        displayMarkers
         markerShape="circle"
         label="Vg = 3V"
       />

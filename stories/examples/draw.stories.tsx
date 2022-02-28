@@ -28,7 +28,7 @@ export function DrawPath() {
   const path = useDrawPath();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <LineSeries data={data} displayMarker />
+      <LineSeries data={data} displayMarkers />
       <Annotations>{path.annotations}</Annotations>
       <Axis position="bottom" label="time [s]" />
       <Axis position="left" />
@@ -40,7 +40,7 @@ export function DrawRectangle() {
   const rectangle = useDrawRectangle();
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <LineSeries data={data} displayMarker />
+      <LineSeries data={data} displayMarkers />
       <Annotations>{rectangle.annotations}</Annotations>
       <Axis position="bottom" label="time [s]" />
       <Axis position="left" />

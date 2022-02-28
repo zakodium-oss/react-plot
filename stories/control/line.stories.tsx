@@ -14,7 +14,7 @@ export default {
   title: 'API/LineSeries',
   component: LineSeries,
   args: {
-    displayMarker: true,
+    displayMarkers: true,
     lineStyle: {
       stroke: 'black',
     },

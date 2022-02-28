@@ -132,7 +132,7 @@ export function WithHiddenSerie(props: LegendProps) {
             ...lineStyle,
           }}
           markerShape="square"
-          displayMarker
+          displayMarkers
           xAxis="x"
           yAxis="y"
           label="Label line series 2"

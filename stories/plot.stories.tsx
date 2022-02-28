@@ -66,7 +66,7 @@ export function Control(props: typeof args) {
           yAxis="y"
           lineStyle={{ strokeWidth: 3 }}
           label="Vg = 7V"
-          displayMarker={false}
+          displayMarkers={false}
         />
       )}
       <LineSeries
@@ -80,7 +80,7 @@ export function Control(props: typeof args) {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker
+        displayMarkers
         markerShape="circle"
         label="Vg = 3V"
       />
@@ -95,7 +95,7 @@ export function Control(props: typeof args) {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker
+        displayMarkers
         markerShape="circle"
         label={plotLabel}
       />
@@ -143,7 +143,7 @@ export function ScientificNotation() {
         yAxis="y"
         lineStyle={{ strokeWidth: 3 }}
         label="Vg = 7V"
-        displayMarker={false}
+        displayMarkers={false}
       />
       <LineSeries
         data={[
@@ -156,7 +156,7 @@ export function ScientificNotation() {
         ]}
         xAxis="x"
         yAxis="y"
-        displayMarker
+        displayMarkers
         markerShape="circle"
         label="Vg = 3V"
       />
