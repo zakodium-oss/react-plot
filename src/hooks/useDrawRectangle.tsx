@@ -11,7 +11,7 @@ export interface UseDrawRectangleOptions
   extends ControllerHookOptions,
     DualAxisOptions,
     RectangleOptions {
-  onDraw?: (rectangle: {
+  onEnd?: (rectangle: {
     x1: number;
     x2: number;
     y1: number;
@@ -26,7 +26,7 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
     verticalAxisId = 'y',
     color = 'red',
     style,
-    onDraw,
+    onEnd,
   } = options;
 
   const startMoveEnd = useStartMoveEnd({
@@ -39,7 +39,7 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
       if (x1 === x2 || y1 === y2) {
         return;
       }
-      onDraw?.({ x1, x2, y1, y2 });
+      onEnd?.({ x1, x2, y1, y2 });
     },
   });
 
