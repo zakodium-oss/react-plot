@@ -46,16 +46,15 @@ export function Spectrum2D() {
         id="x"
         position="bottom"
         label="P1"
-        paddingStart="5%"
-        paddingEnd="5%"
+        paddingEnd={`${(lineSeriesList.length - 1) * 5}`}
       />
       <Axis
         id="y"
         position="left"
         label="P2"
         hidden
-        paddingStart="10%"
-        paddingEnd="10%"
+        paddingStart="5%"
+        paddingEnd="50%"
       />
     </Plot>
   );
