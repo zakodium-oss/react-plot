@@ -36,25 +36,21 @@ interface StackData {
   y: number[];
   color: string;
 }
+const dataList = (stackData as StackData[]).map(({ x, y, color }) => ({
+  data: xyToXYObject({ x, y }),
+  color,
+}));
 export function StackSpectra() {
-  const dataList = (stackData as StackData[]).map(({ x, y, color }) => ({
-    data: xyToXYObject({ x, y }),
-    color,
-  }));
-  const LineSeriesList = dataList.map(({ data, color }, i) => (
-    <LineSeries
-      // eslint-disable-next-line react/no-array-index-key
-      key={i}
-      data={data}
-      xAxis="x"
-      yAxis="y"
-      lineStyle={{ stroke: color }}
-      yShift={`${i * -7}`}
-    />
-  ));
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      {LineSeriesList}
+      {dataList.map(({ data, color }, i) => (
+        <LineSeries
+          // eslint-disable-next-line react/no-array-index-key
+          key={i}
+          data={data}
+          lineStyle={{ stroke: color }}
+        />
+      ))}
       <Axis id="x" position="bottom" label="δ [ppm]" flip />
       <Axis
         id="y"
