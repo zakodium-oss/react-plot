@@ -139,7 +139,7 @@ function convertValueAbs(
 }
 
 function convertToPx(value: string | number, total: number, scale?: Scales) {
-  if (scale === undefined) return 0;
+  if (scale === undefined || [0, '0'].includes(value)) return 0;
   return typeof value === 'number'
     ? scale(value) - scale(0)
     : convertString(value, total);

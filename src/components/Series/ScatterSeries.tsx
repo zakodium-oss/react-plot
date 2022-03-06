@@ -58,8 +58,8 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     label,
     hidden,
     displayErrorBars = false,
-    xShift: oldXShift = 0,
-    yShift: oldYShift = 0,
+    xShift: oldXShift = '0',
+    yShift: oldYShift = '0',
     ...otherProps
   } = props;
 
