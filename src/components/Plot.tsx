@@ -265,10 +265,6 @@ export function Plot(props: PlotProps) {
                 <bboxContext.Provider value={leftAxisBbox.ref}>
                   <g>{leftAxis}</g>
                 </bboxContext.Provider>
-
-                <legendOffsetContext.Provider value={legendOffset}>
-                  <g ref={legendBbox.ref}>{legend}</g>
-                </legendOffsetContext.Provider>
               </g>
 
               <g ref={headingBbox.ref}>{heading}</g>
@@ -301,6 +297,13 @@ export function Plot(props: PlotProps) {
                     plotHeight={plotHeight}
                   />
                 ) : null}
+              </g>
+
+              {/* Series viewport */}
+              <g transform={`translate(${leftOffset}, ${topOffset})`}>
+                <legendOffsetContext.Provider value={legendOffset}>
+                  <g ref={legendBbox.ref}>{legend}</g>
+                </legendOffsetContext.Provider>
               </g>
             </svg>
           </div>
