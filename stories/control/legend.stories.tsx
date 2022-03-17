@@ -19,6 +19,10 @@ export default {
   component: Legend,
   args: {
     position: 'embedded',
+    margin: 10,
+    showHide: false,
+    lineStyle: {},
+    labelStyle: {},
   },
 } as Meta<LegendProps>;
 
@@ -54,30 +58,10 @@ const data4 = [
   { x: 6, y1: 14, y2: 11 },
 ];
 export function Control(props: LegendProps) {
-  const [highlight, setHighlight] = useState<boolean>(false);
-  const lineStyle = {
-    strokeWidth: highlight ? '5' : '',
-  };
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend
-        {...props}
-        onClick={() => {
-          setHighlight((highlight) => !highlight);
-        }}
-        labelStyle={{
-          fontWeight: highlight ? 'bold' : 'normal',
-          cursor: 'hand',
-        }}
-        lineStyle={lineStyle}
-      />
-      <LineSeries
-        data={data1}
-        lineStyle={lineStyle}
-        xAxis="x"
-        yAxis="y"
-        label="Label line series"
-      />
+      <Legend {...props} />
+      <LineSeries data={data1} xAxis="x" yAxis="y" label="Label line series" />
       <Axis id="x" position="bottom" label="X" />
       <Axis id="y" position="left" label="Y" />
       <ParallelAxis id="x" />
@@ -86,7 +70,7 @@ export function Control(props: LegendProps) {
   );
 }
 
-export function WithHiddenSerie(props: LegendProps) {
+export function WithHiddenSerie() {
   const [hidden, setHidden] = useState(false);
   const [highlightSeries, setHighlightSeries] = useState<
     Record<string, boolean>
@@ -109,7 +93,6 @@ export function WithHiddenSerie(props: LegendProps) {
       </div>
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <Legend
-          {...props}
           labelStyle={{
             fontWeight: ({ id }) => (highlightSeries[id] ? 'bold' : 'normal'),
             cursor: 'hand',
