@@ -129,7 +129,7 @@ export function Legend(options: LegendProps) {
     margin = 10,
     onClick,
     lineStyle: funcLineStyle = {},
-    showHide = true,
+    showHide = false,
     labelStyle: funcLabelStyle = {},
     ...legendOffsets
   } = options;
