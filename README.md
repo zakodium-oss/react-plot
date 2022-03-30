@@ -17,7 +17,7 @@ Library of React components to render SVG 2D plots.
 
 </h3>
 
-## [Storybook](https://zakodium.github.io/react-plot/)
+## [Storybook](https://zakodium-oss.github.io/react-plot/)
 
 ```tsx
 const Example = () => (

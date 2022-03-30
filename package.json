@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zakodium/react-plot.git"
+    "url": "git+https://github.com/zakodium-oss/react-plot.git"
   },
   "keywords": [
     "react",
@@ -44,9 +44,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zakodium/react-plot/issues"
+    "url": "https://github.com/zakodium-oss/react-plot/issues"
   },
-  "homepage": "https://github.com/zakodium/react-plot#readme",
+  "homepage": "https://github.com/zakodium-oss/react-plot#readme",
   "peerDependencies": {
     "@types/react": "*",
     "react": "*"
