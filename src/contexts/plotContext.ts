@@ -208,8 +208,9 @@ export function useAxisContext(
         axisMin = axis.min;
         isAxisMinForced = true;
       } else {
-        axisMin = min(state.series, (d) =>
-          d[xY].axisId === id ? d[xY].min : undefined,
+        axisMin = min(
+          state.series.filter((s) => xY !== 'x' || !s.id.startsWith('~')),
+          (d) => (d[xY].axisId === id ? d[xY].min : undefined),
         ) as number;
       }
 
@@ -222,8 +223,9 @@ export function useAxisContext(
         axisMax = axis.max;
         isAxisMaxForced = true;
       } else {
-        axisMax = max(state.series, (d) =>
-          d[xY].axisId === id ? d[xY].max : undefined,
+        axisMax = max(
+          state.series.filter((s) => xY !== 'x' || !s.id.startsWith('~')),
+          (d) => (d[xY].axisId === id ? d[xY].max : undefined),
         ) as number;
       }
 

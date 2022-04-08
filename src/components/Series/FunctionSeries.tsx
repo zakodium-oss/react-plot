@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { usePlotContext } from '../../contexts/plotContext';
 import { BaseSeriesProps, CSSFuncProps, SeriesPoint } from '../../types';
-import { toNumber } from '../../utils';
+import { toNumber, useId } from '../../utils';
 
 import { LineSeries } from './LineSeries';
 
@@ -12,12 +12,10 @@ export interface FunctionSeriesProps extends BaseSeriesProps {
 }
 
 export function FunctionSeries(props: FunctionSeriesProps) {
-  const { getY, xAxis = 'x', ...otherProps } = props;
-  const {
-    axisContext: { [xAxis]: x },
-    plotWidth,
-    plotHeight,
-  } = usePlotContext();
+  const { getY, xAxis = 'x', id: propId, ...otherProps } = props;
+  const id = `~${useId(propId, 'series')}`;
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const x = axisContext[xAxis];
   const step = 1;
   const data = useMemo(() => {
     const data: SeriesPoint[] = [];
@@ -26,7 +24,7 @@ export function FunctionSeries(props: FunctionSeriesProps) {
         ? x.position === 'top' || x.position === 'bottom'
         : false;
       const end = isHorizontal ? plotWidth : plotHeight;
-      const scale = x?.scale;
+      const scale = x.scale;
       for (let i = 0; i <= end; i += step) {
         const x = toNumber(scale.invert(i));
         data.push({
@@ -34,8 +32,14 @@ export function FunctionSeries(props: FunctionSeriesProps) {
           y: getY(x),
         });
       }
+      return data;
     }
-    return data;
-  }, [getY, plotHeight, plotWidth, x]);
-  return <LineSeries data={data} {...otherProps} />;
+    return [{ x: 0, y: 0 }];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [x?.domain[0], x?.domain[1]]);
+  return (
+    <>
+      <LineSeries data={data} id={id} {...otherProps} />
+    </>
+  );
 }

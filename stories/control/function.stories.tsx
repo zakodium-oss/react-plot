@@ -43,14 +43,7 @@ export function Control(props: FunctionSeriesProps) {
         id="x"
         position="bottom"
       />
-      <Axis
-        min={15}
-        max={25}
-        id="y"
-        position="left"
-        paddingStart="10%"
-        paddingEnd="10%"
-      />
+      <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
     </Plot>
   );
 }
@@ -69,13 +62,13 @@ export function WithAnotherSeries(props: FunctionSeriesProps) {
 
       <Annotations>{zoom.annotations}</Annotations>
       <LineSeries
-        label="lineSeries"
+        label="line"
         data={[
-          { x: 2, y: 20 },
-          { x: 5, y: 10 },
+          { x: -2, y: 20 },
+          { x: -5, y: 10 },
         ]}
       />
-      <Axis paddingStart="10%" paddingEnd="10%" id="x" position="bottom" />
+      <Axis id="x" position="bottom" />
       <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
     </Plot>
   );
