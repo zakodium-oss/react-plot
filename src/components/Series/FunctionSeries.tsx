@@ -34,9 +34,8 @@ export function FunctionSeries(props: FunctionSeriesProps) {
           y: getY(x),
         });
       }
-      return data;
     }
-    return [{ x: 0, y: 0 }];
+    return data;
   }, [getY, plotHeight, plotWidth, x]);
   return <LineSeries data={data} {...otherProps} />;
 }
