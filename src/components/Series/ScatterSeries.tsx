@@ -81,7 +81,10 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
           colorLine: 'white',
           shape: {
             color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
-            figure: 'circle',
+            figure:
+              typeof props.markerShape === 'string'
+                ? props.markerShape
+                : 'circle',
             hidden: false,
           },
         },
@@ -97,6 +100,7 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     legendDispatch,
     otherProps.markerShape,
     otherProps.markerStyle?.fill,
+    props.markerShape,
   ]);
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
