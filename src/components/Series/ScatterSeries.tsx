@@ -26,7 +26,8 @@ import ErrorBars from '../ErrorBars';
 import { markersComps } from '../Markers';
 
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
-  extends BaseSeriesProps<T> {
+  extends BaseSeriesProps {
+  data: ReadonlyArray<T>;
   markerShape?: ShapeFuncProps<T>;
   displayMarkers?: boolean;
   markerSize?: number;

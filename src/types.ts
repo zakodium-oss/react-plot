@@ -43,8 +43,7 @@ export type LabelFuncProps<T> =
   | ((point: T, index?: number, data?: ReadonlyArray<T>) => string)
   | string;
 
-export interface BaseSeriesProps<T> {
-  data: ReadonlyArray<T>;
+export interface BaseSeriesProps {
   id?: string;
   xAxis?: string;
   yAxis?: string;

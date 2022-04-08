@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 
 import { usePlotContext } from '../../contexts/plotContext';
-import { SeriesPoint } from '../../types';
+import { BaseSeriesProps, CSSFuncProps, SeriesPoint } from '../../types';
 import { toNumber } from '../../utils';
 
-import { LineSeries, LineSeriesProps } from './LineSeries';
+import { LineSeries } from './LineSeries';
 
-export interface FunctionSeriesProps extends Omit<LineSeriesProps, 'data'> {
+export interface FunctionSeriesProps extends BaseSeriesProps {
   getY: (x: number) => number;
-  xAxis?: string;
+  lineStyle?: CSSFuncProps<{ id: string }>;
 }
 
 export function FunctionSeries(props: FunctionSeriesProps) {
@@ -24,7 +24,7 @@ export function FunctionSeries(props: FunctionSeriesProps) {
     if (x) {
       const isHorizontal = x
         ? x.position === 'top' || x.position === 'bottom'
-        : undefined;
+        : false;
       const end = isHorizontal ? plotWidth : plotHeight;
       const scale = x?.scale;
       for (let i = 0; i <= end; i += step) {
