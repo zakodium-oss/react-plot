@@ -27,8 +27,9 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 ) {
   const id = useId(props.id, 'series');
   const [, legendDispatch] = useLegend();
+  const { colorScaler } = usePlotContext();
   const {
-    lineStyle = {},
+    lineStyle = { fill: colorScaler(id), fillOpacity: 0.5 },
     hidden,
     xAxis = 'x',
     yAxis = 'y',
