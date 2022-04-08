@@ -49,7 +49,6 @@ export function StackSpectra() {
       xAxis="x"
       yAxis="y"
       lineStyle={{ stroke: color }}
-      yShift={`${i * -7}`}
     />
   ));
   return (
@@ -61,7 +60,8 @@ export function StackSpectra() {
         position="left"
         label="Intensity / arbitrary"
         hidden
-        paddingEnd="50%"
+        paddingStart="10%"
+        paddingEnd="10%"
       />
     </Plot>
   );
