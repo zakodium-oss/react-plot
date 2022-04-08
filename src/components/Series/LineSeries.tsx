@@ -26,13 +26,17 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   const { colorScaler } = usePlotContext();
 
   const id = useId(props.id, 'series');
-  const { lineStyle: lineStyleFromProps = {}, hidden, ...otherProps } = props;
+  const {
+    lineStyle: lineStyleFromProps = {},
+    displayMarkers = false,
+    hidden,
+    ...otherProps
+  } = props;
   const {
     xAxis = 'x',
     yAxis = 'y',
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
-    displayMarkers = false,
   } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
@@ -86,7 +90,7 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   return (
     <g>
       {isVisible && <LineSeriesRender {...lineProps} />}
-      <ScatterSeries {...otherProps} id={id} />
+      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
     </g>
   );
 }

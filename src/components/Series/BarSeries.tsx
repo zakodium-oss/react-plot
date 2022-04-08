@@ -15,11 +15,10 @@ export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
-  const { lineStyle = {}, ...otherProps } = props;
+  const { lineStyle = {}, displayMarkers = false, ...otherProps } = props;
   const {
     xAxis = 'x',
     yAxis = 'y',
-    displayMarkers = false,
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
   } = otherProps;
@@ -69,7 +68,7 @@ export function BarSeries(props: BarSeriesProps) {
   return (
     <g>
       {!props.hidden && isVisible && <BarSeriesRender {...lineProps} />}
-      <ScatterSeries {...otherProps} id={id} />
+      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
     </g>
   );
 }
