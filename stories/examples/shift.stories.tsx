@@ -1,6 +1,13 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Plot, LineSeries, Annotations, Annotation } from '../../src';
+import {
+  Axis,
+  Plot,
+  LineSeries,
+  Annotations,
+  Annotation,
+  ScalarValue,
+} from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -39,7 +46,7 @@ export function WithNumber(args: { xShift: number; yShift: number }) {
 WithNumber.args = { xShift: 0, yShift: 0 };
 WithNumber.storyName = 'With number';
 
-export function WithString(args: { xShift: string; yShift: string }) {
+export function WithString(args: { xShift: ScalarValue; yShift: ScalarValue }) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries

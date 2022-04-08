@@ -1,16 +1,17 @@
 import { SVGProps } from 'react';
 
 import { usePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationLineProps
   extends Omit<
     SVGProps<SVGLineElement>,
     'x' | 'y' | 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'
   > {
-  x1: number | string;
-  x2: number | string;
-  y1: number | string;
-  y2: number | string;
+  x1: ScalarValue;
+  x2: ScalarValue;
+  y1: ScalarValue;
+  y2: ScalarValue;
   color?: string;
 }
 

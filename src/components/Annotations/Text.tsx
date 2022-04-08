@@ -1,14 +1,15 @@
 import { ReactNode, SVGProps } from 'react';
 
 import { usePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationTextProps
   extends Omit<
     SVGProps<SVGTextElement>,
     'x1' | 'y1' | 'x2' | 'y2' | 'x' | 'y' | 'fill'
   > {
-  x: number | string;
-  y: number | string;
+  x: ScalarValue;
+  y: ScalarValue;
   color?: string;
   children: ReactNode;
 }

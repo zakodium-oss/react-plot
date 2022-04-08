@@ -1,6 +1,7 @@
 import { SVGProps } from 'react';
 
 import { usePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 import MarkerDefs from './MarkerDefs';
 
@@ -8,15 +9,15 @@ type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 
 export interface AnnotationArrowProps
   extends Omit<SVGProps<SVGLineElement>, 'x1' | 'x2' | 'y1' | 'y2' | 'stroke'> {
-  x1: number | string;
-  y1: number | string;
-  x2: number | string;
-  y2: number | string;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
   startPoint?: AnnotationShapeList;
   endPoint?: AnnotationShapeList;
   color?: string;
-  strokeWidth?: number | string;
-  markerSize?: number | string;
+  strokeWidth?: ScalarValue;
+  markerSize?: number;
 }
 
 export function Arrow(props: AnnotationArrowProps) {

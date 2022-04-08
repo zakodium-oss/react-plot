@@ -5,7 +5,12 @@ import {
   usePlotContext,
   usePlotDispatchContext,
 } from '../../contexts/plotContext';
-import { Position, TickLabelFormat, TickPosition } from '../../types';
+import {
+  Position,
+  ScalarValue,
+  TickLabelFormat,
+  TickPosition,
+} from '../../types';
 import { getInnerOffset } from '../../utils/axis';
 
 import LinearAxis from './LinearAxis';
@@ -20,8 +25,8 @@ export interface AxisProps {
   min?: number;
   max?: number;
 
-  paddingStart?: number | string;
-  paddingEnd?: number | string;
+  paddingStart?: ScalarValue;
+  paddingEnd?: ScalarValue;
 
   flip?: boolean;
   scale?: 'linear' | 'log' | 'time';

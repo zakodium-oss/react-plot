@@ -2,10 +2,11 @@ import { CSSProperties, ReactNode } from 'react';
 import { Align, AlignGroup } from 'react-d3-utils';
 
 import { usePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationGroupProps {
-  x: number | string;
-  y: number | string;
+  x: ScalarValue;
+  y: ScalarValue;
   children: ReactNode;
   horizontalAlign?: Align;
   verticalAlign?: Align;

@@ -3,13 +3,12 @@ import { euclidean } from 'ml-distance-euclidean';
 import { Scales } from './components/Axis/types';
 import { useLegend } from './contexts/legendContext';
 import { usePlotContext } from './contexts/plotContext';
+import { ScalarValue } from './types';
 import { validateAxis } from './utils';
 
-type NumberOrString = number | string;
-
 interface UsePositionConfig {
-  x: NumberOrString;
-  y: NumberOrString;
+  x: ScalarValue;
+  y: ScalarValue;
 }
 
 export function usePosition(config: UsePositionConfig) {
@@ -23,10 +22,10 @@ export function usePosition(config: UsePositionConfig) {
 }
 
 interface UseRectanglePositionConfig {
-  x1: NumberOrString;
-  y1: NumberOrString;
-  x2: NumberOrString;
-  y2: NumberOrString;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
 }
 export function useRectanglePosition(config: UseRectanglePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
@@ -41,18 +40,18 @@ export function useRectanglePosition(config: UseRectanglePositionConfig) {
   };
 }
 interface UseEllipsePositionConfig {
-  cx: NumberOrString;
-  cy: NumberOrString;
-  rx: NumberOrString;
-  ry: NumberOrString;
+  cx: ScalarValue;
+  cy: ScalarValue;
+  rx: ScalarValue;
+  ry: ScalarValue;
 }
 
 interface UseDirectedEllipsePositionConfig {
-  x1: NumberOrString;
-  y1: NumberOrString;
-  x2: NumberOrString;
-  y2: NumberOrString;
-  width: NumberOrString;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
+  width: ScalarValue;
 }
 
 export function useEllipsePosition(props: UseEllipsePositionConfig) {
@@ -110,14 +109,14 @@ function convertString(value: string, total: number) {
     : Number(value);
 }
 
-function convertValue(value: string | number, total: number, scale?: Scales) {
+function convertValue(value: ScalarValue, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number' ? scale(value) : convertString(value, total);
 }
 
 function convertMinValue(
-  value1: string | number,
-  value2: string | number,
+  value1: ScalarValue,
+  value2: ScalarValue,
   total: number,
   scale?: Scales,
 ) {
@@ -127,18 +126,14 @@ function convertMinValue(
     typeof value1 === 'number' ? scale(value1) : convertString(value1, total),
   );
 }
-function convertValueAbs(
-  value: string | number,
-  total: number,
-  scale?: Scales,
-) {
+function convertValueAbs(value: ScalarValue, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? Math.abs(scale(0) - scale(value))
     : Math.abs(convertString(value, total));
 }
 
-function convertToPx(value: string | number, total: number, scale?: Scales) {
+function convertToPx(value: ScalarValue, total: number, scale?: Scales) {
   if (scale === undefined) return 0;
   return typeof value === 'number'
     ? scale(value) - scale(0)
@@ -146,8 +141,8 @@ function convertToPx(value: string | number, total: number, scale?: Scales) {
 }
 
 function convertDimensions(
-  value1: string | number,
-  value2: string | number,
+  value1: ScalarValue,
+  value2: ScalarValue,
   total: number,
   scale?: Scales,
 ) {
@@ -187,8 +182,8 @@ export function useIsSeriesVisible(id: string) {
 interface UseShiftOptions {
   xAxis: string;
   yAxis: string;
-  xShift: number | string;
-  yShift: number | string;
+  xShift: ScalarValue;
+  yShift: ScalarValue;
 }
 
 export function useShift(options: UseShiftOptions) {

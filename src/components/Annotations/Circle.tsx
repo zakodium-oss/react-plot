@@ -1,15 +1,16 @@
 import { SVGProps } from 'react';
 
 import { useEllipsePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationCircleProps
   extends Omit<
     SVGProps<SVGCircleElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'r' | 'fill'
   > {
-  x: number | string;
-  y: number | string;
-  r: number | string;
+  x: ScalarValue;
+  y: ScalarValue;
+  r: ScalarValue;
   color?: string;
 }
 

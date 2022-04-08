@@ -5,7 +5,7 @@ export default function MarkerDefs({
 }: {
   color?: string;
   id: string;
-  width?: number | string;
+  width?: number;
 }) {
   return (
     <defs>

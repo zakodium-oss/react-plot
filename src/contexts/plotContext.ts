@@ -17,6 +17,7 @@ import { LegendPosition } from '../components/Legend';
 import type {
   ActionType,
   Position,
+  ScalarValue,
   SeriesPoint,
   TickLabelFormat,
   VerticalPosition,
@@ -44,7 +45,7 @@ export interface PlotSeriesState {
 interface PlotSeriesStateAxis {
   min: number;
   max: number;
-  shift: number | string;
+  shift: ScalarValue;
   axisId: string;
 }
 
@@ -54,8 +55,8 @@ export type PlotAxisState = Pick<
 > & {
   id: string;
   innerOffset: number;
-  paddingStart: string | number;
-  paddingEnd: string | number;
+  paddingStart: ScalarValue;
+  paddingEnd: ScalarValue;
   tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
 };
 

@@ -1,16 +1,17 @@
 import { SVGProps } from 'react';
 
 import { useRectanglePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationRectangleProps
   extends Omit<
     SVGProps<SVGRectElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'x' | 'y' | 'width' | 'height' | 'fill'
   > {
-  x1: number | string;
-  y1: number | string;
-  x2: number | string;
-  y2: number | string;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
   color?: string;
 }
 
