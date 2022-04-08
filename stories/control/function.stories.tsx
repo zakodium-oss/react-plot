@@ -8,6 +8,7 @@ import {
   FunctionSeries,
   FunctionSeriesProps,
   useRectangularZoom,
+  LineSeries,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -18,7 +19,7 @@ export default {
 } as Meta<Omit<FunctionSeriesProps, 'getY'>>;
 
 function getY(x: number) {
-  return 4 * Math.sin(2 * x);
+  return 4 * Math.sin(2 * x) + 20;
 }
 export function Control(props: FunctionSeriesProps) {
   const zoom = useRectangularZoom();
@@ -32,7 +33,48 @@ export function Control(props: FunctionSeriesProps) {
         yAxis="y"
         label="y=4*sin(2*x)"
       />
+
       <Annotations>{zoom.annotations}</Annotations>
+      <Axis
+        min={0}
+        max={20}
+        paddingStart="10%"
+        paddingEnd="10%"
+        id="x"
+        position="bottom"
+      />
+      <Axis
+        min={15}
+        max={25}
+        id="y"
+        position="left"
+        paddingStart="10%"
+        paddingEnd="10%"
+      />
+    </Plot>
+  );
+}
+export function WithAnotherSeries(props: FunctionSeriesProps) {
+  const zoom = useRectangularZoom();
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <Legend position="embedded" />
+      <FunctionSeries
+        {...props}
+        getY={getY}
+        xAxis="x"
+        yAxis="y"
+        label="y=4*sin(2*x)"
+      />
+
+      <Annotations>{zoom.annotations}</Annotations>
+      <LineSeries
+        label="lineSeries"
+        data={[
+          { x: 2, y: 20 },
+          { x: 5, y: 10 },
+        ]}
+      />
       <Axis paddingStart="10%" paddingEnd="10%" id="x" position="bottom" />
       <Axis id="y" position="left" paddingStart="10%" paddingEnd="10%" />
     </Plot>
