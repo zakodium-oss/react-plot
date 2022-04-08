@@ -63,6 +63,14 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     ...otherProps
   } = props;
 
+  const {
+    markerShape = 'circle',
+    markerStyle = {},
+    errorBarsStyle,
+    errorBarsCapStyle,
+    errorBarsCapSize,
+  } = otherProps;
+
   const isVisible = useIsSeriesVisible(id);
   const { xShift, yShift } = useShift({
     xAxis,
@@ -80,11 +88,8 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
           label,
           colorLine: 'white',
           shape: {
-            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
-            figure:
-              typeof props.markerShape === 'string'
-                ? props.markerShape
-                : 'circle',
+            color: markerStyle?.fill?.toString() || colorScaler(id),
+            figure: typeof markerShape === 'string' ? markerShape : 'circle',
             hidden: false,
           },
         },
@@ -98,9 +103,8 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
     id,
     label,
     legendDispatch,
-    otherProps.markerShape,
-    otherProps.markerStyle?.fill,
-    props.markerShape,
+    markerShape,
+    markerStyle?.fill,
   ]);
   useEffect(() => {
     const [xMin, xMax] = extent(data, (d) => d.x) as [number, number];
@@ -122,9 +126,9 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
   };
   const errorBarsProps = {
     hidden: !displayErrorBars,
-    style: props.errorBarsStyle,
-    capStyle: props.errorBarsCapStyle,
-    capSize: props.errorBarsCapSize,
+    style: errorBarsStyle,
+    capStyle: errorBarsCapStyle,
+    capSize: errorBarsCapSize,
     transform,
   };
 
@@ -141,7 +145,7 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
   ) : null;
 }
 
-interface ScatterSeriesRenderProps<T extends SeriesPoint>
+interface ScatterSeriesRenderProps<T extends SeriesPoint = SeriesPoint>
   extends Omit<ScatterSeriesProps<T>, 'label'> {
   id: string;
   transform: string;
@@ -149,7 +153,7 @@ interface ScatterSeriesRenderProps<T extends SeriesPoint>
   yAxis: string;
 }
 
-function ScatterSeriesRender<T extends SeriesPoint>({
+function ScatterSeriesRender<T extends SeriesPoint = SeriesPoint>({
   id,
   data,
   xAxis,
