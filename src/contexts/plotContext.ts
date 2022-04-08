@@ -301,7 +301,8 @@ export function useAxisContext(
       }
     }
     return axisContext;
-  }, [state.axes, state.series, axesOverrides, plotWidth, plotHeight]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.series, axesOverrides, plotWidth, plotHeight]);
 
   return context;
 }
