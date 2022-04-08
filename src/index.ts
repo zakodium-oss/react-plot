@@ -21,6 +21,7 @@ export * from './components/Annotations/Annotation';
 export * from './hooks/index';
 
 export type {
+  ScalarValue,
   SeriesPoint,
   SeriesPointWithError,
   SeriesPointError,

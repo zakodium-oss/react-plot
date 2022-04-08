@@ -1,6 +1,7 @@
 import { CSSProperties, MouseEventHandler } from 'react';
 
 import { usePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 import {
   Circle as CircleMarker,
   Triangle as TriangleMarker,
@@ -39,8 +40,8 @@ function Square(props: IntAnnotationShape) {
 }
 
 export interface AnnotationShapeProps {
-  x: string | number;
-  y: string | number;
+  x: ScalarValue;
+  y: ScalarValue;
   shape: AnnotationShapeName;
   size: number;
   style?: CSSProperties;
