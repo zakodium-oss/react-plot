@@ -1,13 +1,14 @@
 import { SVGProps } from 'react';
 
 import { usePointPosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationPolylineProps
   extends Omit<
     SVGProps<SVGPolylineElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'points'
   > {
-  points: { x: number | string; y: number | string }[];
+  points: { x: ScalarValue; y: ScalarValue }[];
   color?: string;
 }
 

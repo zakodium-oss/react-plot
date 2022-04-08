@@ -1,17 +1,18 @@
 import { SVGProps } from 'react';
 
 import { useDirectedEllipsePosition } from '../../hooks';
+import { ScalarValue } from '../../types';
 
 export interface AnnotationDirectedEllipseProps
   extends Omit<
     SVGProps<SVGEllipseElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'cx' | 'cy' | 'rx' | 'ry' | 'x' | 'y' | 'width'
   > {
-  x1: number | string;
-  y1: number | string;
-  x2: number | string;
-  y2: number | string;
-  width: number | string;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
+  width: ScalarValue;
 }
 
 export function DirectedEllipse(props: AnnotationDirectedEllipseProps) {

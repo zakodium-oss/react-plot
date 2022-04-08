@@ -50,8 +50,8 @@ export interface BaseSeriesProps<T> {
   yAxis?: string;
   label?: string;
   hidden?: boolean;
-  xShift?: number | string;
-  yShift?: number | string;
+  xShift?: ScalarValue;
+  yShift?: ScalarValue;
 }
 
 export type ActionType<Action, Payload = void> = Payload extends void
@@ -61,3 +61,4 @@ export type ActionType<Action, Payload = void> = Payload extends void
 export type TickLabelFormat<T = number> = (value: T) => string;
 
 export type TickPosition = 'inner' | 'outer' | 'center';
+export type ScalarValue = number | `${number}%` | `${number}`;
