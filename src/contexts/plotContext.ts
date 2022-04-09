@@ -109,7 +109,7 @@ export function plotReducer(state: PlotState, action: PlotReducerActions) {
     }
     case 'addAxis': {
       const { id, position, ...values } = action.payload;
-      let currentAxis = state.axes[id];
+      const currentAxis = state.axes[id];
       if (currentAxis) {
         validatePosition(currentAxis.position, position, id);
         state.axes[id] = { ...currentAxis, position, ...values };
@@ -190,8 +190,7 @@ export function useAxisContext(
   { plotWidth, plotHeight }: SizeProps,
 ) {
   const context = useMemo(() => {
-    let axisContext: Record<string, PlotAxisContext> = {};
-
+    const axisContext: Record<string, PlotAxisContext> = {};
     for (const id in state.axes) {
       const axis = state.axes[id];
       const overrides = axesOverrides[id];
@@ -301,8 +300,7 @@ export function useAxisContext(
       }
     }
     return axisContext;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.series, axesOverrides, plotWidth, plotHeight]);
+  }, [state.axes, state.series, axesOverrides, plotWidth, plotHeight]);
 
   return context;
 }

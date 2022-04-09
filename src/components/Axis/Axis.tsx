@@ -78,9 +78,7 @@ export function Axis({
   labelStyle,
   hidden = false,
   tickLabelStyle,
-  tickLabelFormat = scale === 'time'
-    ? undefined
-    : (value: number) => String(value),
+  tickLabelFormat = scale === 'time' ? undefined : String,
   hiddenLine = false,
   lineStyle,
   primaryGridLineStyle,
