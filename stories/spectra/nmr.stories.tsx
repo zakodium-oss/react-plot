@@ -49,6 +49,7 @@ export function StackSpectra() {
       xAxis="x"
       yAxis="y"
       lineStyle={{ stroke: color }}
+      yShift={`${i * -7}`}
     />
   ));
   return (
