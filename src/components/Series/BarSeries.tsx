@@ -65,15 +65,10 @@ export function BarSeries(props: BarSeriesProps) {
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [colorLine, legendDispatch, otherProps.label, shape, id]);
-
   return (
     <g>
       {!props.hidden && isVisible && <BarSeriesRender {...lineProps} />}
-      <ScatterSeries
-        {...otherProps}
-        hidden={!displayMarkers || props.hidden}
-        id={id}
-      />
+      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
     </g>
   );
 }

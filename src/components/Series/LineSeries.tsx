@@ -6,7 +6,6 @@ import { usePlotContext } from '../../contexts/plotContext';
 import { useIsSeriesVisible, useShift } from '../../hooks';
 import type { CSSFuncProps, SeriesPoint, Shape } from '../../types';
 import { functionalStyle, useId, validateAxis } from '../../utils';
-import ErrorBars from '../ErrorBars';
 
 import { ScatterSeries, ScatterSeriesProps } from './ScatterSeries';
 
@@ -30,7 +29,6 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   const {
     lineStyle: lineStyleFromProps = {},
     displayMarkers = false,
-    displayErrorBars = false,
     hidden,
     ...otherProps
   } = props;
@@ -88,25 +86,11 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     lineStyle,
     transform: `translate(${xShift},${yShift})`,
   };
-  const errorBarsProps = {
-    data: props.data,
-    xAxis,
-    yAxis,
-    hidden: !displayErrorBars,
-    style: props.errorBarsStyle,
-    capStyle: props.errorBarsCapStyle,
-    capSize: props.errorBarsCapSize,
-    transform: `translate(${xShift},${yShift})`,
-  };
+
   return (
     <g>
-      {isVisible && (
-        <>
-          <LineSeriesRender {...lineProps} />
-          <ErrorBars {...errorBarsProps} />
-        </>
-      )}
-      <ScatterSeries {...otherProps} hidden={!displayMarkers} id={id} />
+      {isVisible && <LineSeriesRender {...lineProps} />}
+      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
     </g>
   );
 }
