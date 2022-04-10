@@ -61,8 +61,7 @@ export function StackSpectra() {
         position="left"
         label="Intensity / arbitrary"
         hidden
-        paddingStart="10%"
-        paddingEnd="10%"
+        paddingEnd="50%"
       />
     </Plot>
   );
