@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.17.1](https://www.github.com/zakodium-oss/react-plot/compare/v0.17.0...v0.17.1) (2022-04-10)
+
+
+### Bug Fixes
+
+* optimize Axis to prevent rendering loop ([#388](https://www.github.com/zakodium-oss/react-plot/issues/388)) ([1b761c1](https://www.github.com/zakodium-oss/react-plot/commit/1b761c1a3b3b2247f1f196c29c58869ee1cd948a))
+
 ## [0.17.0](https://www.github.com/zakodium-oss/react-plot/compare/v0.16.0...v0.17.0) (2022-04-10)
 
 
