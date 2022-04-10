@@ -18,7 +18,8 @@ export interface RangeSeriesPoint {
 }
 
 export interface RangeSeriesProps<T extends RangeSeriesPoint>
-  extends BaseSeriesProps<T> {
+  extends BaseSeriesProps {
+  data: ReadonlyArray<T>;
   lineStyle?: CSSProperties;
 }
 

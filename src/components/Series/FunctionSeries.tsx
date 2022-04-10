@@ -1,32 +1,30 @@
 import { useMemo } from 'react';
 
 import { usePlotContext } from '../../contexts/plotContext';
-import { SeriesPoint } from '../../types';
-import { toNumber } from '../../utils';
+import { BaseSeriesProps, CSSFuncProps, SeriesPoint } from '../../types';
+import { toNumber, useId } from '../../utils';
 
-import { LineSeries, LineSeriesProps } from './LineSeries';
+import { LineSeries } from './LineSeries';
 
-export interface FunctionSeriesProps extends Omit<LineSeriesProps, 'data'> {
+export interface FunctionSeriesProps extends BaseSeriesProps {
   getY: (x: number) => number;
-  xAxis?: string;
+  lineStyle?: CSSFuncProps<{ id: string }>;
 }
 
 export function FunctionSeries(props: FunctionSeriesProps) {
-  const { getY, xAxis = 'x', ...otherProps } = props;
-  const {
-    axisContext: { [xAxis]: x },
-    plotWidth,
-    plotHeight,
-  } = usePlotContext();
+  const { getY, xAxis = 'x', id: propId, ...otherProps } = props;
+  const id = `~${useId(propId, 'series')}`;
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const x = axisContext[xAxis];
   const step = 1;
   const data = useMemo(() => {
     const data: SeriesPoint[] = [];
     if (x) {
       const isHorizontal = x
         ? x.position === 'top' || x.position === 'bottom'
-        : undefined;
+        : false;
       const end = isHorizontal ? plotWidth : plotHeight;
-      const scale = x?.scale;
+      const scale = x.scale;
       for (let i = 0; i <= end; i += step) {
         const x = toNumber(scale.invert(i));
         data.push({
@@ -37,6 +35,11 @@ export function FunctionSeries(props: FunctionSeriesProps) {
       return data;
     }
     return [{ x: 0, y: 0 }];
-  }, [getY, plotHeight, plotWidth, x]);
-  return <LineSeries data={data} {...otherProps} />;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [x?.domain[0], x?.domain[1]]);
+  return (
+    <>
+      <LineSeries data={data} id={id} {...otherProps} />
+    </>
+  );
 }
