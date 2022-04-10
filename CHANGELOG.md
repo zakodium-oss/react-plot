@@ -1,5 +1,56 @@
 # Changelog
 
+## [0.17.0](https://www.github.com/zakodium-oss/react-plot/compare/v0.16.0...v0.17.0) (2022-04-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* do not adapt axes to shifted series (#358)
+* use two svg layers to improve annotations performance (#360)
+* rename `displayMarker` prop to `displayMarkers` (#361)
+* `onDraw` callback was renamed to `onEnd` in `useDrawPath` and `useDrawRectangle`
+* use pointer events instead of mouse events
+* Numeric padding is now interpreted as an offset on the axis' scale. Use for example `paddingStart="10%"` instead of `paddingStart={0.1}` for percentages. Padding now only takes effect if the axis' boundary (min or max) is not set.
+
+### Features
+
+* add `close` and `onDraw` props to useDrawPath ([#339](https://www.github.com/zakodium-oss/react-plot/issues/339)) ([e27ea7c](https://www.github.com/zakodium-oss/react-plot/commit/e27ea7c75cb9279e10523a9730bb8db8b1d5f07c))
+* add Group annotations style ([#295](https://www.github.com/zakodium-oss/react-plot/issues/295)) ([1288aa7](https://www.github.com/zakodium-oss/react-plot/commit/1288aa7a78fb05cca26a70a60271db7c9ef0edda))
+* add ScalarValue type ([#386](https://www.github.com/zakodium-oss/react-plot/issues/386)) ([9121984](https://www.github.com/zakodium-oss/react-plot/commit/9121984f7d2608967750355b946495f0d55d4eaa))
+* add support for nested PlotController contexts ([#309](https://www.github.com/zakodium-oss/react-plot/issues/309)) ([1573afe](https://www.github.com/zakodium-oss/react-plot/commit/1573afe0bce615585a0e35a9b1bbf2d877237915))
+* add tickFormat prop to ParallelAxis ([#336](https://www.github.com/zakodium-oss/react-plot/issues/336)) ([9dacd90](https://www.github.com/zakodium-oss/react-plot/commit/9dacd90e98f2de87a9aea8cc774a461f0743a270))
+* add useAxisWheelZoom hook ([3ee76fd](https://www.github.com/zakodium-oss/react-plot/commit/3ee76fd68fd82ed4a1e2ce14e68b751c7d18dbf1))
+* add usePan hook ([3ee76fd](https://www.github.com/zakodium-oss/react-plot/commit/3ee76fd68fd82ed4a1e2ce14e68b751c7d18dbf1))
+* add usePlotControllerAxis hook ([3ee76fd](https://www.github.com/zakodium-oss/react-plot/commit/3ee76fd68fd82ed4a1e2ce14e68b751c7d18dbf1))
+* allow lines in ScatterSeries ([#354](https://www.github.com/zakodium-oss/react-plot/issues/354)) ([0eee43c](https://www.github.com/zakodium-oss/react-plot/commit/0eee43c3b03c3a8846ba9e6da20332d4917c16aa))
+* improve default values in legend ([#337](https://www.github.com/zakodium-oss/react-plot/issues/337)) ([07ceb40](https://www.github.com/zakodium-oss/react-plot/commit/07ceb40e73f629cea7e934581b18bcd5e869e3c6))
+* interpret padding as number, string, or percentage ([#341](https://www.github.com/zakodium-oss/react-plot/issues/341)) ([4664c20](https://www.github.com/zakodium-oss/react-plot/commit/4664c209eadf01303b5031329f69c0b90a0e3abf))
+* provide axis domain to plot event handlers ([3ee76fd](https://www.github.com/zakodium-oss/react-plot/commit/3ee76fd68fd82ed4a1e2ce14e68b751c7d18dbf1))
+* show and hide series from the legend ([#294](https://www.github.com/zakodium-oss/react-plot/issues/294)) ([3ba55e1](https://www.github.com/zakodium-oss/react-plot/commit/3ba55e1f9897984115928c032e14dbe9b921dd9a))
+* use pointer events instead of mouse events ([c43ce78](https://www.github.com/zakodium-oss/react-plot/commit/c43ce783bcafe5088d6ee7bbaf1acbfe3c4d82f2))
+* use two svg layers to improve annotations performance ([#360](https://www.github.com/zakodium-oss/react-plot/issues/360)) ([ce897db](https://www.github.com/zakodium-oss/react-plot/commit/ce897db5b6133b0bb367fee01ee343e3792bac6a))
+
+
+### Bug Fixes
+
+* add default lineStyle value in RangeSeries ([#382](https://www.github.com/zakodium-oss/react-plot/issues/382)) ([ae14c2c](https://www.github.com/zakodium-oss/react-plot/commit/ae14c2c36260f258e63a95eaad93b38190fe1611))
+* axes domain ([#352](https://www.github.com/zakodium-oss/react-plot/issues/352)) ([e9830d0](https://www.github.com/zakodium-oss/react-plot/commit/e9830d0f11c2e09858e6fd5e2488d3f5092e24c9))
+* do not adapt axes to shifted series ([#358](https://www.github.com/zakodium-oss/react-plot/issues/358)) ([24b8d15](https://www.github.com/zakodium-oss/react-plot/commit/24b8d15741a0c7360ddaefbe4754266f7ffda418))
+* errorBar & pointLabel in BarSeries,LineSeries ([#381](https://www.github.com/zakodium-oss/react-plot/issues/381)) ([14f6e37](https://www.github.com/zakodium-oss/react-plot/commit/14f6e3747b4d11bad69965a84b714a810b19668c))
+* FunctionSeries ([#380](https://www.github.com/zakodium-oss/react-plot/issues/380)) ([786bc3d](https://www.github.com/zakodium-oss/react-plot/commit/786bc3df544d648eb9c77178d96f3b10127a6060))
+* heading ([7755fb6](https://www.github.com/zakodium-oss/react-plot/commit/7755fb64f334681c35b3665296274e48beed9573))
+* improve types with generics ([442e153](https://www.github.com/zakodium-oss/react-plot/commit/442e15304a4a107444be91be5bfb70fd97c9cde2))
+* legend bugs ([#369](https://www.github.com/zakodium-oss/react-plot/issues/369)) ([746ef08](https://www.github.com/zakodium-oss/react-plot/commit/746ef0885d8d2d327eb6b4ff40facef42c60bfa9))
+* read series visibility correctly ([#351](https://www.github.com/zakodium-oss/react-plot/issues/351)) ([5f33b6c](https://www.github.com/zakodium-oss/react-plot/commit/5f33b6cae67253524fcf9e3e332ba1a24190c364))
+* remove event props from plot object props ([930fd26](https://www.github.com/zakodium-oss/react-plot/commit/930fd2638651932878fe552d7248b29b3e9b5a06))
+* ScatterSeries Simple markersShape in Legend ([#383](https://www.github.com/zakodium-oss/react-plot/issues/383)) ([8e0d12d](https://www.github.com/zakodium-oss/react-plot/commit/8e0d12dd8eadfb4a6f3a6de5dbdc047f5d10dde7))
+* update packages ([728eadd](https://www.github.com/zakodium-oss/react-plot/commit/728eadd0ad42477f4225bff74bfd4426b88655e9))
+
+
+### Code Refactoring
+
+* rename `displayMarker` prop to `displayMarkers` ([#361](https://www.github.com/zakodium-oss/react-plot/issues/361)) ([7a49547](https://www.github.com/zakodium-oss/react-plot/commit/7a495472bfd2d1f8ee88aac84e0ada58fcf0223d))
+
 ## [0.16.0](https://www.github.com/zakodium/react-plot/compare/v0.15.0...v0.16.0) (2022-02-07)
 
 
