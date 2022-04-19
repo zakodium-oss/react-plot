@@ -80,7 +80,7 @@ export function TransferExample() {
         const subthresholdSlope = JSON.parse(meta.subthresholdSlope);
         const { x: x1, y: y1 } = data[subthresholdSlope.fromIndex];
         const { x: x2, y: y2 } = data[subthresholdSlope.toIndex];
-        const slope = subthresholdSlope.slope as number;
+        const slope = subthresholdSlope.slope.value as number;
         const x = data[thresholdVoltage.index].x;
         return (
           <>
@@ -92,7 +92,7 @@ export function TransferExample() {
               color="green"
               strokeWidth="3"
             />
-            <Annotation.Text x={x1} y={y1}>
+            <Annotation.Text x={x1 + 0.1} y={y1}>
               {(slope * 1000).toFixed(4)} mV/dec
             </Annotation.Text>
             <Annotation.Line
