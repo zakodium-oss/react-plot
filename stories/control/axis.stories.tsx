@@ -13,6 +13,7 @@ export default {
     flip: false,
     scale: 'linear',
     displayPrimaryGridLines: false,
+    displaySecondaryGridLines: false,
     hidden: false,
     tickLabelFormat: (value: number) => String(value),
     hiddenLine: false,
