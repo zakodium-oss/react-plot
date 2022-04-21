@@ -16,6 +16,8 @@ export interface AxisCommonProps {
   lineStyle?: CSSProperties;
   hiddenLine?: boolean;
   primaryGridLineStyle?: CSSProperties;
+  displaySecondaryGridLines?: boolean;
+  secondaryGridLineStyle?: CSSProperties;
   hiddenTicks?: boolean;
   tickPosition?: TickPosition;
   primaryTickLength: number;

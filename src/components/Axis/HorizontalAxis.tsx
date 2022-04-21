@@ -15,13 +15,15 @@ export default function HorizontalAxis(props: AxisRendererProps) {
     primaryTickLength,
     tickPosition,
     hiddenTicks,
-    primaryGridLineStyle,
     lineStyle,
     hiddenLine,
     hidden,
     plotWidth,
     plotHeight,
     displayPrimaryGridLines,
+    displaySecondaryGridLines,
+    primaryGridLineStyle,
+    secondaryGridLineStyle,
     label,
     labelStyle,
     axisRef,
@@ -91,6 +93,9 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       plotHeight={plotHeight}
       primaryTicks={primaryTicks}
       style={primaryGridLineStyle}
+      secondaryGrid={displaySecondaryGridLines}
+      secondaryStyle={secondaryGridLineStyle}
+      scale={scale}
     />
   ) : null;
 
