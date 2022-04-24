@@ -43,8 +43,8 @@ export default function HorizontalAxisGridLines(
 
     if (secondaryGrid) {
       const density = 5;
-      const secondaryTicks = scale?.ticks(primaryTicks.length * density) || [];
-      secondaryTicks.forEach((tick) => {
+      const secondaryGridPosition = scale?.ticks(primaryTicks.length * density) || [];
+      secondaryGridPosition.forEach((tick) => {
         const position = scale?.(tick);
         if (
           !position ||
