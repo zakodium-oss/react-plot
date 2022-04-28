@@ -78,6 +78,7 @@ export default function HorizontalAxisGridLines(
   }, [
     axisPosition,
     plotHeight,
+    primaryGrid,
     primaryTicks,
     scale,
     secondaryGrid,

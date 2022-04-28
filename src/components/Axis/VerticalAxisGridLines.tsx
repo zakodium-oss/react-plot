@@ -76,6 +76,7 @@ export default function VerticalAxisGridlines(
   }, [
     axisPosition,
     plotWidth,
+    primaryGrid,
     primaryTicks,
     scale,
     secondaryGrid,
