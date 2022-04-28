@@ -87,17 +87,19 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         };
     }
   }
-  const gridLinesElement = displayPrimaryGridLines ? (
-    <HorizontalAxisGridLines
-      position={position}
-      plotHeight={plotHeight}
-      primaryTicks={primaryTicks}
-      style={primaryGridLineStyle}
-      secondaryGrid={displaySecondaryGridLines}
-      secondaryStyle={secondaryGridLineStyle}
-      scale={scale}
-    />
-  ) : null;
+  const gridLinesElement =
+    displayPrimaryGridLines || displaySecondaryGridLines ? (
+      <HorizontalAxisGridLines
+        position={position}
+        plotHeight={plotHeight}
+        primaryTicks={primaryTicks}
+        style={primaryGridLineStyle}
+        primaryGrid={displayPrimaryGridLines}
+        secondaryGrid={displaySecondaryGridLines}
+        secondaryStyle={secondaryGridLineStyle}
+        scale={scale}
+      />
+    ) : null;
 
   const primaryTicksElement =
     !hidden && !hiddenTicks ? (

@@ -10,6 +10,7 @@ interface HorizontalAxisGridLinesProps {
   position: Position;
   scale?: Scales;
   style?: CSSProperties;
+  primaryGrid?: boolean;
   secondaryGrid?: boolean;
   secondaryStyle?: CSSProperties;
 }
@@ -22,25 +23,30 @@ export default function HorizontalAxisGridLines(
     style,
     primaryTicks,
     position: axisPosition,
+    primaryGrid,
     secondaryGrid,
     secondaryStyle,
     scale,
   } = props;
   const Grid = useMemo(() => {
-    const Grid = primaryTicks.map(({ position }) => (
-      <line
-        key={position}
-        x1={position}
-        x2={position}
-        y1={axisPosition === 'top' ? plotHeight : -plotHeight}
-        y2="0"
-        stroke="black"
-        strokeDasharray="2,2"
-        strokeOpacity={0.5}
-        style={style}
-      />
-    ));
-
+    const Grid: JSX.Element[] = [];
+    if (primaryGrid) {
+      primaryTicks.forEach(({ position }) => {
+        Grid.push(
+          <line
+            key={position}
+            x1={position}
+            x2={position}
+            y1={axisPosition === 'top' ? plotHeight : -plotHeight}
+            y2="0"
+            stroke="black"
+            strokeDasharray="2,2"
+            strokeOpacity={0.5}
+            style={style}
+          />,
+        );
+      });
+    }
     if (secondaryGrid) {
       const density = 5;
       const secondaryGridPosition =
