@@ -30,6 +30,7 @@ interface PlotChartPros {
 
 const yLogBase = 2;
 const color = 'red';
+
 export function SanPlotExample() {
   const processedData = useMemo(() => {
     return processSnapPlotData();
@@ -39,10 +40,10 @@ export function SanPlotExample() {
     <div
       style={{
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
       }}
     >
-      <div style={{ display: 'block' }}>
+      <div>
         <PlotChart
           data={processedData}
           sign="positive"
@@ -50,7 +51,7 @@ export function SanPlotExample() {
           yLogBase={yLogBase}
         />
       </div>
-      <div style={{ display: 'block', width: 180, height: 180 }}>
+      <div>
         <PlotChart
           data={processedData}
           sign="negative"
