@@ -84,17 +84,19 @@ export default function VerticalAxis(props: AxisRendererProps) {
         };
     }
   }
-  const gridLinesElement = displayPrimaryGridLines ? (
-    <VerticalAxisGridLines
-      position={position}
-      plotWidth={plotWidth}
-      primaryTicks={primaryTicks}
-      style={primaryGridLineStyle}
-      secondaryGrid={displaySecondaryGridLines}
-      secondaryStyle={secondaryGridLineStyle}
-      scale={scale}
-    />
-  ) : null;
+  const gridLinesElement =
+    displayPrimaryGridLines || displaySecondaryGridLines ? (
+      <VerticalAxisGridLines
+        position={position}
+        plotWidth={plotWidth}
+        primaryTicks={primaryTicks}
+        style={primaryGridLineStyle}
+        primaryGrid={displayPrimaryGridLines}
+        secondaryGrid={displaySecondaryGridLines}
+        secondaryStyle={secondaryGridLineStyle}
+        scale={scale}
+      />
+    ) : null;
 
   const primaryTicksElement =
     !hidden && !hiddenTicks ? (
