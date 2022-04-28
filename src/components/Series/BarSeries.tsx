@@ -15,12 +15,19 @@ export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
   const { colorScaler } = usePlotContext();
   const id = useId(props.id, 'series');
-  const { lineStyle = {}, displayMarkers = false, ...otherProps } = props;
+  const {
+    lineStyle = {},
+    displayMarkers = false,
+    hidden,
+    ...otherProps
+  } = props;
   const {
     xAxis = 'x',
     yAxis = 'y',
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
+    pointLabel,
+    displayErrorBars,
   } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
@@ -65,10 +72,16 @@ export function BarSeries(props: BarSeriesProps) {
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [colorLine, legendDispatch, otherProps.label, shape, id]);
+  if (hidden) return null;
   return (
     <g>
-      {!props.hidden && isVisible && <BarSeriesRender {...lineProps} />}
-      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
+      {isVisible && <BarSeriesRender {...lineProps} />}
+      <ScatterSeries
+        {...otherProps}
+        hidden={!displayMarkers && !pointLabel && !displayErrorBars}
+        displayMarkers={displayMarkers}
+        id={id}
+      />
     </g>
   );
 }

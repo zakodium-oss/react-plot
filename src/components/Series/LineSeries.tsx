@@ -37,6 +37,8 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     yAxis = 'y',
     xShift: oldXShift = '0',
     yShift: oldYShift = '0',
+    pointLabel,
+    displayErrorBars,
   } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
@@ -47,21 +49,19 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   const lineStyle = functionalStyle({}, lineStyleFromProps, { id });
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
-    if (!hidden) {
-      legendDispatch({
-        type: 'ADD_LEGEND_LABEL',
-        payload: {
-          id,
-          label: otherProps.label,
-          colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-          shape: {
-            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
-            figure: otherProps.markerShape || 'circle',
-            hidden: !displayMarkers,
-          },
+    legendDispatch({
+      type: 'ADD_LEGEND_LABEL',
+      payload: {
+        id,
+        label: otherProps.label,
+        colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
+        shape: {
+          color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
+          figure: otherProps.markerShape || 'circle',
+          hidden: !displayMarkers,
         },
-      });
-    }
+      },
+    });
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [
@@ -90,7 +90,12 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   return (
     <g>
       {isVisible && <LineSeriesRender {...lineProps} />}
-      <ScatterSeries {...otherProps} displayMarkers={displayMarkers} id={id} />
+      <ScatterSeries
+        {...otherProps}
+        hidden={!displayMarkers && !pointLabel && !displayErrorBars}
+        displayMarkers={displayMarkers}
+        id={id}
+      />
     </g>
   );
 }
