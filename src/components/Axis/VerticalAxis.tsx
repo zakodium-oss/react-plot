@@ -22,6 +22,8 @@ export default function VerticalAxis(props: AxisRendererProps) {
     plotWidth,
     plotHeight,
     displayPrimaryGridLines,
+    displaySecondaryGridLines,
+    secondaryGridLineStyle,
     label,
     labelStyle,
     axisRef,
@@ -88,6 +90,9 @@ export default function VerticalAxis(props: AxisRendererProps) {
       plotWidth={plotWidth}
       primaryTicks={primaryTicks}
       style={primaryGridLineStyle}
+      secondaryGrid={displaySecondaryGridLines}
+      secondaryStyle={secondaryGridLineStyle}
+      scale={scale}
     />
   ) : null;
 

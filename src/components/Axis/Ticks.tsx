@@ -68,11 +68,11 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
     const mainTicksDensity = range / primaryTicks.length;
     const density = mainTicksDensity < 50 ? 5 : 10;
-    let secTicks = scale?.ticks(primaryTicks.length * density) || [];
+    const secondaryTicks = scale?.ticks(primaryTicks.length * density) || [];
 
     // add secondaryTicks to the elements array
     const secElements =
-      secTicks.map((tick) => {
+      secondaryTicks.map((tick) => {
         // exclude the main ticks
         if (primaryTicks.map((tick) => tick.position).includes(scale(tick))) {
           return null;
