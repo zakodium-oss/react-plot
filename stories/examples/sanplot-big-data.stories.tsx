@@ -13,7 +13,7 @@ import {
 import data from '../data/1h-spectrum.json';
 
 export default {
-  title: 'Sanplot',
+  title: 'Examples/Sanplot',
 } as Meta;
 
 interface PlotData {
@@ -31,7 +31,7 @@ interface PlotChartPros {
 const yLogBase = 2;
 const color = 'red';
 
-export function SanPlotExample() {
+export function SanPlot() {
   const processedData = useMemo(() => {
     return processSnapPlotData();
   }, []);
@@ -123,6 +123,8 @@ function PlotChart({
 }
 
 function processSnapPlotData() {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const input = prepare1DData(data?.spectra?.[0].data);
 
   const sanResult = xNoiseSanPlot(input);
@@ -135,6 +137,8 @@ function processSnapPlotData() {
       result[i] = { x: x[i], y: y[i] };
     }
     sanPlot[plotKey] = result;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     lines[plotKey] = getLine(sanResult[plotKey], result, {
       yLogBase: 2,
     });
