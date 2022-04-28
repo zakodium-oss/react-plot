@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.18.0](https://github.com/zakodium-oss/react-plot/compare/v0.17.1...v0.18.0) (2022-04-28)
+
+
+### Features
+
+* implement secondary grids ([#396](https://github.com/zakodium-oss/react-plot/issues/396)) ([659ef23](https://github.com/zakodium-oss/react-plot/commit/659ef235cc550fe5db2f106e04902402d3b17be8))
+
+
+### Bug Fixes
+
+* don't add ScatterSeries if there's no need ([#402](https://github.com/zakodium-oss/react-plot/issues/402)) ([992ee99](https://github.com/zakodium-oss/react-plot/commit/992ee99e4e2898b07d61dbad3479417ca72e66ac))
+* iris story ([#390](https://github.com/zakodium-oss/react-plot/issues/390)) ([c9fe8b7](https://github.com/zakodium-oss/react-plot/commit/c9fe8b7acea5f9acad895172590fde8b3829c020))
+
 ### [0.17.1](https://www.github.com/zakodium-oss/react-plot/compare/v0.17.0...v0.17.1) (2022-04-10)
 
 
