@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  AnnotationBoxPlotProps,
-  BoxPlot,
-} from '../../src/components/Annotations/BoxPlot';
+import { AnnotationBoxPlotProps, Annotation } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: BoxPlot,
+  component: Annotation.BoxPlot,
   args: {
     y: 50,
     q1: 1500,
@@ -30,7 +27,7 @@ export default {
 export function AnnotationBoxPlot(props: AnnotationBoxPlotProps) {
   return (
     <AnnotationPlot>
-      <BoxPlot {...props} />
+      <Annotation.BoxPlot {...props} />
     </AnnotationPlot>
   );
 }

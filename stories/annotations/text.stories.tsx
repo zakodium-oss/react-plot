@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Text,
-  AnnotationTextProps,
-} from '../../src/components/Annotations/Text';
+import { Annotation, AnnotationTextProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Text,
+  component: Annotation.Text,
   args: {
     x: 1800,
     y: '250',
@@ -20,7 +17,7 @@ export default {
 export function AnnotationText(props: AnnotationTextProps) {
   return (
     <AnnotationPlot>
-      <Text {...props}>Hello, World!</Text>
+      <Annotation.Text {...props}>Hello, World!</Annotation.Text>
     </AnnotationPlot>
   );
 }

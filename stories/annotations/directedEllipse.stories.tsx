@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  AnnotationDirectedEllipseProps,
-  DirectedEllipse,
-} from '../../src/components/Annotations/DirectedEllipse';
+import { AnnotationDirectedEllipseProps, Annotation } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: DirectedEllipse,
+  component: Annotation.DirectedEllipse,
   args: {
     x1: 2250,
     y1: '270',
@@ -25,7 +22,7 @@ export function AnnotationDirectedEllipseStories(
 ) {
   return (
     <AnnotationPlot>
-      <DirectedEllipse {...props} />
+      <Annotation.DirectedEllipse {...props} />
     </AnnotationPlot>
   );
 }

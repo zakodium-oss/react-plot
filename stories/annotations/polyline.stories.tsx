@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  AnnotationPolylineProps,
-  Polyline,
-} from '../../src/components/Annotations/Polyline';
+import { AnnotationPolylineProps, Annotation } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Polyline,
+  component: Annotation.Polyline,
   args: {
     points: [
       { x: 1000, y: '20' },
@@ -24,7 +21,7 @@ export default {
 export function AnnotationPolyline(props: AnnotationPolylineProps) {
   return (
     <AnnotationPlot>
-      <Polyline {...props} />
+      <Annotation.Polyline {...props} />
     </AnnotationPlot>
   );
 }

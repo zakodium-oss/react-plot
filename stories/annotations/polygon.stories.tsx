@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  AnnotationPolygonProps,
-  Polygon,
-} from '../../src/components/Annotations/Polygon';
+import { AnnotationPolygonProps, Annotation } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Polygon,
+  component: Annotation.Polygon,
   args: {
     points: [
       { x: 1000, y: 40 },
@@ -25,7 +22,7 @@ export default {
 export function AnnotationPolygon(props: AnnotationPolygonProps) {
   return (
     <AnnotationPlot>
-      <Polygon {...props} />
+      <Annotation.Polygon {...props} />
     </AnnotationPlot>
   );
 }

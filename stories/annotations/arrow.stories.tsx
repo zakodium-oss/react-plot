@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Arrow,
-  AnnotationArrowProps,
-} from '../../src/components/Annotations/Arrow';
+import { Annotation, AnnotationArrowProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Arrow,
+  component: Annotation.Arrow,
   args: {
     x1: '400',
     x2: 1630,
@@ -26,9 +23,9 @@ export default {
 export function AnnotationArrow(props: AnnotationArrowProps) {
   return (
     <AnnotationPlot>
-      <Arrow {...props} />
+      <Annotation.Arrow {...props} />
 
-      <Arrow
+      <Annotation.Arrow
         x1="5"
         y1="5"
         x2="50"

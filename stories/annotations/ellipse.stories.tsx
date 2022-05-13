@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Ellipse,
-  AnnotationEllipseProps,
-} from '../../src/components/Annotations/Ellipse';
+import { AnnotationEllipseProps, Annotation } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Ellipse,
+  component: Annotation.Ellipse,
   args: {
     x: 2250,
     y: '270',
@@ -22,7 +19,7 @@ export default {
 export function AnnotationEllipseStories(props: AnnotationEllipseProps) {
   return (
     <AnnotationPlot>
-      <Ellipse {...props} />
+      <Annotation.Ellipse {...props} />
     </AnnotationPlot>
   );
 }
