@@ -33,10 +33,10 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
     whiskerColor = 'black',
     minMaxWidth,
     minMaxColor = 'black',
-    ...positon
+    ...position
   } = props;
   const { min, max, q1, median, q3, width, y, horizontal } =
-    useBoxPlotPosition(positon);
+    useBoxPlotPosition(position);
   const y1 = y - width / 2;
   const y2 = y + width / 2;
   const height = Math.abs(q3 - q1);
