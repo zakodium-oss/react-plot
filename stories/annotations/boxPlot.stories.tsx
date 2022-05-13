@@ -17,8 +17,7 @@ export default {
     median: 2300,
     // default values
     medianColor: 'black',
-    strokeColor: 'black',
-    boxColor: 'none',
+    boxColor: 'black',
     whiskerColor: 'black',
     minMaxColor: 'black',
   },
