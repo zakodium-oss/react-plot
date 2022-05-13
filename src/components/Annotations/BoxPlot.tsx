@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 import { useBoxPlotPosition } from '../../hooks';
 import { ScalarValue } from '../../types';
 
@@ -13,26 +15,34 @@ export interface AnnotationBoxPlotProps {
   y: ScalarValue;
   medianWidth?: number | `${number}`;
   medianColor?: string;
-  strokeWidth?: number | `${number}`;
-  strokeColor?: string;
-  fillColor?: string;
+  medianStyle?: CSSProperties;
+  boxStrokeWidth?: number | `${number}`;
+  boxStrokeColor?: string;
+  boxColor?: string;
+  boxStyle?: CSSProperties;
   whiskerWidth?: number | `${number}`;
   whiskerColor?: string;
+  whiskerStyle?: CSSProperties;
   minMaxWidth?: number | `${number}`;
   minMaxColor?: string;
+  minMaxStyle?: CSSProperties;
 }
 
 export function BoxPlot(props: AnnotationBoxPlotProps) {
   const {
     medianWidth,
     medianColor = 'black',
-    strokeWidth,
-    strokeColor = 'black',
-    fillColor = 'none',
+    medianStyle,
+    boxStrokeWidth,
+    boxStrokeColor = 'black',
+    boxColor = 'none',
+    boxStyle,
     whiskerWidth,
     whiskerColor = 'black',
+    whiskerStyle,
     minMaxWidth,
     minMaxColor = 'black',
+    minMaxStyle,
     ...position
   } = props;
   const { min, max, q1, median, q3, width, y, horizontal } =
@@ -48,9 +58,10 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y={horizontal ? y1 : q1}
         width={horizontal ? height : width}
         height={horizontal ? width : height}
-        strokeWidth={strokeWidth}
-        stroke={strokeColor}
-        fill={fillColor}
+        strokeWidth={boxStrokeWidth}
+        stroke={boxStrokeColor}
+        fill={boxColor}
+        style={boxStyle}
       />
       {/* min */}
       <line
@@ -60,6 +71,7 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y2 : min}
         stroke={minMaxColor}
         strokeWidth={minMaxWidth}
+        style={minMaxStyle}
       />
       {/* max */}
       <line
@@ -69,6 +81,7 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y2 : max}
         stroke={minMaxColor}
         strokeWidth={minMaxWidth}
+        style={minMaxStyle}
       />
       {/* median */}
       <line
@@ -78,6 +91,7 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y2 : median}
         stroke={medianColor}
         strokeWidth={medianWidth}
+        style={medianStyle}
       />
       {/* whiskers */}
       <line
@@ -87,6 +101,7 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y : q1}
         strokeWidth={whiskerWidth}
         stroke={whiskerColor}
+        style={whiskerStyle}
       />
       <line
         x1={horizontal ? q3 : y}
@@ -95,6 +110,7 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y : max}
         strokeWidth={whiskerWidth}
         stroke={whiskerColor}
+        style={whiskerStyle}
       />
     </g>
   );
