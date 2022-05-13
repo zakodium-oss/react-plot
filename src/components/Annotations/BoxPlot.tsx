@@ -16,8 +16,8 @@ export interface AnnotationBoxPlotProps {
   medianWidth?: number | `${number}`;
   medianColor?: string;
   medianStyle?: CSSProperties;
-  boxStrokeWidth?: number | `${number}`;
-  boxStrokeColor?: string;
+  strokeWidth?: number | `${number}`;
+  strokeColor?: string;
   boxColor?: string;
   boxStyle?: CSSProperties;
   whiskerWidth?: number | `${number}`;
@@ -33,8 +33,8 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
     medianWidth,
     medianColor = 'black',
     medianStyle,
-    boxStrokeWidth,
-    boxStrokeColor = 'black',
+    strokeWidth,
+    strokeColor = 'black',
     boxColor = 'none',
     boxStyle,
     whiskerWidth,
@@ -58,8 +58,8 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y={horizontal ? y1 : q1}
         width={horizontal ? height : width}
         height={horizontal ? width : height}
-        strokeWidth={boxStrokeWidth}
-        stroke={boxStrokeColor}
+        strokeWidth={strokeWidth}
+        stroke={strokeColor}
         fill={boxColor}
         style={boxStyle}
       />
