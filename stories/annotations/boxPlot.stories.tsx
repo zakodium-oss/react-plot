@@ -18,6 +18,12 @@ export default {
     min: 1000,
     max: 3500,
     median: 2300,
+    // default values
+    medianColor: 'black',
+    strokeColor: 'black',
+    fillColor: 'none',
+    whiskerColor: 'black',
+    minMaxColor: 'black',
   },
 } as Meta<AnnotationBoxPlotProps>;
 
