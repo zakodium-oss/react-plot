@@ -90,7 +90,9 @@ export function useBoxPlotPosition(props: UseBoxPlotPositionConfig) {
     xAxis = 'x',
     yAxis = 'y',
   } = props;
-  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
   const horizontal = ['top', 'bottom'].includes(axisContext[xAxis]?.position);
 
   return {
