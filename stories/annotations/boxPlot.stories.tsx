@@ -5,7 +5,7 @@ import { AnnotationBoxPlotProps, Annotation } from '../../src';
 import { AnnotationPlot } from './annotation.data';
 
 export default {
-  title: 'API/Annotations',
+  title: 'API/Annotations/Annotation.BoxPlot',
   component: Annotation.BoxPlot,
   args: {
     y: 50,
@@ -16,14 +16,16 @@ export default {
     max: 3500,
     median: 2300,
     // default values
-    medianColor: 'black',
-    boxColor: 'black',
-    whiskerColor: 'black',
-    minMaxColor: 'black',
+    yAxis: 'y',
+    xAxis: 'x',
+    medianColor: 'red',
+    boxColor: 'red',
+    whiskerColor: 'red',
+    minMaxColor: 'red',
   },
 } as Meta<AnnotationBoxPlotProps>;
 
-export function AnnotationBoxPlot(props: AnnotationBoxPlotProps) {
+export function Horizontal(props: AnnotationBoxPlotProps) {
   return (
     <AnnotationPlot>
       <Annotation.BoxPlot {...props} />
@@ -31,4 +33,22 @@ export function AnnotationBoxPlot(props: AnnotationBoxPlotProps) {
   );
 }
 
-AnnotationBoxPlot.storyName = 'Annotation.BoxPlot';
+export function Vertical(props: AnnotationBoxPlotProps) {
+  return (
+    <AnnotationPlot>
+      <Annotation.BoxPlot {...props} />
+    </AnnotationPlot>
+  );
+}
+
+Vertical.args = {
+  xAxis: 'y',
+  yAxis: 'x',
+  y: 2500,
+  q1: 80,
+  q3: 50,
+  width: 300,
+  min: 90,
+  max: 20,
+  median: 60,
+};
