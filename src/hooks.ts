@@ -6,22 +6,50 @@ import { usePlotContext } from './contexts/plotContext';
 import { ScalarValue } from './types';
 import { validateAxis } from './utils';
 
+// annotation hooks
 interface UsePositionConfig {
   x: ScalarValue;
   y: ScalarValue;
+  xAxis: string;
+  yAxis: string;
 }
 
 export function usePosition(config: UsePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { x, y } = config;
+  const { x, y, xAxis, yAxis } = config;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
   return {
     x: convertValue(x, plotWidth, xScale),
     y: convertValue(y, plotHeight, yScale),
   };
 }
-
+interface UsePointsPositionConfig {
+  xAxis: string;
+  yAxis: string;
+  points: { x: ScalarValue; y: ScalarValue }[];
+}
+export function usePointsPosition(config: UsePointsPositionConfig) {
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const { points, xAxis, yAxis } = config;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
+  return points
+    .map(
+      (point) =>
+        `${convertValue(point.x, plotWidth, xScale)},${convertValue(
+          point.y,
+          plotHeight,
+          yScale,
+        )}`,
+    )
+    .join(' ');
+}
 interface UseRectanglePositionConfig {
+  xAxis: string;
+  yAxis: string;
   x1: ScalarValue;
   y1: ScalarValue;
   x2: ScalarValue;
@@ -29,8 +57,10 @@ interface UseRectanglePositionConfig {
 }
 export function useRectanglePosition(config: UseRectanglePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { x1, y1, x2, y2 } = config;
+  const { x1, y1, x2, y2, xAxis, yAxis } = config;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
 
   return {
     x: convertMinValue(x1, x2, plotWidth, xScale),
@@ -40,24 +70,20 @@ export function useRectanglePosition(config: UseRectanglePositionConfig) {
   };
 }
 interface UseEllipsePositionConfig {
+  xAxis: string;
+  yAxis: string;
   cx: ScalarValue;
   cy: ScalarValue;
   rx: ScalarValue;
   ry: ScalarValue;
 }
 
-interface UseDirectedEllipsePositionConfig {
-  x1: ScalarValue;
-  y1: ScalarValue;
-  x2: ScalarValue;
-  y2: ScalarValue;
-  width: ScalarValue;
-}
-
-export function useEllipsePosition(props: UseEllipsePositionConfig) {
+export function useEllipsePosition(config: UseEllipsePositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { cx, cy, rx, ry } = props;
+  const { cx, cy, rx, ry, xAxis, yAxis } = config;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
 
   return {
     cx: convertValue(cx, plotWidth, xScale),
@@ -67,8 +93,8 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
   };
 }
 interface UseBoxPlotPositionConfig {
-  xAxis?: string;
-  yAxis?: string;
+  xAxis: string;
+  yAxis: string;
   min: ScalarValue;
   max: ScalarValue;
   q1: ScalarValue;
@@ -77,19 +103,9 @@ interface UseBoxPlotPositionConfig {
   width: ScalarValue;
   y: ScalarValue;
 }
-export function useBoxPlotPosition(props: UseBoxPlotPositionConfig) {
+export function useBoxPlotPosition(config: UseBoxPlotPositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const {
-    min,
-    max,
-    q1,
-    median,
-    q3,
-    width,
-    y,
-    xAxis = 'x',
-    yAxis = 'y',
-  } = props;
+  const { min, max, q1, median, q3, width, y, xAxis, yAxis } = config;
   const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
     onlyOrthogonal: true,
   });
@@ -106,19 +122,39 @@ export function useBoxPlotPosition(props: UseBoxPlotPositionConfig) {
     horizontal,
   };
 }
+interface UseDirectedEllipsePositionConfig {
+  xAxis: string;
+  yAxis: string;
+  x1: ScalarValue;
+  y1: ScalarValue;
+  x2: ScalarValue;
+  y2: ScalarValue;
+  width: ScalarValue;
+}
 export function useDirectedEllipsePosition(
-  props: UseDirectedEllipsePositionConfig,
+  config: UseDirectedEllipsePositionConfig,
 ) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const { x1: oldX1, y1: oldY1, x2: oldX2, y2: oldY2, width } = props;
+  const {
+    x1: oldX1,
+    y1: oldY1,
+    x2: oldX2,
+    y2: oldY2,
+    width,
+    xAxis,
+    yAxis,
+  } = config;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
+
   const { x1, y1, x2, y2 } = {
     x1: convertValue(oldX1, plotWidth, xScale),
     x2: convertValue(oldX2, plotWidth, xScale),
     y1: convertValue(oldY1, plotWidth, yScale),
     y2: convertValue(oldY2, plotWidth, yScale),
   };
-  const radsToDegs = (rad: number) => (rad * 180) / Math.PI;
+
   const { cx, cy } = {
     cx: (x1 + x2) / 2,
     cy: (y1 + y2) / 2,
@@ -141,7 +177,11 @@ export function useDirectedEllipsePosition(
     rotation: radsToDegs(rotation),
   };
 }
+function radsToDegs(rad: number) {
+  return (rad * 180) / Math.PI;
+}
 
+// convert functions
 function convertString(value: string, total: number) {
   return value.endsWith('%')
     ? (Number(value.slice(0, -1)) * total) / 100
@@ -196,22 +236,7 @@ function convertDimensions(
   );
 }
 
-export function usePointPosition(config: UsePositionConfig[]) {
-  const { axisContext, plotWidth, plotHeight } = usePlotContext();
-  const [xScale, yScale] = validateAxis(axisContext, 'x', 'y');
-  const points = config;
-  return points
-    .map(
-      (point) =>
-        `${convertValue(point.x, plotWidth, xScale)},${convertValue(
-          point.y,
-          plotHeight,
-          yScale,
-        )}`,
-    )
-    .join(' ');
-}
-
+// other hooks
 export function useIsSeriesVisible(id: string) {
   const [legendState] = useLegend();
   const value = legendState.labels.find((label) => label.id === id);
@@ -228,7 +253,9 @@ interface UseShiftOptions {
 export function useShift(options: UseShiftOptions) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();
   const { xAxis, yAxis, xShift, yShift } = options;
-  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis);
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
   return {
     xShift: convertToPx(xShift, plotWidth, xScale),
     yShift: convertToPx(yShift, plotHeight, yScale),

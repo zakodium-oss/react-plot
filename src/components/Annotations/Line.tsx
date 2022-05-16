@@ -12,6 +12,8 @@ export interface AnnotationLineProps
   x2: ScalarValue;
   y1: ScalarValue;
   y2: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   color?: string;
 }
 
@@ -22,9 +24,11 @@ export function Line(props: AnnotationLineProps) {
     y1: oldY1,
     y2: oldY2,
     color = 'black',
+    xAxis = 'x',
+    yAxis = 'y',
     ...lineProps
   } = props;
-  const { x: x1, y: y1 } = usePosition({ x: oldX1, y: oldY1 });
-  const { x: x2, y: y2 } = usePosition({ x: oldX2, y: oldY2 });
+  const { x: x1, y: y1 } = usePosition({ x: oldX1, y: oldY1, xAxis, yAxis });
+  const { x: x2, y: y2 } = usePosition({ x: oldX2, y: oldY2, xAxis, yAxis });
   return <line x1={x1} x2={x2} y1={y1} y2={y2} stroke={color} {...lineProps} />;
 }

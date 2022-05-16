@@ -13,6 +13,8 @@ export interface AnnotationArrowProps
   y1: ScalarValue;
   x2: ScalarValue;
   y2: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   startPoint?: AnnotationShapeList;
   endPoint?: AnnotationShapeList;
   color?: string;
@@ -31,17 +33,23 @@ export function Arrow(props: AnnotationArrowProps) {
     color = 'black',
     strokeWidth,
     markerSize,
+    xAxis = 'x',
+    yAxis = 'y',
     ...lineProps
   } = props;
 
   const { x: x1, y: y1 } = usePosition({
     x: x1Old,
     y: y1Old,
+    xAxis,
+    yAxis,
   });
 
   const { x: x2, y: y2 } = usePosition({
     x: x2Old,
     y: y2Old,
+    xAxis,
+    yAxis,
   });
 
   const startMarker =

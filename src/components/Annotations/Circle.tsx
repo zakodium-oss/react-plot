@@ -11,11 +11,21 @@ export interface AnnotationCircleProps
   x: ScalarValue;
   y: ScalarValue;
   r: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   color?: string;
 }
 
 export function Circle(props: AnnotationCircleProps) {
-  const { x, y, r: oldR, color, ...otherProps } = props;
+  const {
+    x,
+    y,
+    r: oldR,
+    color,
+    xAxis = 'x',
+    yAxis = 'y',
+    ...otherProps
+  } = props;
 
   const {
     cx,
@@ -26,6 +36,8 @@ export function Circle(props: AnnotationCircleProps) {
     cy: y,
     rx: oldR,
     ry: oldR,
+    xAxis,
+    yAxis,
   });
 
   return <circle cx={cx} cy={cy} r={r} fill={color} {...otherProps} />;

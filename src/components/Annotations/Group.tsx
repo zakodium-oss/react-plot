@@ -8,6 +8,8 @@ export interface AnnotationGroupProps {
   x: ScalarValue;
   y: ScalarValue;
   children: ReactNode;
+  xAxis?: string;
+  yAxis?: string;
   horizontalAlign?: Align;
   verticalAlign?: Align;
   style?: CSSProperties;
@@ -20,9 +22,11 @@ export function Group(props: AnnotationGroupProps) {
     horizontalAlign = 'none',
     verticalAlign = 'none',
     style = {},
+    xAxis = 'x',
+    yAxis = 'y',
     children,
   } = props;
-  const { x, y } = usePosition({ x: oldX, y: oldY });
+  const { x, y } = usePosition({ x: oldX, y: oldY, xAxis, yAxis });
 
   return (
     <AlignGroup
