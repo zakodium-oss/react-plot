@@ -13,10 +13,23 @@ export interface AnnotationDirectedEllipseProps
   x2: ScalarValue;
   y2: ScalarValue;
   width: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
 }
 
 export function DirectedEllipse(props: AnnotationDirectedEllipseProps) {
-  const { x1, y1, y2, x2, color, width, style, ...otherProps } = props;
+  const {
+    x1,
+    y1,
+    y2,
+    x2,
+    color,
+    width,
+    style,
+    xAxis = 'x',
+    yAxis = 'y',
+    ...otherProps
+  } = props;
 
   const { cx, cy, rx, ry, rotation } = useDirectedEllipsePosition({
     x1,
@@ -24,6 +37,8 @@ export function DirectedEllipse(props: AnnotationDirectedEllipseProps) {
     y2,
     x2,
     width,
+    xAxis,
+    yAxis,
   });
 
   return (

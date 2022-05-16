@@ -12,6 +12,8 @@ export interface AnnotationRectangleProps
   y1: ScalarValue;
   x2: ScalarValue;
   y2: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   color?: string;
 }
 
@@ -22,6 +24,8 @@ export function Rectangle(props: AnnotationRectangleProps) {
     x2: oldX2,
     y2: oldY2,
     color,
+    xAxis = 'x',
+    yAxis = 'y',
     ...otherProps
   } = props;
   const { x, y, width, height } = useRectanglePosition({
@@ -29,6 +33,8 @@ export function Rectangle(props: AnnotationRectangleProps) {
     y1: oldY1,
     x2: oldX2,
     y2: oldY2,
+    xAxis,
+    yAxis,
   });
 
   return (

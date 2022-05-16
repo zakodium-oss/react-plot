@@ -44,6 +44,8 @@ export interface AnnotationShapeProps {
   y: ScalarValue;
   shape: AnnotationShapeName;
   size: number;
+  xAxis?: string;
+  yAxis?: string;
   style?: CSSProperties;
   color?: string;
   onMouseEnter?: MouseEventHandler<SVGGElement>;
@@ -51,21 +53,33 @@ export interface AnnotationShapeProps {
 }
 
 export function Shape(props: AnnotationShapeProps) {
-  const Figure = shapes[props.shape];
+  const {
+    shape,
+    x: xOld,
+    y: yOld,
+    onMouseEnter,
+    onMouseLeave,
+    color,
+    size,
+    style,
+    xAxis = 'x',
+    yAxis = 'y',
+  } = props;
+  const Figure = shapes[shape];
 
   if (!Figure) {
-    throw new Error(`Invalid shape: "${props.shape}"`);
+    throw new Error(`Invalid shape: "${shape}"`);
   }
 
-  const { x, y } = usePosition({ x: props.x, y: props.y });
+  const { x, y } = usePosition({ x: xOld, y: yOld, xAxis, yAxis });
 
   return (
     <g
-      onMouseEnter={props.onMouseEnter}
-      onMouseLeave={props.onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       transform={`translate(${x}, ${y})`}
     >
-      <Figure size={props.size} style={{ fill: props.color, ...props.style }} />
+      <Figure size={size} style={{ fill: color, ...style }} />
     </g>
   );
 }

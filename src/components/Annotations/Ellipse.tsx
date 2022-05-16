@@ -12,16 +12,29 @@ export interface AnnotationEllipseProps
   y: ScalarValue;
   rx: ScalarValue;
   ry: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
 }
 
 export function Ellipse(props: AnnotationEllipseProps) {
-  const { x, y, rx: oldRx, ry: oldRy, color, ...otherProps } = props;
+  const {
+    x,
+    y,
+    rx: oldRx,
+    ry: oldRy,
+    color,
+    xAxis = 'x',
+    yAxis = 'y',
+    ...otherProps
+  } = props;
 
   const { cx, cy, rx, ry } = useEllipsePosition({
     cx: x,
     cy: y,
     rx: oldRx,
     ry: oldRy,
+    xAxis,
+    yAxis,
   });
 
   return (

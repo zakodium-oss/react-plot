@@ -10,14 +10,24 @@ export interface AnnotationTextProps
   > {
   x: ScalarValue;
   y: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   color?: string;
   children: ReactNode;
 }
 
 export function Text(props: AnnotationTextProps) {
-  const { x: xOld, y: yOld, children, color, ...otherProps } = props;
+  const {
+    x: xOld,
+    y: yOld,
+    children,
+    color,
+    xAxis = 'x',
+    yAxis = 'y',
+    ...otherProps
+  } = props;
 
-  const { x, y } = usePosition({ x: xOld, y: yOld });
+  const { x, y } = usePosition({ x: xOld, y: yOld, xAxis, yAxis });
 
   return (
     <text x={x} y={y} fill={color} {...otherProps}>
