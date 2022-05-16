@@ -1,15 +1,7 @@
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-import { Annotations, Plot } from '../../src';
-import { Arrow } from '../../src/components/Annotations/Arrow';
-import { Circle } from '../../src/components/Annotations/Circle';
-import { Ellipse } from '../../src/components/Annotations/Ellipse';
-import { Line } from '../../src/components/Annotations/Line';
-import { Polygon } from '../../src/components/Annotations/Polygon';
-import { Polyline } from '../../src/components/Annotations/Polyline';
-import { Rectangle } from '../../src/components/Annotations/Rectangle';
-import { Shape } from '../../src/components/Annotations/Shape';
+import { Annotation, Annotations, Plot } from '../../src';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
@@ -22,7 +14,7 @@ export function AnnotationCallback() {
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {getInfraredSeries()}
       <Annotations>
-        <Line
+        <Annotation.Line
           x1="400"
           x2={2500}
           y1="350"
@@ -36,7 +28,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Rectangle
+        <Annotation.Rectangle
           x1="40"
           x2={1500}
           y1="150"
@@ -50,7 +42,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Arrow
+        <Annotation.Arrow
           x1="100"
           y1={50}
           x2="50"
@@ -66,7 +58,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Circle
+        <Annotation.Circle
           x={2000}
           y="200"
           r={100}
@@ -78,7 +70,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Ellipse
+        <Annotation.Ellipse
           x={2250}
           y="270"
           rx="30"
@@ -91,7 +83,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Polygon
+        <Annotation.Polygon
           points={[
             { x: '800', y: '70' },
             { x: 2500, y: 50 },
@@ -109,7 +101,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Polyline
+        <Annotation.Polyline
           points={[
             { x: 1000, y: '450' },
             { x: 1500, y: 45 },
@@ -125,7 +117,7 @@ export function AnnotationCallback() {
             setOverElement('');
           }}
         />
-        <Shape
+        <Annotation.Shape
           x={3500}
           y="400"
           shape="diamond"
@@ -133,6 +125,26 @@ export function AnnotationCallback() {
           color={overElement === 'Shape' ? 'red' : 'black'}
           onMouseEnter={() => {
             setOverElement('Shape');
+          }}
+          onMouseLeave={() => {
+            setOverElement('');
+          }}
+        />
+        <Annotation.BoxPlot
+          y={15}
+          q1={2200}
+          q3={2800}
+          width="50"
+          min={2150}
+          max={2900}
+          median={2500}
+          medianColor={overElement === 'BoxPlot' ? 'red' : 'black'}
+          boxColor={overElement === 'BoxPlot' ? 'red' : 'black'}
+          boxStyle={{ fill: overElement === 'BoxPlot' ? 'red' : 'black' }}
+          whiskerColor={overElement === 'BoxPlot' ? 'red' : 'black'}
+          minMaxColor={overElement === 'BoxPlot' ? 'red' : 'black'}
+          onMouseEnter={() => {
+            setOverElement('BoxPlot');
           }}
           onMouseLeave={() => {
             setOverElement('');
