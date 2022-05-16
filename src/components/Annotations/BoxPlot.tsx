@@ -42,7 +42,24 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
   const height = Math.abs(q3 - q1);
   return (
     <g>
-      {/* interquartile range */}
+      {/* whiskers */}
+      <line
+        x1={horizontal ? min : y}
+        x2={horizontal ? q1 : y}
+        y1={horizontal ? y : min}
+        y2={horizontal ? y : q1}
+        stroke={whiskerColor}
+        style={whiskerStyle}
+      />
+      <line
+        x1={horizontal ? q3 : y}
+        x2={horizontal ? max : y}
+        y1={horizontal ? y : q3}
+        y2={horizontal ? y : max}
+        stroke={whiskerColor}
+        style={whiskerStyle}
+      />
+      {/* box */}
       <rect
         x={horizontal ? q1 : y1}
         y={horizontal ? y1 : q1}
@@ -50,6 +67,25 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         height={horizontal ? width : height}
         stroke={boxColor}
         style={boxStyle}
+        fill="none"
+      />
+      {/* median */}
+      <line
+        x1={horizontal ? median : y1}
+        x2={horizontal ? median : y2}
+        y1={horizontal ? y1 : median}
+        y2={horizontal ? y2 : median}
+        stroke={medianColor}
+        style={medianStyle}
+      />
+      {/* box */}
+      <rect
+        x={horizontal ? q1 : y1}
+        y={horizontal ? y1 : q1}
+        width={horizontal ? height : width}
+        height={horizontal ? width : height}
+        stroke={boxColor}
+        style={{ ...boxStyle, fill: 'none' }}
         fill="none"
       />
       {/* min */}
@@ -69,32 +105,6 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
         y2={horizontal ? y2 : max}
         stroke={minMaxColor}
         style={minMaxStyle}
-      />
-      {/* median */}
-      <line
-        x1={horizontal ? median : y1}
-        x2={horizontal ? median : y2}
-        y1={horizontal ? y1 : median}
-        y2={horizontal ? y2 : median}
-        stroke={medianColor}
-        style={medianStyle}
-      />
-      {/* whiskers */}
-      <line
-        x1={horizontal ? min : y}
-        x2={horizontal ? q1 : y}
-        y1={horizontal ? y : min}
-        y2={horizontal ? y : q1}
-        stroke={whiskerColor}
-        style={whiskerStyle}
-      />
-      <line
-        x1={horizontal ? q3 : y}
-        x2={horizontal ? max : y}
-        y1={horizontal ? y : q3}
-        y2={horizontal ? y : max}
-        stroke={whiskerColor}
-        style={whiskerStyle}
       />
     </g>
   );
