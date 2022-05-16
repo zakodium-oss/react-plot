@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.19.0](https://github.com/zakodium-oss/react-plot/compare/v0.18.0...v0.19.0) (2022-05-16)
+
+
+### Features
+
+* add BoxPlot annotation ([#408](https://github.com/zakodium-oss/react-plot/issues/408)) ([315f829](https://github.com/zakodium-oss/react-plot/commit/315f829483987389f8795dea6dec13c460e027d0))
+* make primary & secondary grids independent ([#403](https://github.com/zakodium-oss/react-plot/issues/403)) ([c724eed](https://github.com/zakodium-oss/react-plot/commit/c724eedac310c20ccdd81b084a8f9a3d4869bd67))
+
 ## [0.18.0](https://github.com/zakodium-oss/react-plot/compare/v0.17.1...v0.18.0) (2022-04-28)
 
 
