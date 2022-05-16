@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Shape,
-  AnnotationShapeProps,
-} from '../../src/components/Annotations/Shape';
+import { Annotation, AnnotationShapeProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Shape,
+  component: Annotation.Shape,
   args: {
     x: 2200,
     y: '300',
@@ -22,7 +19,7 @@ export default {
 export function AnnotationShape(props: AnnotationShapeProps) {
   return (
     <AnnotationPlot>
-      <Shape {...props} />
+      <Annotation.Shape {...props} />
     </AnnotationPlot>
   );
 }

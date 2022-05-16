@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Rectangle,
-  AnnotationRectangleProps,
-} from '../../src/components/Annotations/Rectangle';
+import { Annotation, AnnotationRectangleProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Rectangle,
+  component: Annotation.Rectangle,
   args: {
     x1: '300',
     y1: 45,
@@ -22,7 +19,7 @@ export default {
 export function AnnotationRectangle(props: AnnotationRectangleProps) {
   return (
     <AnnotationPlot>
-      <Rectangle {...props} />
+      <Annotation.Rectangle {...props} />
     </AnnotationPlot>
   );
 }

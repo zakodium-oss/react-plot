@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Arrow } from './Arrow';
+import { BoxPlot } from './BoxPlot';
 import { Circle } from './Circle';
 import { DirectedEllipse } from './DirectedEllipse';
 import { Ellipse } from './Ellipse';
@@ -24,6 +25,7 @@ export const Annotation = {
   Text,
   Polyline,
   Polygon,
+  BoxPlot,
 };
 
 export type { AnnotationArrowProps } from './Arrow';
@@ -37,6 +39,7 @@ export type { AnnotationShapeProps, AnnotationShapeName } from './Shape';
 export type { AnnotationTextProps } from './Text';
 export type { AnnotationPolygonProps } from './Polygon';
 export type { AnnotationPolylineProps } from './Polyline';
+export type { AnnotationBoxPlotProps } from './BoxPlot';
 export interface AnnotationsProps {
   children: ReactNode;
 }

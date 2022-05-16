@@ -1,15 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import {
-  Line,
-  AnnotationLineProps,
-} from '../../src/components/Annotations/Line';
+import { Annotation, AnnotationLineProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Line,
+  component: Annotation.Line,
   args: {
     x1: '400',
     x2: 2500,
@@ -22,7 +19,7 @@ export default {
 export function AnnotationLine(props: AnnotationLineProps) {
   return (
     <AnnotationPlot>
-      <Line {...props} />
+      <Annotation.Line {...props} />
     </AnnotationPlot>
   );
 }

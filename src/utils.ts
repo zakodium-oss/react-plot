@@ -44,7 +44,9 @@ export function validatePosition(
     throw new Error(`The positions are ortogonal for ${id}`);
   }
 }
-
+interface ValidateAxisOptions {
+  onlyOrthogonal?: boolean;
+}
 /**
  * Validates that two axes are orthogonal between them
  */
@@ -52,15 +54,25 @@ export function validateAxis(
   axisContext: Record<string, PlotAxisContext>,
   xKey: string,
   yKey: string,
+  options: ValidateAxisOptions = {},
 ): [Scales, Scales] | [undefined, undefined] {
+  const { onlyOrthogonal = false } = options;
   const xAxis = axisContext[xKey];
   const yAxis = axisContext[yKey];
   if (!xAxis || !yAxis) return [undefined, undefined];
-
   if (
-    horizontal.includes(xAxis.position)
+    onlyOrthogonal &&
+    ((horizontal.includes(xAxis.position) &&
+      horizontal.includes(yAxis.position)) ||
+      (vertical.includes(yAxis.position) && vertical.includes(xAxis.position)))
+  ) {
+    throw new Error(`The axis ${xKey} and ${yKey} are not orthogonal`);
+  }
+  if (
+    !onlyOrthogonal &&
+    (horizontal.includes(xAxis.position)
       ? !vertical.includes(yAxis.position)
-      : vertical.includes(xAxis.position)
+      : vertical.includes(xAxis.position))
   ) {
     if (
       vertical.includes(xAxis.position) ||

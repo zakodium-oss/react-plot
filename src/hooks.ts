@@ -66,7 +66,46 @@ export function useEllipsePosition(props: UseEllipsePositionConfig) {
     ry: convertValueAbs(ry, plotHeight, yScale),
   };
 }
+interface UseBoxPlotPositionConfig {
+  xAxis?: string;
+  yAxis?: string;
+  min: ScalarValue;
+  max: ScalarValue;
+  q1: ScalarValue;
+  median: ScalarValue;
+  q3: ScalarValue;
+  width: ScalarValue;
+  y: ScalarValue;
+}
+export function useBoxPlotPosition(props: UseBoxPlotPositionConfig) {
+  const { axisContext, plotWidth, plotHeight } = usePlotContext();
+  const {
+    min,
+    max,
+    q1,
+    median,
+    q3,
+    width,
+    y,
+    xAxis = 'x',
+    yAxis = 'y',
+  } = props;
+  const [xScale, yScale] = validateAxis(axisContext, xAxis, yAxis, {
+    onlyOrthogonal: true,
+  });
+  const horizontal = ['top', 'bottom'].includes(axisContext[xAxis]?.position);
 
+  return {
+    min: convertValue(min, plotWidth, xScale),
+    max: convertValue(max, plotWidth, xScale),
+    q1: convertValue(q1, plotWidth, xScale),
+    median: convertValue(median, plotWidth, xScale),
+    q3: convertValue(q3, plotWidth, xScale),
+    y: convertValue(y, plotHeight, yScale),
+    width: convertValueAbs(width, plotHeight, yScale),
+    horizontal,
+  };
+}
 export function useDirectedEllipsePosition(
   props: UseDirectedEllipsePositionConfig,
 ) {

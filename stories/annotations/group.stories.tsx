@@ -1,17 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import { Annotation } from '../../src';
-import {
-  Group,
-  AnnotationGroupProps,
-} from '../../src/components/Annotations/Group';
-import { Shape } from '../../src/components/Annotations/Shape';
+import { Annotation, AnnotationGroupProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
 export default {
   title: 'API/Annotations',
-  component: Group,
+  component: Annotation.Group,
   args: {
     x: 2200,
     y: '250',
@@ -23,19 +18,19 @@ export default {
 export function AnnotationGroup(props: AnnotationGroupProps) {
   return (
     <AnnotationPlot>
-      <Shape
+      <Annotation.Shape
         x={props.x}
         y={props.y}
         shape="square"
         size={5}
         style={{ fill: 'red' }}
       />
-      <Group {...props}>
+      <Annotation.Group {...props}>
         <Annotation.Text x="0" y="0">
           Hello, World!
         </Annotation.Text>
         <Annotation.Arrow x1="0" x2="100" y1="10" y2="10" />
-      </Group>
+      </Annotation.Group>
     </AnnotationPlot>
   );
 }
