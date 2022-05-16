@@ -1,11 +1,9 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, MouseEventHandler } from 'react';
 
 import { useBoxPlotPosition } from '../../hooks';
 import { ScalarValue } from '../../types';
 
 export interface AnnotationBoxPlotProps {
-  xAxis?: string;
-  yAxis?: string;
   min: ScalarValue;
   max: ScalarValue;
   q1: ScalarValue;
@@ -13,6 +11,8 @@ export interface AnnotationBoxPlotProps {
   q3: ScalarValue;
   width: ScalarValue;
   y: ScalarValue;
+  xAxis?: string;
+  yAxis?: string;
   medianColor?: string;
   medianStyle?: CSSProperties;
   boxColor?: string;
@@ -21,6 +21,8 @@ export interface AnnotationBoxPlotProps {
   whiskerStyle?: CSSProperties;
   minMaxColor?: string;
   minMaxStyle?: CSSProperties;
+  onMouseEnter?: MouseEventHandler<SVGGElement>;
+  onMouseLeave?: MouseEventHandler<SVGGElement>;
 }
 
 export function BoxPlot(props: AnnotationBoxPlotProps) {
@@ -33,15 +35,20 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
     whiskerStyle,
     minMaxColor = 'black',
     minMaxStyle,
+    onMouseEnter,
+    onMouseLeave,
+    xAxis = 'x',
+    yAxis = 'y',
     ...position
   } = props;
-  const { min, max, q1, median, q3, width, y, horizontal } =
-    useBoxPlotPosition(position);
+  const { min, max, q1, median, q3, width, y, horizontal } = useBoxPlotPosition(
+    { ...position, xAxis, yAxis },
+  );
   const y1 = y - width / 2;
   const y2 = y + width / 2;
   const height = Math.abs(q3 - q1);
   return (
-    <g>
+    <g onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       {/* whiskers */}
       <line
         x1={horizontal ? min : y}
