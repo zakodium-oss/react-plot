@@ -68,8 +68,8 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
       />
       {/* box */}
       <rect
-        x={horizontal ? q1 : y1}
-        y={horizontal ? y1 : q1}
+        x={horizontal ? Math.min(q1, q3) : y1}
+        y={horizontal ? y1 : Math.min(q1, q3)}
         width={horizontal ? height : width}
         height={horizontal ? width : height}
         stroke={boxColor}
@@ -87,8 +87,8 @@ export function BoxPlot(props: AnnotationBoxPlotProps) {
       />
       {/* box */}
       <rect
-        x={horizontal ? q1 : y1}
-        y={horizontal ? y1 : q1}
+        x={horizontal ? Math.min(q1, q3) : y1}
+        y={horizontal ? y1 : Math.min(q1, q3)}
         width={horizontal ? height : width}
         height={horizontal ? width : height}
         stroke={boxColor}
