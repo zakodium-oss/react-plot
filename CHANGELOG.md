@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.19.1](https://github.com/zakodium-oss/react-plot/compare/v0.19.0...v0.19.1) (2022-05-24)
+
+
+### Bug Fixes
+
+* vertical BoxPlot annotation ([#413](https://github.com/zakodium-oss/react-plot/issues/413)) ([f024bee](https://github.com/zakodium-oss/react-plot/commit/f024bee961a31af56cf7f340bc3be68b5781af6a))
+
 ## [0.19.0](https://github.com/zakodium-oss/react-plot/compare/v0.18.0...v0.19.0) (2022-05-17)
 
 
