@@ -9,10 +9,27 @@ import { ControllerHookOptions, DualAxisOptions } from './types';
 export interface UseCrossHairOptions
   extends ControllerHookOptions,
     DualAxisOptions {
+  /**
+   * Line color
+   * @default "black"
+   *
+   * */
   color?: CSSProperties['stroke'];
-  textStyle?: CSSProperties;
-  textTransform?: string;
+  /**
+   * Line style
+   *
+   * */
   lineStyle?: CSSProperties;
+  /**
+   * Text Style
+   *
+   * */
+  textStyle?: CSSProperties;
+  /**
+   * Text transformation
+   *
+   * */
+  textTransform?: string;
 }
 
 type Positions = Record<string, number>;

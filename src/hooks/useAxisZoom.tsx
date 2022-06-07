@@ -14,10 +14,30 @@ import { ControllerHookOptions } from './types';
 import { useStartMoveEnd } from './useStartMoveEnd';
 
 export interface UseAxisZoomOptions extends ControllerHookOptions {
+  /**
+   * Zoom direction
+   * @default 'vertical'
+   * */
   direction?: 'horizontal' | 'vertical';
+  /**
+   * Zoom axisId
+   * @default 'x' if direction is horizontal
+   *          'y' if direction is vertical
+   * */
   axisId?: string;
+  /**
+   * Rectangle stroke color
+   * @default "red"
+   * */
   color?: CSSProperties['stroke'];
+  /**
+   * Rectangle style
+   * */
   rectangleStyle?: CSSProperties;
+  /**
+   * Limit lines style
+   * @default "red"
+   * */
   lineStyle?: CSSProperties;
 }
 

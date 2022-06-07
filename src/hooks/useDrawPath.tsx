@@ -11,8 +11,17 @@ export interface UseDrawPathOptions
   extends ControllerHookOptions,
     DualAxisOptions,
     PathOptions {
+  /**
+   * close the path (link the first and last points)
+   * */
   close?: boolean;
+  /**
+   * callback on drawing
+   * */
   onDraw?: (points: SeriesPoint[]) => void;
+  /**
+   * callback on the end of drawing
+   * */
   onEnd?: (points: SeriesPoint[]) => void;
 }
 

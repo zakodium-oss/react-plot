@@ -11,6 +11,9 @@ export interface UseDrawRectangleOptions
   extends ControllerHookOptions,
     DualAxisOptions,
     RectangleOptions {
+  /**
+   * callback on the end of drawing
+   * */
   onEnd?: (rectangle: {
     x1: number;
     x2: number;
