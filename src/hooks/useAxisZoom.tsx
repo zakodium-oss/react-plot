@@ -21,7 +21,7 @@ export interface UseAxisZoomOptions extends ControllerHookOptions {
   direction?: 'horizontal' | 'vertical';
   /**
    * Id of Axis to apply zoom.
-   * Default value is 'x' when direction is horizontal and 'y' if direction is vertical
+   * Default value is 'x' when direction is horizontal and 'y' if direction is vertical.
    * */
   axisId?: string;
   /**

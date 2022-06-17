@@ -12,21 +12,18 @@ export interface UseCrossHairOptions
   /**
    * Cross hair line color.
    * @defaultValue "black"
-   *
    * */
   color?: CSSProperties['stroke'];
   /**
    * Additional style to apply to the crosshair's lines.
-   *
    * */
   lineStyle?: CSSProperties;
   /**
    * Cross hair text annotation style.
-   *
    * */
   textStyle?: CSSProperties;
   /**
-   * transformation to apply to to the crosshair's text .
+   * Transformation to apply to the crosshair's text.
    *
    * */
   textTransform?: string;
