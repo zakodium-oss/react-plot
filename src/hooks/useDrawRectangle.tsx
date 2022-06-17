@@ -12,7 +12,7 @@ export interface UseDrawRectangleOptions
     DualAxisOptions,
     RectangleOptions {
   /**
-   * Callback on the end of drawing.
+   * Callback when releasing mouse at end of drawing.
    * */
   onEnd?: (rectangle: {
     x1: number;

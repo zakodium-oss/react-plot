@@ -13,7 +13,7 @@ export interface UseAxisWheelZoomOptions extends ControllerHookOptions {
   direction?: 'horizontal' | 'vertical';
   /**
    * Id of Axis to apply on wheel zoom.
-   * @defaultValue  'x' if direction is horizontal, 'y' if direction is vertical
+   * Default value is 'x' when direction is horizontal and 'y' if direction is vertical
    * */
   axisId?: string;
   /**

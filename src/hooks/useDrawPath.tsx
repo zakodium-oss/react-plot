@@ -12,11 +12,11 @@ export interface UseDrawPathOptions
     DualAxisOptions,
     PathOptions {
   /**
-   * Callback while drawing.
+   * Callback on mouse move while drawing.
    * */
   onDraw?: (points: SeriesPoint[]) => void;
   /**
-   * Callback on the end of drawing.
+   * Callback when releasing mouse at end of drawing.
    * */
   onEnd?: (points: SeriesPoint[]) => void;
   /**
