@@ -12,7 +12,7 @@ export interface UseDrawRectangleOptions
     DualAxisOptions,
     RectangleOptions {
   /**
-   * callback on the end of drawing
+   * Callback on the end of drawing.
    * */
   onEnd?: (rectangle: {
     x1: number;

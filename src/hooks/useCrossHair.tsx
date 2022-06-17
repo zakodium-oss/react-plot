@@ -10,23 +10,23 @@ export interface UseCrossHairOptions
   extends ControllerHookOptions,
     DualAxisOptions {
   /**
-   * Line color
-   * @default "black"
+   * Cross hair line color.
+   * @defaultValue "black"
    *
    * */
   color?: CSSProperties['stroke'];
   /**
-   * Line style
+   * Additional cross hair line style.
    *
    * */
   lineStyle?: CSSProperties;
   /**
-   * Text Style
+   * Cross hair text style.
    *
    * */
   textStyle?: CSSProperties;
   /**
-   * Text transformation
+   * Cross hair text transformation.
    *
    * */
   textTransform?: string;

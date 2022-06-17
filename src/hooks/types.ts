@@ -6,36 +6,36 @@ export interface ControllerHookOptions {
 
 export interface DualAxisOptions {
   /**
-   * id of the horizontal axis
-   * @default 'x'
+   * Id of the horizontal axis.
+   * @defaultValue 'x'
    * */
   horizontalAxisId?: string;
   /**
-   * id of the vertical axis
-   * @default 'y'
+   * Id of the vertical axis.
+   * @defaultValue 'y'
    * */
   verticalAxisId?: string;
 }
 
 export interface RectangleOptions {
   /**
-   * Rectangle stroke color
-   * @default 'red'
+   * Rectangle stroke color.
+   * @defaultValue 'red'
    * */
   color?: CSSProperties['stroke'];
   /**
-   * Rectangle style
+   * Rectangle additional style.
    * */
   style?: CSSProperties;
 }
 export interface PathOptions {
   /**
-   * Path line color
-   * @default 'black'
+   * Path line color.
+   * @defaultValue 'black'
    * */
   color?: CSSProperties['stroke' | 'fill'];
   /**
-   * Path line style
+   * Path line additional style.
    * */
   style?: CSSProperties;
 }

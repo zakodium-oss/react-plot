@@ -12,17 +12,17 @@ export interface UseDrawPathOptions
     DualAxisOptions,
     PathOptions {
   /**
-   * close the path (link the first and last points)
-   * */
-  close?: boolean;
-  /**
-   * callback on drawing
+   * Callback while drawing.
    * */
   onDraw?: (points: SeriesPoint[]) => void;
   /**
-   * callback on the end of drawing
+   * Callback on the end of drawing.
    * */
   onEnd?: (points: SeriesPoint[]) => void;
+  /**
+   * Close the path (link the first and last points).
+   * */
+  close?: boolean;
 }
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {

@@ -7,29 +7,28 @@ import { ControllerHookOptions } from './types';
 
 export interface UseAxisWheelZoomOptions extends ControllerHookOptions {
   /**
-   * OnWheel zoom direction
-   * @default 'vertical'
+   * The zoom direction to use on wheel events.
+   * @defaultValue  'vertical'
    * */
   direction?: 'horizontal' | 'vertical';
   /**
-   * Zoom axisId
-   * @default 'x' if direction is horizontal
-   *          'y' if direction is vertical
+   * Id of Axis to apply on wheel zoom.
+   * @defaultValue  'x' if direction is horizontal, 'y' if direction is vertical
    * */
   axisId?: string;
   /**
-   * Zoom center
-   * @default 0
+   * The zoom center fixed on wheel.
+   * @defaultValue 0
    * */
   center?: 'pointer' | number;
   /**
-   * Zoom factor
-   * @default 1
+   * The factor to speedup the zoom on wheel.
+   * @defaultValue 1
    * */
   factor?: number;
   /**
-   * Invert zoom
-   * @default false - Zoom in OnWheel up
+   * Invert the zoom on wheel default is zoom-in on wheel up.
+   * @defaultValue false
    * */
   invert?: boolean;
 }

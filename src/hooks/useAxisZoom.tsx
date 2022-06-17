@@ -15,28 +15,26 @@ import { useStartMoveEnd } from './useStartMoveEnd';
 
 export interface UseAxisZoomOptions extends ControllerHookOptions {
   /**
-   * Zoom direction
-   * @default 'vertical'
+   * The zoom direction to use on wheel events.
+   * @defaultValue 'vertical'
    * */
   direction?: 'horizontal' | 'vertical';
   /**
-   * Zoom axisId
-   * @default 'x' if direction is horizontal
-   *          'y' if direction is vertical
+   * Id of Axis to apply zoom.
+   * @defaultValue 'x' if direction is horizontal, 'y' if direction is vertical
    * */
   axisId?: string;
   /**
-   * Rectangle stroke color
-   * @default "red"
+   * Zoom rectangle stroke color.
+   * @defaultValue "red"
    * */
   color?: CSSProperties['stroke'];
   /**
-   * Rectangle style
+   * Additional zoom rectangle style.
    * */
   rectangleStyle?: CSSProperties;
   /**
-   * Limit lines style
-   * @default "red"
+   * Zoom limit lines style.
    * */
   lineStyle?: CSSProperties;
 }
