@@ -46,11 +46,12 @@ const plotEventsUserContext =
 
 export function usePlotEvents(
   handlers: EventsHandlers,
-  options?: ControllerHookOptions,
+  options: ControllerHookOptions = {},
 ) {
-  const id = options?.controllerId;
-  const userContext = plotEventsUserContext.useNestedContext(id);
-  if (!userContext) {
+  const { controllerId: id, disabled = false } = options;
+
+  const userContext = !disabled && plotEventsUserContext.useNestedContext(id);
+  if (!disabled && !userContext) {
     throw new Error(
       `usePlotEvents must be called in a child of PlotController (id=${String(
         id,
@@ -60,11 +61,15 @@ export function usePlotEvents(
 
   const ref = useRef(handlers);
   useEffect(() => {
-    ref.current = handlers;
-  }, [handlers]);
+    if (!disabled) {
+      ref.current = handlers;
+    }
+  }, [disabled, handlers]);
   useEffect(() => {
-    userContext.registerHandlers(ref);
-    return () => userContext.unregisterHandlers(ref);
+    if (userContext) {
+      userContext.registerHandlers(ref);
+      return () => userContext.unregisterHandlers(ref);
+    }
   }, [userContext]);
 }
 
