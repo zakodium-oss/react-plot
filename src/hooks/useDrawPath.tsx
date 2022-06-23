@@ -18,6 +18,8 @@ export interface UseDrawPathOptions
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {
   const {
+    controllerId,
+    disabled,
     horizontalAxisId = 'x',
     verticalAxisId = 'y',
     color = 'black',
@@ -29,7 +31,8 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
 
   const [data, setData] = useState<Record<string, number>[] | null>(null);
   useStartMoveEnd({
-    ...options,
+    controllerId,
+    disabled,
     onStart(result) {
       setData([result.clampedCoordinates]);
     },
