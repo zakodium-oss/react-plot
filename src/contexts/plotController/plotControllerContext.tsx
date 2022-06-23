@@ -50,7 +50,7 @@ export function usePlotEvents(
 ) {
   const { controllerId: id, disabled = false } = options;
 
-  const userContext = !disabled && plotEventsUserContext.useNestedContext(id);
+  const userContext = plotEventsUserContext.useNestedContext(id);
   if (!disabled && !userContext) {
     throw new Error(
       `usePlotEvents must be called in a child of PlotController (id=${String(
@@ -66,11 +66,11 @@ export function usePlotEvents(
     }
   }, [disabled, handlers]);
   useEffect(() => {
-    if (userContext) {
+    if (!disabled && userContext) {
       userContext.registerHandlers(ref);
       return () => userContext.unregisterHandlers(ref);
     }
-  }, [userContext]);
+  }, [disabled, userContext]);
 }
 
 const plotEventsPlotContext =
