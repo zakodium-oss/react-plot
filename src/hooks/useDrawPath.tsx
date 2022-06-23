@@ -11,9 +11,18 @@ export interface UseDrawPathOptions
   extends ControllerHookOptions,
     DualAxisOptions,
     PathOptions {
-  close?: boolean;
+  /**
+   * Callback on mouse move while drawing.
+   * */
   onDraw?: (points: SeriesPoint[]) => void;
+  /**
+   * Callback when releasing mouse at end of drawing.
+   * */
   onEnd?: (points: SeriesPoint[]) => void;
+  /**
+   * Close the path (link the first and last points).
+   * */
+  close?: boolean;
 }
 
 export function useDrawPath(options: UseDrawPathOptions = {}) {
