@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.0](https://github.com/zakodium-oss/react-plot/compare/v0.19.1...v0.20.0) (2022-06-23)
+
+
+### Features
+
+* add disabled option in hooks ([#421](https://github.com/zakodium-oss/react-plot/issues/421)) ([9228fdc](https://github.com/zakodium-oss/react-plot/commit/9228fdc6633fff4316e6ac43283ce43b236bd542))
+
 ### [0.19.1](https://github.com/zakodium-oss/react-plot/compare/v0.19.0...v0.19.1) (2022-05-24)
 
 
