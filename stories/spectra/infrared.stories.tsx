@@ -20,6 +20,7 @@ export default {
     color: 'black',
     horizontalAxisId: 'x',
     verticalAxisId: 'y',
+    disabled: false,
   },
 } as Meta<UseCrossHairOptions>;
 

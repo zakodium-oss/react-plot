@@ -26,6 +26,7 @@ import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 export default {
   title: 'Experimental spectra/Mass',
   decorators: [PlotControllerDecorator],
+  args: { disabled: false },
 } as Meta;
 
 export function MassExample() {
@@ -57,12 +58,16 @@ interface Peak {
 
 interface AdvancedMassExampleProps {
   mf: string;
+  disabled: boolean;
 }
 
-export function AdvancedMassExample({ mf }: AdvancedMassExampleProps) {
-  const zoom = useAxisZoom();
-  useAxisWheelZoom();
-  usePan();
+export function AdvancedMassExample({
+  mf,
+  disabled,
+}: AdvancedMassExampleProps) {
+  const zoom = useAxisZoom({ disabled });
+  useAxisWheelZoom({ disabled });
+  usePan({ disabled });
   const { x } = usePlotControllerAxes();
 
   const { profile, centroid } = useMemo(() => {
