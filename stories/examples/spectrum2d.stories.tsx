@@ -7,6 +7,7 @@ import {
   LineSeries,
   Plot,
   useRectangularZoom,
+  UseRectangularZoomOptions,
 } from '../../src';
 import data from '../data/spectrum2d.json';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
@@ -14,10 +15,11 @@ import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 export default {
   title: 'Examples/Spectrum 2D',
   decorators: [PlotControllerDecorator],
+  args: { disabled: false },
 } as Meta;
 
-export function Spectrum2D() {
-  const zoom = useRectangularZoom();
+export function Spectrum2D({ disabled }: UseRectangularZoomOptions) {
+  const zoom = useRectangularZoom({ disabled });
   const lineSeriesList = useMemo(() => {
     const dataList = data.y.map((yArray) =>
       yArray.map((y, i) => ({

@@ -7,12 +7,15 @@ import {
   Annotations,
   useDrawPath,
   useDrawRectangle,
+  UseDrawPathOptions,
+  UseDrawRectangleOptions,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Draw',
   decorators: [PlotControllerDecorator],
+  args: { disabled: false },
 } as Meta;
 
 const data = [
@@ -24,8 +27,8 @@ const data = [
   { x: 8, y: 5 },
   { x: 9, y: 1 },
 ];
-export function DrawPath() {
-  const path = useDrawPath();
+export function DrawPath({ disabled }: UseDrawPathOptions) {
+  const path = useDrawPath({ disabled });
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} displayMarkers />
@@ -36,8 +39,8 @@ export function DrawPath() {
   );
 }
 
-export function DrawRectangle() {
-  const rectangle = useDrawRectangle();
+export function DrawRectangle({ disabled }: UseDrawRectangleOptions) {
+  const rectangle = useDrawRectangle({ disabled });
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} displayMarkers />
