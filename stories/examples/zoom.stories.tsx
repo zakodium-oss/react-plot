@@ -9,12 +9,14 @@ import {
   ScatterSeries,
   useAxisZoom,
   useRectangularZoom,
+  UseAxisZoomOptions,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Zoom',
   decorators: [PlotControllerDecorator],
+  args: { disabled: false },
 } as Meta;
 
 const data = [
@@ -27,8 +29,8 @@ const data = [
   { x: 9, y: 1 },
 ];
 
-export function HorizontalZoom() {
-  const zoom = useAxisZoom();
+export function HorizontalZoom({ disabled }: UseAxisZoomOptions) {
+  const zoom = useAxisZoom({ disabled });
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <LineSeries data={data} displayMarkers />
@@ -65,8 +67,8 @@ const dataVertical = {
   },
 };
 
-export function RectangleZoom() {
-  const zoom = useRectangularZoom();
+export function RectangleZoom({ disabled }: UseAxisZoomOptions) {
+  const zoom = useRectangularZoom({ disabled });
   const {
     ellipse,
     data: { x, y },
@@ -105,12 +107,13 @@ export function RectangleZoom() {
   );
 }
 
-export function SynchronizedZoom() {
+export function SynchronizedZoom({ disabled }: UseAxisZoomOptions) {
   const zoom = useRectangularZoom({
     color: 'gold',
     style: {
       fillOpacity: 0.5,
     },
+    disabled,
   });
 
   const {
