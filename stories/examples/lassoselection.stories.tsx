@@ -10,12 +10,14 @@ import {
   ScatterSeries,
   SeriesPoint,
   useDrawPath,
+  UseDrawPathOptions,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 export default {
   title: 'Examples/Lasso Selection',
   decorators: [PlotControllerDecorator],
+  args: { disabled: false },
 } as Meta;
 
 const dataVertical = {
@@ -43,7 +45,7 @@ const dataVertical = {
     width: 3.42602050534316,
   },
 };
-export function LassoSelection() {
+export function LassoSelection({ disabled }: UseDrawPathOptions) {
   const [points, setPoints] = useState<SeriesPoint[]>([]);
   const path = useDrawPath({
     close: true,
@@ -53,6 +55,7 @@ export function LassoSelection() {
         setPoints(Newpoints);
       }
     },
+    disabled,
   });
   const {
     ellipse,
