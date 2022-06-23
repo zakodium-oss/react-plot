@@ -22,6 +22,7 @@ export interface UseDrawRectangleOptions
 export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
   const {
     controllerId,
+    disabled,
     horizontalAxisId = 'x',
     verticalAxisId = 'y',
     color = 'red',
@@ -31,6 +32,7 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
 
   const startMoveEnd = useStartMoveEnd({
     controllerId,
+    disabled,
     onEnd(_, start, end) {
       const x1 = start.clampedCoordinates[horizontalAxisId];
       const x2 = end.clampedCoordinates[horizontalAxisId];

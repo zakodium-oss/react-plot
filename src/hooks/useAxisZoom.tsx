@@ -24,6 +24,7 @@ export interface UseAxisZoomOptions extends ControllerHookOptions {
 export function useAxisZoom(options: UseAxisZoomOptions = {}) {
   const {
     controllerId,
+    disabled,
     direction = 'horizontal',
     axisId = direction === 'horizontal' ? 'x' : 'y',
     color = 'red',
@@ -35,6 +36,7 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
 
   const startMoveEnd = useStartMoveEnd({
     controllerId,
+    disabled,
     onEnd(_, start, end) {
       const startCoord = start.clampedCoordinates[axisId];
       const endCoord = end.clampedCoordinates[axisId];
