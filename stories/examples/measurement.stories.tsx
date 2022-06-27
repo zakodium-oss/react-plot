@@ -1,13 +1,22 @@
 import { Meta } from '@storybook/react';
 import { xyToXYObject } from 'ml-spectra-processing';
 
-import { Annotations, LineSeries, Plot, useCrossHair } from '../../src';
+import {
+  Annotations,
+  Axis,
+  LineSeries,
+  Plot,
+  useAxisZoom,
+  useCrossHair,
+  useRectangularZoom,
+} from '../../src';
 import measurement from '../data/measurement.json';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
 interface MeasurementProps {
   xAxis: 'x' | 'y' | 't' | 'a';
   yAxis: 'x' | 'y' | 't' | 'a';
+  hook: 'Cross Hair' | 'Rectangular Zoom' | 'Horizontal Zoom' | 'Vertical Zoom';
 }
 export default {
   title: 'Examples/Measurement',
@@ -23,11 +32,21 @@ export default {
       options: ['x', 'y', 't', 'a'],
       control: 'select',
     },
+    hook: {
+      defaultValue: 'Cross Hair',
+      options: [
+        'Cross Hair',
+        'Rectangular Zoom',
+        'Horizontal Zoom',
+        'Vertical Zoom',
+      ],
+      control: 'select',
+    },
   },
 } as Meta<MeasurementProps>;
 
 export function Measurement(props: MeasurementProps) {
-  const { xAxis = 'x', yAxis = 'y' } = props;
+  const { xAxis = 'x', yAxis = 'y', hook } = props;
   const { data } = measurement;
   const {
     variables: { [xAxis]: x, [yAxis]: y },
@@ -35,6 +54,24 @@ export function Measurement(props: MeasurementProps) {
   const crossHair = useCrossHair({
     horizontalAxisId: xAxis,
     verticalAxisId: yAxis,
+    disabled: hook !== 'Cross Hair',
+  });
+  const rectZoom = useRectangularZoom({
+    horizontalAxisId: xAxis,
+    verticalAxisId: yAxis,
+    disabled: hook !== 'Rectangular Zoom',
+  });
+  const horizontalZoom = useAxisZoom({
+    direction: 'horizontal',
+    horizontalAxisId: xAxis,
+    verticalAxisId: yAxis,
+    disabled: hook !== 'Horizontal Zoom',
+  });
+  const verticalZoom = useAxisZoom({
+    direction: 'horizontal',
+    horizontalAxisId: xAxis,
+    verticalAxisId: yAxis,
+    disabled: hook !== 'Vertical Zoom',
   });
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
@@ -43,8 +80,17 @@ export function Measurement(props: MeasurementProps) {
           x: x.data,
           y: y.data,
         })}
+        xAxis={xAxis}
+        yAxis={yAxis}
       />
-      <Annotations>{crossHair.annotations}</Annotations>
+      <Annotations>
+        {crossHair.annotations}
+        {rectZoom.annotations}
+        {horizontalZoom.annotations}
+        {verticalZoom.annotations}
+      </Annotations>
+      <Axis id={xAxis} position="bottom" />
+      <Axis id={yAxis} position="left" />
     </Plot>
   );
 }
