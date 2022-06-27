@@ -10,20 +10,18 @@ import {
   usePlotEvents,
 } from '../contexts/plotController/plotControllerContext';
 
-import { ControllerHookOptions } from './types';
+import { ControllerHookOptions, DualAxisOptions } from './types';
 import { useStartMoveEnd } from './useStartMoveEnd';
 
-export interface UseAxisZoomOptions extends ControllerHookOptions {
+export interface UseAxisZoomOptions
+  extends ControllerHookOptions,
+    DualAxisOptions {
   /**
    * The zoom direction to use on wheel events.
    * @defaultValue 'vertical'
    * */
   direction?: 'horizontal' | 'vertical';
-  /**
-   * Id of Axis to apply zoom.
-   * Default value is 'x' when direction is horizontal and 'y' if direction is vertical.
-   * */
-  axisId?: string;
+
   /**
    * Zoom rectangle stroke color.
    * @defaultValue "red"
@@ -44,12 +42,13 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
     controllerId,
     disabled,
     direction = 'horizontal',
-    axisId = direction === 'horizontal' ? 'x' : 'y',
+    horizontalAxisId = 'x',
+    verticalAxisId = 'y',
     color = 'red',
     rectangleStyle,
     lineStyle,
   } = options;
-
+  const axisId = direction === 'horizontal' ? horizontalAxisId : verticalAxisId;
   const plotControls = usePlotControls(options);
 
   const startMoveEnd = useStartMoveEnd({
@@ -102,17 +101,65 @@ export function useAxisZoom(options: UseAxisZoomOptions = {}) {
   if (direction === 'horizontal') {
     annotations = (
       <>
-        <Line x1={start} x2={start} y1="0" y2="100%" {...lineProps} />
-        <Rectangle x1={start} x2={end} y1="0" y2="100%" {...rectangleProps} />
-        <Line x1={end} x2={end} y1="0" y2="100%" {...lineProps} />
+        <Line
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1={start}
+          x2={start}
+          y1="0"
+          y2="100%"
+          {...lineProps}
+        />
+        <Rectangle
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1={start}
+          x2={end}
+          y1="0"
+          y2="100%"
+          {...rectangleProps}
+        />
+        <Line
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1={end}
+          x2={end}
+          y1="0"
+          y2="100%"
+          {...lineProps}
+        />
       </>
     );
   } else {
     annotations = (
       <>
-        <Line x1="0" x2="100%" y1={start} y2={start} {...lineProps} />
-        <Rectangle x1="0" x2="100%" y1={start} y2={end} {...rectangleProps} />
-        <Line x1="0" x2="100%" y1={end} y2={end} {...lineProps} />
+        <Line
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1="0"
+          x2="100%"
+          y1={start}
+          y2={start}
+          {...lineProps}
+        />
+        <Rectangle
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1="0"
+          x2="100%"
+          y1={start}
+          y2={end}
+          {...rectangleProps}
+        />
+        <Line
+          xAxis={horizontalAxisId}
+          yAxis={verticalAxisId}
+          x1="0"
+          x2="100%"
+          y1={end}
+          y2={end}
+          {...lineProps}
+        />
       </>
     );
   }
