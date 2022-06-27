@@ -51,6 +51,8 @@ export function useDrawRectangle(options: UseDrawRectangleOptions = {}) {
   return {
     annotations: startMoveEnd?.end ? (
       <Rectangle
+        xAxis={horizontalAxisId}
+        yAxis={verticalAxisId}
         color={color}
         style={{ fillOpacity: 0.2, stroke: color, ...style }}
         x1={startMoveEnd.start.clampedCoordinates[horizontalAxisId]}
