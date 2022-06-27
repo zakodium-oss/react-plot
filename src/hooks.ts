@@ -183,7 +183,6 @@ function radsToDegs(rad: number) {
 
 // convert functions
 function convertString(value: string, total: number) {
-  if (value === undefined) return 0;
   return value.endsWith('%')
     ? (Number(value.slice(0, -1)) * total) / 100
     : Number(value);
