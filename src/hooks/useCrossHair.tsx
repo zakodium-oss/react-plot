@@ -67,6 +67,8 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
   const annotations = (
     <>
       <Line
+        xAxis={horizontalAxisId}
+        yAxis={verticalAxisId}
         x1="0%"
         x2="100%"
         y1={hover[verticalAxisId]}
@@ -74,6 +76,8 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
         {...lineProps}
       />
       <Line
+        xAxis={horizontalAxisId}
+        yAxis={verticalAxisId}
         y1="0%"
         y2="100%"
         x1={hover[horizontalAxisId]}
@@ -81,6 +85,8 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
         {...lineProps}
       />
       <Text
+        xAxis={horizontalAxisId}
+        yAxis={verticalAxisId}
         text-anchor="end"
         alignment-baseline="after-edge"
         x={hover[horizontalAxisId]}

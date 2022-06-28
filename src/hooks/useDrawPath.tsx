@@ -81,9 +81,21 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     annotations:
       data !== null ? (
         close ? (
-          <Polygon color={color} style={style} points={points} />
+          <Polygon
+            xAxis={horizontalAxisId}
+            yAxis={verticalAxisId}
+            color={color}
+            style={style}
+            points={points}
+          />
         ) : (
-          <Polyline color={color} style={style} points={points} />
+          <Polyline
+            xAxis={horizontalAxisId}
+            yAxis={verticalAxisId}
+            color={color}
+            style={style}
+            points={points}
+          />
         )
       ) : null,
   };
