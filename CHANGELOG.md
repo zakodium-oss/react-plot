@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.1](https://github.com/zakodium-oss/react-plot/compare/v0.20.0...v0.20.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* correctly compute default axis in hooks ([#424](https://github.com/zakodium-oss/react-plot/issues/424)) ([0aa6f36](https://github.com/zakodium-oss/react-plot/commit/0aa6f36471ef88473dd565931f48dff04acdead7))
+
 ## [0.20.0](https://github.com/zakodium-oss/react-plot/compare/v0.19.1...v0.20.0) (2022-06-23)
 
 
