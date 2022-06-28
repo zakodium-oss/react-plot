@@ -68,7 +68,7 @@ export function Measurement(props: MeasurementProps) {
     disabled: hook !== 'Horizontal Zoom',
   });
   const verticalZoom = useAxisZoom({
-    direction: 'horizontal',
+    direction: 'vertical',
     horizontalAxisId: xAxis,
     verticalAxisId: yAxis,
     disabled: hook !== 'Vertical Zoom',
