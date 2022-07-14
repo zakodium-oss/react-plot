@@ -71,7 +71,6 @@
     "@types/react": "^17.0.45",
     "@zakodium/eslint-config": "^6.0.0",
     "eslint": "^8.19.0",
-    "eslint-plugin-storybook": "^0.6.1",
     "isotopic-distribution": "^1.4.12",
     "iv-analysis": "^0.1.5",
     "ml-dataset-iris": "^1.2.1",
