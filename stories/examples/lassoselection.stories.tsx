@@ -51,7 +51,7 @@ export function LassoSelection({ disabled }: UseDrawPathOptions) {
     close: true,
     style: { fillOpacity: '0.2', stroke: 'black', strokeWidth: '2px' },
     onDraw(Newpoints) {
-      if (Newpoints && Newpoints !== []) {
+      if (Newpoints && Newpoints.length > 0) {
         setPoints(Newpoints);
       }
     },

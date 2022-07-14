@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-standalone-expect */
 import { test, expect } from '@playwright/experimental-ct-react';
 
 import { LineSeries, Plot } from '../src';
