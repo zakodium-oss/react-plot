@@ -11,7 +11,6 @@ test.describe('Plot', () => {
         <LineSeries data={data} />
       </Plot>,
     );
-
     const xAxis = component.locator('_react=Axis[position="bottom"]');
     const yAxis = component.locator('_react=Axis[position="left"]');
     await expect(xAxis).toBeEnabled();

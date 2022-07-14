@@ -123,22 +123,19 @@ function PlotChart({
 }
 
 function processSnapPlotData() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const input = prepare1DData(data?.spectra?.[0].data);
-
   const sanResult = xNoiseSanPlot(input);
   const sanPlot: any = {};
   const lines: any = {};
   for (const plotKey in sanResult.sanplot) {
     const { x, y } = sanResult.sanplot[plotKey];
-    let result = new Array(x.length);
+    const result = new Array<SeriesPoint>(x.length);
     for (let i = 0; i < x.length; i++) {
       result[i] = { x: x[i], y: y[i] };
     }
     sanPlot[plotKey] = result;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error
     lines[plotKey] = getLine(sanResult[plotKey], result, {
       yLogBase: 2,
     });
