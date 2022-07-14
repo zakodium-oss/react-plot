@@ -1,4 +1,5 @@
 extends: '@zakodium/eslint-config/typescript-react'
 rules:
   '@typescript-eslint/no-dynamic-delete': off
-  import/namespace: off
+  'import/namespace': off
+  'jest/no-done-callback': off

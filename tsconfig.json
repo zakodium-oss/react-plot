@@ -13,6 +13,12 @@
     "strict": true,
     "target": "es2019"
   },
-  "include": ["src/**/*", "stories/**/*"],
+  "include": [
+    "src/**/*",
+    "stories/**/*",
+    "tests/**/*",
+    "playwright.config.ts",
+    "playwright"
+  ],
   "exclude": ["node_modules"]
 }

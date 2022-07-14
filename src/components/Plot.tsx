@@ -212,7 +212,7 @@ export function Plot(props: PlotProps) {
     <plotContext.Provider value={plotContextValue}>
       <plotDispatchContext.Provider value={dispatch}>
         <LegendProvider>
-          <div style={{ position: 'relative', width: width, height: height }}>
+          <div style={{ position: 'relative', width, height }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={width}
