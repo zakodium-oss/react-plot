@@ -13,3 +13,4 @@ jobs:
     with:
       node-version: 18.x
       lint-check-types: true
+      disable-tests: true
