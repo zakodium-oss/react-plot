@@ -69,24 +69,25 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
-    legendDispatch({
-      type: 'ADD_LEGEND_LABEL',
-      payload: {
-        id,
-        label,
-        colorLine: lineStyle.stroke,
-        range: {
-          rangeColor: lineStyle.fill,
+    if (!hidden) {
+      legendDispatch({
+        type: 'ADD_LEGEND_LABEL',
+        payload: {
+          id,
+          label,
+          colorLine: lineStyle.stroke,
+          range: {
+            rangeColor: lineStyle.fill || 'none',
+          },
         },
-      },
-    });
-
+      });
+    }
     return () =>
       legendDispatch({
         type: 'REMOVE_LEGEND_LABEL',
         payload: { id },
       });
-  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id]);
+  }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, hidden]);
 
   if (hidden) return null;
 

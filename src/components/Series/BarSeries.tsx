@@ -58,20 +58,23 @@ export function BarSeries(props: BarSeriesProps) {
       hidden: !displayMarkers,
     };
   }, [color, displayMarkers, figure]);
+  console.log(id);
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
-    legendDispatch({
-      type: 'ADD_LEGEND_LABEL',
-      payload: {
-        id,
-        label: otherProps.label,
-        colorLine,
-        shape,
-      },
-    });
+    if (!hidden) {
+      legendDispatch({
+        type: 'ADD_LEGEND_LABEL',
+        payload: {
+          id,
+          label: otherProps.label,
+          colorLine,
+          shape,
+        },
+      });
+    }
     return () =>
       legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
-  }, [colorLine, legendDispatch, otherProps.label, shape, id]);
+  }, [colorLine, legendDispatch, otherProps.label, shape, id, hidden]);
   if (hidden) return null;
   return (
     <g>
