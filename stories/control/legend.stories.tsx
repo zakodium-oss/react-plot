@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Axis,
   BarSeries,
+  FunctionSeries,
   Legend,
   LegendProps,
   LineSeries,
@@ -131,14 +132,9 @@ export function WithHiddenSerie() {
 WithHiddenSerie.storyName = 'With hidden serie';
 
 export function WithShowHide(props: LegendProps) {
-  const { showHide, ...otherProps } = props;
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
-      <Legend
-        {...otherProps}
-        showHide={showHide}
-        labelStyle={{ cursor: 'hand' }}
-      />
+      <Legend {...props} labelStyle={{ cursor: 'hand' }} />
       <LineSeries
         lineStyle={{
           stroke: 'red',
@@ -187,3 +183,57 @@ WithShowHide.storyName = 'With Show Hide prop';
 WithShowHide.args = {
   showHide: true,
 };
+export function ManySeries(props: LegendProps) {
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      <Legend {...props} labelStyle={{ cursor: 'hand' }} />
+      <LineSeries
+        lineStyle={{
+          stroke: 'red',
+        }}
+        data={data1}
+        xAxis="x"
+        yAxis="y"
+        label="Label line series"
+      />
+      <BarSeries
+        data={data2}
+        lineStyle={{
+          stroke: 'green',
+        }}
+        label="Label Bar series"
+      />
+      <FunctionSeries
+        getY={(x) => 5 * Math.sin(x) + 10}
+        lineStyle={{
+          stroke: 'brown',
+        }}
+        label="Label Function series"
+      />
+      <ScatterSeries
+        data={data3}
+        markerStyle={{ fill: 'blue' }}
+        label="Label Scatter series"
+      />
+      <RangeSeries
+        data={data4}
+        lineStyle={{ fill: 'grey', stroke: 'black' }}
+        label="Label Range series"
+      />
+      <Axis
+        id="x"
+        position="bottom"
+        label="X"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
+      <Axis
+        id="y"
+        position="left"
+        label="Y"
+        paddingEnd={0.1}
+        paddingStart={0.1}
+      />
+    </Plot>
+  );
+}
