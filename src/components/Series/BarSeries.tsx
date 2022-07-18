@@ -58,7 +58,6 @@ export function BarSeries(props: BarSeriesProps) {
       hidden: !displayMarkers,
     };
   }, [color, displayMarkers, figure]);
-  console.log(id);
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
     if (!hidden) {
