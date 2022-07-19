@@ -70,8 +70,8 @@ export function BarSeries(props: BarSeriesProps) {
           shape,
         },
       });
-    return () =>
-      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+      return () =>
+        legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
     }
   }, [colorLine, legendDispatch, otherProps.label, shape, id, hidden]);
   if (hidden) return null;
