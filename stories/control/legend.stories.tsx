@@ -217,7 +217,7 @@ export function ManySeries(props: LegendProps) {
         lineStyle={{ fill: 'grey', stroke: 'black' }}
         label="Label Range series"
       />
-      <Legend {...props} labelStyle={{ cursor: 'hand' }} />
+      <Legend {...props} />
       <Axis position="bottom" paddingEnd={0.1} paddingStart={0.1} />
     </Plot>
   );
