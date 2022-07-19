@@ -63,9 +63,9 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
           },
         },
       });
+      return () =>
+        legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
     }
-    return () =>
-      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [
     hidden,
     colorScaler,

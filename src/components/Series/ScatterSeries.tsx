@@ -95,9 +95,9 @@ export function ScatterSeries<T extends SeriesPoint = SeriesPoint>(
           },
         },
       });
+      return () =>
+        legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
     }
-    return () =>
-      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
   }, [
     colorScaler,
     hidden,

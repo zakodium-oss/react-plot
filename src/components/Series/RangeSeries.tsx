@@ -81,12 +81,12 @@ export function RangeSeries<T extends RangeSeriesPoint>(
           },
         },
       });
+      return () =>
+        legendDispatch({
+          type: 'REMOVE_LEGEND_LABEL',
+          payload: { id },
+        });
     }
-    return () =>
-      legendDispatch({
-        type: 'REMOVE_LEGEND_LABEL',
-        payload: { id },
-      });
   }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, hidden]);
 
   if (hidden) return null;
