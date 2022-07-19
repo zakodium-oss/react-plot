@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         project: [chromium, firefox, webkit]
-        test-type: [ct]
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -23,5 +22,5 @@ jobs:
         run: npm i
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: Run ${{ matrix.test-type }} tests on ${{ matrix.project }}
-        run: npm run playwright-${{ matrix.test-type }} -- --project ${{ matrix.project }}
+      - name: Run tests on ${{ matrix.project }}
+        run: npm run playwright -- --project ${{ matrix.project }}
