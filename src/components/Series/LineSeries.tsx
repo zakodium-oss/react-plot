@@ -49,21 +49,23 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
   const lineStyle = functionalStyle({}, lineStyleFromProps, { id });
   const isVisible = useIsSeriesVisible(id);
   useEffect(() => {
-    legendDispatch({
-      type: 'ADD_LEGEND_LABEL',
-      payload: {
-        id,
-        label: otherProps.label,
-        colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
-        shape: {
-          color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
-          figure: otherProps.markerShape || 'circle',
-          hidden: !displayMarkers,
+    if (!hidden) {
+      legendDispatch({
+        type: 'ADD_LEGEND_LABEL',
+        payload: {
+          id,
+          label: otherProps.label,
+          colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
+          shape: {
+            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
+            figure: otherProps.markerShape || 'circle',
+            hidden: !displayMarkers,
+          },
         },
-      },
-    });
-    return () =>
-      legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+      });
+      return () =>
+        legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
+    }
   }, [
     hidden,
     colorScaler,
@@ -73,7 +75,6 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     lineStyle?.stroke,
     otherProps.label,
     otherProps.markerShape,
-    otherProps.markerStyle,
     otherProps.markerStyle?.fill,
   ]);
   if (hidden) return null;
