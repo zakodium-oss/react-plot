@@ -17,27 +17,37 @@ import { Line } from '../src/components/Annotations/Line';
 import { DEFAULT_PLOT_CONFIG, data, rangeData } from './utils';
 
 test.describe('Plot', () => {
-  test('default Plot children', async ({ mount }) => {
+  test('default Plot children without domain', async ({ mount }) => {
+    const plot = await mount(
+      <Plot {...DEFAULT_PLOT_CONFIG}>
+        <Axis position="bottom" />
+        <Axis position="left" />
+      </Plot>,
+    );
+    await expect(plot.locator('_react=Axis')).toHaveCount(0);
+  });
+  test('default Plot children with series', async ({ mount }) => {
     const plot = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <ScatterSeries data={data} />
       </Plot>,
     );
-    const markers = plot.locator('_react=ScatterSeries >> circle');
+    const series = plot.locator('_react=ScatterSeries');
     const xAxis = plot.locator('_react=Axis[position="bottom"]');
     const yAxis = plot.locator('_react=Axis[position="left"]');
-    await expect(markers).toHaveCount(data.length);
+    await expect(series).toBeEnabled();
     await expect(xAxis).toBeEnabled();
     await expect(yAxis).toBeEnabled();
   });
+
   test('Plot children', async ({ mount }) => {
     const plot = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
-        <ScatterSeries data={data} label="scatter" />
-        <LineSeries data={data} label="line" />
-        <BarSeries data={data} label="bar" />
-        <FunctionSeries getY={(x) => x} label="function" />
-        <RangeSeries data={rangeData} label="range" />
+        <ScatterSeries data={data} label="Scatter" />
+        <LineSeries data={data} label="Line" />
+        <BarSeries data={data} label="Bar" />
+        <FunctionSeries getY={(x) => x} label="Function" />
+        <RangeSeries data={rangeData} label="Range" />
         <Heading title="heading" />
         <Legend />
         <Axis position="bottom" />
@@ -50,7 +60,34 @@ test.describe('Plot', () => {
     await expect(plot.locator('_react=Axis')).toHaveCount(2);
     await expect(plot.locator('_react=Heading')).toHaveText('heading');
     await expect(plot.locator('_react=Legend')).toHaveText(
-      'barscatterlinefunctionrange',
+      'BarScatterLineFunctionRange',
     );
+    await expect(
+      plot.locator('_react=ScatterSeries[label="Scatter"] >> circle'),
+    ).toHaveCount(data.length);
+    await expect(
+      plot.locator('_react=LineSeries[label="Line"] >> path'),
+    ).toBeEnabled();
+    await expect(
+      plot.locator('_react=FunctionSeries[label="Function"] >> path'),
+    ).toBeEnabled();
+    await expect(
+      plot.locator('_react=RangeSeries[label="Range"]'),
+    ).toBeEnabled();
+    await expect(plot.locator('_react=BarSeries >> line')).toHaveCount(
+      data.length,
+    );
+    await expect(
+      plot.locator('_react=Annotations >> _react=Line'),
+    ).toBeEnabled();
+  });
+  test('invalid plot child', async ({ mount }) => {
+    await expect(async () => {
+      await mount(
+        <Plot {...DEFAULT_PLOT_CONFIG}>
+          <div>test</div>
+        </Plot>,
+      );
+    }).rejects.toThrow('invalid plot child');
   });
 });
