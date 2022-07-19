@@ -49,9 +49,8 @@ test.describe('Plot', () => {
     );
     await expect(plot.locator('_react=Axis')).toHaveCount(2);
     await expect(plot.locator('_react=Heading')).toHaveText('heading');
-    // todo: must have bar series
     await expect(plot.locator('_react=Legend')).toHaveText(
-      'scatterlinefunctionrange',
+      'barscatterlinefunctionrange',
     );
   });
 });

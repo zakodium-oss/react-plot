@@ -70,7 +70,7 @@
     "@types/point-in-polygon": "^1.1.1",
     "@types/react": "^17.0.45",
     "@zakodium/eslint-config": "^6.0.0",
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "isotopic-distribution": "^1.4.12",
     "iv-analysis": "^0.1.5",
     "ml-dataset-iris": "^1.2.1",
