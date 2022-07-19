@@ -23,7 +23,7 @@ test.describe('Plot', () => {
         <ScatterSeries data={data} />
       </Plot>,
     );
-    const markers = plot.locator('_react=ScatterSeries >> Circle');
+    const markers = plot.locator('_react=ScatterSeries >> circle');
     const xAxis = plot.locator('_react=Axis[position="bottom"]');
     const yAxis = plot.locator('_react=Axis[position="left"]');
     await expect(markers).toHaveCount(data.length);

@@ -1,4 +1,5 @@
-import { type PlaywrightTestConfig, devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test';
+import { devices } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   forbidOnly: !!process.env.CI,
@@ -11,7 +12,7 @@ const config: PlaywrightTestConfig = {
       strictSelectors: true,
     },
   },
-  testDir: './tests/',
+  testDir: './tests',
   projects: [
     {
       name: 'chromium',

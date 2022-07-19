@@ -2,5 +2,5 @@ node_modules
 lib/
 lib-esm/
 storybook-static/
-playwright-report
-.cache
+/playwright-report/
+/playwright/.cache/
