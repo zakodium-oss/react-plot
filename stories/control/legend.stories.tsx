@@ -186,6 +186,13 @@ WithShowHide.args = {
 export function ManySeries(props: LegendProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
+      <LineSeries
+        data={data1}
+        lineStyle={{
+          stroke: 'red',
+        }}
+        label="Label Line series"
+      />
       <BarSeries
         data={data2}
         lineStyle={{
@@ -196,9 +203,19 @@ export function ManySeries(props: LegendProps) {
       <FunctionSeries
         getY={(x) => 5 * Math.sin(x) + 10}
         lineStyle={{
-          stroke: 'brown',
+          stroke: 'aqua',
         }}
         label="Label Function series"
+      />
+      <ScatterSeries
+        data={data3}
+        markerStyle={{ fill: 'blue' }}
+        label="Label Scatter series"
+      />
+      <RangeSeries
+        data={data4}
+        lineStyle={{ fill: 'grey', stroke: 'black' }}
+        label="Label Range series"
       />
       <Legend {...props} labelStyle={{ cursor: 'hand' }} />
       <Axis position="bottom" paddingEnd={0.1} paddingStart={0.1} />
