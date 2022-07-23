@@ -16,14 +16,15 @@ import { Line } from '../src/components/Annotations/Line';
 
 import { DEFAULT_PLOT_CONFIG, data, rangeData } from './utils';
 
-test.describe('Plot', () => {
-  test('default Plot children without domain', async ({ mount }) => {
+test.describe('Plot tests', () => {
+  test('empty plot', async ({ mount }) => {
     const plot = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <Axis position="bottom" />
         <Axis position="left" />
       </Plot>,
     );
+    await expect(plot).toBeEmpty();
     await expect(plot.locator('_react=Axis')).toHaveCount(0);
   });
   test('default Plot children with series', async ({ mount }) => {
@@ -39,8 +40,7 @@ test.describe('Plot', () => {
     await expect(xAxis).toBeEnabled();
     await expect(yAxis).toBeEnabled();
   });
-
-  test('Plot children', async ({ mount }) => {
+  test('valid plot children', async ({ mount }) => {
     const plot = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <ScatterSeries data={data} label="Scatter" />
@@ -89,5 +89,18 @@ test.describe('Plot', () => {
         </Plot>,
       );
     }).rejects.toThrow('invalid plot child');
+  });
+  test('plot height and width', async ({ mount }) => {
+    const plot = await mount(
+      <Plot {...DEFAULT_PLOT_CONFIG}>
+        <ScatterSeries data={data} />
+      </Plot>,
+    );
+    expect(await plot.evaluate((node) => node.clientWidth)).toBe(
+      DEFAULT_PLOT_CONFIG.width,
+    );
+    expect(await plot.evaluate((node) => node.clientHeight)).toBe(
+      DEFAULT_PLOT_CONFIG.height,
+    );
   });
 });
