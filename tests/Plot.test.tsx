@@ -14,7 +14,12 @@ import {
 } from '../src';
 import { Line } from '../src/components/Annotations/Line';
 
-import { DEFAULT_PLOT_CONFIG, data, rangeData } from './utils';
+import {
+  DEFAULT_PLOT_CONFIG,
+  data,
+  rangeData,
+  getInfraredSeries,
+} from './utils';
 
 test.describe('Plot tests', () => {
   test('empty plot', async ({ mount }) => {
@@ -29,9 +34,7 @@ test.describe('Plot tests', () => {
   });
   test('default Plot children with series', async ({ mount }) => {
     const plot = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        <ScatterSeries data={data} />
-      </Plot>,
+      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
     );
     const series = plot.locator('_react=ScatterSeries');
     const xAxis = plot.locator('_react=Axis[position="bottom"]');
@@ -85,16 +88,14 @@ test.describe('Plot tests', () => {
     await expect(async () => {
       await mount(
         <Plot {...DEFAULT_PLOT_CONFIG}>
-          <div>test</div>
+          <div>invalid child</div>
         </Plot>,
       );
     }).rejects.toThrow('invalid plot child');
   });
   test('plot height and width', async ({ mount }) => {
     const plot = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        <ScatterSeries data={data} />
-      </Plot>,
+      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
     );
     expect(await plot.evaluate((node) => node.clientWidth)).toBe(
       DEFAULT_PLOT_CONFIG.width,

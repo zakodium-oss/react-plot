@@ -1,14 +1,14 @@
 import { test, expect } from '@playwright/experimental-ct-react';
 
-import { Axis, LineSeries, Plot, ScatterSeries } from '../src';
+import { Axis, Plot } from '../src';
 
-import { DEFAULT_PLOT_CONFIG, largeData, data } from './utils';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from './utils';
 
-test.describe('Axis', () => {
+test.describe('Axis tests', () => {
   test('all valid axes', async ({ mount }) => {
     const plot = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
-        <ScatterSeries data={data} />
+        {getInfraredSeries()}
         <Axis position="bottom" />
         <Axis position="left" />
         <Axis position="top" />
@@ -30,13 +30,11 @@ test.describe('Axis', () => {
   });
   test('axis scale', async ({ mount }) => {
     const defaultScale = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        <LineSeries data={largeData} />
-      </Plot>,
+      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
     );
     const linear = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
-        <LineSeries data={largeData} />
+        {getInfraredSeries()}
         <Axis
           position="bottom"
           scale="linear"
@@ -46,14 +44,16 @@ test.describe('Axis', () => {
       </Plot>,
     );
     expect(defaultScale).toStrictEqual(linear);
-    const defaultAxis = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110].join('');
+    const defaultAxis = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000].join(
+      '',
+    );
     await expect(linear.locator('_react=Axis[scale="linear"]')).toHaveText(
       defaultAxis,
     );
 
     const log = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
-        <LineSeries data={largeData} />
+        {getInfraredSeries()}
         <Axis
           position="bottom"
           scale="log"
@@ -62,11 +62,11 @@ test.describe('Axis', () => {
         />
       </Plot>,
     );
-    const logAxis = [10, 100].join('');
+    const logAxis = [1000].join('');
     await expect(log.locator('_react=Axis[scale="log"]')).toHaveText(logAxis);
     const time = await mount(
       <Plot {...DEFAULT_PLOT_CONFIG}>
-        <LineSeries data={largeData} />
+        {getInfraredSeries()}
         <Axis
           position="bottom"
           scale="time"
@@ -75,19 +75,7 @@ test.describe('Axis', () => {
         />
       </Plot>,
     );
-    const timeAxis = [
-      '.010',
-      '.020',
-      '.030',
-      '.040',
-      '.050',
-      '.060',
-      '.070',
-      '.080',
-      '.090',
-      '.100',
-      '.110',
-    ].join('');
+    const timeAxis = ['.500:01', '.500:02', '.500:03', '.500:04'].join('');
     await expect(time.locator('_react=Axis[scale="time"]')).toHaveText(
       timeAxis,
     );
