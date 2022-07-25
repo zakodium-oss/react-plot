@@ -1,4 +1,8 @@
-import { ScatterSeries } from '../src';
+import { useState } from 'react';
+
+import { Annotations, Plot, ScatterSeries } from '../src';
+import { Arrow } from '../src/components/Annotations/Arrow';
+import { Line } from '../src/components/Annotations/Line';
 import infrared from '../stories/data/infrared.json';
 
 export const DEFAULT_PLOT_CONFIG = {
@@ -68,5 +72,31 @@ export function getInfraredSeries() {
       xAxis="x"
       yAxis="y"
     />
+  );
+}
+export function AnnotationsCallback() {
+  const [active, setActive] = useState('arrow');
+  return (
+    <Plot {...DEFAULT_PLOT_CONFIG}>
+      {getInfraredSeries()}
+      <Annotations>
+        <Arrow
+          x1="0"
+          x2="100"
+          y1="0"
+          y2="100"
+          color={active === 'arrow' ? 'red' : 'black'}
+          onClick={() => setActive('arrow')}
+        />
+        <Line
+          x1="200"
+          x2="300"
+          y1="100"
+          y2="4"
+          color={active === 'line' ? 'red' : 'black'}
+          onClick={() => setActive('line')}
+        />
+      </Annotations>
+    </Plot>
   );
 }
