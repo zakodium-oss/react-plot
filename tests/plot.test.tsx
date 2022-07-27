@@ -14,12 +14,62 @@ import {
 } from '../src';
 import { Line } from '../src/components/Annotations/Line';
 
-import {
-  DEFAULT_PLOT_CONFIG,
-  data,
-  rangeData,
-  getInfraredSeries,
-} from './utils';
+import { InfraredPlotTest } from './utils';
+
+const DEFAULT_PLOT_CONFIG = {
+  width: 900,
+  height: 540,
+};
+const data = [
+  {
+    x: 0,
+    y: 10,
+  },
+  {
+    x: 1,
+    y: 12,
+  },
+  {
+    x: 2,
+    y: 14,
+  },
+  {
+    x: 3,
+    y: 16,
+  },
+  {
+    x: 4,
+    y: 18,
+  },
+];
+
+const rangeData = [
+  {
+    x: 1,
+    y1: -3,
+    y2: 4,
+  },
+  {
+    x: 2,
+    y1: -2,
+    y2: 5,
+  },
+  {
+    x: 3,
+    y1: 2,
+    y2: 10,
+  },
+  {
+    x: 4,
+    y1: 7,
+    y2: 16,
+  },
+  {
+    x: 5,
+    y1: 12,
+    y2: 22,
+  },
+];
 
 test.describe('Plot tests', () => {
   test('empty plot', async ({ mount }) => {
@@ -33,9 +83,7 @@ test.describe('Plot tests', () => {
     await expect(plot.locator('_react=Axis')).toHaveCount(0);
   });
   test('default Plot children with series', async ({ mount }) => {
-    const plot = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
-    );
+    const plot = await mount(<InfraredPlotTest />);
     const series = plot.locator('_react=ScatterSeries');
     const xAxis = plot.locator('_react=Axis[position="bottom"]');
     const yAxis = plot.locator('_react=Axis[position="left"]');
@@ -94,9 +142,7 @@ test.describe('Plot tests', () => {
     }).rejects.toThrow('invalid plot child');
   });
   test('plot height and width', async ({ mount }) => {
-    const plot = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
-    );
+    const plot = await mount(<InfraredPlotTest />);
     expect(await plot.evaluate((node) => node.clientWidth)).toBe(
       DEFAULT_PLOT_CONFIG.width,
     );

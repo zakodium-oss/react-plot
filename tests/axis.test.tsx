@@ -1,19 +1,18 @@
 import { test, expect } from '@playwright/experimental-ct-react';
 
-import { Axis, Plot } from '../src';
+import { Axis, ParallelAxis } from '../src';
 
-import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from './utils';
+import { InfraredPlotTest } from './utils';
 
 test.describe('Axis tests', () => {
   test('all valid axes', async ({ mount }) => {
     const plot = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        {getInfraredSeries()}
+      <InfraredPlotTest>
         <Axis position="bottom" />
         <Axis position="left" />
         <Axis position="top" />
         <Axis position="right" />
-      </Plot>,
+      </InfraredPlotTest>,
     );
     const axes = plot.locator('_react=Axis');
     await expect(axes).toHaveCount(4);
@@ -21,27 +20,35 @@ test.describe('Axis tests', () => {
   test('invalid axes', async ({ mount }) => {
     await expect(async () => {
       await mount(
-        <Plot {...DEFAULT_PLOT_CONFIG}>
+        <InfraredPlotTest>
           <Axis position="bottom" />
           <Axis position="bottom" />
-        </Plot>,
+        </InfraredPlotTest>,
       );
     }).rejects.toThrow('Plot can only have one bottom axis');
   });
-  test('axis scale', async ({ mount }) => {
-    const defaultScale = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>,
+  test('parallel axis', async ({ mount }) => {
+    const plot = await mount(
+      <InfraredPlotTest>
+        <Axis id="x" position="bottom" label="X" />
+        <Axis id="y" position="left" label="Y" />
+        <ParallelAxis id="x" />
+      </InfraredPlotTest>,
     );
+    const horizontalAxes = plot.locator('_react=HorizontalAxis');
+    await expect(horizontalAxes).toHaveCount(2);
+  });
+  test('axis scale', async ({ mount }) => {
+    const defaultScale = await mount(<InfraredPlotTest />);
     const linear = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        {getInfraredSeries()}
+      <InfraredPlotTest>
         <Axis
           position="bottom"
           scale="linear"
           paddingEnd="10%"
           paddingStart="10%"
         />
-      </Plot>,
+      </InfraredPlotTest>,
     );
     expect(defaultScale).toStrictEqual(linear);
     const defaultAxis = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000].join(
@@ -52,28 +59,26 @@ test.describe('Axis tests', () => {
     );
 
     const log = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        {getInfraredSeries()}
+      <InfraredPlotTest>
         <Axis
           position="bottom"
           scale="log"
           paddingEnd="10%"
           paddingStart="10%"
         />
-      </Plot>,
+      </InfraredPlotTest>,
     );
     const logAxis = [1000].join('');
     await expect(log.locator('_react=Axis[scale="log"]')).toHaveText(logAxis);
     const time = await mount(
-      <Plot {...DEFAULT_PLOT_CONFIG}>
-        {getInfraredSeries()}
+      <InfraredPlotTest>
         <Axis
           position="bottom"
           scale="time"
           paddingEnd="10%"
           paddingStart="10%"
         />
-      </Plot>,
+      </InfraredPlotTest>,
     );
     const timeAxis = ['.500:01', '.500:02', '.500:03', '.500:04'].join('');
     await expect(time.locator('_react=Axis[scale="time"]')).toHaveText(
