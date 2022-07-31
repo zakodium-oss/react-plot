@@ -118,19 +118,19 @@ test.describe('Plot tests', () => {
     ).toHaveCount(data.length);
     await expect(
       plot.locator('_react=LineSeries[label="Line"] >> path'),
-    ).toBeEnabled();
+    ).toBeVisible();
     await expect(
       plot.locator('_react=FunctionSeries[label="Function"] >> path'),
-    ).toBeEnabled();
+    ).toBeVisible();
     await expect(
       plot.locator('_react=RangeSeries[label="Range"]'),
-    ).toBeEnabled();
+    ).toBeVisible();
     await expect(plot.locator('_react=BarSeries >> line')).toHaveCount(
       data.length,
     );
     await expect(
       plot.locator('_react=Annotations >> _react=Line'),
-    ).toBeEnabled();
+    ).toBeVisible();
   });
   test('invalid plot child', async ({ mount }) => {
     await expect(async () => {
