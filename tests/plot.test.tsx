@@ -4,7 +4,6 @@ import {
   Annotations,
   Axis,
   BarSeries,
-  FunctionSeries,
   Heading,
   Legend,
   LineSeries,
@@ -87,9 +86,9 @@ test.describe('Plot tests', () => {
     const series = plot.locator('_react=ScatterSeries');
     const xAxis = plot.locator('_react=Axis[position="bottom"]');
     const yAxis = plot.locator('_react=Axis[position="left"]');
-    await expect(series).toBeEnabled();
-    await expect(xAxis).toBeEnabled();
-    await expect(yAxis).toBeEnabled();
+    await expect(series).toBeVisible();
+    await expect(xAxis).toBeVisible();
+    await expect(yAxis).toBeVisible();
   });
   test('valid plot children', async ({ mount }) => {
     const plot = await mount(
@@ -97,7 +96,6 @@ test.describe('Plot tests', () => {
         <ScatterSeries data={data} label="Scatter" />
         <LineSeries data={data} label="Line" />
         <BarSeries data={data} label="Bar" />
-        <FunctionSeries getY={(x) => x} label="Function" />
         <RangeSeries data={rangeData} label="Range" />
         <Heading title="heading" />
         <Legend />
@@ -118,9 +116,6 @@ test.describe('Plot tests', () => {
     ).toHaveCount(data.length);
     await expect(
       plot.locator('_react=LineSeries[label="Line"] >> path'),
-    ).toBeVisible();
-    await expect(
-      plot.locator('_react=FunctionSeries[label="Function"] >> path'),
     ).toBeVisible();
     await expect(
       plot.locator('_react=RangeSeries[label="Range"]'),
