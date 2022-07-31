@@ -109,7 +109,7 @@ test.describe('Plot tests', () => {
     await expect(plot.locator('_react=Axis')).toHaveCount(2);
     await expect(plot.locator('_react=Heading')).toHaveText('heading');
     await expect(plot.locator('_react=Legend')).toHaveText(
-      'BarScatterLineFunctionRange',
+      'ScatterLineBarRange',
     );
     await expect(
       plot.locator('_react=ScatterSeries[label="Scatter"] >> circle'),
