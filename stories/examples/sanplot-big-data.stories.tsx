@@ -123,8 +123,6 @@ function PlotChart({
 }
 
 function processSnapPlotData() {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const input = prepare1DData(data?.spectra?.[0].data);
 
   const sanResult = xNoiseSanPlot(input);
@@ -138,7 +136,7 @@ function processSnapPlotData() {
     }
     sanPlot[plotKey] = result;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    // @ts-expect-error
     lines[plotKey] = getLine(sanResult[plotKey], result, {
       yLogBase: 2,
     });

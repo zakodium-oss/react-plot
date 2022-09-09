@@ -48,8 +48,8 @@ export default function HorizontalAxis(props: AxisRendererProps) {
       line: {
         x1: value,
         x2: value,
-        y1: y1,
-        y2: y2,
+        y1,
+        y2,
       },
       text: {
         x1: value,

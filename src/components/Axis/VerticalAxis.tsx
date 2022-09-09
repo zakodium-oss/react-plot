@@ -48,8 +48,8 @@ export default function VerticalAxis(props: AxisRendererProps) {
       line: {
         y1: value,
         y2: value,
-        x1: x1,
-        x2: x2,
+        x1,
+        x2,
       },
       text: { y1: value, x1: isRight ? textPosition : -textPosition },
     };
