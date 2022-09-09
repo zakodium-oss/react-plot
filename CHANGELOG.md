@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.20.2](https://github.com/zakodium-oss/react-plot/compare/v0.20.1...v0.20.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* legend bug (bar series) ([#429](https://github.com/zakodium-oss/react-plot/issues/429)) ([4ddaef5](https://github.com/zakodium-oss/react-plot/commit/4ddaef56617b58f3bdf6005df1c7feffcc7f9885))
+* use camelCase props in text element ([0dc0959](https://github.com/zakodium-oss/react-plot/commit/0dc09596e033c021b4604ab435c839de1cbe8fb1))
+
 ## [0.20.1](https://github.com/zakodium-oss/react-plot/compare/v0.20.0...v0.20.1) (2022-06-28)
 
 
