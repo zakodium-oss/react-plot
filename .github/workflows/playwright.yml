@@ -1,0 +1,26 @@
+name: Playwright tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [chromium, firefox, webkit]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: npm i
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Run tests on ${{ matrix.project }}
+        run: npm run playwright -- --project ${{ matrix.project }}

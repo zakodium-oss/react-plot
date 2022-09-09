@@ -124,13 +124,12 @@ function PlotChart({
 
 function processSnapPlotData() {
   const input = prepare1DData(data?.spectra?.[0].data);
-
   const sanResult = xNoiseSanPlot(input);
   const sanPlot: any = {};
   const lines: any = {};
   for (const plotKey in sanResult.sanplot) {
     const { x, y } = sanResult.sanplot[plotKey];
-    let result = new Array(x.length);
+    const result = new Array<SeriesPoint>(x.length);
     for (let i = 0; i < x.length; i++) {
       result[i] = { x: x[i], y: y[i] };
     }

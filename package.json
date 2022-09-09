@@ -18,11 +18,12 @@
     "dev": "start-storybook -p 6006",
     "eslint": "eslint .",
     "eslint-fix": "npm run eslint -- --fix",
+    "playwright": "playwright test -c playwright.config.ts",
     "prepack": "npm run build",
     "prettier": "prettier --check .",
     "prettier-write": "prettier --write .",
     "start": "npm run dev",
-    "test": "npm run eslint && npm run check-types"
+    "test": "npm run playwright && npm run eslint && npm run prettier && npm run check-types"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "react": "*"
   },
   "devDependencies": {
+    "@playwright/experimental-ct-react": "^1.25.2",
     "@simbathesailor/use-what-changed": "^2.0.0",
     "@storybook/addon-essentials": "^6.5.10",
     "@storybook/addon-links": "^6.5.10",
