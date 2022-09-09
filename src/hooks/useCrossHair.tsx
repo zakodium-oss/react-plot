@@ -87,8 +87,8 @@ export function useCrossHair(options: UseCrossHairOptions = {}) {
       <Text
         xAxis={horizontalAxisId}
         yAxis={verticalAxisId}
-        text-anchor="end"
-        alignment-baseline="after-edge"
+        textAnchor="end"
+        alignmentBaseline="after-edge"
         x={hover[horizontalAxisId]}
         y={hover[verticalAxisId]}
         {...textProps}
