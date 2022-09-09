@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/react';
+import type { MeasurementSelector } from 'base-analysis';
 import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { useEffect, useState } from 'react';
@@ -12,13 +13,10 @@ export default {
 
 interface BaseExampleProps {
   filename: string;
-  selector: Record<'xLabel' | 'xUnits' | 'yLabel' | 'yUnits', string>;
+  selector: MeasurementSelector;
   yScale: 'linear' | 'log';
   processorFunction(text: string): Analysis[];
-  children(
-    meta: Record<string, string>,
-    data: Array<Record<'x' | 'y', number>>,
-  ): React.ReactNode;
+  children(meta: any, data: Array<Record<'x' | 'y', number>>): React.ReactNode;
 }
 function BaseExample({
   filename,
@@ -40,7 +38,6 @@ function BaseExample({
   if (!csv) return <div>Loading...</div>;
 
   const [analysis] = processorFunction(csv);
-  // @ts-expect-error See https://github.com/cheminfo/analysis/issues/17
   const { variables, meta } = analysis.getMeasurementXY(selector);
   const y =
     yScale === 'log'
@@ -67,10 +64,14 @@ export function TransferExample() {
     <BaseExample
       filename="/iv_transfer.csv"
       selector={{
-        xLabel: 'Vg',
-        xUnits: 'V',
-        yLabel: 'Id_dens',
-        yUnits: 'A/mm',
+        x: {
+          units: 'V',
+          label: 'Vg',
+        },
+        y: {
+          units: 'A/mm',
+          label: 'Id_dens',
+        },
       }}
       yScale="log"
       processorFunction={fromTransfer}
@@ -115,10 +116,14 @@ export function BreakdownExample() {
     <BaseExample
       filename="/iv_breakdown.csv"
       selector={{
-        xLabel: 'Vd',
-        xUnits: 'V',
-        yLabel: 'Id_dens',
-        yUnits: 'A/mm',
+        x: {
+          units: 'V',
+          label: 'Vd',
+        },
+        y: {
+          units: 'A/mm',
+          label: 'Id_dens',
+        },
       }}
       yScale="log"
       processorFunction={fromBreakdown}

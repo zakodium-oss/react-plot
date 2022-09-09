@@ -1,6 +1,6 @@
 {
   "name": "react-plot",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "Library of React components to render SVG 2D plots.",
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
@@ -53,16 +53,14 @@
     "react": "*"
   },
   "devDependencies": {
-    "@emotion/react": "^11.9.3",
-    "@playwright/experimental-ct-react": "^1.24.0",
-    "@playwright/test": "^1.24.0",
+    "@playwright/experimental-ct-react": "^1.25.2",
     "@simbathesailor/use-what-changed": "^2.0.0",
-    "@storybook/addon-essentials": "^6.5.9",
-    "@storybook/addon-links": "^6.5.9",
-    "@storybook/addon-storysource": "^6.5.9",
-    "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
-    "@storybook/react": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.10",
+    "@storybook/addon-links": "^6.5.10",
+    "@storybook/addon-storysource": "^6.5.10",
+    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/manager-webpack5": "^6.5.10",
+    "@storybook/react": "^6.5.10",
     "@types/d3-array": "^3.0.3",
     "@types/d3-scale": "^4.0.2",
     "@types/d3-scale-chromatic": "^3.0.0",
@@ -70,20 +68,20 @@
     "@types/point-in-polygon": "^1.1.1",
     "@types/react": "^17.0.45",
     "@zakodium/eslint-config": "^6.0.0",
-    "eslint": "^8.20.0",
+    "eslint": "^8.23.0",
     "isotopic-distribution": "^1.4.12",
-    "iv-analysis": "^0.2.0",
+    "iv-analysis": "^0.3.0",
     "ml-dataset-iris": "^1.2.1",
     "ml-directional-distribution": "^0.1.0",
     "ml-pca": "^4.0.2",
     "ml-regression-simple-linear": "^2.0.3",
-    "ml-spectra-processing": "^11.9.0",
-    "ms-spectrum": "^1.6.9",
+    "ml-spectra-processing": "^11.12.0",
+    "ms-spectrum": "^1.6.10",
     "point-in-polygon": "^1.1.0",
     "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "typescript": "^4.7.4",
+    "typescript": "^4.8.3",
     "webpack": "^5.74.0"
   },
   "dependencies": {
@@ -94,5 +92,8 @@
     "immer": "^9.0.15",
     "ml-distance-euclidean": "^2.0.0",
     "react-d3-utils": "^0.5.1"
+  },
+  "volta": {
+    "node": "16.17.0"
   }
 }

@@ -14,8 +14,6 @@ export default {
   },
 } as Meta;
 
-/** Util functions *****************/
-
 const generateNewXY = (serie: SeriesPoint, step: number): [number, number] => {
   const x = serie.x + step;
   const rand = Math.floor(Math.random() * 10);
@@ -35,18 +33,14 @@ const getLastData = (
   return newVals;
 };
 
-/** Main Component *****************/
-
 type Props = Record<string, number>;
 export function NasdaqExample(props: Props) {
-  return <PlotRefresher {...props} />;
-}
-function PlotRefresher(props: Props) {
   const {
     refreshFrequency, // Page refresher frequency (s)
     step, // timestamp's step
     displayInterval, // interval to display (s)
   } = props;
+
   const [data, setData] = useState(srcData);
 
   useEffect(() => {
