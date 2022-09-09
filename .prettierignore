@@ -2,3 +2,5 @@
 /lib-esm
 /node_modules
 CHANGELOG.md
+/playwright-report
+/playwright/.cache

@@ -39,7 +39,6 @@ test.describe('Axis tests', () => {
     await expect(horizontalAxes).toHaveCount(2);
   });
   test('axis scale', async ({ mount }) => {
-    const defaultScale = await mount(<InfraredPlotTest />);
     const linear = await mount(
       <InfraredPlotTest>
         <Axis
@@ -50,7 +49,6 @@ test.describe('Axis tests', () => {
         />
       </InfraredPlotTest>,
     );
-    expect(defaultScale).toStrictEqual(linear);
     const defaultAxis = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000].join(
       '',
     );
