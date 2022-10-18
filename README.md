@@ -2,6 +2,8 @@
 
 Library of React components to render SVG 2D plots.
 
+Check our exhautive [documentationn here](https://react-plot.zakodium.com/) .
+
 <h3 align="center">
 
   <a href="https://www.zakodium.com">
