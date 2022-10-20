@@ -53,7 +53,7 @@
     "react": "*"
   },
   "devDependencies": {
-    "@playwright/experimental-ct-react": "^1.25.2",
+    "@playwright/experimental-ct-react": "^1.27.1",
     "@simbathesailor/use-what-changed": "^2.0.0",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",
@@ -68,15 +68,15 @@
     "@types/point-in-polygon": "^1.1.1",
     "@types/react": "^17.0.45",
     "@zakodium/eslint-config": "^6.0.0",
-    "eslint": "^8.24.0",
-    "isotopic-distribution": "^1.4.12",
+    "eslint": "^8.25.0",
+    "isotopic-distribution": "^1.4.14",
     "iv-analysis": "^0.3.0",
     "ml-dataset-iris": "^1.2.1",
     "ml-directional-distribution": "^0.1.0",
     "ml-pca": "^4.0.2",
     "ml-regression-simple-linear": "^2.0.3",
-    "ml-spectra-processing": "^11.12.0",
-    "ms-spectrum": "^1.6.10",
+    "ml-spectra-processing": "^11.13.0",
+    "ms-spectrum": "^1.6.13",
     "point-in-polygon": "^1.1.0",
     "prettier": "^2.7.1",
     "react": "^17.0.2",
@@ -91,9 +91,9 @@
     "d3-shape": "^3.1.0",
     "immer": "^9.0.15",
     "ml-distance-euclidean": "^2.0.0",
-    "react-d3-utils": "^0.5.1"
+    "react-d3-utils": "^0.6.0"
   },
   "volta": {
-    "node": "16.17.0"
+    "node": "16.18.0"
   }
 }
