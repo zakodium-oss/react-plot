@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.20.3](https://github.com/zakodium-oss/react-plot/compare/v0.20.2...v0.20.3) (2022-10-20)
+
+
+### Bug Fixes
+
+* update dependencies ([#435](https://github.com/zakodium-oss/react-plot/issues/435)) ([fbd6cd8](https://github.com/zakodium-oss/react-plot/commit/fbd6cd8b115ffda57a537a7cd3c05f842599f642))
+
 ## [0.20.2](https://github.com/zakodium-oss/react-plot/compare/v0.20.1...v0.20.2) (2022-09-09)
 
 
