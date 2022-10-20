@@ -4,3 +4,4 @@
 CHANGELOG.md
 /playwright-report
 /playwright/.cache
+/stories/data
