@@ -12,7 +12,7 @@ import {
 } from 'd3-scale';
 import { createContext, Dispatch, useContext, useMemo } from 'react';
 
-import type { AxisProps } from '../components/Axis/Axis';
+import type { AxisScale } from '../components/Axis/Axis';
 import { LegendPosition } from '../components/Legend';
 import type {
   ActionType,
@@ -49,16 +49,18 @@ interface PlotSeriesStateAxis {
   axisId: string;
 }
 
-export type PlotAxisState = Pick<
-  AxisProps,
-  'position' | 'min' | 'max' | 'flip' | 'scale'
-> & {
+export interface PlotAxisState {
   id: string;
+  position: Position;
+  min?: number;
+  max?: number;
+  flip: boolean;
+  scale: AxisScale;
   innerOffset: number;
   paddingStart: ScalarValue;
   paddingEnd: ScalarValue;
   tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
-};
+}
 
 export type PlotReducerActions =
   | ActionType<'addSeries', PlotSeriesState>
@@ -250,7 +252,7 @@ export function useAxisContext(
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
       const domain = [axisMin - padding.min, axisMax + padding.max] as const;
-
+      // eslint-disable-next-line unicorn/consistent-function-scoping
       const clampInDomain = function clampInDomain(value: number) {
         return value < domain[0]
           ? domain[0]
@@ -286,8 +288,7 @@ export function useAxisContext(
           };
           break;
         }
-        case 'linear':
-        default: {
+        case 'linear': {
           axisContext[id] = {
             type: 'linear' as const,
             position: axis.position,
@@ -299,6 +300,9 @@ export function useAxisContext(
             clampInDomain,
           };
           break;
+        }
+        default: {
+          throw new Error('unreachable');
         }
       }
     }

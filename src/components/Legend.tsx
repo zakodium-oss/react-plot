@@ -169,21 +169,20 @@ export function Legend(options: LegendProps) {
   return (
     <AlignGroup {...alignGroupProps}>
       {state.labels.map((value, index) => {
-        const { id } = value;
         const labelStyle = functionalStyle(
           { fontSize: '16px' },
           funcLabelStyle,
-          { id },
+          { id: value.id },
         );
-        const lineStyle = functionalStyle({}, funcLineStyle, { id });
+        const lineStyle = functionalStyle({}, funcLineStyle, { id: value.id });
         // TODO: fix this as it's not guaranteed that `fontSize` can be parsed as a string.
-        const height = parseInt(String(labelStyle.fontSize), 10);
+        const height = Number.parseInt(String(labelStyle.fontSize), 10);
         const xPos = 10;
         const yPos = index * height + height / 2 + 3;
         if (value.range) {
           return (
             <g
-              onClick={(event) => onClickLegendItem(event, id)}
+              onClick={(event) => onClickLegendItem(event, value.id)}
               key={index}
               transform={`translate(${xPos}, ${0})`}
               style={{ opacity: value.isVisible ? '1' : '0.6' }}
@@ -209,7 +208,7 @@ export function Legend(options: LegendProps) {
         }
         return (
           <g
-            onClick={(event) => onClickLegendItem(event, id)}
+            onClick={(event) => onClickLegendItem(event, value.id)}
             key={index}
             transform={`translate(${xPos}, ${0})`}
             style={{ opacity: value.isVisible ? '1' : '0.6' }}
@@ -269,7 +268,7 @@ function getRangeShape(config: {
 }) {
   const { index, rangeColor, lineColor, style = {}, height = 16 } = config;
   const { strokeWidth = '15px' } = style;
-  const lineHeight = parseInt(strokeWidth?.toString(), 10) / 5;
+  const lineHeight = Number.parseInt(strokeWidth?.toString(), 10) / 5;
   const x = 0;
   const y = index * height + height / 2 - lineHeight;
   return (

@@ -62,12 +62,11 @@ export function PCA() {
             const y = predictedData.getColumn(1);
 
             const regression = new LinearRegression(x, y);
-            const yRegression = (val: number) => regression.predict(val);
 
             const data: SeriesPoint[] = [];
-            x.forEach((x, i) => {
-              data.push({ x, y: y[i] });
-            });
+            for (const [i, xValue] of x.entries()) {
+              data.push({ x: xValue, y: y[i] });
+            }
 
             series.push(
               <ScatterSeries
@@ -79,14 +78,12 @@ export function PCA() {
                 label={`${klass}-Scatter`}
                 markerShape="triangle"
               />,
-            );
-            series.push(
               <FunctionSeries
                 key={`${klass}-Function`}
                 xAxis="x"
                 yAxis="y"
                 id={`${klass}-Function`}
-                getY={yRegression}
+                getY={(val: number) => regression.predict(val)}
                 label={`${klass}-Function`}
               />,
             );

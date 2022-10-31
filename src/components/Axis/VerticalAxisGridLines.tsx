@@ -32,7 +32,7 @@ export default function VerticalAxisGridlines(
   const Grid = useMemo(() => {
     const Grid: JSX.Element[] = [];
     if (primaryGrid) {
-      primaryTicks.forEach(({ position }) => {
+      for (const { position } of primaryTicks) {
         Grid.push(
           <line
             key={position}
@@ -46,13 +46,13 @@ export default function VerticalAxisGridlines(
             style={style}
           />,
         );
-      });
+      }
     }
     if (secondaryGrid) {
       const density = 5;
       const secondaryGridPosition =
         scale?.ticks(primaryTicks.length * density) || [];
-      secondaryGridPosition.forEach((tick) => {
+      for (const tick of secondaryGridPosition) {
         const position = scale?.(tick) || 0; // exclude the main ticks
         if (primaryTicks.map((tick) => tick.position).includes(position)) {
           return null;
@@ -70,7 +70,7 @@ export default function VerticalAxisGridlines(
             style={secondaryStyle}
           />,
         );
-      });
+      }
     }
     return Grid;
   }, [

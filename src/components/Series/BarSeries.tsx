@@ -28,6 +28,9 @@ export function BarSeries(props: BarSeriesProps) {
     yShift: oldYShift = '0',
     pointLabel,
     displayErrorBars,
+    label,
+    markerStyle,
+    markerShape,
   } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
@@ -48,8 +51,8 @@ export function BarSeries(props: BarSeriesProps) {
     ? lineStyle?.stroke.toString()
     : colorScaler(id);
 
-  const color = otherProps.markerStyle?.fill?.toString() || colorScaler(id);
-  const figure = otherProps.markerShape || 'circle';
+  const color = markerStyle?.fill?.toString() || colorScaler(id);
+  const figure = markerShape || 'circle';
 
   const shape = useMemo(() => {
     return {
@@ -65,7 +68,7 @@ export function BarSeries(props: BarSeriesProps) {
         type: 'ADD_LEGEND_LABEL',
         payload: {
           id,
-          label: otherProps.label,
+          label,
           colorLine,
           shape,
         },
@@ -73,7 +76,7 @@ export function BarSeries(props: BarSeriesProps) {
       return () =>
         legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
     }
-  }, [colorLine, legendDispatch, otherProps.label, shape, id, hidden]);
+  }, [colorLine, legendDispatch, label, shape, id, hidden]);
   if (hidden) return null;
   return (
     <g>

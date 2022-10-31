@@ -1,12 +1,12 @@
-import { writeFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import IsotopicDistribution from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { getBestPeaks } from 'ms-spectrum';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const mf = 'HCys100OH';
 const fwhm = 0.01;
@@ -38,4 +38,7 @@ result.bestPeaks = getBestPeaks(peaks).map((peak) => ({
   shortLabel: peak.shortLabel,
 }));
 
-writeFileSync(join(__dirname, `${mf}_${fwhm}.json`), JSON.stringify(result));
+writeFileSync(
+  path.join(__dirname, `${mf}_${fwhm}.json`),
+  JSON.stringify(result),
+);

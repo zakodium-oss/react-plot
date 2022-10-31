@@ -36,7 +36,7 @@ export interface TrackingProps {
   plotHeight: number;
 }
 
-const HORIZONTAL = ['bottom', 'top'];
+const HORIZONTAL = new Set(['bottom', 'top']);
 
 function infoFromEvent<NativeEventType extends MouseEvent>(
   event: NativeEventType,
@@ -56,7 +56,7 @@ function infoFromEvent<NativeEventType extends MouseEvent>(
   const movement: TrackingResultType['movement'] = {};
   for (const key in axisContext) {
     const { scale, clampInDomain, position, domain } = axisContext[key];
-    if (HORIZONTAL.includes(position)) {
+    if (HORIZONTAL.has(position)) {
       coordinates[key] = toNumber(scale.invert(xPosition));
       movement[key] = toNumber(scale.invert(movementX)) - domain[0];
     } else {
@@ -216,13 +216,13 @@ export default function Tracking({
       nativeEvent: NativeEventType,
     ) {
       if (nativeEvent.type === 'pointerdown') {
-        globalNativeEventNames.forEach((pointerEvent) =>
-          window.addEventListener(pointerEvent, eventListener),
-        );
+        for (const pointerEvent of globalNativeEventNames) {
+          window.addEventListener(pointerEvent, eventListener);
+        }
       } else if (nativeEvent.type === 'pointerup') {
-        globalNativeEventNames.forEach((pointerEvent) =>
-          window.removeEventListener(pointerEvent, eventListener),
-        );
+        for (const pointerEvent of globalNativeEventNames) {
+          window.removeEventListener(pointerEvent, eventListener);
+        }
       }
       const info = infoFromEvent(
         nativeEvent,
@@ -237,16 +237,16 @@ export default function Tracking({
         info,
       );
     }
-    nativeEventNames.forEach((eventName) => {
+    for (const eventName of nativeEventNames) {
       rect.addEventListener(eventName, eventListener);
-    });
+    }
     return () => {
-      nativeEventNames.forEach((eventName) => {
+      for (const eventName of nativeEventNames) {
         rect.removeEventListener(eventName, eventListener);
-      });
-      globalNativeEventNames.forEach((eventName) =>
-        window.removeEventListener(eventName, eventListener),
-      );
+      }
+      for (const eventName of globalNativeEventNames) {
+        window.removeEventListener(eventName, eventListener);
+      }
     };
   }, [plotId, plotEvents]);
   return (

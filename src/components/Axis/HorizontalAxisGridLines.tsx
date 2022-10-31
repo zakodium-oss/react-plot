@@ -31,7 +31,7 @@ export default function HorizontalAxisGridLines(
   const Grid = useMemo(() => {
     const Grid: JSX.Element[] = [];
     if (primaryGrid) {
-      primaryTicks.forEach(({ position }) => {
+      for (const { position } of primaryTicks) {
         Grid.push(
           <line
             key={position}
@@ -45,13 +45,13 @@ export default function HorizontalAxisGridLines(
             style={style}
           />,
         );
-      });
+      }
     }
     if (secondaryGrid) {
       const density = 5;
       const secondaryGridPosition =
         scale?.ticks(primaryTicks.length * density) || [];
-      secondaryGridPosition.forEach((tick) => {
+      for (const tick of secondaryGridPosition) {
         const position = scale?.(tick);
         if (
           !position ||
@@ -72,7 +72,7 @@ export default function HorizontalAxisGridLines(
             style={secondaryStyle}
           />,
         );
-      });
+      }
     }
     return Grid;
   }, [

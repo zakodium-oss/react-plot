@@ -66,9 +66,9 @@ export function usePlotOverridesState() {
       setAxes(overrides: Record<string, PlotAxisOverrides>) {
         setOverrides((state) => {
           const newAxes = { ...state.axes };
-          Object.entries(overrides).forEach(([axisId, override]) => {
+          for (const [axisId, override] of Object.entries(overrides)) {
             newAxes[axisId] = override;
-          });
+          }
           return {
             ...state,
             axes: newAxes,
