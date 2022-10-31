@@ -17,6 +17,8 @@ import LinearAxis from './LinearAxis';
 import LogAxis from './LogAxis';
 import TimeAxis from './TimeAxis';
 
+export type AxisScale = 'linear' | 'log' | 'time';
+
 export interface AxisProps {
   id?: string;
 
@@ -29,7 +31,7 @@ export interface AxisProps {
   paddingEnd?: ScalarValue;
 
   flip?: boolean;
-  scale?: 'linear' | 'log' | 'time';
+  scale?: AxisScale;
 
   /**
    * Hide all axis elements.

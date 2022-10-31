@@ -15,7 +15,7 @@ export default {
     displayPrimaryGridLines: false,
     displaySecondaryGridLines: false,
     hidden: false,
-    tickLabelFormat: (value: number) => String(value),
+    tickLabelFormat: String,
     hiddenLine: false,
     hiddenTicks: false,
     tickPosition: 'outer',

@@ -39,6 +39,9 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     yShift: oldYShift = '0',
     pointLabel,
     displayErrorBars,
+    label,
+    markerStyle,
+    markerShape,
   } = otherProps;
   const { xShift, yShift } = useShift({
     xAxis,
@@ -54,11 +57,11 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
         type: 'ADD_LEGEND_LABEL',
         payload: {
           id,
-          label: otherProps.label,
+          label,
           colorLine: lineStyle?.stroke?.toString() || colorScaler(id),
           shape: {
-            color: otherProps.markerStyle?.fill?.toString() || colorScaler(id),
-            figure: otherProps.markerShape || 'circle',
+            color: markerStyle?.fill?.toString() || colorScaler(id),
+            figure: markerShape || 'circle',
             hidden: !displayMarkers,
           },
         },
@@ -73,9 +76,9 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     id,
     legendDispatch,
     lineStyle?.stroke,
-    otherProps.label,
-    otherProps.markerShape,
-    otherProps.markerStyle?.fill,
+    label,
+    markerShape,
+    markerStyle?.fill,
   ]);
   if (hidden) return null;
 

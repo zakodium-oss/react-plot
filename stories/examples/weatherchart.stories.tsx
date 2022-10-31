@@ -21,7 +21,7 @@ export function WeatherChart() {
   const rain: SeriesPoint[] = [];
   const temperature: SeriesPoint[] = [];
   const tempRange: RangeSeriesPoint[] = [];
-  data.forEach((d) => {
+  for (const d of data) {
     rain.push(...d.rainfall.map(([x, y]) => ({ x, y })));
     temperature.push(...d.temperature.map(([x, y]) => ({ x, y })));
     tempRange.push(
@@ -31,7 +31,7 @@ export function WeatherChart() {
         y2,
       })),
     );
-  });
+  }
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       <BarSeries

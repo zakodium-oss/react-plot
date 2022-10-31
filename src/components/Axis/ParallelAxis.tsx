@@ -74,9 +74,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
   // Renders according to position and scale
   const { type, scale, tickLabelFormat: oldTickLabelFormat } = parentAxis;
 
-  const tickLabelFormat = newTickLabelFormat
-    ? newTickLabelFormat
-    : oldTickLabelFormat;
+  const tickLabelFormat = newTickLabelFormat ?? oldTickLabelFormat;
 
   const childProps = {
     plotWidth,

@@ -106,7 +106,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       legend = child;
     } else {
       // eslint-disable-next-line no-console
-      console.error('Invalid Plot child: ', child);
+      console.error('Invalid Plot child:', child);
       throw new Error('invalid plot child');
     }
   }

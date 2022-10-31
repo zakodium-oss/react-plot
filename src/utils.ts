@@ -165,7 +165,7 @@ export function closestPoint<T, R>(
 ): T {
   let closest = {
     index: 0,
-    distance: Infinity,
+    distance: Number.POSITIVE_INFINITY,
   };
   for (let i = 0; i < data.length; i++) {
     const distance = distanceFun(data[i], value);

@@ -90,8 +90,8 @@ export function AdvancedMassExample({
   const bestPeaks = useMemo(
     () =>
       getBestPeaks(centroid, {
-        from: x?.min ?? -Infinity,
-        to: x?.max ?? Infinity,
+        from: x?.min ?? Number.NEGATIVE_INFINITY,
+        to: x?.max ?? Number.POSITIVE_INFINITY,
         limit: 5,
         numberSlots: 10,
         threshold: 0.01,
