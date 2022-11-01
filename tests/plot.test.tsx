@@ -114,9 +114,11 @@ test('valid plot children', async ({ mount }) => {
     plot.locator('_react=ScatterSeries[label="Scatter"] >> circle'),
   ).toHaveCount(data.length);
   await expect(
-    plot.locator('_react=LineSeries[label="Line"] >> path'),
+    plot.locator('_react=LineSeriesInner[label="Line"] >> path'),
   ).toBeVisible();
-  await expect(plot.locator('_react=RangeSeries[label="Range"]')).toBeVisible();
+  await expect(
+    plot.locator('_react=RangeSeriesInner[label="Range"]'),
+  ).toBeVisible();
   await expect(plot.locator('_react=BarSeries >> line')).toHaveCount(
     data.length,
   );
