@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/experimental-ct-react';
 
-import { Axis, ParallelAxis } from '../src';
+import { Axis, LineSeries, ParallelAxis } from '../src';
 
-import { InfraredPlotTest } from './utils';
+import { DefaultPlotTest, InfraredPlotTest } from './utils';
 
 test('all valid axes', async ({ mount }) => {
   const plot = await mount(
@@ -75,4 +75,50 @@ test('axis scale', async ({ mount }) => {
   );
   const timeAxis = ['.500:01', '.500:02', '.500:03', '.500:04'].join('');
   await expect(time.locator('_react=Axis[scale="time"]')).toHaveText(timeAxis);
+});
+
+test('constant x axis', async ({ mount }) => {
+  const plot = await mount(
+    <DefaultPlotTest>
+      <LineSeries
+        data={[
+          { x: 0, y: 1 },
+          { x: 0, y: 2 },
+          { x: 0, y: 4 },
+        ]}
+      />
+    </DefaultPlotTest>,
+  );
+  await expect(plot.locator('_react=HorizontalAxis >> text=0')).toBeVisible();
+});
+
+test('constant y axis', async ({ mount }) => {
+  const plot = await mount(
+    <DefaultPlotTest>
+      <LineSeries
+        data={[
+          { x: 1, y: 0 },
+          { x: 2, y: 0 },
+          { x: 4, y: 0 },
+        ]}
+      />
+    </DefaultPlotTest>,
+  );
+  await expect(plot.locator('_react=VerticalAxis >> text=0')).toBeVisible();
+});
+
+test('constant x and y axes', async ({ mount }) => {
+  const plot = await mount(
+    <DefaultPlotTest>
+      <LineSeries
+        data={[
+          { x: 1, y: 2 },
+          { x: 1, y: 2 },
+          { x: 1, y: 2 },
+        ]}
+      />
+    </DefaultPlotTest>,
+  );
+  await expect(plot.locator('_react=HorizontalAxis >> text=1')).toBeVisible();
+  await expect(plot.locator('_react=VerticalAxis >> text=2')).toBeVisible();
 });

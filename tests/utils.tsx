@@ -6,16 +6,20 @@ import { DirectedEllipse } from '../src/components/Annotations/DirectedEllipse';
 import infrared from '../stories/data/infrared.json';
 import { DEFAULT_PLOT_CONFIG } from '../stories/utils';
 
-export function InfraredPlotTest({
-  children,
-}: {
-  children?: ReactNode | ReactNode[];
-}) {
+interface ChildrenProps {
+  children?: ReactNode;
+}
+
+export function DefaultPlotTest({ children }: ChildrenProps) {
+  return <Plot {...DEFAULT_PLOT_CONFIG}>{children}</Plot>;
+}
+
+export function InfraredPlotTest({ children }: ChildrenProps) {
   return (
-    <Plot {...DEFAULT_PLOT_CONFIG}>
+    <DefaultPlotTest>
       <ScatterSeries data={infrared} />
       {children}
-    </Plot>
+    </DefaultPlotTest>
   );
 }
 
