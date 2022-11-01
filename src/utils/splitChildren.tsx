@@ -11,7 +11,7 @@ import { LineSeries } from '../components/Series/LineSeries';
 import { RangeSeries } from '../components/Series/RangeSeries';
 import { ScatterSeries } from '../components/Series/ScatterSeries';
 
-interface PlotChildren {
+export interface PlotChildren {
   series: ReactElement[];
   annotations: ReactElement[];
   topAxis: ReactElement | null;
