@@ -1,6 +1,6 @@
 import { extent } from 'd3-array';
 import { area } from 'd3-shape';
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, memo, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext';
 import {
@@ -23,7 +23,7 @@ export interface RangeSeriesProps<T extends RangeSeriesPoint>
   lineStyle?: CSSProperties;
 }
 
-export function RangeSeries<T extends RangeSeriesPoint>(
+function RangeSeriesInner<T extends RangeSeriesPoint>(
   props: RangeSeriesProps<T>,
 ) {
   const id = useId(props.id, 'series');
@@ -102,6 +102,8 @@ export function RangeSeries<T extends RangeSeriesPoint>(
 
   return isVisible ? <RangeSeriesRender {...lineProps} /> : null;
 }
+
+export const RangeSeries = memo(RangeSeriesInner);
 
 interface RangeSeriesRenderProps {
   data: ReadonlyArray<RangeSeriesPoint>;

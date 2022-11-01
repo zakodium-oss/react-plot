@@ -1,5 +1,5 @@
 import { ScaleLogarithmic } from 'd3-scale';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { useLogTicks } from 'react-d3-utils';
 
 import HorizontalAxis from './HorizontalAxis';
@@ -10,7 +10,7 @@ interface LogAxisProps extends AxisChildProps<number> {
   scale: ScaleLogarithmic<number, number>;
 }
 
-export default function LogAxis(props: LogAxisProps) {
+function LogAxis(props: LogAxisProps) {
   const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);
@@ -34,3 +34,5 @@ export default function LogAxis(props: LogAxisProps) {
     />
   );
 }
+
+export default memo(LogAxis);

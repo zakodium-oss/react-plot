@@ -1,5 +1,5 @@
 import { ScaleTime } from 'd3-scale';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { useTimeTicks } from 'react-d3-utils';
 
 import HorizontalAxis from './HorizontalAxis';
@@ -10,7 +10,7 @@ interface TimeAxisProps extends AxisChildProps<Date> {
   scale: ScaleTime<number, number>;
 }
 
-export default function TimeAxis(props: TimeAxisProps) {
+function TimeAxis(props: TimeAxisProps) {
   const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);
@@ -35,3 +35,5 @@ export default function TimeAxis(props: TimeAxisProps) {
     />
   );
 }
+
+export default memo(TimeAxis);
