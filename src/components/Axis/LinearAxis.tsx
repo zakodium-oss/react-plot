@@ -1,5 +1,5 @@
 import { ScaleLinear } from 'd3-scale';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { useLinearPrimaryTicks } from 'react-d3-utils';
 
 import HorizontalAxis from './HorizontalAxis';
@@ -10,7 +10,7 @@ interface LinearAxisProps extends AxisChildProps<number> {
   scale: ScaleLinear<number, number>;
 }
 
-export default function LinearAxis(props: LinearAxisProps) {
+function LinearAxis(props: LinearAxisProps) {
   const { position, tickLabelFormat, scale, ...otherProps } = props;
 
   const axisRef = useRef<SVGGElement>(null);
@@ -35,3 +35,5 @@ export default function LinearAxis(props: LinearAxisProps) {
     />
   );
 }
+
+export default memo(LinearAxis);

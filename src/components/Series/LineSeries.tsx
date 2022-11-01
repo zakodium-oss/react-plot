@@ -1,5 +1,5 @@
 import { line } from 'd3-shape';
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { CSSProperties, memo, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext';
 import { usePlotContext } from '../../contexts/plotContext';
@@ -19,7 +19,7 @@ export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
   lineStyle?: CSSFuncProps<{ id: string }>;
 }
 
-export function LineSeries<T extends SeriesPoint = SeriesPoint>(
+function LineSeriesInner<T extends SeriesPoint = SeriesPoint>(
   props: LineSeriesProps<T>,
 ) {
   const [, legendDispatch] = useLegend();
@@ -103,6 +103,8 @@ export function LineSeries<T extends SeriesPoint = SeriesPoint>(
     </g>
   );
 }
+
+export const LineSeries = memo(LineSeriesInner);
 
 interface LineSeriesRenderProps {
   id: string;

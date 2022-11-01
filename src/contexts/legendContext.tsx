@@ -5,6 +5,7 @@ import {
   ReactNode,
   Reducer,
   useContext,
+  useMemo,
   useReducer,
 } from 'react';
 
@@ -37,7 +38,7 @@ type LegendActions =
   | ActionType<'TOGGLE_VISIBILITY', { id: string }>;
 
 type LegendDispatch = Dispatch<LegendActions>;
-type LegendContext = [LegendState, LegendDispatch];
+type LegendContext = readonly [LegendState, LegendDispatch];
 
 const context = createContext<LegendContext | null>(null);
 
@@ -93,6 +94,13 @@ const initialLegendState: LegendState = {
 };
 
 export const LegendProvider = (props: { children: ReactNode }) => {
-  const ctx = useReducer(legendReducer, initialLegendState);
+  const [legendState, legendDispatch] = useReducer(
+    legendReducer,
+    initialLegendState,
+  );
+  const ctx = useMemo(
+    () => [legendState, legendDispatch] as const,
+    [legendState, legendDispatch],
+  );
   return <context.Provider value={ctx}>{props.children}</context.Provider>;
 };
