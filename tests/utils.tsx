@@ -18,6 +18,7 @@ export function InfraredPlotTest({
     </Plot>
   );
 }
+
 export function AnnotationsCallback() {
   const [active, setActive] = useState('arrow');
   return (
