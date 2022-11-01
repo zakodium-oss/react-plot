@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.20.4](https://github.com/zakodium-oss/react-plot/compare/v0.20.3...v0.20.4) (2022-11-01)
+
+
+### Bug Fixes
+
+* avoid duplicate keys in ticks ([cbd1391](https://github.com/zakodium-oss/react-plot/commit/cbd139157039e7c7b82409793ee8d9e153ab1606))
+* avoid unnecessary re-renders in basic cases ([34892fb](https://github.com/zakodium-oss/react-plot/commit/34892fbe9efb0abac28f1a9876f6b69a5d1fa012))
+
 ## [0.20.3](https://github.com/zakodium-oss/react-plot/compare/v0.20.2...v0.20.3) (2022-10-20)
 
 
