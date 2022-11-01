@@ -48,8 +48,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     ...otherProps
   } = props;
 
-  // Primary Ticks
-  let elements: Array<JSX.Element | null> = primaryTicks.map((tick) => {
+  const primaryTickElements = primaryTicks.map((tick) => {
     const { line, text } = getPositions(tick.position);
     return (
       <Tick
@@ -64,6 +63,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
+  let secondaryTickElements: Array<JSX.Element | null> = [];
   if (secondaryTickLength !== 0) {
     // generate secondaryTicks according to the density of primaryTicks
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;
@@ -71,8 +71,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     const density = mainTicksDensity < 50 ? 5 : 10;
     const secondaryTicks = scale?.ticks(primaryTicks.length * density) || [];
 
-    // add secondaryTicks to the elements array
-    const secElements =
+    secondaryTickElements =
       secondaryTicks.map((tick) => {
         // exclude the main ticks
         if (primaryTicks.map((tick) => tick.position).includes(scale(tick))) {
@@ -90,9 +89,13 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
           />
         );
       }) || [];
-    elements = [...secElements, ...elements];
   }
-  return <>{elements}</>;
+  return (
+    <>
+      {secondaryTickElements}
+      {primaryTickElements}
+    </>
+  );
 }
 
 export function Tick(props: TickProps) {

@@ -91,7 +91,7 @@
     "d3-shape": "^3.1.0",
     "immer": "^9.0.16",
     "ml-distance-euclidean": "^2.0.0",
-    "react-d3-utils": "^0.6.0"
+    "react-d3-utils": "^0.6.1"
   },
   "volta": {
     "node": "16.18.0"
