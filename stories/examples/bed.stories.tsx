@@ -12,7 +12,7 @@ import {
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
-  title: 'Examples/Bed per 10^3 peoples',
+  title: 'Examples/Bed per 10^3 people',
 } as Meta;
 
 const data = Array.from(generateNumbers(160))
