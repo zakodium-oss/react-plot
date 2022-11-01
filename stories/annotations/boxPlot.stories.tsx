@@ -5,7 +5,7 @@ import { AnnotationBoxPlotProps, Annotation } from '../../src';
 import { AnnotationPlot } from './annotation.data';
 
 export default {
-  title: 'API/Annotations/Annotation.BoxPlot',
+  title: 'API/Annotations/BoxPlot',
   component: Annotation.BoxPlot,
   args: {
     y: 50,

@@ -21,19 +21,21 @@ interface MeasurementProps {
 export default {
   title: 'Examples/Measurement',
   decorators: [PlotControllerDecorator],
+  args: {
+    xAxis: 'x',
+    yAxis: 'y',
+    hook: 'Cross Hair',
+  },
   argTypes: {
     xAxis: {
-      defaultValue: 'x',
       options: ['x', 'y', 't', 'a'],
       control: 'select',
     },
     yAxis: {
-      defaultValue: 'y',
       options: ['x', 'y', 't', 'a'],
       control: 'select',
     },
     hook: {
-      defaultValue: 'Cross Hair',
       options: [
         'Cross Hair',
         'Rectangular Zoom',
