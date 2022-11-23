@@ -10,6 +10,7 @@ import { FunctionSeries } from '../components/Series/FunctionSeries';
 import { LineSeries } from '../components/Series/LineSeries';
 import { RangeSeries } from '../components/Series/RangeSeries';
 import { ScatterSeries } from '../components/Series/ScatterSeries';
+import { Series } from '../components/Series/Series';
 
 export interface PlotChildren {
   series: ReactElement[];
@@ -47,6 +48,7 @@ export function splitChildren(children: ReactNode): PlotChildren {
       console.error('Invalid Plot child:', child);
       throw new Error('invalid Plot child');
     } else if (
+      child.type === Series ||
       child.type === FunctionSeries ||
       child.type === LineSeries ||
       child.type === ScatterSeries ||

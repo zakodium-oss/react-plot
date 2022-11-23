@@ -10,6 +10,7 @@ import {
   SeriesPoint,
   Axis,
   FunctionSeries,
+  Series,
 } from '../../src';
 
 export default {
@@ -103,7 +104,7 @@ export function PCA() {
                 paddingEnd="5%"
                 hidden
               />
-              {series}
+              <Series>{series}</Series>
             </Plot>,
           );
         }

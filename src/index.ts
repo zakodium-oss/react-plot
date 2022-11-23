@@ -6,6 +6,7 @@ export * from './components/PlotObject';
 export * from './components/Axis/Axis';
 export * from './components/Axis/ParallelAxis';
 
+export * from './components/Series/Series';
 export * from './components/Series/BarSeries';
 export * from './components/Series/LineSeries';
 export * from './components/Series/RangeSeries';
