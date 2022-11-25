@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/zakodium-oss/react-plot/compare/v1.0.0...v1.4.0) (2022-11-25)
+
+
+### Miscellaneous Chores
+
+* fix npm release problem ([#450](https://github.com/zakodium-oss/react-plot/issues/450)) ([01cc523](https://github.com/zakodium-oss/react-plot/commit/01cc523b8877ef1f9782bcb319344559cfc2478c))
+
 ## [1.0.0](https://github.com/zakodium-oss/react-plot/compare/v0.20.4...v1.0.0) (2022-11-25)
 
 
