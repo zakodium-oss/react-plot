@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0](https://github.com/zakodium-oss/react-plot/compare/v0.20.4...v1.0.0) (2022-11-25)
+
+
+### Features
+
+* add `Series` wrapper component ([4317df0](https://github.com/zakodium-oss/react-plot/commit/4317df09f1feab829bd08b22f10a487d5b80b5de))
+
+
+### Miscellaneous Chores
+
+* prepare v1 release ([#449](https://github.com/zakodium-oss/react-plot/issues/449)) ([88bc346](https://github.com/zakodium-oss/react-plot/commit/88bc3466b2d97cb8351cfdc77cfe067e862ab51a))
+
 ## [0.20.4](https://github.com/zakodium-oss/react-plot/compare/v0.20.3...v0.20.4) (2022-11-01)
 
 
