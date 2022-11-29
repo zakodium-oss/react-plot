@@ -93,9 +93,6 @@
     "ml-distance-euclidean": "^2.0.0",
     "react-d3-utils": "^0.6.1"
   },
-  "overrides": {
-    "enhanced-resolve": "5.10.0"
-  },
   "volta": {
     "node": "16.18.0"
   }
