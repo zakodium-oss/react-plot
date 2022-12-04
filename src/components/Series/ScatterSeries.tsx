@@ -199,6 +199,8 @@ function ScatterSeriesRender<T extends SeriesPoint = SeriesPoint>({
           : undefined;
         const PreviousLine = prePoint ? (
           <line
+            // eslint-disable-next-line react/no-array-index-key
+            key={`markers-${i}-previous`}
             x1={0}
             y1={0}
             x2={xScale(prePoint.x) - xScale(point.x)}
@@ -208,6 +210,8 @@ function ScatterSeriesRender<T extends SeriesPoint = SeriesPoint>({
         ) : null;
         const NextLine = nextPoint ? (
           <line
+            // eslint-disable-next-line react/no-array-index-key
+            key={`markers-${i}-next`}
             x1={0}
             y1={0}
             x2={xScale(nextPoint.x) - xScale(point.x)}
