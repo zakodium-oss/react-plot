@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.2](https://github.com/zakodium-oss/react-plot/compare/v1.4.1...v1.4.2) (2022-12-04)
+
+
+### Bug Fixes
+
+* add missing key to scatter lines ([4e8eabc](https://github.com/zakodium-oss/react-plot/commit/4e8eabce2d50b436665c82ac3b4eced7b4ae48c5))
+* include src folder in build ([a93514d](https://github.com/zakodium-oss/react-plot/commit/a93514d2f647781bb108080e7eafc29f80371cdd))
+
 ## [1.4.1](https://github.com/zakodium-oss/react-plot/compare/v1.4.0...v1.4.1) (2022-12-04)
 
 
