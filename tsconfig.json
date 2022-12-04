@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "declaration": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "lib": ["dom", "esnext"],
@@ -9,7 +9,8 @@
     "resolveJsonModule": true,
     "outDir": "lib",
     "removeComments": false,
-    "sourceMap": false,
+    "sourceMap": true,
+    "declarationMap": true,
     "strict": true,
     "target": "es2019"
   },
