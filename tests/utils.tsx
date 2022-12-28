@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 import { Annotations, Plot, ScatterSeries } from '../src';
 import { Arrow } from '../src/components/Annotations/Arrow';
@@ -13,7 +14,10 @@ interface ChildrenProps {
 export function DefaultPlotTest({ children }: ChildrenProps) {
   return <Plot {...DEFAULT_PLOT_CONFIG}>{children}</Plot>;
 }
-
+export function ServerSide() {
+  const html = renderToStaticMarkup(<InfraredPlotTest />);
+  return <div dangerouslySetInnerHTML={{ __html: html }} />;
+}
 export function InfraredPlotTest({ children }: ChildrenProps) {
   return (
     <DefaultPlotTest>
