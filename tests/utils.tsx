@@ -45,7 +45,7 @@ export function ServerSide() {
 
   useEffect(() => {
     const html = createSVG({ plot });
-    const rootElement = document.getElementById('root');
+    const rootElement = document.querySelector('root');
     if (rootElement === null) throw new Error('Root element not found');
     rootElement.innerHTML = html;
     const result = hydrate(<PlotObject plot={plot} />, rootElement);
