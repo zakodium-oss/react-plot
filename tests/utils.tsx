@@ -1,8 +1,14 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { hydrate } from 'react-dom';
-import { PlotObject, PlotObjectPlot } from 'react-plot';
 
-import { Annotations, createSVG, Plot, ScatterSeries } from '../src';
+import {
+  PlotObject,
+  PlotObjectPlot,
+  Annotations,
+  createSVG,
+  Plot,
+  ScatterSeries,
+} from '../src';
 import { Arrow } from '../src/components/Annotations/Arrow';
 import { DirectedEllipse } from '../src/components/Annotations/DirectedEllipse';
 import infrared from '../stories/data/infrared.json';
@@ -44,7 +50,7 @@ export function ServerSide() {
     rootElement.innerHTML = html;
     const result = hydrate(<PlotObject plot={plot} />, rootElement);
     setResult(result);
-  });
+  }, []);
 
   return result;
 }

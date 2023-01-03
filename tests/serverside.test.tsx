@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/experimental-ct-react';
+
 import { InfraredPlotTest, ServerSide } from './utils';
 
 test('should render a plot in server-side mode', async ({ mount }) => {
