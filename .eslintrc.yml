@@ -4,3 +4,4 @@ extends:
 rules:
   '@typescript-eslint/no-dynamic-delete': off
   'import/namespace': off
+  'jest/no-standalone-expect': off
