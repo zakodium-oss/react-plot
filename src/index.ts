@@ -38,3 +38,5 @@ export {
   usePlotControls,
   usePlotEvents,
 } from './contexts/plotController/plotControllerContext';
+
+export * from './createSVG';
