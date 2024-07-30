@@ -19,7 +19,7 @@ Check our exhaustive [documentation here](https://react-plot.zakodium.com/).
 
 </h3>
 
-## [Storybook](https://zakodium-oss.github.io/react-plot/)
+## [Storybook](https://react-plot.pages.dev/)
 
 ```tsx
 const Example = () => (
