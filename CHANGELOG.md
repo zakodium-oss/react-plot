@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/zakodium-oss/react-plot/compare/v1.4.2...v2.0.0) (2024-07-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Changed React peer dependency to >=18.0.0
+
+### Bug Fixes
+
+* update dependencies ([#464](https://github.com/zakodium-oss/react-plot/issues/464)) ([aa7d579](https://github.com/zakodium-oss/react-plot/commit/aa7d579c91353e7bb180bd1d5025675b10fa26b2))
+
 ## [1.4.2](https://github.com/zakodium-oss/react-plot/compare/v1.4.1...v1.4.2) (2022-12-04)
 
 
