@@ -14,7 +14,7 @@ export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
     ScatterSeriesProps<T>,
     'markerShape' | 'lineStyle' | 'displayLines'
   > {
-  data: ReadonlyArray<T>;
+  data: readonly T[];
   markerShape?: Shape;
   lineStyle?: CSSFuncProps<{ id: string }>;
 }
@@ -108,7 +108,7 @@ export const LineSeries = memo(LineSeriesInner);
 
 interface LineSeriesRenderProps {
   id: string;
-  data: ReadonlyArray<SeriesPoint>;
+  data: readonly SeriesPoint[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

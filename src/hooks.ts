@@ -28,7 +28,7 @@ export function usePosition(config: UsePositionConfig) {
 interface UsePointsPositionConfig {
   xAxis: string;
   yAxis: string;
-  points: { x: ScalarValue; y: ScalarValue }[];
+  points: Array<{ x: ScalarValue; y: ScalarValue }>;
 }
 export function usePointsPosition(config: UsePointsPositionConfig) {
   const { axisContext, plotWidth, plotHeight } = usePlotContext();

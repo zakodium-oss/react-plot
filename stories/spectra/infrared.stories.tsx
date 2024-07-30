@@ -22,7 +22,7 @@ export default {
     verticalAxisId: 'y',
     disabled: false,
   },
-} as Meta<UseCrossHairOptions>;
+} satisfies Meta<UseCrossHairOptions>;
 
 export function InfraredExample(props: UseCrossHairOptions) {
   const crossHair = useCrossHair(props);

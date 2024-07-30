@@ -2,12 +2,12 @@ import { Meta } from '@storybook/react';
 
 import {
   Axis,
-  RangeSeries,
-  Plot,
-  RangeSeriesProps,
-  RangeSeriesPoint,
   Legend,
   LineSeries,
+  Plot,
+  RangeSeries,
+  RangeSeriesPoint,
+  RangeSeriesProps,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -26,7 +26,7 @@ export default {
     hidden: false,
     label: 'Label',
   },
-} as Meta;
+} satisfies Meta;
 
 const data2 = [
   {

@@ -45,7 +45,7 @@ export default {
       control: 'select',
     },
   },
-} as Meta<MeasurementProps>;
+} satisfies Meta<MeasurementProps>;
 
 export function Measurement(props: MeasurementProps) {
   const { xAxis = 'x', yAxis = 'y', hook } = props;

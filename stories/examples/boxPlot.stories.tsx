@@ -1,11 +1,11 @@
 import { Meta } from '@storybook/react';
 
 import {
-  AnnotationBoxPlotProps,
   Annotation,
+  AnnotationBoxPlotProps,
   Annotations,
-  Plot,
   Axis,
+  Plot,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -28,7 +28,7 @@ export default {
     whiskerStyle: { strokeWidth: 50 },
     minMaxColor: 'black',
   },
-} as Meta<AnnotationBoxPlotProps>;
+} satisfies Meta<AnnotationBoxPlotProps>;
 
 export function AnnotationBoxPlot(props: AnnotationBoxPlotProps) {
   return (

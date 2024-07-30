@@ -16,7 +16,7 @@ export default {
   title: 'Examples/Spectrum 2D',
   decorators: [PlotControllerDecorator],
   args: { disabled: false },
-} as Meta;
+} satisfies Meta;
 
 export function Spectrum2D({ disabled }: UseRectangularZoomOptions) {
   const zoom = useRectangularZoom({ disabled });

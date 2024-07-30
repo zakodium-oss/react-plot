@@ -1,21 +1,21 @@
 import { Meta } from '@storybook/react';
-import { getClasses, getNumbers, getDistinctClasses } from 'ml-dataset-iris';
+import { getClasses, getDistinctClasses, getNumbers } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
-import LinearRegression from 'ml-regression-simple-linear';
+import { SimpleLinearRegression } from 'ml-regression-simple-linear';
 import { ReactElement, useMemo } from 'react';
 
 import {
-  Plot,
-  ScatterSeries,
-  SeriesPoint,
   Axis,
   FunctionSeries,
+  Plot,
+  ScatterSeries,
   Series,
+  SeriesPoint,
 } from '../../src';
 
 export default {
   title: 'Examples/Iris dataset',
-} as Meta;
+} satisfies Meta;
 
 const dataset = getNumbers();
 const numFeatures = dataset[0].length;
@@ -29,7 +29,7 @@ export function PCA() {
   const predicted = pca.predict(dataset);
 
   const children = useMemo(() => {
-    const children: JSX.Element[] = [];
+    const children: ReactElement[] = [];
     for (let pcY = 0; pcY < numFeatures; pcY++) {
       for (let pcX = 0; pcX < numFeatures; pcX++) {
         if (pcY === pcX) {
@@ -62,7 +62,7 @@ export function PCA() {
             const x = predictedData.getColumn(0);
             const y = predictedData.getColumn(1);
 
-            const regression = new LinearRegression(x, y);
+            const regression = new SimpleLinearRegression(x, y);
 
             const data: SeriesPoint[] = [];
             for (const [i, xValue] of x.entries()) {
@@ -84,6 +84,7 @@ export function PCA() {
                 xAxis="x"
                 yAxis="y"
                 id={`${klass}-Function`}
+                // @ts-expect-error Method is inherited, it exists.
                 getY={(val: number) => regression.predict(val)}
                 label={`${klass}-Function`}
               />,

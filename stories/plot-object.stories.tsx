@@ -5,7 +5,7 @@ import { Annotation, PlotObject, PlotObjectPlot } from '../src';
 export default {
   title: 'Plot/Plot object',
   component: PlotObject,
-} as Meta;
+} satisfies Meta;
 
 export function Control() {
   const plot: PlotObjectPlot = {

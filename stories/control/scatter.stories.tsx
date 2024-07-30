@@ -28,7 +28,7 @@ export default {
     errorBarsStyle: { strokeWidth: 1 },
     errorBarsCapStyle: { stroke: 'blue' },
   },
-} as Meta;
+} satisfies Meta;
 
 const data: SeriesPointWithError[] = [
   {

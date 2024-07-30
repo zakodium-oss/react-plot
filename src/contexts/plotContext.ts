@@ -39,7 +39,7 @@ export interface PlotSeriesState {
   x: PlotSeriesStateAxis;
   y: PlotSeriesStateAxis;
   label?: string;
-  data?: ReadonlyArray<SeriesPoint>;
+  data?: readonly SeriesPoint[];
 }
 
 interface PlotSeriesStateAxis {
@@ -59,7 +59,7 @@ export interface PlotAxisState {
   innerOffset: number;
   paddingStart: ScalarValue;
   paddingEnd: ScalarValue;
-  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
+  tickLabelFormat: TickLabelFormat | TickLabelFormat<Date> | undefined;
 }
 
 export type PlotReducerActions =
@@ -80,7 +80,7 @@ interface PlotAxisContextGeneric<
   scale: Scale;
   domain: readonly [number, number];
   clampInDomain: (value: number) => number;
-  tickLabelFormat: TickLabelFormat<number> | TickLabelFormat<Date> | undefined;
+  tickLabelFormat: TickLabelFormat | TickLabelFormat<Date> | undefined;
   position: Position;
 }
 
@@ -257,8 +257,8 @@ export function useAxisContext(
         return value < domain[0]
           ? domain[0]
           : value > domain[1]
-          ? domain[1]
-          : value;
+            ? domain[1]
+            : value;
       };
 
       switch (axis.scale) {

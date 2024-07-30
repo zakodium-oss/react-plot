@@ -15,7 +15,7 @@ import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 export default {
   title: 'Examples/Weather Chart',
   decorators: [PlotControllerDecorator],
-} as Meta;
+} satisfies Meta;
 
 export function WeatherChart() {
   const rain: SeriesPoint[] = [];

@@ -1,15 +1,6 @@
 module.exports = {
-  stories: [
-    '../stories/**/*.stories.mdx',
-    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
-  ],
-  core: {
-    builder: 'webpack5',
-  },
-  reactOptions: {
-    fastRefresh: true,
-    strictMode: true,
-  },
+  stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+
   addons: [
     {
       name: '@storybook/addon-storysource',
@@ -22,5 +13,21 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
   ],
+
   staticDirs: ['../stories/data'],
+
+  framework: {
+    name: '@storybook/react-vite',
+
+    options: {
+      fastRefresh: true,
+      strictMode: true,
+    },
+  },
+
+  docs: {},
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+  },
 };

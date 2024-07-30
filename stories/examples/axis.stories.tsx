@@ -5,7 +5,7 @@ import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
   title: 'Examples/Axis',
-} as Meta;
+} satisfies Meta;
 
 export function DefaultAxes() {
   return <Plot {...DEFAULT_PLOT_CONFIG}>{getInfraredSeries()}</Plot>;

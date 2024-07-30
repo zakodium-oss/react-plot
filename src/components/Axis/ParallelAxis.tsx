@@ -95,7 +95,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
     return (
       <LinearAxis
         {...childProps}
-        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat}
         scale={scale as ScaleLinear<number, number>}
       />
     );
@@ -111,7 +111,7 @@ export function ParallelAxis(props: ParallelAxisProps) {
     return (
       <LogAxis
         {...childProps}
-        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat}
         scale={scale as ScaleLogarithmic<number, number>}
       />
     );

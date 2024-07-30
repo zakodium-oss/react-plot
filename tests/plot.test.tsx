@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/experimental-ct-react';
+import { expect, test } from '@playwright/experimental-ct-react';
 
 import {
   Annotations,
@@ -12,6 +12,7 @@ import {
   ScatterSeries,
 } from '../src';
 import { Line } from '../src/components/Annotations/Line';
+import { TestErrorBoundary } from '../stories/utils';
 
 import { InfraredPlotTest } from './utils';
 
@@ -126,13 +127,14 @@ test('valid plot children', async ({ mount }) => {
 });
 
 test('invalid plot child', async ({ mount }) => {
-  await expect(async () => {
-    await mount(
+  const result = await mount(
+    <TestErrorBoundary>
       <Plot {...DEFAULT_PLOT_CONFIG}>
         <div>invalid child</div>
-      </Plot>,
-    );
-  }).rejects.toThrow('invalid plot child');
+      </Plot>
+    </TestErrorBoundary>,
+  );
+  await expect(result).toContainText('invalid plot child');
 });
 
 test('plot height and width', async ({ mount }) => {

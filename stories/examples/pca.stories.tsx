@@ -3,11 +3,11 @@ import { getDirectionalEllipse } from 'ml-directional-distribution';
 import { useMemo } from 'react';
 
 import {
-  Axis,
-  Plot,
-  Heading,
-  ScatterSeries,
   Annotations,
+  Axis,
+  Heading,
+  Plot,
+  ScatterSeries,
   useRectangularZoom,
 } from '../../src';
 import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
@@ -18,9 +18,9 @@ import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 export default {
   title: 'Examples/PCA example of ecstasy',
   decorators: [PlotControllerDecorator],
-} as Meta;
+} satisfies Meta;
 
-type Datum = typeof data[number];
+type Datum = (typeof data)[number];
 
 export function PCAExample() {
   const zoom = useRectangularZoom();

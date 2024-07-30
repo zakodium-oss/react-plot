@@ -19,7 +19,7 @@ export interface RangeSeriesPoint {
 
 export interface RangeSeriesProps<T extends RangeSeriesPoint>
   extends BaseSeriesProps {
-  data: ReadonlyArray<T>;
+  data: readonly T[];
   lineStyle?: CSSProperties;
 }
 
@@ -106,7 +106,7 @@ function RangeSeriesInner<T extends RangeSeriesPoint>(
 export const RangeSeries = memo(RangeSeriesInner);
 
 interface RangeSeriesRenderProps {
-  data: ReadonlyArray<RangeSeriesPoint>;
+  data: readonly RangeSeriesPoint[];
   xAxis: string;
   yAxis: string;
   lineStyle: CSSProperties;

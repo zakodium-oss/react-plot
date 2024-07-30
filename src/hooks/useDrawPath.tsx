@@ -38,7 +38,7 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
     onEnd,
   } = options;
 
-  const [data, setData] = useState<Record<string, number>[] | null>(null);
+  const [data, setData] = useState<Array<Record<string, number>> | null>(null);
   useStartMoveEnd({
     controllerId,
     disabled,
@@ -52,7 +52,7 @@ export function useDrawPath(options: UseDrawPathOptions = {}) {
         let isDuplicated = true;
         for (const key in clampedCoordinates) {
           if (
-            previousData[previousData.length - 1][key] !==
+            (previousData.at(-1) as Record<string, number>)[key] !==
             clampedCoordinates[key]
           ) {
             isDuplicated = false;

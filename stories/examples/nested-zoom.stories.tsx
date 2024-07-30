@@ -10,7 +10,7 @@ import { getInfraredSeries } from '../utils';
 
 export default {
   title: 'Examples/Nested Zoom',
-} as Meta;
+} satisfies Meta;
 
 export function NestedZoom() {
   return (

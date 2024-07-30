@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { AnnotationDirectedEllipseProps, Annotation } from '../../src';
+import { Annotation, AnnotationDirectedEllipseProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -15,7 +15,7 @@ export default {
     width: 10,
     color: 'red',
   },
-} as Meta<AnnotationDirectedEllipseProps>;
+} satisfies Meta<AnnotationDirectedEllipseProps>;
 
 export function AnnotationDirectedEllipseStories(
   props: AnnotationDirectedEllipseProps,

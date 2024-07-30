@@ -2,14 +2,14 @@ import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
 import {
+  Annotation,
+  Annotations,
   Axis,
+  Legend,
   LineSeries,
   Plot,
-  Annotations,
   SeriesPoint,
   usePlotEvents,
-  Annotation,
-  Legend,
 } from '../../src';
 import {
   ClosestInfoResult,
@@ -32,15 +32,15 @@ export default {
       },
     },
   },
-} as Meta;
+} satisfies Meta;
 
 interface TrackingProps {
   method: ClosestMethods;
 }
 
 const len = 100000;
-let serie1: SeriesPoint[] = new Array(len);
-let serie2: SeriesPoint[] = new Array(len);
+const serie1: SeriesPoint[] = new Array(len);
+const serie2: SeriesPoint[] = new Array(len);
 for (let i = 0; i < len; i++) {
   serie1[i] = {
     x: i - 100,

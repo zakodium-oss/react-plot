@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, Heading } from '../../src';
+import { Axis, Heading, LineSeries, Plot } from '../../src';
 import data from '../data/covid-cases.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Covid19 cases-USA',
-} as Meta;
+} satisfies Meta;
 
 export function Covid19Cases() {
   return (

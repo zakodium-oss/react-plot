@@ -4,8 +4,8 @@ import {
   Axis,
   Legend,
   LineSeries,
-  Plot,
   LineSeriesProps,
+  Plot,
   SeriesPointWithError,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
@@ -36,7 +36,7 @@ export default {
 
     errorBarsCapStyle: { stroke: 'blue' },
   },
-} as Meta<LineSeriesProps>;
+} satisfies Meta<LineSeriesProps>;
 const data: SeriesPointWithError[] = [
   {
     x: 0,

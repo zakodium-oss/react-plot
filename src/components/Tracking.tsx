@@ -90,7 +90,7 @@ function closestCalculation(
   stateSeries: PlotSeriesState[],
   axisContext: Record<string, PlotAxisContext>,
 ): ClosestInfoResult {
-  let series: ClosestInfoResult = {};
+  const series: ClosestInfoResult = {};
 
   switch (method) {
     case 'x': {

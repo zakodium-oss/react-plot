@@ -6,7 +6,7 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/Raman',
-} as Meta;
+} satisfies Meta;
 
 export function RamanExample() {
   return (

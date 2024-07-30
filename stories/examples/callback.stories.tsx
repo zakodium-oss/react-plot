@@ -6,7 +6,7 @@ import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
 export default {
   title: 'Examples/Annotations Callback',
-} as Meta;
+} satisfies Meta;
 
 export function AnnotationCallback() {
   const [overElement, setOverElement] = useState('');

@@ -8,7 +8,7 @@ export interface AnnotationPolylineProps
     SVGProps<SVGPolylineElement>,
     'x1' | 'x2' | 'y1' | 'y2' | 'points'
   > {
-  points: { x: ScalarValue; y: ScalarValue }[];
+  points: Array<{ x: ScalarValue; y: ScalarValue }>;
   xAxis?: string;
   yAxis?: string;
   color?: string;

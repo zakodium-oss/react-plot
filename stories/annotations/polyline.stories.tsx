@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { AnnotationPolylineProps, Annotation } from '../../src';
+import { Annotation, AnnotationPolylineProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -16,7 +16,7 @@ export default {
     ],
     color: 'red',
   },
-} as Meta<AnnotationPolylineProps>;
+} satisfies Meta<AnnotationPolylineProps>;
 
 export function AnnotationPolyline(props: AnnotationPolylineProps) {
   return (

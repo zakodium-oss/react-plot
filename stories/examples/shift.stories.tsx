@@ -1,18 +1,18 @@
 import { Meta } from '@storybook/react';
 
 import {
-  Axis,
-  Plot,
-  LineSeries,
-  Annotations,
   Annotation,
+  Annotations,
+  Axis,
+  LineSeries,
+  Plot,
   ScalarValue,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Shift',
-} as Meta;
+} satisfies Meta;
 
 const exampleData = [
   { x: 0, y: 0 },

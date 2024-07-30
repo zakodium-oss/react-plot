@@ -1,6 +1,11 @@
 extends:
-  - '@zakodium/eslint-config/typescript-react'
-  - 'cheminfo/unicorn'
+  - zakodium/ts
+  - zakodium/react
+  - zakodium/unicorn
 rules:
   '@typescript-eslint/no-dynamic-delete': off
   'import/namespace': off
+overrides:
+  - files: ['tests/**/*.test.tsx']
+    rules:
+      '@typescript-eslint/unbound-method': off

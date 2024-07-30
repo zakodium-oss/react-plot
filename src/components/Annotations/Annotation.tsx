@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { type ReactElement, ReactNode } from 'react';
 
 import { Arrow } from './Arrow';
 import { BoxPlot } from './BoxPlot';
@@ -44,6 +44,6 @@ export interface AnnotationsProps {
   children: ReactNode;
 }
 
-export function Annotations(props: AnnotationsProps): JSX.Element {
+export function Annotations(props: AnnotationsProps): ReactElement {
   return <>{props.children}</>;
 }

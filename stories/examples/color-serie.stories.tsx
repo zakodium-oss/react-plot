@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Plot, Heading, ScatterSeries, SeriesPoint } from '../../src';
+import { Axis, Heading, Plot, ScatterSeries, SeriesPoint } from '../../src';
 import data from '../data/color-serie.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Color Serie',
-} as Meta;
+} satisfies Meta;
 interface Data extends SeriesPoint {
   color: string;
 }

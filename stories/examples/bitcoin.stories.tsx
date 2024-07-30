@@ -1,12 +1,12 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot, Heading, SeriesPoint } from '../../src';
+import { Axis, Heading, LineSeries, Plot, SeriesPoint } from '../../src';
 import data from '../data/bitcoin.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Bitcoin prices',
-} as Meta;
+} satisfies Meta;
 
 export function BitcoinPrice() {
   return (

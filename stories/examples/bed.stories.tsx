@@ -3,17 +3,17 @@ import { Fragment } from 'react';
 
 import {
   Axis,
-  Plot,
   Heading,
   Legend,
-  ScatterSeries,
   LineSeries,
+  Plot,
+  ScatterSeries,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Bed per 10^3 people',
-} as Meta;
+} satisfies Meta;
 
 const data = Array.from(generateNumbers(160))
   .sort((a, b) => b.beds - a.beds)

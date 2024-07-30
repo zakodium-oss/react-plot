@@ -14,7 +14,7 @@ export default {
     size: 10,
     color: 'red',
   },
-} as Meta<AnnotationShapeProps>;
+} satisfies Meta<AnnotationShapeProps>;
 
 export function AnnotationShape(props: AnnotationShapeProps) {
   return (

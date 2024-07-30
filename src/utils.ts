@@ -98,9 +98,9 @@ export function functionalStyle<T>(
   elementStyle: CSSFuncProps<T>,
   point: T,
   index?: number,
-  data?: ReadonlyArray<T>,
+  data?: readonly T[],
 ): CSSProperties {
-  let style: CSSProperties = { ...defaultStyle };
+  const style: CSSProperties = { ...defaultStyle };
   for (const key in elementStyle) {
     // @ts-expect-error Type is too complex
     if (typeof elementStyle[key] === 'function') {
@@ -120,7 +120,7 @@ export function functionalShape<T>(
   elementStyle: ShapeFuncProps<T>,
   point: T,
   index?: number,
-  data?: ReadonlyArray<T>,
+  data?: readonly T[],
 ): Shape {
   let shape: Shape;
   if (typeof elementStyle === 'function') {
@@ -137,7 +137,7 @@ export function functionalLabel<T>(
   elementStyle: LabelFuncProps<T>,
   point: T,
   index?: number,
-  data?: ReadonlyArray<T>,
+  data?: readonly T[],
 ): string {
   let shape: string;
   if (typeof elementStyle === 'function') {
@@ -159,11 +159,11 @@ export function validateSeriesPointError(
 }
 
 export function closestPoint<T, R>(
-  data: ReadonlyArray<T>,
+  data: readonly T[],
   value: R,
   distanceFun: (a: T, b: R) => number,
 ): T {
-  let closest = {
+  const closest = {
     index: 0,
     distance: Number.POSITIVE_INFINITY,
   };
@@ -178,13 +178,13 @@ export function closestPoint<T, R>(
 }
 
 export function dataConvertDate(
-  data: { x: number | Date; y: number | Date }[],
+  data: Array<{ x: number | Date; y: number | Date }>,
 ) {
   return data.map(({ x, y }) => ({ x: toNumber(x), y: toNumber(y) }));
 }
 
 export function toNumber(value: number | Date) {
-  if (typeof value === 'undefined') {
+  if (value === undefined) {
     return value;
   }
   if (typeof value === 'number') {

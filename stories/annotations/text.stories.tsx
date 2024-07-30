@@ -12,7 +12,7 @@ export default {
     y: '250',
     color: 'red',
   },
-} as Meta<AnnotationTextProps>;
+} satisfies Meta<AnnotationTextProps>;
 
 export function AnnotationText(props: AnnotationTextProps) {
   return (

@@ -32,17 +32,17 @@ export function splitChildren(children: ReactNode): PlotChildren {
   let bottomAxis: ReactElement | null = null;
   let leftAxis: ReactElement | null = null;
 
-  let parallelAxes: ReactElement[] = [];
+  const parallelAxes: ReactElement[] = [];
 
   let heading: ReactElement | null = null;
 
   let legend: ReactElement | null = null;
 
-  let series: ReactElement[] = [];
+  const series: ReactElement[] = [];
 
-  let annotations: ReactElement[] = [];
+  const annotations: ReactElement[] = [];
 
-  for (let child of Children.toArray(children)) {
+  for (const child of Children.toArray(children)) {
     if (typeof child !== 'object' || !isValidElement(child)) {
       // eslint-disable-next-line no-console
       console.error('Invalid Plot child:', child);

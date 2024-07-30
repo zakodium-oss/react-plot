@@ -3,10 +3,10 @@ import pointInPolygon from 'point-in-polygon';
 import { useState } from 'react';
 
 import {
+  Annotation,
+  Annotations,
   Axis,
   Plot,
-  Annotations,
-  Annotation,
   ScatterSeries,
   SeriesPoint,
   useDrawPath,
@@ -18,7 +18,7 @@ export default {
   title: 'Examples/Lasso Selection',
   decorators: [PlotControllerDecorator],
   args: { disabled: false },
-} as Meta;
+} satisfies Meta;
 
 const dataVertical = {
   data: {

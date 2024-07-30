@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { AnnotationBoxPlotProps, Annotation } from '../../src';
+import { Annotation, AnnotationBoxPlotProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -27,7 +27,7 @@ export default {
     minMaxColor: 'green',
     minMaxStyle: { strokeWidth: 5 },
   },
-} as Meta<AnnotationBoxPlotProps>;
+} satisfies Meta<AnnotationBoxPlotProps>;
 
 export function Horizontal(props: AnnotationBoxPlotProps) {
   return (

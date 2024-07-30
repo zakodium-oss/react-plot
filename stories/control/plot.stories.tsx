@@ -5,7 +5,7 @@ import { Axis, Legend, LineSeries, Plot, PlotProps } from '../../src';
 export default {
   title: 'API/Plot',
   component: Plot,
-} as Meta;
+} satisfies Meta;
 
 const data = [
   {

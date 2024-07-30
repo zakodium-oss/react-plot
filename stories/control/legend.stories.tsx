@@ -25,7 +25,7 @@ export default {
     lineStyle: {},
     labelStyle: {},
   },
-} as Meta<LegendProps>;
+} satisfies Meta<LegendProps>;
 
 const data1 = [
   { x: 0, y: 10 },

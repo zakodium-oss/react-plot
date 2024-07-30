@@ -13,7 +13,7 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Examples/Absorbance',
-} as Meta;
+} satisfies Meta;
 
 const lineData: SeriesPoint[] = [];
 for (let x = 0; x <= data.data[0].x.length; x++) {
@@ -21,12 +21,12 @@ for (let x = 0; x <= data.data[0].x.length; x++) {
 }
 lineData.pop();
 
-function getRangePosition(array: SeriesPoint[]): Array<RangeSeriesPoint> {
+function getRangePosition(array: SeriesPoint[]): RangeSeriesPoint[] {
   if (array.length % 2 !== 0) throw new Error('The array isnt correct');
   const one = array.slice(0, array.length / 2);
   const two = array.slice(array.length / 2, array.length).reverse();
 
-  const result: Array<RangeSeriesPoint> = [];
+  const result: RangeSeriesPoint[] = [];
 
   for (let i = 0; i < one.length; i++) {
     result.push({
