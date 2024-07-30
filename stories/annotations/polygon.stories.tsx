@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { AnnotationPolygonProps, Annotation } from '../../src';
+import { Annotation, AnnotationPolygonProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -17,7 +17,7 @@ export default {
     ],
     color: 'red',
   },
-} as Meta<AnnotationPolygonProps>;
+} satisfies Meta<AnnotationPolygonProps>;
 
 export function AnnotationPolygon(props: AnnotationPolygonProps) {
   return (

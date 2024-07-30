@@ -1,6 +1,7 @@
-import { test, expect } from '@playwright/experimental-ct-react';
+import { expect, test } from '@playwright/experimental-ct-react';
 
 import { Axis, LineSeries, ParallelAxis } from '../src';
+import { TestErrorBoundary } from '../stories/utils';
 
 import { DefaultPlotTest, InfraredPlotTest } from './utils';
 
@@ -18,14 +19,15 @@ test('all valid axes', async ({ mount }) => {
 });
 
 test('invalid axes', async ({ mount }) => {
-  await expect(async () => {
-    await mount(
+  const result = await mount(
+    <TestErrorBoundary>
       <InfraredPlotTest>
         <Axis position="bottom" />
         <Axis position="bottom" />
-      </InfraredPlotTest>,
-    );
-  }).rejects.toThrow('Plot can only have one bottom axis');
+      </InfraredPlotTest>
+    </TestErrorBoundary>,
+  );
+  await expect(result).toContainText('Plot can only have one bottom axis');
 });
 
 test('parallel axis', async ({ mount }) => {
@@ -40,7 +42,7 @@ test('parallel axis', async ({ mount }) => {
   await expect(horizontalAxes).toHaveCount(2);
 });
 
-test('axis scale', async ({ mount }) => {
+test('axis scale linear', async ({ mount }) => {
   const linear = await mount(
     <InfraredPlotTest>
       <Axis
@@ -55,7 +57,9 @@ test('axis scale', async ({ mount }) => {
   await expect(linear.locator('_react=Axis[scale="linear"]')).toHaveText(
     defaultAxis,
   );
+});
 
+test('axis scale log', async ({ mount }) => {
   const log = await mount(
     <InfraredPlotTest>
       <Axis position="bottom" scale="log" paddingEnd="10%" paddingStart="10%" />
@@ -63,6 +67,9 @@ test('axis scale', async ({ mount }) => {
   );
   const logAxis = [1000].join('');
   await expect(log.locator('_react=Axis[scale="log"]')).toHaveText(logAxis);
+});
+
+test('axis scale time', async ({ mount }) => {
   const time = await mount(
     <InfraredPlotTest>
       <Axis

@@ -1,13 +1,13 @@
 import { Meta } from '@storybook/react';
 
 import {
+  Annotations,
   Axis,
   LineSeries,
   Plot,
-  Annotations,
   useDrawPath,
-  useDrawRectangle,
   UseDrawPathOptions,
+  useDrawRectangle,
   UseDrawRectangleOptions,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
@@ -16,7 +16,7 @@ export default {
   title: 'Examples/Draw',
   decorators: [PlotControllerDecorator],
   args: { disabled: false },
-} as Meta;
+} satisfies Meta;
 
 const data = [
   { x: 1, y: 10 },

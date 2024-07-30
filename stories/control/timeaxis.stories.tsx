@@ -12,7 +12,7 @@ export default {
     hidden: false,
     hiddenTicks: false,
   },
-} as Meta;
+} satisfies Meta;
 
 interface AxisControlProps {
   label: string;

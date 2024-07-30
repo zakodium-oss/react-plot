@@ -2,10 +2,10 @@ import { Meta } from '@storybook/react';
 
 import {
   Axis,
-  ParallelAxis,
   LineSeries,
-  Plot,
+  ParallelAxis,
   ParallelAxisProps,
+  Plot,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -16,7 +16,7 @@ export default {
     id: 'x',
     label: 'Parallel axis',
   },
-} as Meta<ParallelAxisProps>;
+} satisfies Meta<ParallelAxisProps>;
 
 const data = [
   { x: 0, y: 10 },

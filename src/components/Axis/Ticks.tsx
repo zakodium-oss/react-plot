@@ -1,6 +1,11 @@
-import { CSSProperties, ReactNode, SVGAttributes } from 'react';
+import {
+  CSSProperties,
+  type ReactElement,
+  ReactNode,
+  SVGAttributes,
+} from 'react';
 
-import { TicksType, Scales } from './types';
+import { Scales, TicksType } from './types';
 
 interface CoordinatesXY {
   x1?: number;
@@ -63,7 +68,7 @@ export function Ticks(props: Omit<TicksProps, 'children'>) {
     );
   });
 
-  let secondaryTickElements: Array<JSX.Element | null> = [];
+  let secondaryTickElements: Array<ReactElement | null> = [];
   if (secondaryTickLength !== 0) {
     // generate secondaryTicks according to the density of primaryTicks
     const range = Math.abs(scale?.range()[1] - scale?.range()[0]) || 0;

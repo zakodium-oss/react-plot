@@ -1,13 +1,13 @@
 import { Meta } from '@storybook/react';
 
 import {
-  Plot,
+  Axis,
   Heading,
   Legend,
-  LineSeries,
-  Axis,
-  VerticalPosition,
   LegendPosition,
+  LineSeries,
+  Plot,
+  VerticalPosition,
 } from '../src';
 
 const args = {
@@ -28,7 +28,7 @@ export default {
   title: 'Plot/General options',
   component: Plot,
   args,
-} as Meta;
+} satisfies Meta;
 
 export function Control(props: typeof args) {
   const {

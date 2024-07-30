@@ -12,13 +12,14 @@
     "sourceMap": true,
     "declarationMap": true,
     "strict": true,
-    "target": "es2019"
+    "target": "es2022",
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*",
     "stories/**/*",
     "tests/**/*",
-    "playwright.config.ts",
+    "playwright-ct.config.ts",
     "playwright"
   ],
   "exclude": ["node_modules"]

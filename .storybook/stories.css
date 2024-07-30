@@ -1,4 +1,5 @@
-svg {
+#storybook-root svg,
+.docs-story svg {
   margin: 1em;
   border: 2px solid gold;
 }

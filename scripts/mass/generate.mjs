@@ -2,7 +2,7 @@ import { writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import IsotopicDistribution from 'isotopic-distribution';
+import { IsotopicDistribution } from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { getBestPeaks } from 'ms-spectrum';
 

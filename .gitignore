@@ -4,3 +4,5 @@ lib-esm/
 storybook-static/
 /playwright-report/
 /playwright/.cache/
+/test-results/
+/blob-report/

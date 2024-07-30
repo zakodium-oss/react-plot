@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, type ReactElement, useMemo } from 'react';
 
 import { Position } from '../../types';
 
@@ -29,7 +29,7 @@ export default function HorizontalAxisGridLines(
     scale,
   } = props;
   const Grid = useMemo(() => {
-    const Grid: JSX.Element[] = [];
+    const Grid: ReactElement[] = [];
     if (primaryGrid) {
       for (const { position } of primaryTicks) {
         Grid.push(

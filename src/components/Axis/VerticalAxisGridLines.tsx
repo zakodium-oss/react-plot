@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, type ReactElement, useMemo } from 'react';
 
 import { Position } from '../../types';
 
@@ -30,7 +30,7 @@ export default function VerticalAxisGridlines(
   } = props;
 
   const Grid = useMemo(() => {
-    const Grid: JSX.Element[] = [];
+    const Grid: ReactElement[] = [];
     if (primaryGrid) {
       for (const { position } of primaryTicks) {
         Grid.push(

@@ -59,7 +59,7 @@ export interface AxisProps {
    * With time scale the default values is d3's smart tickFormat
    * With other types of scales the default is converting the value to a string
    */
-  tickLabelFormat?: TickLabelFormat<number> | TickLabelFormat<Date>;
+  tickLabelFormat?: TickLabelFormat | TickLabelFormat<Date>;
   tickLabelStyle?: CSSProperties;
 
   primaryTickLength?: number;
@@ -173,7 +173,7 @@ export function Axis({
     return (
       <LinearAxis
         {...childProps}
-        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat}
         scale={currentAxis.scale as ScaleLinear<number, number>}
       />
     );
@@ -189,7 +189,7 @@ export function Axis({
     return (
       <LogAxis
         {...childProps}
-        tickLabelFormat={tickLabelFormat as TickLabelFormat<number>}
+        tickLabelFormat={tickLabelFormat as TickLabelFormat}
         scale={currentAxis.scale as ScaleLogarithmic<number, number>}
       />
     );

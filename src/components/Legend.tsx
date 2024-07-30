@@ -115,7 +115,7 @@ export type LegendProps = {
   position?: LegendPosition;
   margin?: number;
   onClick?: (args: {
-    event: React.MouseEvent<SVGGElement, MouseEvent>;
+    event: React.MouseEvent<SVGGElement>;
     id: string;
   }) => void;
   labelStyle?: CSSFuncProps<{ id: string }>;
@@ -153,10 +153,7 @@ export function Legend(options: LegendProps) {
     return () => plotDispatch({ type: 'removeLegend' });
   }, [plotDispatch, position, margin]);
 
-  function onClickLegendItem(
-    event: React.MouseEvent<SVGGElement, MouseEvent>,
-    id: string,
-  ) {
+  function onClickLegendItem(event: React.MouseEvent<SVGGElement>, id: string) {
     onClick?.({ event, id });
     if (showHide) {
       legendDispatch({
@@ -184,7 +181,7 @@ export function Legend(options: LegendProps) {
             <g
               onClick={(event) => onClickLegendItem(event, value.id)}
               key={index}
-              transform={`translate(${xPos}, ${0})`}
+              transform={`translate(${xPos}, 0)`}
               style={{ opacity: value.isVisible ? '1' : '0.6' }}
             >
               {getRangeShape({
@@ -210,7 +207,7 @@ export function Legend(options: LegendProps) {
           <g
             onClick={(event) => onClickLegendItem(event, value.id)}
             key={index}
-            transform={`translate(${xPos}, ${0})`}
+            transform={`translate(${xPos}, 0)`}
             style={{ opacity: value.isVisible ? '1' : '0.6' }}
           >
             {getLineShape({

@@ -10,7 +10,7 @@ import { getInfraredSeries } from '../utils';
 
 export default {
   title: 'Examples/Parallel Zoom',
-} as Meta;
+} satisfies Meta;
 
 export function ParallelZoom() {
   return (

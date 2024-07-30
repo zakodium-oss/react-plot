@@ -1,15 +1,15 @@
 import { Meta } from '@storybook/react';
 
 import {
+  Annotation,
+  Annotations,
   Axis,
   LineSeries,
   Plot,
-  Annotations,
-  Annotation,
   ScatterSeries,
   useAxisZoom,
-  useRectangularZoom,
   UseAxisZoomOptions,
+  useRectangularZoom,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -17,7 +17,7 @@ export default {
   title: 'Examples/Zoom',
   decorators: [PlotControllerDecorator],
   args: { disabled: false },
-} as Meta;
+} satisfies Meta;
 
 const data = [
   { x: 1, y: 10 },

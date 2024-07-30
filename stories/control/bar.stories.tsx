@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { Axis, Legend, BarSeriesProps, Plot, BarSeries } from '../../src';
+import { Axis, BarSeries, BarSeriesProps, Legend, Plot } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
@@ -21,7 +21,7 @@ export default {
     markerShape: 'circle',
     markerSize: 10,
   },
-} as Meta<BarSeriesProps>;
+} satisfies Meta<BarSeriesProps>;
 const data = [
   {
     x: 0,

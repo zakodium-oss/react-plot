@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { Plot, Heading, Legend, LineSeries, Axis } from '../src';
+import { Axis, Heading, Legend, LineSeries, Plot } from '../src';
 
 export default {
   title: 'Plot/Axis boundaries',
@@ -13,7 +13,7 @@ export default {
     yMin: 0,
     yMax: 6,
   },
-} as Meta;
+} satisfies Meta;
 
 type Props = Record<string, number>;
 export function Control(props: Props) {

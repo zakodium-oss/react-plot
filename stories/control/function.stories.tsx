@@ -3,12 +3,12 @@ import { Meta } from '@storybook/react';
 import {
   Annotations,
   Axis,
-  Legend,
-  Plot,
   FunctionSeries,
   FunctionSeriesProps,
-  useRectangularZoom,
+  Legend,
   LineSeries,
+  Plot,
+  useRectangularZoom,
 } from '../../src';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
 
@@ -16,7 +16,7 @@ export default {
   title: 'API/FunctionSeries',
   component: FunctionSeries,
   decorators: [PlotControllerDecorator],
-} as Meta<Omit<FunctionSeriesProps, 'getY'>>;
+} satisfies Meta<FunctionSeriesProps>;
 
 function getY(x: number) {
   return 4 * Math.sin(2 * x) + 20;

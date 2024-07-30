@@ -14,7 +14,7 @@ export default {
     y2: 33,
     color: 'red',
   },
-} as Meta<AnnotationLineProps>;
+} satisfies Meta<AnnotationLineProps>;
 
 export function AnnotationLine(props: AnnotationLineProps) {
   return (

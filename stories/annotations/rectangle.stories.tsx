@@ -14,7 +14,7 @@ export default {
     y2: '50',
     color: 'red',
   },
-} as Meta<AnnotationRectangleProps>;
+} satisfies Meta<AnnotationRectangleProps>;
 
 export function AnnotationRectangle(props: AnnotationRectangleProps) {
   return (

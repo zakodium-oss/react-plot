@@ -1,8 +1,8 @@
 import { Meta } from '@storybook/react';
 
 import {
-  Line,
   AnnotationLineProps,
+  Line,
 } from '../../src/components/Annotations/Line';
 import { AnnotationPlot } from '../annotations/annotation.data';
 
@@ -17,7 +17,7 @@ export default {
     color: 'blue',
     strokeWidth: 5,
   },
-} as Meta<AnnotationLineProps>;
+} satisfies Meta<AnnotationLineProps>;
 
 export function AnnotationMixed(props: AnnotationLineProps) {
   return (

@@ -7,7 +7,7 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/TGA',
-} as Meta;
+} satisfies Meta;
 
 export function TgaExample() {
   return (

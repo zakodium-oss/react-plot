@@ -36,11 +36,11 @@ export type CSSFuncProps<T> = {
 };
 
 export type ShapeFuncProps<T> =
-  | ((point: T, index?: number, data?: ReadonlyArray<T>) => Shape)
+  | ((point: T, index?: number, data?: readonly T[]) => Shape)
   | Shape;
 
 export type LabelFuncProps<T> =
-  | ((point: T, index?: number, data?: ReadonlyArray<T>) => string)
+  | ((point: T, index?: number, data?: readonly T[]) => string)
   | string;
 
 export interface BaseSeriesProps {

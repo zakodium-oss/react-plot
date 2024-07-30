@@ -16,7 +16,7 @@ export default {
     subtitle: 'Subtitle',
     position: Position.top,
   },
-} as Meta;
+} satisfies Meta;
 
 export function Control(props: HeadingProps) {
   return (

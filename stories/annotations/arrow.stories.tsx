@@ -18,7 +18,7 @@ export default {
     strokeWidth: 5,
     markerSize: 3,
   },
-} as Meta<AnnotationArrowProps>;
+} satisfies Meta<AnnotationArrowProps>;
 
 export function AnnotationArrow(props: AnnotationArrowProps) {
   return (

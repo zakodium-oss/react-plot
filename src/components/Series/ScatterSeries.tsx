@@ -27,7 +27,7 @@ import { markersComps } from '../Markers';
 
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps {
-  data: ReadonlyArray<T>;
+  data: readonly T[];
   markerShape?: ShapeFuncProps<T>;
   displayMarkers?: boolean;
   markerSize?: number;

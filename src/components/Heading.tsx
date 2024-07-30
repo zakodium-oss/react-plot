@@ -1,5 +1,5 @@
 import { CSSProperties, useEffect } from 'react';
-import { useBBoxObserver, AlignGroup } from 'react-d3-utils';
+import { AlignGroup, useBBoxObserver } from 'react-d3-utils';
 
 import {
   usePlotContext,
@@ -78,7 +78,3 @@ export function Heading({
     </AlignGroup>
   );
 }
-
-Heading.defaultProps = {
-  position: 'top',
-};

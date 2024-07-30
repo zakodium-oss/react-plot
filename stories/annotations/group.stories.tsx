@@ -13,7 +13,7 @@ export default {
     horizontalAlign: 'none',
     verticalAlign: 'none',
   },
-} as Meta<AnnotationGroupProps>;
+} satisfies Meta<AnnotationGroupProps>;
 
 export function AnnotationGroup(props: AnnotationGroupProps) {
   return (

@@ -2,36 +2,33 @@ import { Meta } from '@storybook/react';
 import type { MeasurementSelector } from 'base-analysis';
 import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { Annotation, Annotations, Axis, LineSeries, Plot } from '../../src';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/IV',
-} as Meta;
+} satisfies Meta;
 
 interface BaseExampleProps {
   filename: string;
   selector: MeasurementSelector;
   yScale: 'linear' | 'log';
-  processorFunction(text: string): Analysis[];
-  children(meta: any, data: Array<Record<'x' | 'y', number>>): React.ReactNode;
+  processorFunction: (text: string) => Analysis[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: (meta: any, data: Array<Record<'x' | 'y', number>>) => ReactNode;
 }
-function BaseExample({
-  filename,
-  selector,
-  yScale,
-  processorFunction,
-  children,
-}: BaseExampleProps) {
+
+function BaseExample(props: BaseExampleProps) {
+  const { filename, selector, yScale, processorFunction, children } = props;
   const [csv, setCsv] = useState<string | null>(null);
   const [error, setError] = useState<Error | null>(null);
   useEffect(() => {
     fetch(filename)
       .then((res) => res.text())
       .then((val) => setCsv(val))
-      .catch((error) => setError(error));
+      .catch((error: unknown) => setError(error as Error));
   }, [filename]);
 
   if (error) return <div>Error: {error.message}</div>;

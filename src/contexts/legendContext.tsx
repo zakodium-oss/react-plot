@@ -29,7 +29,7 @@ interface LegendLabelState {
 }
 
 interface LegendState {
-  labels: Array<LegendLabelState>;
+  labels: LegendLabelState[];
 }
 
 type LegendActions =

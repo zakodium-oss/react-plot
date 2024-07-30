@@ -8,7 +8,7 @@ import { DEFAULT_PLOT_CONFIG } from '../utils';
 
 export default {
   title: 'Experimental spectra/NMR',
-} as Meta;
+} satisfies Meta;
 
 export function NmrExample() {
   return (

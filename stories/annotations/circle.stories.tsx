@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react';
 
-import { AnnotationCircleProps, Annotation } from '../../src';
+import { Annotation, AnnotationCircleProps } from '../../src';
 
 import { AnnotationPlot } from './annotation.data';
 
@@ -13,7 +13,7 @@ export default {
     r: 100,
     color: 'red',
   },
-} as Meta<AnnotationCircleProps>;
+} satisfies Meta<AnnotationCircleProps>;
 
 export function AnnotationCircle(props: AnnotationCircleProps) {
   return (

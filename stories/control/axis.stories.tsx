@@ -3,8 +3,6 @@ import { Meta } from '@storybook/react';
 import { Axis, AxisProps, Plot } from '../../src';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
 
-type AxisStoryProps = Omit<AxisProps, 'id' | 'position'>;
-
 export default {
   title: 'API/Axis',
   component: Axis,
@@ -29,43 +27,43 @@ export default {
       exclude: ['id', 'position'],
     },
   },
-} as Meta<AxisStoryProps>;
+} satisfies Meta<AxisProps>;
 
-export function AxisLeft(props: AxisStoryProps) {
+export function AxisLeft(props: AxisProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {getInfraredSeries()}
       <Axis id="x" position="bottom" />
-      <Axis id="y" position="left" {...props} />
+      <Axis id="y" {...props} position="left" />
     </Plot>
   );
 }
 
-export function AxisBottom(props: AxisStoryProps) {
+export function AxisBottom(props: AxisProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {getInfraredSeries()}
-      <Axis id="x" position="bottom" {...props} />
+      <Axis id="x" {...props} position="bottom" />
       <Axis id="y" position="left" />
     </Plot>
   );
 }
 
-export function AxisRight(props: AxisStoryProps) {
+export function AxisRight(props: AxisProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {getInfraredSeries()}
       <Axis id="x" position="bottom" />
-      <Axis id="y" position="right" {...props} />
+      <Axis id="y" {...props} position="right" />
     </Plot>
   );
 }
 
-export function AxisTop(props: AxisStoryProps) {
+export function AxisTop(props: AxisProps) {
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>
       {getInfraredSeries()}
-      <Axis id="x" position="top" {...props} />
+      <Axis id="x" {...props} position="top" />
       <Axis id="y" position="left" />
     </Plot>
   );

@@ -41,7 +41,7 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+} satisfies Meta;
 
 export function SquareShape() {
   return <Square size={SIZE} style={{ fill: 'blue' }} />;

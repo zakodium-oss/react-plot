@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import { Axis, LineSeries, Plot, Heading, SeriesPoint } from '../../src';
+import { Axis, Heading, LineSeries, Plot, SeriesPoint } from '../../src';
 import srcData from '../data/nasdaq.json';
 import { DEFAULT_PLOT_CONFIG } from '../utils';
 
@@ -12,7 +12,7 @@ export default {
     step: 1,
     displayInterval: 500,
   },
-} as Meta;
+} satisfies Meta;
 
 const generateNewXY = (serie: SeriesPoint, step: number): [number, number] => {
   const x = serie.x + step;
@@ -22,10 +22,10 @@ const generateNewXY = (serie: SeriesPoint, step: number): [number, number] => {
 };
 
 const getLastData = (
-  data: Array<SeriesPoint>,
+  data: SeriesPoint[],
   displayInterval: number,
-): Array<SeriesPoint> => {
-  const lastTimestamp = data[data.length - 1].x;
+): SeriesPoint[] => {
+  const lastTimestamp = (data.at(-1) as SeriesPoint).x;
   const firstIndex = data.findIndex(
     (serie) => serie.x >= lastTimestamp - displayInterval,
   );
@@ -45,7 +45,10 @@ export function NasdaqExample(props: Props) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const [x, y] = generateNewXY(data[data.length - 1], step); // generate a new coordinates
+      const [x, y] = generateNewXY(
+        data.at(-1) as { x: number; y: number },
+        step,
+      ); // generate a new coordinates
       const newData = getLastData([...data, { x, y }], displayInterval); // get last 500s data
       setData(newData);
     }, refreshFrequency * 1000);

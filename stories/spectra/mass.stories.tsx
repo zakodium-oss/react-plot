@@ -1,8 +1,6 @@
 import { Meta } from '@storybook/react';
-// @ts-expect-error untyped module
-import IsotopicDistribution from 'isotopic-distribution';
+import { IsotopicDistribution } from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
-// @ts-expect-error untyped module
 import { getBestPeaks } from 'ms-spectrum';
 import { useMemo } from 'react';
 
@@ -12,10 +10,10 @@ import {
   BarSeries,
   LineSeries,
   Plot,
-  useAxisZoom,
   useAxisWheelZoom,
-  usePlotControllerAxes,
+  useAxisZoom,
   usePan,
+  usePlotControllerAxes,
 } from '../../src';
 import { Group } from '../../src/components/Annotations/Group';
 import { Line } from '../../src/components/Annotations/Line';
@@ -27,7 +25,7 @@ export default {
   title: 'Experimental spectra/Mass',
   decorators: [PlotControllerDecorator],
   args: { disabled: false },
-} as Meta;
+} satisfies Meta;
 
 export function MassExample() {
   return (
@@ -83,7 +81,8 @@ export function AdvancedMassExample({
       profile: xyToXYObject(profileXY),
       centroid: isotopicDistribution.getTable({
         maxValue: 100,
-      }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }) as any,
     };
   }, [mf]);
 
