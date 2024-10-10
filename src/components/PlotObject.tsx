@@ -3,7 +3,7 @@ import { CSSProperties, ReactNode } from 'react';
 
 import type { Margins } from '../types';
 
-import { Annotations, Annotation } from './Annotations/Annotation';
+import { Annotation, Annotations } from './Annotations';
 import type { AnnotationArrowProps } from './Annotations/Arrow';
 import type { AnnotationCircleProps } from './Annotations/Circle';
 import type { AnnotationEllipseProps } from './Annotations/Ellipse';

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unassigned-import
 import './stories.css';
 
 export const parameters = {

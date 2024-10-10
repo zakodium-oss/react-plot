@@ -1,6 +1,6 @@
 import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 
-import { Annotations } from '../components/Annotations/Annotation';
+import { Annotations } from '../components/Annotations/index';
 import { Axis } from '../components/Axis/Axis';
 import { ParallelAxis } from '../components/Axis/ParallelAxis';
 import { Heading } from '../components/Heading';

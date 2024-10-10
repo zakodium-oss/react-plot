@@ -1,55 +1,11 @@
 import { produce } from 'immer';
+import { ReactNode, Reducer, useMemo, useReducer } from 'react';
+
 import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  Reducer,
-  useContext,
-  useMemo,
-  useReducer,
-} from 'react';
-
-import type { ActionType, Shape } from '../types';
-
-interface LegendLabelState {
-  id: string;
-  isVisible: boolean;
-  label?: string;
-  shape?: {
-    figure: Shape;
-    color: string;
-    hidden: boolean;
-  };
-
-  range?: {
-    rangeColor?: string;
-  };
-
-  colorLine?: string;
-}
-
-interface LegendState {
-  labels: LegendLabelState[];
-}
-
-type LegendActions =
-  | ActionType<'ADD_LEGEND_LABEL', Omit<LegendLabelState, 'isVisible'>>
-  | ActionType<'REMOVE_LEGEND_LABEL', { id: string }>
-  | ActionType<'TOGGLE_VISIBILITY', { id: string }>;
-
-type LegendDispatch = Dispatch<LegendActions>;
-type LegendContext = readonly [LegendState, LegendDispatch];
-
-const context = createContext<LegendContext | null>(null);
-
-export function useLegend(): LegendContext {
-  const ctx = useContext(context);
-  if (!ctx) {
-    throw new Error('context was not initialized');
-  }
-
-  return ctx;
-}
+  type LegendActions,
+  legendContext,
+  type LegendState,
+} from './legendContext';
 
 const legendReducer: Reducer<LegendState, LegendActions> = produce(
   (draft: LegendState, action: LegendActions) => {
@@ -58,7 +14,7 @@ const legendReducer: Reducer<LegendState, LegendActions> = produce(
         const { shape, ...newLegend } = action.payload;
 
         const index = draft.labels.findIndex(({ id }) => newLegend.id === id);
-        if (index < 0) {
+        if (index === -1) {
           draft.labels.push({ ...newLegend, shape, isVisible: true });
         } else {
           //isVisible should only updated in TOGGLE_VISIBILITY
@@ -102,5 +58,9 @@ export const LegendProvider = (props: { children: ReactNode }) => {
     () => [legendState, legendDispatch] as const,
     [legendState, legendDispatch],
   );
-  return <context.Provider value={ctx}>{props.children}</context.Provider>;
+  return (
+    <legendContext.Provider value={ctx}>
+      {props.children}
+    </legendContext.Provider>
+  );
 };

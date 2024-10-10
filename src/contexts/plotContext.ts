@@ -1,12 +1,12 @@
 import { max, min } from 'd3-array';
 import {
-  ScaleOrdinal,
   ScaleContinuousNumeric,
   ScaleLinear,
-  ScaleLogarithmic,
-  scaleOrdinal,
   scaleLinear,
   scaleLog,
+  ScaleLogarithmic,
+  ScaleOrdinal,
+  scaleOrdinal,
   ScaleTime,
   scaleTime,
 } from 'd3-scale';
@@ -254,11 +254,7 @@ export function useAxisContext(
       const domain = [axisMin - padding.min, axisMax + padding.max] as const;
       // eslint-disable-next-line unicorn/consistent-function-scoping
       const clampInDomain = function clampInDomain(value: number) {
-        return value < domain[0]
-          ? domain[0]
-          : value > domain[1]
-            ? domain[1]
-            : value;
+        return value < domain[0] ? domain[0] : Math.min(value, domain[1]);
       };
 
       switch (axis.scale) {

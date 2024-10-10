@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { LegendProvider } from '../contexts/legendContext';
+import { LegendProvider } from '../contexts/legendContext.provider';
 import {
   PlotContext,
   plotContext,

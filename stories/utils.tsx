@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Decorator } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';

@@ -9,7 +9,7 @@ import { functionalStyle, useId, validateAxis } from '../../utils';
 import { LineSeriesProps } from './LineSeries';
 import { ScatterSeries } from './ScatterSeries';
 
-export interface BarSeriesProps extends LineSeriesProps {}
+export type BarSeriesProps = LineSeriesProps;
 
 export function BarSeries(props: BarSeriesProps) {
   const [, legendDispatch] = useLegend();
