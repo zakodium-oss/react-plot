@@ -17,7 +17,7 @@ export * from './components/Legend';
 
 export * from './components/Heading';
 
-export * from './components/Annotations/Annotation';
+export * from './components/Annotations/index';
 
 export * from './hooks/index';
 
@@ -34,7 +34,8 @@ export type {
 } from './types';
 
 export {
-  PlotController,
   usePlotControls,
   usePlotEvents,
 } from './contexts/plotController/plotControllerContext';
+
+export { PlotController } from './contexts/plotController/plotControllerContext.provider';

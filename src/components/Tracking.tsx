@@ -212,9 +212,7 @@ export default function Tracking({
     const rect = rectRef.current;
     if (!rect) return;
 
-    function eventListener<NativeEventType extends MouseEvent>(
-      nativeEvent: NativeEventType,
-    ) {
+    function eventListener(nativeEvent: MouseEvent) {
       if (nativeEvent.type === 'pointerdown') {
         for (const pointerEvent of globalNativeEventNames) {
           window.addEventListener(pointerEvent, eventListener);

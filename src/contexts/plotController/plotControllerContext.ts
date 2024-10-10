@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { ControllerHookOptions } from '../../hooks/types';
 
@@ -7,16 +7,14 @@ import {
   EventsHandlers,
   PlotEventsPlotActions,
   PlotEventsUserActions,
-  usePlotEventsState,
 } from './usePlotEvents';
 import {
   initialPlotOverridesState,
   PlotControls,
   PlotOverridesState,
-  usePlotOverridesState,
 } from './usePlotOverrides';
 
-const plotOverridesContext = createNestableContext<PlotOverridesState>(
+export const plotOverridesContext = createNestableContext<PlotOverridesState>(
   initialPlotOverridesState,
 );
 
@@ -26,7 +24,9 @@ export function usePlotOverrides(
   return plotOverridesContext.useNestedContext(options?.controllerId);
 }
 
-const plotControlsContext = createNestableContext<PlotControls | null>(null);
+export const plotControlsContext = createNestableContext<PlotControls | null>(
+  null,
+);
 
 export function usePlotControls(options?: ControllerHookOptions): PlotControls {
   const id = options?.controllerId;
@@ -41,7 +41,7 @@ export function usePlotControls(options?: ControllerHookOptions): PlotControls {
   return plotControls;
 }
 
-const plotEventsUserContext =
+export const plotEventsUserContext =
   createNestableContext<PlotEventsUserActions | null>(null);
 
 export function usePlotEvents(
@@ -73,37 +73,9 @@ export function usePlotEvents(
   }, [disabled, userContext]);
 }
 
-const plotEventsPlotContext =
+export const plotEventsPlotContext =
   createNestableContext<PlotEventsPlotActions | null>(null);
 
 export function usePlotEventsPlotContext(options?: ControllerHookOptions) {
   return plotEventsPlotContext.useNestedContext(options?.controllerId);
-}
-
-interface PlotControllerProps {
-  id?: string;
-  children: ReactNode;
-}
-
-export function PlotController(props: PlotControllerProps) {
-  const { id, children } = props;
-  const { userActions, plotActions } = usePlotEventsState();
-  const { overrides, controls } = usePlotOverridesState();
-  return (
-    <plotOverridesContext.NestedContextProvider id={id} value={overrides}>
-      <plotControlsContext.NestedContextProvider id={id} value={controls}>
-        <plotEventsUserContext.NestedContextProvider
-          id={id}
-          value={userActions}
-        >
-          <plotEventsPlotContext.NestedContextProvider
-            id={id}
-            value={plotActions}
-          >
-            {children}
-          </plotEventsPlotContext.NestedContextProvider>
-        </plotEventsUserContext.NestedContextProvider>
-      </plotControlsContext.NestedContextProvider>
-    </plotOverridesContext.NestedContextProvider>
-  );
 }

@@ -2,7 +2,8 @@ import { usePlotOverrides } from '../contexts/plotController/plotControllerConte
 
 import { ControllerHookOptions } from './types';
 
-export interface UsePlotControllerAxesOptions extends ControllerHookOptions {}
+export type UsePlotControllerAxesOptions = ControllerHookOptions;
+
 export function usePlotControllerAxes(
   options: UsePlotControllerAxesOptions = {},
 ) {

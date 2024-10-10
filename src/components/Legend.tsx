@@ -11,7 +11,7 @@ import {
 import type { CSSFuncProps, Position } from '../types';
 import { functionalStyle } from '../utils';
 
-import { markersComps } from './Markers';
+import { markersMap } from './Markers.map';
 
 type Positions = { [K in Position]?: number };
 
@@ -201,7 +201,7 @@ export function Legend(options: LegendProps) {
 
         let Marker;
         if (value.shape) {
-          Marker = markersComps[value.shape.figure];
+          Marker = markersMap[value.shape.figure];
         }
         return (
           <g

@@ -23,7 +23,7 @@ import {
   validateAxis,
 } from '../../utils';
 import ErrorBars from '../ErrorBars';
-import { markersComps } from '../Markers';
+import { markersMap } from '../Markers.map';
 
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps {
@@ -185,7 +185,7 @@ function ScatterSeriesRender<T extends SeriesPoint = SeriesPoint>({
       const style = functionalStyle(defaultColor, markerStyle, point, i, data);
 
       // Show marker
-      const Marker = markersComps[functionalShape(markerShape, point, i, data)];
+      const Marker = markersMap[functionalShape(markerShape, point, i, data)];
       const label = functionalLabel(pointLabel, point, i, data);
       const labelStyle = functionalStyle({}, pointLabelStyle, point, i, data);
 

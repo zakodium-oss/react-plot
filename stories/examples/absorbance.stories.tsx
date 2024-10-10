@@ -24,7 +24,7 @@ lineData.pop();
 function getRangePosition(array: SeriesPoint[]): RangeSeriesPoint[] {
   if (array.length % 2 !== 0) throw new Error('The array isnt correct');
   const one = array.slice(0, array.length / 2);
-  const two = array.slice(array.length / 2, array.length).reverse();
+  const two = array.slice(array.length / 2).reverse();
 
   const result: RangeSeriesPoint[] = [];
 

@@ -5,18 +5,6 @@ export interface MarkersProps {
   style?: CSSProperties;
 }
 
-export const markersComps = {
-  circle: Circle,
-  square: Square,
-  diamond: Diamond,
-  triangle: Triangle,
-  cross: Cross,
-  xmark: XMark,
-  pentagon: Pentagon,
-  star: Star,
-  hexagon: Hexagon,
-};
-
 const halfPi = Math.PI / 2;
 const twoPi = Math.PI * 2;
 
