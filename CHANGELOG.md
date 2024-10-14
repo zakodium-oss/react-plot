@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/zakodium-oss/react-plot/compare/v2.0.0...v3.0.0) (2024-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* the module is now ESM-only
+
+### Features
+
+* make module native ESM ([1f71a92](https://github.com/zakodium-oss/react-plot/commit/1f71a9204050afcd7979cee5a0d93b305ae70e3d))
+
 ## [2.0.0](https://github.com/zakodium-oss/react-plot/compare/v1.4.2...v2.0.0) (2024-07-30)
 
 
