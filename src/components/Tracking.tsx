@@ -1,13 +1,16 @@
 import { euclidean } from 'ml-distance-euclidean';
 import { useEffect, useRef } from 'react';
 
-import { PlotAxisContext, PlotSeriesState } from '../contexts/plotContext';
+import type {
+  PlotAxisContext,
+  PlotSeriesState,
+} from '../contexts/plotContext.js';
 import {
-  EventName,
-  PlotEventsPlotActions,
-} from '../contexts/plotController/usePlotEvents';
-import { SeriesPoint } from '../types';
-import { closestPoint, toNumber } from '../utils';
+  type EventName,
+  type PlotEventsPlotActions,
+} from '../contexts/plotController/usePlotEvents.js';
+import { type SeriesPoint } from '../types.js';
+import { closestPoint, toNumber } from '../utils.js';
 
 export interface ClosestInfo<MethodName extends ClosestMethods> {
   point: SeriesPoint;

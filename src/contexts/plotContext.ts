@@ -1,19 +1,19 @@
 import { max, min } from 'd3-array';
 import {
-  ScaleContinuousNumeric,
-  ScaleLinear,
+  type ScaleContinuousNumeric,
+  type ScaleLinear,
   scaleLinear,
   scaleLog,
-  ScaleLogarithmic,
-  ScaleOrdinal,
+  type ScaleLogarithmic,
+  type ScaleOrdinal,
   scaleOrdinal,
-  ScaleTime,
+  type ScaleTime,
   scaleTime,
 } from 'd3-scale';
-import { createContext, Dispatch, useContext, useMemo } from 'react';
+import { createContext, type Dispatch, useContext, useMemo } from 'react';
 
-import type { AxisScale } from '../components/Axis/Axis';
-import { LegendPosition } from '../components/Legend';
+import type { AxisScale } from '../components/Axis/Axis.js';
+import type { LegendPosition } from '../components/Legend.js';
 import type {
   ActionType,
   Position,
@@ -21,10 +21,10 @@ import type {
   SeriesPoint,
   TickLabelFormat,
   VerticalPosition,
-} from '../types';
-import { validatePosition } from '../utils';
+} from '../types.js';
+import { validatePosition } from '../utils.js';
 
-import { PlotAxesOverrides } from './plotController/usePlotOverrides';
+import type { PlotAxesOverrides } from './plotController/usePlotOverrides.js';
 
 export interface PlotState {
   headingPosition: VerticalPosition | null;

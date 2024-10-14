@@ -1,4 +1,4 @@
-import { TickPosition } from '../types';
+import type { TickPosition } from '../types.js';
 
 export function getInnerOffset(
   hidden: boolean,

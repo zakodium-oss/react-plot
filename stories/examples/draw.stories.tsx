@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotations,
@@ -6,11 +6,11 @@ import {
   LineSeries,
   Plot,
   useDrawPath,
-  UseDrawPathOptions,
+  type UseDrawPathOptions,
   useDrawRectangle,
-  UseDrawRectangleOptions,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+  type UseDrawRectangleOptions,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/Draw',

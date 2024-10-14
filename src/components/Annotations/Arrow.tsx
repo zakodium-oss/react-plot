@@ -1,9 +1,9 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-import { usePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { usePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
-import MarkerDefs from './MarkerDefs';
+import MarkerDefs from './MarkerDefs.js';
 
 type AnnotationShapeList = 'circle' | 'triangle' | 'line' | 'none';
 

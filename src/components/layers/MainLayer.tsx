@@ -1,8 +1,8 @@
-import { CSSProperties, Ref } from 'react';
+import type { CSSProperties, Ref } from 'react';
 
-import { bboxContext } from '../../contexts/bboxContext';
-import { PlotChildren } from '../../utils/splitChildren';
-import TransparentRect from '../TransparentRect';
+import { bboxContext } from '../../contexts/bboxContext.js';
+import type { PlotChildren } from '../../utils/splitChildren.js';
+import TransparentRect from '../TransparentRect.js';
 
 interface MainLayerProps {
   width: number;

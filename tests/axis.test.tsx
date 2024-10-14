@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/experimental-ct-react';
 
-import { Axis, LineSeries, ParallelAxis } from '../src';
-import { TestErrorBoundary } from '../stories/utils';
+import { Axis, LineSeries, ParallelAxis } from '../src/index.js';
+import { TestErrorBoundary } from '../stories/utils.js';
 
-import { DefaultPlotTest, InfraredPlotTest } from './utils';
+import { DefaultPlotTest, InfraredPlotTest } from './utils.js';
 
 test('all valid axes', async ({ mount }) => {
   const plot = await mount(

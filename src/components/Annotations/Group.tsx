@@ -1,8 +1,8 @@
-import { CSSProperties, ReactNode } from 'react';
-import { Align, AlignGroup } from 'react-d3-utils';
+import type { CSSProperties, ReactNode } from 'react';
+import { type Align, AlignGroup } from 'react-d3-utils';
 
-import { usePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { usePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationGroupProps {
   x: ScalarValue;

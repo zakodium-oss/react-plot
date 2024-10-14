@@ -1,10 +1,10 @@
 import { euclidean } from 'ml-distance-euclidean';
 
-import { Scales } from './components/Axis/types';
-import { useLegend } from './contexts/legendContext';
-import { usePlotContext } from './contexts/plotContext';
-import { ScalarValue } from './types';
-import { validateAxis } from './utils';
+import type { Scales } from './components/Axis/types.js';
+import { useLegend } from './contexts/legendContext.js';
+import { usePlotContext } from './contexts/plotContext.js';
+import type { ScalarValue } from './types.js';
+import { validateAxis } from './utils.js';
 
 // annotation hooks
 interface UsePositionConfig {

@@ -1,4 +1,4 @@
-import { ReactNode, SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
 export interface VerticalTextProps extends SVGProps<SVGTextElement> {
   label: ReactNode;

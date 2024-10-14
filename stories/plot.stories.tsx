@@ -1,14 +1,14 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
   Heading,
   Legend,
-  LegendPosition,
+  type LegendPosition,
   LineSeries,
   Plot,
-  VerticalPosition,
-} from '../src';
+  type VerticalPosition,
+} from '../src/index.js';
 
 const args = {
   hiddenTicks: false,

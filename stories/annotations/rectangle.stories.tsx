@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Annotation, AnnotationRectangleProps } from '../../src';
+import { Annotation, type AnnotationRectangleProps } from '../../src/index.js';
 
-import { AnnotationPlot } from './annotation.data';
+import { AnnotationPlot } from './annotation.data.js';
 
 export default {
   title: 'API/Annotations',

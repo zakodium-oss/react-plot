@@ -1,11 +1,17 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import type { MeasurementSelector } from 'base-analysis';
 import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { type ReactNode, useEffect, useState } from 'react';
 
-import { Annotation, Annotations, Axis, LineSeries, Plot } from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import {
+  Annotation,
+  Annotations,
+  Axis,
+  LineSeries,
+  Plot,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Experimental spectra/IV',

@@ -1,10 +1,14 @@
 import { useMemo } from 'react';
 
-import { usePlotContext } from '../../contexts/plotContext';
-import { BaseSeriesProps, CSSFuncProps, SeriesPoint } from '../../types';
-import { toNumber, useId } from '../../utils';
+import { usePlotContext } from '../../contexts/plotContext.js';
+import type {
+  BaseSeriesProps,
+  CSSFuncProps,
+  SeriesPoint,
+} from '../../types.js';
+import { toNumber, useId } from '../../utils.js';
 
-import { LineSeries } from './LineSeries';
+import { LineSeries } from './LineSeries.js';
 
 export interface FunctionSeriesProps extends BaseSeriesProps {
   getY: (x: number) => number;

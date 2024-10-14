@@ -1,7 +1,7 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-import { useEllipsePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { useEllipsePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationEllipseProps
   extends Omit<

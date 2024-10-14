@@ -1,7 +1,13 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, BarSeries, BarSeriesProps, Legend, Plot } from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import {
+  Axis,
+  BarSeries,
+  type BarSeriesProps,
+  Legend,
+  Plot,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/BarSeries',

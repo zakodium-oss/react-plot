@@ -1,13 +1,13 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
   LineSeries,
   ParallelAxis,
-  ParallelAxisProps,
+  type ParallelAxisProps,
   Plot,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/ParallelAxis',

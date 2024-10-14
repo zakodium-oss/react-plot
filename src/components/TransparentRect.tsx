@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 /**
  * Like <rect>, but transparent by default

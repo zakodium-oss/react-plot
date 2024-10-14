@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { TrackingResult } from '../components/Tracking';
-import { usePlotEvents } from '../contexts/plotController/plotControllerContext';
+import type { TrackingResult } from '../components/Tracking.js';
+import { usePlotEvents } from '../contexts/plotController/plotControllerContext.js';
 
-import { ControllerHookOptions } from './types';
+import type { ControllerHookOptions } from './types.js';
 
 export type UseStartMoveEndCallback = (
   data: TrackingResult<PointerEvent>,

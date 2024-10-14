@@ -1,7 +1,7 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-import { useRectanglePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { useRectanglePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationRectangleProps
   extends Omit<

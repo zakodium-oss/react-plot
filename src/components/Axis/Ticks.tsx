@@ -1,11 +1,11 @@
 import {
-  CSSProperties,
+  type CSSProperties,
   type ReactElement,
-  ReactNode,
-  SVGAttributes,
+  type ReactNode,
+  type SVGAttributes,
 } from 'react';
 
-import { Scales, TicksType } from './types';
+import type { Scales, TicksType } from './types.js';
 
 interface CoordinatesXY {
   x1?: number;

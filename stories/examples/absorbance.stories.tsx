@@ -1,15 +1,15 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
   LineSeries,
   Plot,
   RangeSeries,
-  RangeSeriesPoint,
-  SeriesPoint,
-} from '../../src';
+  type RangeSeriesPoint,
+  type SeriesPoint,
+} from '../../src/index.js';
 import data from '../data/absorb.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Examples/Absorbance',

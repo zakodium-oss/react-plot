@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "esnext"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "lib": ["DOM", "ES2022"],
+    "types": [],
+    "target": "ES2022",
     "outDir": "lib",
-    "removeComments": false,
-    "sourceMap": true,
-    "declarationMap": true,
+    "jsx": "react-jsx",
+    "module": "NodeNext",
     "strict": true,
-    "target": "es2022",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "src/**/*",

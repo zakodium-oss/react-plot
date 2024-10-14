@@ -1,19 +1,18 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { getDirectionalEllipse } from 'ml-directional-distribution';
 import { useMemo } from 'react';
 
 import {
+  Annotation,
   Annotations,
   Axis,
   Heading,
   Plot,
   ScatterSeries,
   useRectangularZoom,
-} from '../../src';
-import { DirectedEllipse } from '../../src/components/Annotations/DirectedEllipse';
-import { Text } from '../../src/components/Annotations/Text';
+} from '../../src/index.js';
 import data from '../data/pca2.json';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/PCA example of ecstasy',
@@ -85,7 +84,7 @@ export function PCAExample() {
       <Annotations>
         {ellipses.map(({ x1, y1, x2, y2, width, color, label, x, y }) => (
           <g key={`${x1}-${y1}-${x2}-${y2}`}>
-            <DirectedEllipse
+            <Annotation.DirectedEllipse
               x1={x1}
               y1={y1}
               x2={x2}
@@ -96,9 +95,9 @@ export function PCAExample() {
                 opacity: '0.2',
               }}
             />
-            <Text x={x} y={y} color={color}>
+            <Annotation.Text x={x} y={y} color={color}>
               {label}
-            </Text>
+            </Annotation.Text>
           </g>
         ))}
         {zoom.annotations}

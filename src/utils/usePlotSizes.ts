@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
-import { LegendPosition } from '../components/Legend';
-import { PlotAxisState } from '../contexts/plotContext';
-import { Margins, VerticalPosition } from '../types';
+import type { LegendPosition } from '../components/Legend.js';
+import type { PlotAxisState } from '../contexts/plotContext.js';
+import type { Margins, VerticalPosition } from '../types.js';
 
 export function usePlotSizes({
   width,

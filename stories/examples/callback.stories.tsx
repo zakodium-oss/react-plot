@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-import { Annotation, Annotations, Plot } from '../../src';
-import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
+import { Annotation, Annotations, Plot } from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';
 
 export default {
   title: 'Examples/Annotations Callback',

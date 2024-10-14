@@ -4,13 +4,7 @@ import unicorn from 'eslint-config-zakodium/unicorn';
 
 export default [
   {
-    ignores: [
-      'lib',
-      'lib-esm',
-      'node_modules',
-      'playwright/.cache',
-      'storybook-static',
-    ],
+    ignores: ['lib', 'node_modules', 'playwright/.cache', 'storybook-static'],
   },
   ...ts,
   ...react,

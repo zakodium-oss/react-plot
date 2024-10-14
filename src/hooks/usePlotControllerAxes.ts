@@ -1,6 +1,6 @@
-import { usePlotOverrides } from '../contexts/plotController/plotControllerContext';
+import { usePlotOverrides } from '../contexts/plotController/plotControllerContext.js';
 
-import { ControllerHookOptions } from './types';
+import type { ControllerHookOptions } from './types.js';
 
 export type UsePlotControllerAxesOptions = ControllerHookOptions;
 

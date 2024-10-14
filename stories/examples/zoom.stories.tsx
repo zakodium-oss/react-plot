@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotation,
@@ -8,10 +8,10 @@ import {
   Plot,
   ScatterSeries,
   useAxisZoom,
-  UseAxisZoomOptions,
+  type UseAxisZoomOptions,
   useRectangularZoom,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/Zoom',

@@ -1,11 +1,9 @@
-import { ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { Annotations, Plot, ScatterSeries } from '../src';
-import { Arrow } from '../src/components/Annotations/Arrow';
-import { DirectedEllipse } from '../src/components/Annotations/DirectedEllipse';
+import { Annotation, Annotations, Plot, ScatterSeries } from '../src/index.js';
 import infrared from '../stories/data/infrared.json';
-import { DEFAULT_PLOT_CONFIG } from '../stories/utils';
+import { DEFAULT_PLOT_CONFIG } from '../stories/utils.js';
 
 interface ChildrenProps {
   children?: ReactNode;
@@ -33,7 +31,7 @@ export function AnnotationsCallback() {
   return (
     <InfraredPlotTest>
       <Annotations>
-        <Arrow
+        <Annotation.Arrow
           x1="0"
           x2="100"
           y1="0"
@@ -41,7 +39,7 @@ export function AnnotationsCallback() {
           color={active === 'arrow' ? 'red' : 'black'}
           onClick={() => setActive('arrow')}
         />
-        <DirectedEllipse
+        <Annotation.DirectedEllipse
           x1="0"
           x2="3"
           y1="0"

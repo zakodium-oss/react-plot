@@ -1,9 +1,15 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-import { Axis, Heading, LineSeries, Plot, SeriesPoint } from '../../src';
+import {
+  Axis,
+  Heading,
+  LineSeries,
+  Plot,
+  type SeriesPoint,
+} from '../../src/index.js';
 import srcData from '../data/nasdaq.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Examples/Nasdaq',

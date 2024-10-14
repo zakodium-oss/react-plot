@@ -1,9 +1,9 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot } from '../../src';
+import { Axis, LineSeries, Plot } from '../../src/index.js';
 import data1 from '../data/tga1.json';
 import data2 from '../data/tga2.json';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Experimental spectra/TGA',

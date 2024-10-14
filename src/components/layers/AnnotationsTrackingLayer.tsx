@@ -1,7 +1,7 @@
-import { CSSProperties, ReactNode, Ref } from 'react';
+import type { CSSProperties, ReactNode, Ref } from 'react';
 
-import { legendOffsetContext } from '../../contexts/legendOffsetContext';
-import { PlotChildren } from '../../utils/splitChildren';
+import { legendOffsetContext } from '../../contexts/legendOffsetContext.js';
+import type { PlotChildren } from '../../utils/splitChildren.js';
 
 interface AnnotationsTrackingLayerProps {
   width: number;

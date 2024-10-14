@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Fragment } from 'react';
 
 import {
@@ -8,8 +8,8 @@ import {
   LineSeries,
   Plot,
   ScatterSeries,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Examples/Bed per 10^3 people',

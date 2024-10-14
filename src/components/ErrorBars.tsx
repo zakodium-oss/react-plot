@@ -1,8 +1,8 @@
-import { useMemo, SVGAttributes } from 'react';
+import { type SVGAttributes, useMemo } from 'react';
 
-import { usePlotContext } from '../contexts/plotContext';
-import type { SeriesPointWithError } from '../types';
-import { validateAxis, validateSeriesPointError } from '../utils';
+import { usePlotContext } from '../contexts/plotContext.js';
+import type { SeriesPointWithError } from '../types.js';
+import { validateAxis, validateSeriesPointError } from '../utils.js';
 
 export interface ErrorBarsProps {
   data: readonly SeriesPointWithError[];

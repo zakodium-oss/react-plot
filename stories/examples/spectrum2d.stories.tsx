@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { useMemo } from 'react';
 
 import {
@@ -7,10 +7,10 @@ import {
   LineSeries,
   Plot,
   useRectangularZoom,
-  UseRectangularZoomOptions,
-} from '../../src';
+  type UseRectangularZoomOptions,
+} from '../../src/index.js';
 import data from '../data/spectrum2d.json';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/Spectrum 2D',

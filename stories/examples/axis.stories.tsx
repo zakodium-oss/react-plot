@@ -1,7 +1,7 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Plot } from '../../src';
-import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
+import { Plot } from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';
 
 export default {
   title: 'Examples/Axis',

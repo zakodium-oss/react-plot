@@ -1,7 +1,7 @@
-import { ReactNode, SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
-import { usePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { usePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationTextProps
   extends Omit<

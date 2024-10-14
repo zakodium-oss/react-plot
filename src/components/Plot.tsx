@@ -2,37 +2,37 @@ import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
 import {
-  CSSProperties,
-  ReactNode,
-  Reducer,
+  type CSSProperties,
+  type ReactNode,
+  type Reducer,
   useEffect,
   useMemo,
   useReducer,
 } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { LegendProvider } from '../contexts/legendContext.provider';
+import { LegendProvider } from '../contexts/legendContext.provider.js';
 import {
-  PlotContext,
+  type PlotContext,
   plotContext,
   plotDispatchContext,
   plotReducer,
-  PlotReducerActions,
-  PlotState,
+  type PlotReducerActions,
+  type PlotState,
   useAxisContext,
-} from '../contexts/plotContext';
+} from '../contexts/plotContext.js';
 import {
   usePlotEventsPlotContext,
   usePlotOverrides,
-} from '../contexts/plotController/plotControllerContext';
-import type { Margins } from '../types';
-import { useId } from '../utils';
-import { splitChildren } from '../utils/splitChildren';
-import { usePlotSizes } from '../utils/usePlotSizes';
+} from '../contexts/plotController/plotControllerContext.js';
+import type { Margins } from '../types.js';
+import { splitChildren } from '../utils/splitChildren.js';
+import { usePlotSizes } from '../utils/usePlotSizes.js';
+import { useId } from '../utils.js';
 
-import Tracking from './Tracking';
-import AnnotationsTrackingLayer from './layers/AnnotationsTrackingLayer';
-import MainLayer from './layers/MainLayer';
+import Tracking from './Tracking.js';
+import AnnotationsTrackingLayer from './layers/AnnotationsTrackingLayer.js';
+import MainLayer from './layers/MainLayer.js';
 
 const reducerCurr: Reducer<PlotState, PlotReducerActions> =
   produce(plotReducer);

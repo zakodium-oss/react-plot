@@ -1,16 +1,16 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotations,
   Axis,
   FunctionSeries,
-  FunctionSeriesProps,
+  type FunctionSeriesProps,
   Legend,
   LineSeries,
   Plot,
   useRectangularZoom,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'API/FunctionSeries',

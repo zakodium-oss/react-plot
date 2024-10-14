@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Annotation, AnnotationBoxPlotProps } from '../../src';
+import { Annotation, type AnnotationBoxPlotProps } from '../../src/index.js';
 
-import { AnnotationPlot } from './annotation.data';
+import { AnnotationPlot } from './annotation.data.js';
 
 export default {
   title: 'API/Annotations/BoxPlot',

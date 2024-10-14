@@ -1,14 +1,11 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import {
-  AnnotationLineProps,
-  Line,
-} from '../../src/components/Annotations/Line';
-import { AnnotationPlot } from '../annotations/annotation.data';
+import { Annotation, type AnnotationLineProps } from '../../src/index.js';
+import { AnnotationPlot } from '../annotations/annotation.data.js';
 
 export default {
   title: 'Examples/Mixed Annotations',
-  component: Line,
+  component: Annotation.Line,
   args: {
     x1: '0%',
     x2: 2500,
@@ -22,8 +19,8 @@ export default {
 export function AnnotationMixed(props: AnnotationLineProps) {
   return (
     <AnnotationPlot>
-      <Line {...props} />
-      <Line x1="0%" x2={2500} y1="350" y2="100%" color="blue" />
+      <Annotation.Line {...props} />
+      <Annotation.Line x1="0%" x2={2500} y1="350" y2="100%" color="blue" />
     </AnnotationPlot>
   );
 }

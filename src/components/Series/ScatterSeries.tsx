@@ -1,19 +1,19 @@
 import { extent } from 'd3-array';
-import { SVGAttributes, useEffect, useMemo } from 'react';
+import { type SVGAttributes, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext.js';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../../hooks';
-import {
+} from '../../contexts/plotContext.js';
+import { useIsSeriesVisible, useShift } from '../../hooks.js';
+import type {
   BaseSeriesProps,
   CSSFuncProps,
   LabelFuncProps,
   SeriesPoint,
   ShapeFuncProps,
-} from '../../types';
+} from '../../types.js';
 import {
   functionalLabel,
   functionalShape,
@@ -21,9 +21,9 @@ import {
   middlePoint,
   useId,
   validateAxis,
-} from '../../utils';
-import ErrorBars from '../ErrorBars';
-import { markersMap } from '../Markers.map';
+} from '../../utils.js';
+import ErrorBars from '../ErrorBars.js';
+import { markersMap } from '../Markers.map.js';
 
 export interface ScatterSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends BaseSeriesProps {

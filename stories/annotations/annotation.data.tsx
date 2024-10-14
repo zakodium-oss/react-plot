@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { Axis, Plot, Annotations } from '../../src';
-import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils';
+import { Annotations, Axis, Plot } from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';
 
 export function AnnotationPlot(props: { children: ReactNode }) {
   return (

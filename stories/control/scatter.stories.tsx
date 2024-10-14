@@ -1,14 +1,15 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
   Legend,
   Plot,
   ScatterSeries,
-  ScatterSeriesProps,
-} from '../../src';
-import { SeriesPoint, SeriesPointWithError } from '../../src/types';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+  type ScatterSeriesProps,
+  type SeriesPoint,
+  type SeriesPointWithError,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/ScatterSeries',

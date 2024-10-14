@@ -1,7 +1,7 @@
-import { CSSProperties, MouseEventHandler } from 'react';
+import type { CSSProperties, MouseEventHandler } from 'react';
 
-import { useBoxPlotPosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { useBoxPlotPosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationBoxPlotProps {
   min: ScalarValue;

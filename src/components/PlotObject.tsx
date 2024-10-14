@@ -1,23 +1,29 @@
 /* eslint-disable react/no-array-index-key */
-import { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
-import type { Margins } from '../types';
+import type { Margins } from '../types.js';
 
-import { Annotation, Annotations } from './Annotations';
-import type { AnnotationArrowProps } from './Annotations/Arrow';
-import type { AnnotationCircleProps } from './Annotations/Circle';
-import type { AnnotationEllipseProps } from './Annotations/Ellipse';
-import type { AnnotationGroupProps } from './Annotations/Group';
-import type { AnnotationLineProps } from './Annotations/Line';
-import type { AnnotationRectangleProps } from './Annotations/Rectangle';
-import type { AnnotationShapeProps } from './Annotations/Shape';
-import type { AnnotationTextProps } from './Annotations/Text';
-import { Axis, AxisProps } from './Axis/Axis';
-import { ParallelAxis, ParallelAxisProps } from './Axis/ParallelAxis';
-import { Legend, LegendProps } from './Legend';
-import { Plot, PlotProps } from './Plot';
-import { LineSeries, LineSeriesProps } from './Series/LineSeries';
-import { ScatterSeries, ScatterSeriesProps } from './Series/ScatterSeries';
+import {
+  Annotation,
+  type AnnotationArrowProps,
+  type AnnotationCircleProps,
+  type AnnotationEllipseProps,
+  type AnnotationGroupProps,
+  type AnnotationLineProps,
+  type AnnotationRectangleProps,
+  Annotations,
+  type AnnotationShapeProps,
+  type AnnotationTextProps,
+} from './Annotations/index.js';
+import { Axis, type AxisProps } from './Axis/Axis.js';
+import { ParallelAxis, type ParallelAxisProps } from './Axis/ParallelAxis.js';
+import { Legend, type LegendProps } from './Legend.js';
+import { Plot, type PlotProps } from './Plot.js';
+import { LineSeries, type LineSeriesProps } from './Series/LineSeries.js';
+import {
+  ScatterSeries,
+  type ScatterSeriesProps,
+} from './Series/ScatterSeries.js';
 
 export type PlotObjectAnnotations =
   // This for each annotation option

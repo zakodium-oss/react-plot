@@ -1,17 +1,20 @@
-import { CSSProperties } from 'react';
+import type { CSSProperties } from 'react';
 
-import { AnnotationLineProps, Line } from '../components/Annotations/Line';
 import {
-  AnnotationRectangleProps,
+  type AnnotationLineProps,
+  Line,
+} from '../components/Annotations/Line.js';
+import {
+  type AnnotationRectangleProps,
   Rectangle,
-} from '../components/Annotations/Rectangle';
+} from '../components/Annotations/Rectangle.js';
 import {
   usePlotControls,
   usePlotEvents,
-} from '../contexts/plotController/plotControllerContext';
+} from '../contexts/plotController/plotControllerContext.js';
 
-import { ControllerHookOptions, DualAxisOptions } from './types';
-import { useStartMoveEnd } from './useStartMoveEnd';
+import type { ControllerHookOptions, DualAxisOptions } from './types.js';
+import { useStartMoveEnd } from './useStartMoveEnd.js';
 
 export interface UseAxisZoomOptions
   extends ControllerHookOptions,
