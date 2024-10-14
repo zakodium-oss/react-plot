@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { LineSeries, PlotController } from '../src';
+import { LineSeries, PlotController } from '../src/index.js';
 
 import infrared from './data/infrared.json';
 

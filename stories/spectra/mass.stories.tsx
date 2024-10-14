@@ -1,10 +1,11 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { IsotopicDistribution } from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { getBestPeaks } from 'ms-spectrum';
 import { useMemo } from 'react';
 
 import {
+  Annotation,
   Annotations,
   Axis,
   BarSeries,
@@ -14,12 +15,9 @@ import {
   useAxisZoom,
   usePan,
   usePlotControllerAxes,
-} from '../../src';
-import { Group } from '../../src/components/Annotations/Group';
-import { Line } from '../../src/components/Annotations/Line';
-import { Text } from '../../src/components/Annotations/Text';
+} from '../../src/index.js';
 import data from '../data/mass.json';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Experimental spectra/Mass',
@@ -115,25 +113,29 @@ export function AdvancedMassExample({
         />
         <Annotations>
           {bestPeaks.map((peak: Peak) => (
-            <Group key={peak.label} x={peak.x} y={peak.y}>
-              <Line
+            <Annotation.Group key={peak.label} x={peak.x} y={peak.y}>
+              <Annotation.Line
                 x1="0"
                 x2="0"
                 y1="0"
                 y2="-5"
                 style={{ strokeWidth: 2, stroke: 'blue' }}
               />
-              <Text style={{ fontSize: '13px', fontWeight: '600' }} x="2" y="0">
+              <Annotation.Text
+                style={{ fontSize: '13px', fontWeight: '600' }}
+                x="2"
+                y="0"
+              >
                 {peak.shortLabel}
-              </Text>
-              <Text
+              </Annotation.Text>
+              <Annotation.Text
                 style={{ fontSize: '13px', fontWeight: '600' }}
                 x="2"
                 y="-14"
               >
                 {peak.x.toFixed(4)}
-              </Text>
-            </Group>
+              </Annotation.Text>
+            </Annotation.Group>
           ))}
           {zoom.annotations}
         </Annotations>

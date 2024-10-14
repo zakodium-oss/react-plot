@@ -1,11 +1,11 @@
-import { CSSProperties, useEffect } from 'react';
+import { type CSSProperties, useEffect } from 'react';
 import { AlignGroup, useBBoxObserver } from 'react-d3-utils';
 
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import type { VerticalPosition } from '../types';
+} from '../contexts/plotContext.js';
+import type { VerticalPosition } from '../types.js';
 
 export interface HeadingProps {
   title: string;

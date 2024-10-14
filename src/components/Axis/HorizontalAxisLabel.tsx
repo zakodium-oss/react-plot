@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from 'react';
-import { Align, AlignGroup } from 'react-d3-utils';
+import type { CSSProperties, ReactNode } from 'react';
+import { type Align, AlignGroup } from 'react-d3-utils';
 
 interface HorizontalAxisLabelProps {
   plotWidth: number;

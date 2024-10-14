@@ -1,7 +1,7 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot } from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { Axis, LineSeries, Plot } from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/LogAxis',

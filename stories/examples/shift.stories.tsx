@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotation,
@@ -6,9 +6,9 @@ import {
   Axis,
   LineSeries,
   Plot,
-  ScalarValue,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+  type ScalarValue,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'Examples/Shift',

@@ -1,6 +1,6 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Annotation, PlotObject, PlotObjectPlot } from '../src';
+import { Annotation, PlotObject, type PlotObjectPlot } from '../src/index.js';
 
 export default {
   title: 'Plot/Plot object',

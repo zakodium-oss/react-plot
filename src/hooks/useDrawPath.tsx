@@ -1,11 +1,15 @@
 import { useMemo, useState } from 'react';
 
-import { SeriesPoint } from '..';
-import { Polygon } from '../components/Annotations/Polygon';
-import { Polyline } from '../components/Annotations/Polyline';
+import { Polygon } from '../components/Annotations/Polygon.js';
+import { Polyline } from '../components/Annotations/Polyline.js';
+import type { SeriesPoint } from '../types.js';
 
-import { ControllerHookOptions, DualAxisOptions, PathOptions } from './types';
-import { useStartMoveEnd } from './useStartMoveEnd';
+import type {
+  ControllerHookOptions,
+  DualAxisOptions,
+  PathOptions,
+} from './types.js';
+import { useStartMoveEnd } from './useStartMoveEnd.js';
 
 export interface UseDrawPathOptions
   extends ControllerHookOptions,

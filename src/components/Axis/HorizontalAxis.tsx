@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { bboxContext } from '../../contexts/bboxContext';
+import { bboxContext } from '../../contexts/bboxContext.js';
 
-import HorizontalAxisGridLines from './HorizontalAxisGridLines';
-import HorizontalAxisLabel from './HorizontalAxisLabel';
-import HorizontalAxisLine from './HorizontalAxisLine';
-import { Ticks } from './Ticks';
-import { AxisRendererProps } from './types';
+import HorizontalAxisGridLines from './HorizontalAxisGridLines.js';
+import HorizontalAxisLabel from './HorizontalAxisLabel.js';
+import HorizontalAxisLine from './HorizontalAxisLine.js';
+import { Ticks } from './Ticks.js';
+import type { AxisRendererProps } from './types.js';
 
 export default function HorizontalAxis(props: AxisRendererProps) {
   const {

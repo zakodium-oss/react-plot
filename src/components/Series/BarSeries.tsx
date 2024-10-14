@@ -1,13 +1,13 @@
-import { CSSProperties, useEffect, useMemo } from 'react';
+import { type CSSProperties, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../../contexts/legendContext';
-import { usePlotContext } from '../../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../../hooks';
-import type { SeriesPoint } from '../../types';
-import { functionalStyle, useId, validateAxis } from '../../utils';
+import { useLegend } from '../../contexts/legendContext.js';
+import { usePlotContext } from '../../contexts/plotContext.js';
+import { useIsSeriesVisible, useShift } from '../../hooks.js';
+import type { SeriesPoint } from '../../types.js';
+import { functionalStyle, useId, validateAxis } from '../../utils.js';
 
-import { LineSeriesProps } from './LineSeries';
-import { ScatterSeries } from './ScatterSeries';
+import type { LineSeriesProps } from './LineSeries.js';
+import { ScatterSeries } from './ScatterSeries.js';
 
 export type BarSeriesProps = LineSeriesProps;
 

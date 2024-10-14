@@ -1,9 +1,9 @@
 import {
   usePlotControls,
   usePlotEvents,
-} from '../contexts/plotController/plotControllerContext';
+} from '../contexts/plotController/plotControllerContext.js';
 
-import { ControllerHookOptions } from './types';
+import type { ControllerHookOptions } from './types.js';
 
 export interface UseAxisWheelZoomOptions extends ControllerHookOptions {
   /**

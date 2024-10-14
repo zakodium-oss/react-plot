@@ -1,6 +1,12 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, Legend, LineSeries, Plot, PlotProps } from '../../src';
+import {
+  Axis,
+  Legend,
+  LineSeries,
+  Plot,
+  type PlotProps,
+} from '../../src/index.js';
 
 export default {
   title: 'API/Plot',

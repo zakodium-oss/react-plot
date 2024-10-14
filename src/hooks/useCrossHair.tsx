@@ -1,10 +1,16 @@
-import { CSSProperties, useState } from 'react';
+import { type CSSProperties, useState } from 'react';
 
-import { AnnotationLineProps, Line } from '../components/Annotations/Line';
-import { AnnotationTextProps, Text } from '../components/Annotations/Text';
-import { usePlotEvents } from '../contexts/plotController/plotControllerContext';
+import {
+  type AnnotationLineProps,
+  Line,
+} from '../components/Annotations/Line.js';
+import {
+  type AnnotationTextProps,
+  Text,
+} from '../components/Annotations/Text.js';
+import { usePlotEvents } from '../contexts/plotController/plotControllerContext.js';
 
-import { ControllerHookOptions, DualAxisOptions } from './types';
+import type { ControllerHookOptions, DualAxisOptions } from './types.js';
 
 export interface UseCrossHairOptions
   extends ControllerHookOptions,

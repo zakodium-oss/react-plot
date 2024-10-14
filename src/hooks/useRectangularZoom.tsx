@@ -1,14 +1,14 @@
 import {
   usePlotControls,
   usePlotEvents,
-} from '../contexts/plotController/plotControllerContext';
+} from '../contexts/plotController/plotControllerContext.js';
 
-import {
+import type {
   ControllerHookOptions,
   DualAxisOptions,
   RectangleOptions,
-} from './types';
-import { useDrawRectangle } from './useDrawRectangle';
+} from './types.js';
+import { useDrawRectangle } from './useDrawRectangle.js';
 
 export interface UseRectangularZoomOptions
   extends ControllerHookOptions,

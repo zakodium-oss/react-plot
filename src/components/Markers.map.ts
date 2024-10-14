@@ -8,7 +8,7 @@ import {
   Star,
   Triangle,
   XMark,
-} from './Markers';
+} from './Markers.js';
 
 export const markersMap = {
   circle: Circle,

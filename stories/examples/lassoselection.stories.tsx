@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import pointInPolygon from 'point-in-polygon';
 import { useState } from 'react';
 
@@ -8,11 +8,11 @@ import {
   Axis,
   Plot,
   ScatterSeries,
-  SeriesPoint,
+  type SeriesPoint,
   useDrawPath,
-  UseDrawPathOptions,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+  type UseDrawPathOptions,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/Lasso Selection',

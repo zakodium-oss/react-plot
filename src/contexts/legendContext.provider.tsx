@@ -1,11 +1,11 @@
 import { produce } from 'immer';
-import { ReactNode, Reducer, useMemo, useReducer } from 'react';
+import { type ReactNode, type Reducer, useMemo, useReducer } from 'react';
 
 import {
   type LegendActions,
   legendContext,
   type LegendState,
-} from './legendContext';
+} from './legendContext.js';
 
 const legendReducer: Reducer<LegendState, LegendActions> = produce(
   (draft: LegendState, action: LegendActions) => {

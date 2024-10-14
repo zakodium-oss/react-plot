@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import {
   plotControlsContext,
   plotEventsPlotContext,
   plotEventsUserContext,
   plotOverridesContext,
-} from './plotControllerContext';
-import { usePlotEventsState } from './usePlotEvents';
-import { usePlotOverridesState } from './usePlotOverrides';
+} from './plotControllerContext.js';
+import { usePlotEventsState } from './usePlotEvents.js';
+import { usePlotOverridesState } from './usePlotOverrides.js';
 
 interface PlotControllerProps {
   id?: string;

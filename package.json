@@ -3,21 +3,17 @@
   "version": "2.0.0",
   "description": "Library of React components to render SVG 2D plots.",
   "type": "module",
-  "main": "lib/index.js",
-  "module": "lib-esm/index.js",
-  "types": "lib-esm/index.d.ts",
+  "exports": "./lib/index.js",
   "files": [
     "lib",
-    "lib-esm",
     "src"
   ],
   "scripts": {
     "build": "npm run clean && npm run build-ts",
     "build-storybook": "storybook build",
-    "build-ts": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-    "postbuild-ts": "echo '{\"type\":\"commonjs\"}' > lib/package.json",
+    "build-ts": "tsc -p tsconfig.build.json",
     "check-types": "tsc --noEmit",
-    "clean": "rimraf lib lib-esm",
+    "clean": "rimraf lib",
     "dev": "storybook dev -p 6006",
     "eslint": "eslint .",
     "eslint-fix": "npm run eslint -- --fix",
@@ -70,16 +66,16 @@
     "@types/node": "^22.7.5",
     "@types/point-in-polygon": "^1.1.5",
     "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
+    "@types/react-dom": "^18.3.1",
     "eslint": "^9.12.0",
     "eslint-config-zakodium": "^13.0.0",
     "isotopic-distribution": "^3.3.2",
-    "iv-analysis": "^0.3.0",
+    "iv-analysis": "^0.4.0",
     "ml-dataset-iris": "^1.2.1",
     "ml-directional-distribution": "^0.1.1",
     "ml-pca": "^4.1.1",
     "ml-regression-simple-linear": "^3.0.1",
-    "ml-spectra-processing": "^14.5.3",
+    "ml-spectra-processing": "^14.6.0",
     "ms-spectrum": "^3.6.7",
     "point-in-polygon": "^1.1.0",
     "prettier": "^3.3.3",
@@ -96,7 +92,7 @@
     "d3-shape": "^3.2.0",
     "immer": "^10.1.1",
     "ml-distance-euclidean": "^2.0.0",
-    "react-d3-utils": "^1.0.0"
+    "react-d3-utils": "^2.0.0"
   },
   "volta": {
     "node": "22.9.0"

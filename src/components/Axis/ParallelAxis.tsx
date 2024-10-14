@@ -1,13 +1,13 @@
-import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
+import type { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 
-import { usePlotContext } from '../../contexts/plotContext';
-import type { Position, TickLabelFormat } from '../../types';
-import { getInnerOffset } from '../../utils/axis';
+import { usePlotContext } from '../../contexts/plotContext.js';
+import type { Position, TickLabelFormat } from '../../types.js';
+import { getInnerOffset } from '../../utils/axis.js';
 
-import { AxisProps } from './Axis';
-import LinearAxis from './LinearAxis';
-import LogAxis from './LogAxis';
-import TimeAxis from './TimeAxis';
+import type { AxisProps } from './Axis.js';
+import LinearAxis from './LinearAxis.js';
+import LogAxis from './LogAxis.js';
+import TimeAxis from './TimeAxis.js';
 
 function parallelPosition<T extends Position>(position: T): T {
   switch (position) {

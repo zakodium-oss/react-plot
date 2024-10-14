@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react';
 
-import { ControllerHookOptions } from '../../hooks/types';
+import type { ControllerHookOptions } from '../../hooks/types.js';
 
-import { createNestableContext } from './nestableContext';
-import {
+import { createNestableContext } from './nestableContext.js';
+import type {
   EventsHandlers,
   PlotEventsPlotActions,
   PlotEventsUserActions,
-} from './usePlotEvents';
+} from './usePlotEvents.js';
 import {
   initialPlotOverridesState,
-  PlotControls,
-  PlotOverridesState,
-} from './usePlotOverrides';
+  type PlotControls,
+  type PlotOverridesState,
+} from './usePlotOverrides.js';
 
 export const plotOverridesContext = createNestableContext<PlotOverridesState>(
   initialPlotOverridesState,

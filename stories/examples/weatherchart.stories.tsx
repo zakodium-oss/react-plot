@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
@@ -6,11 +6,11 @@ import {
   LineSeries,
   Plot,
   RangeSeries,
-  RangeSeriesPoint,
-  SeriesPoint,
-} from '../../src';
+  type RangeSeriesPoint,
+  type SeriesPoint,
+} from '../../src/index.js';
 import data from '../data/weather.json';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'Examples/Weather Chart',

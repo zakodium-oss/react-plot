@@ -1,14 +1,14 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
   Legend,
   LineSeries,
-  LineSeriesProps,
+  type LineSeriesProps,
   Plot,
-  SeriesPointWithError,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+  type SeriesPointWithError,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/LineSeries',

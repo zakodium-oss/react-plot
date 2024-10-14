@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/experimental-ct-react';
 
 import {
+  Annotation,
   Annotations,
   Axis,
   BarSeries,
@@ -10,11 +11,10 @@ import {
   Plot,
   RangeSeries,
   ScatterSeries,
-} from '../src';
-import { Line } from '../src/components/Annotations/Line';
-import { TestErrorBoundary } from '../stories/utils';
+} from '../src/index.js';
+import { TestErrorBoundary } from '../stories/utils.js';
 
-import { InfraredPlotTest } from './utils';
+import { InfraredPlotTest } from './utils.js';
 
 const DEFAULT_PLOT_CONFIG = {
   width: 900,
@@ -104,7 +104,7 @@ test('valid plot children', async ({ mount }) => {
       <Axis position="bottom" />
       <Axis position="left" />
       <Annotations>
-        <Line x1="0" x2="3" y1="0" y2="4" />
+        <Annotation.Line x1="0" x2="3" y1="0" y2="4" />
       </Annotations>
     </Plot>,
   );

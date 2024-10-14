@@ -1,8 +1,8 @@
-import { CSSProperties, type ReactElement, useMemo } from 'react';
+import { type CSSProperties, type ReactElement, useMemo } from 'react';
 
-import { Position } from '../../types';
+import type { Position } from '../../types.js';
 
-import { Scales, TicksType } from './types';
+import type { Scales, TicksType } from './types.js';
 
 interface VerticalAxisGridlinesProps {
   plotWidth: number;

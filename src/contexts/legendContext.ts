@@ -1,6 +1,6 @@
-import { createContext, Dispatch, useContext } from 'react';
+import { createContext, type Dispatch, useContext } from 'react';
 
-import type { ActionType, Shape } from '../types';
+import type { ActionType, Shape } from '../types.js';
 
 interface LegendLabelState {
   id: string;

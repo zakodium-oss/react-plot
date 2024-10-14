@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Circle,
@@ -10,7 +10,7 @@ import {
   Star,
   Triangle,
   XMark,
-} from '../../src/components/Markers';
+} from '../../src/components/Markers.js';
 
 const SIZE = 20;
 const DEBUG_COLOR = 'yellow';

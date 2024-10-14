@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { xyToXYObject } from 'ml-spectra-processing';
 
 import {
@@ -9,9 +9,9 @@ import {
   useAxisZoom,
   useCrossHair,
   useRectangularZoom,
-} from '../../src';
+} from '../../src/index.js';
 import measurement from '../data/measurement.json';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 interface MeasurementProps {
   xAxis: 'x' | 'y' | 't' | 'a';

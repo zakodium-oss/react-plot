@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { xNoiseSanPlot } from 'ml-spectra-processing';
 import { useMemo } from 'react';
 
@@ -8,8 +8,8 @@ import {
   Legend,
   LineSeries,
   Plot,
-  SeriesPoint,
-} from '../../src';
+  type SeriesPoint,
+} from '../../src/index.js';
 import data from '../data/1h-spectrum.json';
 
 export default {

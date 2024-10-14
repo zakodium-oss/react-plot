@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Axis,
@@ -6,10 +6,10 @@ import {
   LineSeries,
   Plot,
   RangeSeries,
-  RangeSeriesPoint,
-  RangeSeriesProps,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+  type RangeSeriesPoint,
+  type RangeSeriesProps,
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/RangeSeries',

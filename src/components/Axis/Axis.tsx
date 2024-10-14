@@ -1,21 +1,21 @@
-import { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
-import { CSSProperties, ReactNode, useEffect } from 'react';
+import type { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
+import { type CSSProperties, type ReactNode, useEffect } from 'react';
 
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../../contexts/plotContext';
-import {
+} from '../../contexts/plotContext.js';
+import type {
   Position,
   ScalarValue,
   TickLabelFormat,
   TickPosition,
-} from '../../types';
-import { getInnerOffset } from '../../utils/axis';
+} from '../../types.js';
+import { getInnerOffset } from '../../utils/axis.js';
 
-import LinearAxis from './LinearAxis';
-import LogAxis from './LogAxis';
-import TimeAxis from './TimeAxis';
+import LinearAxis from './LinearAxis.js';
+import LogAxis from './LogAxis.js';
+import TimeAxis from './TimeAxis.js';
 
 export type AxisScale = 'linear' | 'log' | 'time';
 

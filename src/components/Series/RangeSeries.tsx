@@ -1,15 +1,15 @@
 import { extent } from 'd3-array';
 import { area } from 'd3-shape';
-import { CSSProperties, memo, useEffect, useMemo } from 'react';
+import { type CSSProperties, memo, useEffect, useMemo } from 'react';
 
-import { useLegend } from '../../contexts/legendContext';
+import { useLegend } from '../../contexts/legendContext.js';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../../contexts/plotContext';
-import { useIsSeriesVisible, useShift } from '../../hooks';
-import type { BaseSeriesProps } from '../../types';
-import { useId, validateAxis } from '../../utils';
+} from '../../contexts/plotContext.js';
+import { useIsSeriesVisible, useShift } from '../../hooks.js';
+import type { BaseSeriesProps } from '../../types.js';
+import { useId, validateAxis } from '../../utils.js';
 
 export interface RangeSeriesPoint {
   x: number;

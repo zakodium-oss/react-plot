@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { useState } from 'react';
 
 import {
@@ -6,14 +6,14 @@ import {
   BarSeries,
   FunctionSeries,
   Legend,
-  LegendProps,
+  type LegendProps,
   LineSeries,
   ParallelAxis,
   Plot,
   RangeSeries,
   ScatterSeries,
-} from '../../src';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/Legend',

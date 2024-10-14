@@ -3,9 +3,9 @@ import { useRef } from 'react';
 import {
   usePlotControls,
   usePlotEvents,
-} from '../contexts/plotController/plotControllerContext';
+} from '../contexts/plotController/plotControllerContext.js';
 
-import { DualAxisOptions, ControllerHookOptions } from './types';
+import type { ControllerHookOptions, DualAxisOptions } from './types.js';
 
 export interface UsePanOptions extends DualAxisOptions, ControllerHookOptions {}
 

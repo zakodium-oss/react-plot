@@ -1,13 +1,13 @@
-import { CSSProperties, MouseEventHandler } from 'react';
+import type { CSSProperties, MouseEventHandler } from 'react';
 
-import { usePosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { usePosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 import {
   Circle as CircleMarker,
-  Triangle as TriangleMarker,
   Diamond as DiamondMarker,
   Square as SquareMarker,
-} from '../Markers';
+  Triangle as TriangleMarker,
+} from '../Markers.js';
 
 const shapes = {
   triangle: Triangle,

@@ -1,7 +1,7 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
-import { usePointsPosition } from '../../hooks';
-import { ScalarValue } from '../../types';
+import { usePointsPosition } from '../../hooks.js';
+import type { ScalarValue } from '../../types.js';
 
 export interface AnnotationPolylineProps
   extends Omit<

@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, LineSeries, Plot } from '../../src';
-import { dataConvertDate } from '../../src/utils';
-import { DEFAULT_PLOT_CONFIG } from '../utils';
+import { Axis, LineSeries, Plot } from '../../src/index.js';
+import { dataConvertDate } from '../../src/utils.js';
+import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {
   title: 'API/TimeAxis',

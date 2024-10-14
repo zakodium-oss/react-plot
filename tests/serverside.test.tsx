@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/experimental-ct-react';
 
-import { ServerSide } from './utils';
+import { ServerSide } from './utils.js';
 
 test('should render a plot in server-side mode', async ({ mount }) => {
   const plot = await mount(<ServerSide />);

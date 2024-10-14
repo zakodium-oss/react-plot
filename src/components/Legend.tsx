@@ -1,17 +1,17 @@
 /* eslint-disable react/no-array-index-key */
-import { CSSProperties, useContext, useEffect, useMemo } from 'react';
-import { AlignGroup, AlignGroupProps } from 'react-d3-utils';
+import { type CSSProperties, useContext, useEffect, useMemo } from 'react';
+import { AlignGroup, type AlignGroupProps } from 'react-d3-utils';
 
-import { useLegend } from '../contexts/legendContext';
-import { legendOffsetContext } from '../contexts/legendOffsetContext';
+import { useLegend } from '../contexts/legendContext.js';
+import { legendOffsetContext } from '../contexts/legendOffsetContext.js';
 import {
   usePlotContext,
   usePlotDispatchContext,
-} from '../contexts/plotContext';
-import type { CSSFuncProps, Position } from '../types';
-import { functionalStyle } from '../utils';
+} from '../contexts/plotContext.js';
+import type { CSSFuncProps, Position } from '../types.js';
+import { functionalStyle } from '../utils.js';
 
-import { markersMap } from './Markers.map';
+import { markersMap } from './Markers.map.js';
 
 type Positions = { [K in Position]?: number };
 

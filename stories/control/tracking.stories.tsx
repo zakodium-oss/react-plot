@@ -1,6 +1,10 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { useState } from 'react';
 
+import type {
+  ClosestInfoResult,
+  ClosestMethods,
+} from '../../src/components/Tracking.js';
 import {
   Annotation,
   Annotations,
@@ -8,14 +12,10 @@ import {
   Legend,
   LineSeries,
   Plot,
-  SeriesPoint,
+  type SeriesPoint,
   usePlotEvents,
-} from '../../src';
-import {
-  ClosestInfoResult,
-  ClosestMethods,
-} from '../../src/components/Tracking';
-import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils';
+} from '../../src/index.js';
+import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {
   title: 'API/Tracking',

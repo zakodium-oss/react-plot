@@ -1,16 +1,21 @@
-import { Children, isValidElement, ReactElement, ReactNode } from 'react';
+import {
+  Children,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
-import { Annotations } from '../components/Annotations/index';
-import { Axis } from '../components/Axis/Axis';
-import { ParallelAxis } from '../components/Axis/ParallelAxis';
-import { Heading } from '../components/Heading';
-import { Legend } from '../components/Legend';
-import { BarSeries } from '../components/Series/BarSeries';
-import { FunctionSeries } from '../components/Series/FunctionSeries';
-import { LineSeries } from '../components/Series/LineSeries';
-import { RangeSeries } from '../components/Series/RangeSeries';
-import { ScatterSeries } from '../components/Series/ScatterSeries';
-import { Series } from '../components/Series/Series';
+import { Annotations } from '../components/Annotations/index.js';
+import { Axis } from '../components/Axis/Axis.js';
+import { ParallelAxis } from '../components/Axis/ParallelAxis.js';
+import { Heading } from '../components/Heading.js';
+import { Legend } from '../components/Legend.js';
+import { BarSeries } from '../components/Series/BarSeries.js';
+import { FunctionSeries } from '../components/Series/FunctionSeries.js';
+import { LineSeries } from '../components/Series/LineSeries.js';
+import { RangeSeries } from '../components/Series/RangeSeries.js';
+import { ScatterSeries } from '../components/Series/ScatterSeries.js';
+import { Series } from '../components/Series/Series.js';
 
 export interface PlotChildren {
   series: ReactElement[];

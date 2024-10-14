@@ -1,13 +1,13 @@
 import { useContext } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
-import { bboxContext } from '../../contexts/bboxContext';
+import { bboxContext } from '../../contexts/bboxContext.js';
 
-import { Ticks } from './Ticks';
-import VerticalAxisGridLines from './VerticalAxisGridLines';
-import VerticalAxisLabel from './VerticalAxisLabel';
-import VerticalAxisLine from './VerticalAxisLine';
-import { AxisRendererProps } from './types';
+import { Ticks } from './Ticks.js';
+import VerticalAxisGridLines from './VerticalAxisGridLines.js';
+import VerticalAxisLabel from './VerticalAxisLabel.js';
+import VerticalAxisLine from './VerticalAxisLine.js';
+import type { AxisRendererProps } from './types.js';
 
 export default function VerticalAxis(props: AxisRendererProps) {
   const {

@@ -1,12 +1,12 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotations,
   Plot,
   PlotController,
   useRectangularZoom,
-} from '../../src';
-import { getInfraredSeries } from '../utils';
+} from '../../src/index.js';
+import { getInfraredSeries } from '../utils.js';
 
 export default {
   title: 'Examples/Parallel Zoom',

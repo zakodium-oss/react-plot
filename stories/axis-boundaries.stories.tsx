@@ -1,6 +1,6 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
-import { Axis, Heading, Legend, LineSeries, Plot } from '../src';
+import { Axis, Heading, Legend, LineSeries, Plot } from '../src/index.js';
 
 export default {
   title: 'Plot/Axis boundaries',

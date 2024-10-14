@@ -1,11 +1,11 @@
-import { Rectangle } from '../components/Annotations/Rectangle';
+import { Rectangle } from '../components/Annotations/Rectangle.js';
 
-import {
+import type {
   ControllerHookOptions,
   DualAxisOptions,
   RectangleOptions,
-} from './types';
-import { useStartMoveEnd } from './useStartMoveEnd';
+} from './types.js';
+import { useStartMoveEnd } from './useStartMoveEnd.js';
 
 export interface UseDrawRectangleOptions
   extends ControllerHookOptions,

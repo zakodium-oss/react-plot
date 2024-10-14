@@ -1,7 +1,7 @@
-import { CSSProperties, useMemo } from 'react';
+import { type CSSProperties, useMemo } from 'react';
 
-import { Scales } from './components/Axis/types';
-import { PlotAxisContext } from './contexts/plotContext';
+import type { Scales } from './components/Axis/types.js';
+import type { PlotAxisContext } from './contexts/plotContext.js';
 import type {
   CSSFuncProps,
   LabelFuncProps,
@@ -9,7 +9,7 @@ import type {
   SeriesPointError,
   Shape,
   ShapeFuncProps,
-} from './types';
+} from './types.js';
 
 let currentValue = 1;
 

@@ -1,10 +1,10 @@
-import { ScaleTime } from 'd3-scale';
+import type { ScaleTime } from 'd3-scale';
 import { memo, useRef } from 'react';
 import { useTimeTicks } from 'react-d3-utils';
 
-import HorizontalAxis from './HorizontalAxis';
-import VerticalAxis from './VerticalAxis';
-import { AxisChildProps } from './types';
+import HorizontalAxis from './HorizontalAxis.js';
+import VerticalAxis from './VerticalAxis.js';
+import type { AxisChildProps } from './types.js';
 
 interface TimeAxisProps extends AxisChildProps<Date> {
   scale: ScaleTime<number, number>;

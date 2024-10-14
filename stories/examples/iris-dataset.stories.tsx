@@ -1,8 +1,8 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { getClasses, getDistinctClasses, getNumbers } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
-import { ReactElement, useMemo } from 'react';
+import { type ReactElement, useMemo } from 'react';
 
 import {
   Axis,
@@ -10,8 +10,8 @@ import {
   Plot,
   ScatterSeries,
   Series,
-  SeriesPoint,
-} from '../../src';
+  type SeriesPoint,
+} from '../../src/index.js';
 
 export default {
   title: 'Examples/Iris dataset',
@@ -84,7 +84,6 @@ export function PCA() {
                 xAxis="x"
                 yAxis="y"
                 id={`${klass}-Function`}
-                // @ts-expect-error Method is inherited, it exists.
                 getY={(val: number) => regression.predict(val)}
                 label={`${klass}-Function`}
               />,

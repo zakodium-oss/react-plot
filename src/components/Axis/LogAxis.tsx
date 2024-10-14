@@ -1,10 +1,10 @@
-import { ScaleLogarithmic } from 'd3-scale';
+import type { ScaleLogarithmic } from 'd3-scale';
 import { memo, useRef } from 'react';
 import { useLogTicks } from 'react-d3-utils';
 
-import HorizontalAxis from './HorizontalAxis';
-import VerticalAxis from './VerticalAxis';
-import { AxisChildProps } from './types';
+import HorizontalAxis from './HorizontalAxis.js';
+import VerticalAxis from './VerticalAxis.js';
+import type { AxisChildProps } from './types.js';
 
 interface LogAxisProps extends AxisChildProps<number> {
   scale: ScaleLogarithmic<number, number>;

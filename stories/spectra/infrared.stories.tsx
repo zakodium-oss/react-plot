@@ -1,17 +1,17 @@
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import {
   Annotations,
   Axis,
   Plot,
   useCrossHair,
-  UseCrossHairOptions,
-} from '../../src';
+  type UseCrossHairOptions,
+} from '../../src/index.js';
 import {
   DEFAULT_PLOT_CONFIG,
   getInfraredSeries,
   PlotControllerDecorator,
-} from '../utils';
+} from '../utils.js';
 
 export default {
   title: 'Experimental spectra/Infrared',
