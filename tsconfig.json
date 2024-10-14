@@ -9,6 +9,8 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": false,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "sourceMap": true,
