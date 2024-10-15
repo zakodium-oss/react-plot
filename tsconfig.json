@@ -16,11 +16,10 @@
     "declarationMap": true
   },
   "include": [
-    "src/**/*",
-    "stories/**/*",
-    "tests/**/*",
+    "playwright/index.tsx",
     "playwright-ct.config.ts",
-    "playwright"
-  ],
-  "exclude": ["node_modules"]
+    "src",
+    "stories",
+    "tests"
+  ]
 }
