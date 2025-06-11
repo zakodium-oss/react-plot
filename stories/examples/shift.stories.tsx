@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type { ScalarValue } from '../../src/index.js';
 import {
   Annotation,
   Annotations,
   Axis,
   LineSeries,
   Plot,
-  type ScalarValue,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 

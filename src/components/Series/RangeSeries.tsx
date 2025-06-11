@@ -1,6 +1,7 @@
 import { extent } from 'd3-array';
 import { area } from 'd3-shape';
-import { type CSSProperties, memo, useEffect, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext.js';
 import {

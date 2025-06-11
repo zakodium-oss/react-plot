@@ -8,11 +8,8 @@ import type {
   PlotEventsPlotActions,
   PlotEventsUserActions,
 } from './usePlotEvents.js';
-import {
-  initialPlotOverridesState,
-  type PlotControls,
-  type PlotOverridesState,
-} from './usePlotOverrides.js';
+import type { PlotControls, PlotOverridesState } from './usePlotOverrides.js';
+import { initialPlotOverridesState } from './usePlotOverrides.js';
 
 export const plotOverridesContext = createNestableContext<PlotOverridesState>(
   initialPlotOverridesState,

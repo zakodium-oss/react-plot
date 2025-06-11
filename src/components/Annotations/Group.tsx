@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { type Align, AlignGroup } from 'react-d3-utils';
+import type { Align } from 'react-d3-utils';
+import { AlignGroup } from 'react-d3-utils';
 
 import { usePosition } from '../../hooks.js';
 import type { ScalarValue } from '../../types.js';

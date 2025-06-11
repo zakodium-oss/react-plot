@@ -1,9 +1,5 @@
-import {
-  Children,
-  isValidElement,
-  type ReactElement,
-  type ReactNode,
-} from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import { Children, isValidElement } from 'react';
 
 import { Annotations } from '../components/Annotations/index.js';
 import { Axis } from '../components/Axis/Axis.js';

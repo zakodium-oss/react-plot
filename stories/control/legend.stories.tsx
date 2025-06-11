@@ -1,12 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 import { useState } from 'react';
 
+import type { LegendProps } from '../../src/index.js';
 import {
   Axis,
   BarSeries,
   FunctionSeries,
   Legend,
-  type LegendProps,
   LineSeries,
   ParallelAxis,
   Plot,

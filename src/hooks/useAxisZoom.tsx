@@ -1,13 +1,9 @@
 import type { CSSProperties } from 'react';
 
-import {
-  type AnnotationLineProps,
-  Line,
-} from '../components/Annotations/Line.js';
-import {
-  type AnnotationRectangleProps,
-  Rectangle,
-} from '../components/Annotations/Rectangle.js';
+import type { AnnotationLineProps } from '../components/Annotations/Line.js';
+import { Line } from '../components/Annotations/Line.js';
+import type { AnnotationRectangleProps } from '../components/Annotations/Rectangle.js';
+import { Rectangle } from '../components/Annotations/Rectangle.js';
 import {
   usePlotControls,
   usePlotEvents,

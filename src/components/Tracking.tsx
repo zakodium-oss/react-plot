@@ -5,11 +5,11 @@ import type {
   PlotAxisContext,
   PlotSeriesState,
 } from '../contexts/plotContext.js';
-import {
-  type EventName,
-  type PlotEventsPlotActions,
+import type {
+  EventName,
+  PlotEventsPlotActions,
 } from '../contexts/plotController/usePlotEvents.js';
-import { type SeriesPoint } from '../types.js';
+import type { SeriesPoint } from '../types.js';
 import { closestPoint, toNumber } from '../utils.js';
 
 export interface ClosestInfo<MethodName extends ClosestMethods> {

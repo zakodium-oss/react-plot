@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import { Annotation, type AnnotationGroupProps } from '../../src/index.js';
+import type { AnnotationGroupProps } from '../../src/index.js';
+import { Annotation } from '../../src/index.js';
 
 import { AnnotationPlot } from './annotation.data.js';
 

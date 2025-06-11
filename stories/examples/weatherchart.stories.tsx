@@ -1,13 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type { RangeSeriesPoint, SeriesPoint } from '../../src/index.js';
 import {
   Axis,
   BarSeries,
   LineSeries,
   Plot,
   RangeSeries,
-  type RangeSeriesPoint,
-  type SeriesPoint,
 } from '../../src/index.js';
 import data from '../data/weather.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';

@@ -2,15 +2,14 @@ import type { Meta } from '@storybook/react-vite';
 import pointInPolygon from 'point-in-polygon';
 import { useState } from 'react';
 
+import type { SeriesPoint, UseDrawPathOptions } from '../../src/index.js';
 import {
   Annotation,
   Annotations,
   Axis,
   Plot,
   ScatterSeries,
-  type SeriesPoint,
   useDrawPath,
-  type UseDrawPathOptions,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 

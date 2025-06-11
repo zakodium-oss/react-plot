@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import { Axis, Heading, type HeadingProps, Plot } from '../../src/index.js';
+import type { HeadingProps } from '../../src/index.js';
+import { Axis, Heading, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';
 
 enum Position {

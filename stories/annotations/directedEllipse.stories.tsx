@@ -1,9 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Annotation,
-  type AnnotationDirectedEllipseProps,
-} from '../../src/index.js';
+import type { AnnotationDirectedEllipseProps } from '../../src/index.js';
+import { Annotation } from '../../src/index.js';
 
 import { AnnotationPlot } from './annotation.data.js';
 

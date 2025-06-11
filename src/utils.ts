@@ -1,4 +1,5 @@
-import { type CSSProperties, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import { useMemo } from 'react';
 
 import type { Scales } from './components/Axis/types.js';
 import type { PlotAxisContext } from './contexts/plotContext.js';

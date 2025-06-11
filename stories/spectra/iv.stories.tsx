@@ -1,8 +1,10 @@
 import type { Meta } from '@storybook/react-vite';
 import type { MeasurementSelector } from 'base-analysis';
-import { Analysis, fromBreakdown, fromTransfer } from 'iv-analysis';
+import type { Analysis } from 'iv-analysis';
+import { fromBreakdown, fromTransfer } from 'iv-analysis';
 import { xyToXYObject } from 'ml-spectra-processing';
-import { type ReactNode, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Annotation,

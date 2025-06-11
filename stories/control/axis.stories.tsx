@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import { Axis, type AxisProps, Plot } from '../../src/index.js';
+import type { AxisProps } from '../../src/index.js';
+import { Axis, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';
 
 export default {

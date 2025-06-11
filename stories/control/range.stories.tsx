@@ -1,13 +1,12 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type { RangeSeriesPoint, RangeSeriesProps } from '../../src/index.js';
 import {
   Axis,
   Legend,
   LineSeries,
   Plot,
   RangeSeries,
-  type RangeSeriesPoint,
-  type RangeSeriesProps,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 

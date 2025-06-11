@@ -1,5 +1,6 @@
 import { line } from 'd3-shape';
-import { type CSSProperties, memo, useEffect, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext.js';
 import { usePlotContext } from '../../contexts/plotContext.js';
@@ -7,7 +8,8 @@ import { useIsSeriesVisible, useShift } from '../../hooks.js';
 import type { CSSFuncProps, SeriesPoint, Shape } from '../../types.js';
 import { functionalStyle, useId, validateAxis } from '../../utils.js';
 
-import { ScatterSeries, type ScatterSeriesProps } from './ScatterSeries.js';
+import type { ScatterSeriesProps } from './ScatterSeries.js';
+import { ScatterSeries } from './ScatterSeries.js';
 
 export interface LineSeriesProps<T extends SeriesPoint = SeriesPoint>
   extends Omit<

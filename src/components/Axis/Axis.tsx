@@ -1,5 +1,6 @@
 import type { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
-import { type CSSProperties, type ReactNode, useEffect } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import { useEffect } from 'react';
 
 import {
   usePlotContext,

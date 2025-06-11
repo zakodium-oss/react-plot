@@ -1,24 +1,20 @@
 import { scaleOrdinal } from 'd3-scale';
 import { schemeSet1 } from 'd3-scale-chromatic';
 import { produce } from 'immer';
-import {
-  type CSSProperties,
-  type ReactNode,
-  type Reducer,
-  useEffect,
-  useMemo,
-  useReducer,
-} from 'react';
+import type { CSSProperties, ReactNode, Reducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import { useBBoxObserver } from 'react-d3-utils';
 
 import { LegendProvider } from '../contexts/legendContext.provider.js';
+import type {
+  PlotContext,
+  PlotReducerActions,
+  PlotState,
+} from '../contexts/plotContext.js';
 import {
-  type PlotContext,
   plotContext,
   plotDispatchContext,
   plotReducer,
-  type PlotReducerActions,
-  type PlotState,
   useAxisContext,
 } from '../contexts/plotContext.js';
 import {

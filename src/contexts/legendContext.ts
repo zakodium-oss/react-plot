@@ -1,4 +1,5 @@
-import { createContext, type Dispatch, useContext } from 'react';
+import type { Dispatch } from 'react';
+import { createContext, useContext } from 'react';
 
 import type { ActionType, Shape } from '../types.js';
 

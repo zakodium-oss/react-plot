@@ -18,9 +18,14 @@ function LinearAxis(props: LinearAxisProps) {
   const direction =
     position === 'left' || position === 'right' ? 'vertical' : 'horizontal';
 
-  const primaryTicks = useLinearPrimaryTicks(scale, direction, axisRef, {
-    tickFormat: tickLabelFormat,
-  });
+  const { ticks: primaryTicks } = useLinearPrimaryTicks(
+    scale,
+    direction,
+    axisRef,
+    {
+      tickFormat: tickLabelFormat,
+    },
+  );
 
   const AxisComponent =
     direction === 'vertical' ? VerticalAxis : HorizontalAxis;

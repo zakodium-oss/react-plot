@@ -1,13 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  LineSeries,
-  Plot,
-  RangeSeries,
-  type RangeSeriesPoint,
-  type SeriesPoint,
-} from '../../src/index.js';
+import type { RangeSeriesPoint, SeriesPoint } from '../../src/index.js';
+import { Axis, LineSeries, Plot, RangeSeries } from '../../src/index.js';
 import data from '../data/absorb.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 

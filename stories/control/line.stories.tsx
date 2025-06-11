@@ -1,13 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  Legend,
-  LineSeries,
-  type LineSeriesProps,
-  Plot,
-  type SeriesPointWithError,
-} from '../../src/index.js';
+import type { LineSeriesProps, SeriesPointWithError } from '../../src/index.js';
+import { Axis, Legend, LineSeries, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

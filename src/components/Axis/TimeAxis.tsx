@@ -18,7 +18,7 @@ function TimeAxis(props: TimeAxisProps) {
   const direction =
     position === 'left' || position === 'right' ? 'vertical' : 'horizontal';
 
-  const primaryTicks = useTimeTicks(scale, direction, axisRef, {
+  const { ticks: primaryTicks } = useTimeTicks(scale, direction, axisRef, {
     tickFormat: tickLabelFormat,
   });
 

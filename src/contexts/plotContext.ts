@@ -1,16 +1,14 @@
 import { max, min } from 'd3-array';
-import {
-  type ScaleContinuousNumeric,
-  type ScaleLinear,
-  scaleLinear,
-  scaleLog,
-  type ScaleLogarithmic,
-  type ScaleOrdinal,
-  scaleOrdinal,
-  type ScaleTime,
-  scaleTime,
+import type {
+  ScaleContinuousNumeric,
+  ScaleLinear,
+  ScaleLogarithmic,
+  ScaleOrdinal,
+  ScaleTime,
 } from 'd3-scale';
-import { createContext, type Dispatch, useContext, useMemo } from 'react';
+import { scaleLinear, scaleLog, scaleOrdinal, scaleTime } from 'd3-scale';
+import type { Dispatch } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 
 import type { AxisScale } from '../components/Axis/Axis.js';
 import type { LegendPosition } from '../components/Legend.js';

@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  Heading,
-  LineSeries,
-  Plot,
-  type SeriesPoint,
-} from '../../src/index.js';
+import type { SeriesPoint } from '../../src/index.js';
+import { Axis, Heading, LineSeries, Plot } from '../../src/index.js';
 import data from '../data/bitcoin.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 

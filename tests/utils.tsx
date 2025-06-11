@@ -1,4 +1,5 @@
-import { type ReactNode, useState } from 'react';
+import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { Annotation, Annotations, Plot, ScatterSeries } from '../src/index.js';

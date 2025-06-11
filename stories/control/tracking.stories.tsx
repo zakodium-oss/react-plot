@@ -5,6 +5,7 @@ import type {
   ClosestInfoResult,
   ClosestMethods,
 } from '../../src/components/Tracking.js';
+import type { SeriesPoint } from '../../src/index.js';
 import {
   Annotation,
   Annotations,
@@ -12,7 +13,6 @@ import {
   Legend,
   LineSeries,
   Plot,
-  type SeriesPoint,
   usePlotEvents,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';

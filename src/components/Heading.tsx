@@ -1,4 +1,5 @@
-import { type CSSProperties, useEffect } from 'react';
+import type { CSSProperties } from 'react';
+import { useEffect } from 'react';
 import { AlignGroup, useBBoxObserver } from 'react-d3-utils';
 
 import {

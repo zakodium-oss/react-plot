@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Annotations,
-  Axis,
-  Plot,
-  useCrossHair,
-  type UseCrossHairOptions,
-} from '../../src/index.js';
+import type { UseCrossHairOptions } from '../../src/index.js';
+import { Annotations, Axis, Plot, useCrossHair } from '../../src/index.js';
 import {
   DEFAULT_PLOT_CONFIG,
   getInfraredSeries,
