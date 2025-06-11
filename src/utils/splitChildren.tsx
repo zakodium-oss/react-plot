@@ -2,10 +2,14 @@ import type { ReactElement, ReactNode } from 'react';
 import { Children, isValidElement } from 'react';
 
 import { Annotations } from '../components/Annotations/index.js';
+import type { AxisProps } from '../components/Axis/Axis.js';
 import { Axis } from '../components/Axis/Axis.js';
+import type { ParallelAxisProps } from '../components/Axis/ParallelAxis.js';
 import { ParallelAxis } from '../components/Axis/ParallelAxis.js';
 import { Heading } from '../components/Heading.js';
+import type { HeadingProps } from '../components/Heading.js';
 import { Legend } from '../components/Legend.js';
+import type { LegendProps } from '../components/Legend.js';
 import { BarSeries } from '../components/Series/BarSeries.js';
 import { FunctionSeries } from '../components/Series/FunctionSeries.js';
 import { LineSeries } from '../components/Series/LineSeries.js';
@@ -28,16 +32,16 @@ export interface PlotChildren {
  * Validates that all the children inside Plot are supported and organizes them by kind.
  */
 export function splitChildren(children: ReactNode): PlotChildren {
-  let topAxis: ReactElement | null = null;
-  let rightAxis: ReactElement | null = null;
-  let bottomAxis: ReactElement | null = null;
-  let leftAxis: ReactElement | null = null;
+  let topAxis: ReactElement<AxisProps | ParallelAxisProps> | null = null;
+  let rightAxis: ReactElement<AxisProps | ParallelAxisProps> | null = null;
+  let bottomAxis: ReactElement<AxisProps | ParallelAxisProps> | null = null;
+  let leftAxis: ReactElement<AxisProps | ParallelAxisProps> | null = null;
 
-  const parallelAxes: ReactElement[] = [];
+  const parallelAxes: Array<ReactElement<ParallelAxisProps>> = [];
 
-  let heading: ReactElement | null = null;
+  let heading: ReactElement<HeadingProps> | null = null;
 
-  let legend: ReactElement | null = null;
+  let legend: ReactElement<LegendProps> | null = null;
 
   const series: ReactElement[] = [];
 
@@ -60,33 +64,33 @@ export function splitChildren(children: ReactNode): PlotChildren {
     } else if (child.type === Annotations) {
       annotations.push(child);
     } else if (child.type === Axis) {
-      switch (child.props.position) {
+      switch ((child.props as AxisProps).position) {
         case 'top': {
           if (topAxis !== null) {
             throw new Error('Plot can only have one top axis');
           }
-          topAxis = child;
+          topAxis = child as ReactElement<AxisProps>;
           break;
         }
         case 'right': {
           if (rightAxis !== null) {
             throw new Error('Plot can only have one right axis');
           }
-          rightAxis = child;
+          rightAxis = child as ReactElement<AxisProps>;
           break;
         }
         case 'bottom': {
           if (bottomAxis !== null) {
             throw new Error('Plot can only have one bottom axis');
           }
-          bottomAxis = child;
+          bottomAxis = child as ReactElement<AxisProps>;
           break;
         }
         case 'left': {
           if (leftAxis !== null) {
             throw new Error('Plot can only have one left axis');
           }
-          leftAxis = child;
+          leftAxis = child as ReactElement<AxisProps>;
           break;
         }
         default:
@@ -96,17 +100,17 @@ export function splitChildren(children: ReactNode): PlotChildren {
       if (parallelAxes.length === 2) {
         throw new Error('Plot can have at most two parallel axes');
       }
-      parallelAxes.push(child);
+      parallelAxes.push(child as ReactElement<ParallelAxisProps>);
     } else if (child.type === Heading) {
       if (heading !== null) {
         throw new Error('Plot can only have one Heading element');
       }
-      heading = child;
+      heading = child as ReactElement<HeadingProps>;
     } else if (child.type === Legend) {
       if (legend !== null) {
         throw new Error('Plot can only have one Legend element');
       }
-      legend = child;
+      legend = child as ReactElement<LegendProps>;
     } else {
       // eslint-disable-next-line no-console
       console.error('Invalid Plot child:', child);
