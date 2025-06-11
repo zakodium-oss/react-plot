@@ -2,7 +2,7 @@ import { type ReactNode, useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { Annotation, Annotations, Plot, ScatterSeries } from '../src/index.js';
-import infrared from '../stories/data/infrared.json';
+import infrared from '../stories/data/infrared.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../stories/utils.js';
 
 interface ChildrenProps {

@@ -13,7 +13,7 @@ import { functionalStyle } from '../utils.js';
 
 import { markersMap } from './Markers.map.js';
 
-type Positions = { [K in Position]?: number };
+type Positions = Partial<Record<Position, number>>;
 
 interface ValidatedPosition {
   key?: Position;
@@ -121,7 +121,7 @@ export type LegendProps = {
   labelStyle?: CSSFuncProps<{ id: string }>;
   lineStyle?: CSSFuncProps<{ id: string }>;
   showHide?: boolean;
-} & { [K in Position]?: number };
+} & Partial<Record<Position, number>>;
 
 export function Legend(options: LegendProps) {
   const {

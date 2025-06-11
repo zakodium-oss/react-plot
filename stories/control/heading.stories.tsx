@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 
 import { Axis, Heading, type HeadingProps, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, getInfraredSeries } from '../utils.js';

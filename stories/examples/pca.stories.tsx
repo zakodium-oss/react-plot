@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { getDirectionalEllipse } from 'ml-directional-distribution';
 import { useMemo } from 'react';
 
@@ -11,7 +11,7 @@ import {
   ScatterSeries,
   useRectangularZoom,
 } from '../../src/index.js';
-import data from '../data/pca2.json';
+import data from '../data/pca2.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {

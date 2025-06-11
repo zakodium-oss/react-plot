@@ -16,24 +16,22 @@ type ClickEventName = 'onClick' | 'onDoubleClick';
 type WheelEventName = 'onWheel';
 export type EventName = PointerEventName | ClickEventName | WheelEventName;
 
-type PointerEventHandlers = {
-  [key in PointerEventName]?: EventHandler<PointerEvent>;
-};
-type ClickEventHandlers = {
-  [key in ClickEventName]?: EventHandler<MouseEvent>;
-};
-type WheelEventHandlers = {
-  [key in WheelEventName]?: EventHandler<WheelEvent>;
-};
+type PointerEventHandlers = Partial<
+  Record<PointerEventName, EventHandler<PointerEvent>>
+>;
+type ClickEventHandlers = Partial<
+  Record<ClickEventName, EventHandler<MouseEvent>>
+>;
+type WheelEventHandlers = Partial<
+  Record<WheelEventName, EventHandler<WheelEvent>>
+>;
 export type EventsHandlers = PointerEventHandlers &
   ClickEventHandlers &
   WheelEventHandlers;
 
-type EventMap = {
-  [key in PointerEventName]: PointerEvent;
-} & { [key in ClickEventName]: MouseEvent } & {
-  [key in WheelEventName]: WheelEvent;
-};
+type EventMap = Record<PointerEventName, PointerEvent> &
+  Record<ClickEventName, MouseEvent> &
+  Record<WheelEventName, WheelEvent>;
 
 export interface PlotEventsUserActions {
   registerHandlers: (handlersRef: RefObject<EventsHandlers>) => void;

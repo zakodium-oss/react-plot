@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { xNoiseSanPlot } from 'ml-spectra-processing';
 import { useMemo } from 'react';
 
@@ -10,7 +10,7 @@ import {
   Plot,
   type SeriesPoint,
 } from '../../src/index.js';
-import data from '../data/1h-spectrum.json';
+import data from '../data/1h-spectrum.json' with { type: 'json' };
 
 export default {
   title: 'Examples/Sanplot',

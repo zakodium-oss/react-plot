@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
 import {
@@ -8,7 +8,7 @@ import {
   Plot,
   type SeriesPoint,
 } from '../../src/index.js';
-import srcData from '../data/nasdaq.json';
+import srcData from '../data/nasdaq.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

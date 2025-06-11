@@ -1,11 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
-import type { Decorator } from '@storybook/react';
+import type { Decorator } from '@storybook/react-vite';
 import type { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { LineSeries, PlotController } from '../src/index.js';
 
-import infrared from './data/infrared.json';
+import infrared from './data/infrared.json' with { type: 'json' };
 
 export const DEFAULT_PLOT_CONFIG = {
   width: 900,
