@@ -118,7 +118,7 @@ export function Plot(props: PlotProps) {
   } = props;
 
   const plotId = useId(undefined, 'plot');
-  const [state, dispatch] = useReducer(reducerCurr, initialState, undefined);
+  const [state, dispatch] = useReducer(reducerCurr, initialState);
 
   const {
     series,
