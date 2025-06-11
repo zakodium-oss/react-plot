@@ -88,6 +88,7 @@ function RangeSeriesInner<T extends RangeSeriesPoint>(
           payload: { id },
         });
     }
+    return undefined;
   }, [label, legendDispatch, lineStyle.fill, lineStyle.stroke, id, hidden]);
 
   if (hidden) return null;

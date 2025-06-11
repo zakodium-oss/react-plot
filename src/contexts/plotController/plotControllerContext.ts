@@ -67,6 +67,7 @@ export function usePlotEvents(
       userContext.registerHandlers(ref);
       return () => userContext.unregisterHandlers(ref);
     }
+    return undefined;
   }, [disabled, userContext]);
 }
 
