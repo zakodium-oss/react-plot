@@ -2,15 +2,16 @@ import type { Meta } from '@storybook/react-vite';
 import { getClasses, getDistinctClasses, getNumbers } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';
-import { type ReactElement, useMemo } from 'react';
+import type { ReactElement } from 'react';
+import { useMemo } from 'react';
 
+import type { SeriesPoint } from '../../src/index.js';
 import {
   Axis,
   FunctionSeries,
   Plot,
   ScatterSeries,
   Series,
-  type SeriesPoint,
 } from '../../src/index.js';
 
 export default {

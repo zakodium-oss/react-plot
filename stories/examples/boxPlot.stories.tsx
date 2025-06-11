@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Annotation,
-  type AnnotationBoxPlotProps,
-  Annotations,
-  Axis,
-  Plot,
-} from '../../src/index.js';
+import type { AnnotationBoxPlotProps } from '../../src/index.js';
+import { Annotation, Annotations, Axis, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

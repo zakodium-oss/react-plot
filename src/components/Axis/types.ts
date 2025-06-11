@@ -1,10 +1,6 @@
 import type { ScaleLinear, ScaleLogarithmic, ScaleTime } from 'd3-scale';
 import type { CSSProperties, ReactNode, Ref } from 'react';
-import type {
-  PrimaryLinearTicks,
-  PrimaryLogTicks,
-  TimeTicks,
-} from 'react-d3-utils';
+import type { Tick } from 'react-d3-utils';
 
 import type { Position, TickLabelFormat, TickPosition } from '../../types.js';
 
@@ -44,4 +40,4 @@ export interface AxisChildProps<ScaleType> extends AxisCommonProps {
   tickLabelFormat?: TickLabelFormat<ScaleType>;
 }
 
-export type TicksType = PrimaryLinearTicks | PrimaryLogTicks | TimeTicks;
+export type TicksType = Tick<number> | Tick<Date>;

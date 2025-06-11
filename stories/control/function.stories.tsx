@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type { FunctionSeriesProps } from '../../src/index.js';
 import {
   Annotations,
   Axis,
   FunctionSeries,
-  type FunctionSeriesProps,
   Legend,
   LineSeries,
   Plot,

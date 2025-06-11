@@ -1,13 +1,10 @@
-import { type CSSProperties, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { useState } from 'react';
 
-import {
-  type AnnotationLineProps,
-  Line,
-} from '../components/Annotations/Line.js';
-import {
-  type AnnotationTextProps,
-  Text,
-} from '../components/Annotations/Text.js';
+import type { AnnotationLineProps } from '../components/Annotations/Line.js';
+import { Line } from '../components/Annotations/Line.js';
+import type { AnnotationTextProps } from '../components/Annotations/Text.js';
+import { Text } from '../components/Annotations/Text.js';
 import { usePlotEvents } from '../contexts/plotController/plotControllerContext.js';
 
 import type { ControllerHookOptions, DualAxisOptions } from './types.js';

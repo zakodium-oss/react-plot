@@ -1,14 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  Heading,
-  Legend,
-  type LegendPosition,
-  LineSeries,
-  Plot,
-  type VerticalPosition,
-} from '../src/index.js';
+import type { LegendPosition, VerticalPosition } from '../src/index.js';
+import { Axis, Heading, Legend, LineSeries, Plot } from '../src/index.js';
 
 const args = {
   hiddenTicks: false,

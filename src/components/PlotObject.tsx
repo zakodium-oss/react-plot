@@ -3,27 +3,29 @@ import type { CSSProperties, ReactNode } from 'react';
 
 import type { Margins } from '../types.js';
 
-import {
-  Annotation,
-  type AnnotationArrowProps,
-  type AnnotationCircleProps,
-  type AnnotationEllipseProps,
-  type AnnotationGroupProps,
-  type AnnotationLineProps,
-  type AnnotationRectangleProps,
-  Annotations,
-  type AnnotationShapeProps,
-  type AnnotationTextProps,
+import type {
+  AnnotationArrowProps,
+  AnnotationCircleProps,
+  AnnotationEllipseProps,
+  AnnotationGroupProps,
+  AnnotationLineProps,
+  AnnotationRectangleProps,
+  AnnotationShapeProps,
+  AnnotationTextProps,
 } from './Annotations/index.js';
-import { Axis, type AxisProps } from './Axis/Axis.js';
-import { ParallelAxis, type ParallelAxisProps } from './Axis/ParallelAxis.js';
-import { Legend, type LegendProps } from './Legend.js';
-import { Plot, type PlotProps } from './Plot.js';
-import { LineSeries, type LineSeriesProps } from './Series/LineSeries.js';
-import {
-  ScatterSeries,
-  type ScatterSeriesProps,
-} from './Series/ScatterSeries.js';
+import { Annotation, Annotations } from './Annotations/index.js';
+import type { AxisProps } from './Axis/Axis.js';
+import { Axis } from './Axis/Axis.js';
+import type { ParallelAxisProps } from './Axis/ParallelAxis.js';
+import { ParallelAxis } from './Axis/ParallelAxis.js';
+import type { LegendProps } from './Legend.js';
+import { Legend } from './Legend.js';
+import type { PlotProps } from './Plot.js';
+import { Plot } from './Plot.js';
+import type { LineSeriesProps } from './Series/LineSeries.js';
+import { LineSeries } from './Series/LineSeries.js';
+import type { ScatterSeriesProps } from './Series/ScatterSeries.js';
+import { ScatterSeries } from './Series/ScatterSeries.js';
 
 export type PlotObjectAnnotations =
   // This for each annotation option

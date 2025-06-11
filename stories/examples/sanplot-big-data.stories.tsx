@@ -2,14 +2,8 @@ import type { Meta } from '@storybook/react-vite';
 import { xNoiseSanPlot } from 'ml-spectra-processing';
 import { useMemo } from 'react';
 
-import {
-  Axis,
-  Heading,
-  Legend,
-  LineSeries,
-  Plot,
-  type SeriesPoint,
-} from '../../src/index.js';
+import type { SeriesPoint } from '../../src/index.js';
+import { Axis, Heading, Legend, LineSeries, Plot } from '../../src/index.js';
 import data from '../data/1h-spectrum.json' with { type: 'json' };
 
 export default {

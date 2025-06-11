@@ -1,4 +1,5 @@
-import { type CSSProperties, type ReactElement, useMemo } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
+import { useMemo } from 'react';
 
 import type { Position } from '../../types.js';
 

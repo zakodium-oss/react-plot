@@ -1,13 +1,8 @@
 import type { Meta } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
-import {
-  Axis,
-  Heading,
-  LineSeries,
-  Plot,
-  type SeriesPoint,
-} from '../../src/index.js';
+import type { SeriesPoint } from '../../src/index.js';
+import { Axis, Heading, LineSeries, Plot } from '../../src/index.js';
 import srcData from '../data/nasdaq.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 

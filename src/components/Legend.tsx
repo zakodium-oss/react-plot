@@ -1,6 +1,8 @@
 /* eslint-disable react/no-array-index-key */
-import { type CSSProperties, useContext, useEffect, useMemo } from 'react';
-import { AlignGroup, type AlignGroupProps } from 'react-d3-utils';
+import type { CSSProperties } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
+import type { AlignGroupProps } from 'react-d3-utils';
+import { AlignGroup } from 'react-d3-utils';
 
 import { useLegend } from '../contexts/legendContext.js';
 import { legendOffsetContext } from '../contexts/legendOffsetContext.js';

@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  LineSeries,
-  ParallelAxis,
-  type ParallelAxisProps,
-  Plot,
-} from '../../src/index.js';
+import type { ParallelAxisProps } from '../../src/index.js';
+import { Axis, LineSeries, ParallelAxis, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

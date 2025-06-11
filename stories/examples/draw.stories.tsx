@@ -1,14 +1,16 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type {
+  UseDrawPathOptions,
+  UseDrawRectangleOptions,
+} from '../../src/index.js';
 import {
   Annotations,
   Axis,
   LineSeries,
   Plot,
   useDrawPath,
-  type UseDrawPathOptions,
   useDrawRectangle,
-  type UseDrawRectangleOptions,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 

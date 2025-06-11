@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  Legend,
-  LineSeries,
-  Plot,
-  type PlotProps,
-} from '../../src/index.js';
+import type { PlotProps } from '../../src/index.js';
+import { Axis, Legend, LineSeries, Plot } from '../../src/index.js';
 
 export default {
   title: 'API/Plot',

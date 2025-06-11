@@ -1,4 +1,5 @@
-import { type CSSProperties, useEffect, useMemo } from 'react';
+import type { CSSProperties } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext.js';
 import { usePlotContext } from '../../contexts/plotContext.js';

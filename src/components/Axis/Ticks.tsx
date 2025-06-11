@@ -1,8 +1,8 @@
-import {
-  type CSSProperties,
-  type ReactElement,
-  type ReactNode,
-  type SVGAttributes,
+import type {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  SVGAttributes,
 } from 'react';
 
 import type { Scales, TicksType } from './types.js';

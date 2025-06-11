@@ -1,4 +1,5 @@
-import { type SVGAttributes, useMemo } from 'react';
+import type { SVGAttributes } from 'react';
+import { useMemo } from 'react';
 
 import { usePlotContext } from '../contexts/plotContext.js';
 import type { SeriesPointWithError } from '../types.js';

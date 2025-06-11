@@ -1,14 +1,11 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  Legend,
-  Plot,
-  ScatterSeries,
-  type ScatterSeriesProps,
-  type SeriesPoint,
-  type SeriesPointWithError,
+import type {
+  ScatterSeriesProps,
+  SeriesPoint,
+  SeriesPointWithError,
 } from '../../src/index.js';
+import { Axis, Legend, Plot, ScatterSeries } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

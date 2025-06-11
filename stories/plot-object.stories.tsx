@@ -1,6 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import { Annotation, PlotObject, type PlotObjectPlot } from '../src/index.js';
+import type { PlotObjectPlot } from '../src/index.js';
+import { Annotation, PlotObject } from '../src/index.js';
 
 export default {
   title: 'Plot/Plot object',

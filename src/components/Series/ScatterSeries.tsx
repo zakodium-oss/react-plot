@@ -1,5 +1,6 @@
 import { extent } from 'd3-array';
-import { type SVGAttributes, useEffect, useMemo } from 'react';
+import type { SVGAttributes } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useLegend } from '../../contexts/legendContext.js';
 import {

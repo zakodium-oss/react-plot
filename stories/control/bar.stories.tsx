@@ -1,12 +1,7 @@
 import type { Meta } from '@storybook/react-vite';
 
-import {
-  Axis,
-  BarSeries,
-  type BarSeriesProps,
-  Legend,
-  Plot,
-} from '../../src/index.js';
+import type { BarSeriesProps } from '../../src/index.js';
+import { Axis, BarSeries, Legend, Plot } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

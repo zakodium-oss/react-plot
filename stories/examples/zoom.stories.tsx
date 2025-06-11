@@ -1,5 +1,6 @@
 import type { Meta } from '@storybook/react-vite';
 
+import type { UseAxisZoomOptions } from '../../src/index.js';
 import {
   Annotation,
   Annotations,
@@ -8,7 +9,6 @@ import {
   Plot,
   ScatterSeries,
   useAxisZoom,
-  type UseAxisZoomOptions,
   useRectangularZoom,
 } from '../../src/index.js';
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';

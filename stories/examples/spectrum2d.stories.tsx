@@ -1,13 +1,13 @@
 import type { Meta } from '@storybook/react-vite';
 import { useMemo } from 'react';
 
+import type { UseRectangularZoomOptions } from '../../src/index.js';
 import {
   Annotations,
   Axis,
   LineSeries,
   Plot,
   useRectangularZoom,
-  type UseRectangularZoomOptions,
 } from '../../src/index.js';
 import data from '../data/spectrum2d.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
