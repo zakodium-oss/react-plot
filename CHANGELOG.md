@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/zakodium-oss/react-plot/compare/v3.0.0...v3.1.0) (2025-06-11)
+
+
+### Features
+
+* add support for React 19 ([a3a8acc](https://github.com/zakodium-oss/react-plot/commit/a3a8accaa6ab1f8d90ce5aad3b2a8889d7c26f37))
+* update react-d3-utils and devDeps ([d4b9959](https://github.com/zakodium-oss/react-plot/commit/d4b995960b92c8c033af4fc285e3e555e6b505d0))
+
 ## [3.0.0](https://github.com/zakodium-oss/react-plot/compare/v2.0.0...v3.0.0) (2024-10-14)
 
 
