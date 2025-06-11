@@ -65,6 +65,7 @@
     "@types/point-in-polygon": "^1.1.5",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
+    "@zakodium/tsconfig": "^1.0.1",
     "eslint": "^9.28.0",
     "eslint-config-zakodium": "^15.0.1",
     "eslint-plugin-storybook": "^9.0.8",

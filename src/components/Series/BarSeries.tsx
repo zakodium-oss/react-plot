@@ -77,6 +77,7 @@ export function BarSeries(props: BarSeriesProps) {
       return () =>
         legendDispatch({ type: 'REMOVE_LEGEND_LABEL', payload: { id } });
     }
+    return undefined;
   }, [colorLine, legendDispatch, label, shape, id, hidden]);
   if (hidden) return null;
   return (
