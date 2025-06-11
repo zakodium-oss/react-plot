@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { IsotopicDistribution } from 'isotopic-distribution';
 import { xyToXYObject } from 'ml-spectra-processing';
 import { getBestPeaks } from 'ms-spectrum';
@@ -16,7 +16,7 @@ import {
   usePan,
   usePlotControllerAxes,
 } from '../../src/index.js';
-import data from '../data/mass.json';
+import data from '../data/mass.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 export default {

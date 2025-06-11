@@ -84,8 +84,11 @@ export function usePlotSizes({
         leftOffset += totalLegendWidth;
         legendOffset = finalLeftAxisWidth + legendMargin;
         break;
-      default:
+      case 'embedded':
+      case null:
         break;
+      default:
+        throw new Error(`Invalid legendPosition: ${String(legendPosition)}`);
     }
 
     return { plotWidth, plotHeight, leftOffset, topOffset, legendOffset };

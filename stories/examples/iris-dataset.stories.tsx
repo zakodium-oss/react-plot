@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { getClasses, getDistinctClasses, getNumbers } from 'ml-dataset-iris';
 import { PCA as MlPCA } from 'ml-pca';
 import { SimpleLinearRegression } from 'ml-regression-simple-linear';

@@ -1,9 +1,9 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { xyToXYObject } from 'ml-spectra-processing';
 
 import { Axis, LineSeries, Plot } from '../../src/index.js';
-import data from '../data/nmr.json';
-import stackData from '../data/stack-spectra.json';
+import data from '../data/nmr.json' with { type: 'json' };
+import stackData from '../data/stack-spectra.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 
 import {
   Axis,
@@ -7,7 +7,7 @@ import {
   ScatterSeries,
   type SeriesPoint,
 } from '../../src/index.js';
-import data from '../data/color-serie.json';
+import data from '../data/color-serie.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG } from '../utils.js';
 
 export default {

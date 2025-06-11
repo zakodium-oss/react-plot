@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 import { xyToXYObject } from 'ml-spectra-processing';
 
 import {
@@ -10,7 +10,7 @@ import {
   useCrossHair,
   useRectangularZoom,
 } from '../../src/index.js';
-import measurement from '../data/measurement.json';
+import measurement from '../data/measurement.json' with { type: 'json' };
 import { DEFAULT_PLOT_CONFIG, PlotControllerDecorator } from '../utils.js';
 
 interface MeasurementProps {

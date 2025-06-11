@@ -76,12 +76,14 @@ export default function VerticalAxis(props: AxisRendererProps) {
           x2: x,
           textPosition: textOffset + tickLength,
         };
-      default:
+      case undefined:
         return {
           x1: 0,
           x2: 0,
           textPosition: 3,
         };
+      default:
+        throw new Error(`Invalid tick position ${String(tickPosition)}`);
     }
   }
   const gridLinesElement =

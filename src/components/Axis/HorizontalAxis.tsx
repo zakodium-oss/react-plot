@@ -79,12 +79,14 @@ export default function HorizontalAxis(props: AxisRendererProps) {
           y2: y,
           textPosition: textOffset + tickLength,
         };
-      default:
+      case undefined:
         return {
           y1: 0,
           y: 0,
           textPosition: 0,
         };
+      default:
+        throw new Error(`Invalid tick position ${String(tickPosition)}`);
     }
   }
   const gridLinesElement =

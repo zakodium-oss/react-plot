@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react-vite';
 
 import { Axis, Heading, Legend, LineSeries, Plot } from '../src/index.js';
 
