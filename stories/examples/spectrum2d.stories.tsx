@@ -27,18 +27,18 @@ export function Spectrum2D({ disabled }: UseRectangularZoomOptions) {
         y,
       })),
     );
-    return dataList
-      .map((data, i) => (
-        <LineSeries
-          lineStyle={{ stroke: 'black', fill: 'white' }}
-          // eslint-disable-next-line react/no-array-index-key
-          key={i}
-          data={data}
-          xShift={`${i * 5}`}
-          yShift={`${-i * 5}`}
-        />
-      ))
-      .reverse();
+    const series = dataList.map((data, i) => (
+      <LineSeries
+        lineStyle={{ stroke: 'black', fill: 'white' }}
+        // eslint-disable-next-line react/no-array-index-key
+        key={i}
+        data={data}
+        xShift={`${i * 5}`}
+        yShift={`${-i * 5}`}
+      />
+    ));
+    series.reverse();
+    return series;
   }, []);
   return (
     <Plot {...DEFAULT_PLOT_CONFIG}>

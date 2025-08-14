@@ -249,6 +249,9 @@ export function useAxisContext(
       );
 
       const range: number[] = isHorizontal ? [0, plotWidth] : [plotHeight, 0];
+      if (axis.flip) {
+        range.reverse();
+      }
       const domain = [axisMin - padding.min, axisMax + padding.max] as const;
       // eslint-disable-next-line unicorn/consistent-function-scoping
       const clampInDomain = function clampInDomain(value: number) {
@@ -261,9 +264,7 @@ export function useAxisContext(
             type: axis.scale,
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
-            scale: scaleLog()
-              .domain(domain)
-              .range(axis.flip ? range.reverse() : range),
+            scale: scaleLog().domain(domain).range(range),
             domain,
             clampInDomain,
           };
@@ -274,9 +275,7 @@ export function useAxisContext(
             type: axis.scale,
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
-            scale: scaleTime()
-              .domain(domain)
-              .range(axis.flip ? range.reverse() : range),
+            scale: scaleTime().domain(domain).range(range),
             domain,
             clampInDomain,
           };
@@ -287,9 +286,7 @@ export function useAxisContext(
             type: 'linear' as const,
             position: axis.position,
             tickLabelFormat: axis.tickLabelFormat,
-            scale: scaleLinear()
-              .domain(domain)
-              .range(axis.flip ? range.reverse() : range),
+            scale: scaleLinear().domain(domain).range(range),
             domain,
             clampInDomain,
           };

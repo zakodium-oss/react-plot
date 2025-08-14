@@ -4,8 +4,8 @@ import type { UseCrossHairOptions } from '../../src/index.js';
 import { Annotations, Axis, Plot, useCrossHair } from '../../src/index.js';
 import {
   DEFAULT_PLOT_CONFIG,
-  getInfraredSeries,
   PlotControllerDecorator,
+  getInfraredSeries,
 } from '../utils.js';
 
 export default {

@@ -1,33 +1,8 @@
 {
   "name": "react-plot",
   "version": "3.1.0",
+  "license": "MIT",
   "description": "Library of React components to render SVG 2D plots.",
-  "type": "module",
-  "exports": "./lib/index.js",
-  "files": [
-    "lib",
-    "src"
-  ],
-  "scripts": {
-    "build": "npm run clean && npm run build-ts",
-    "build-storybook": "storybook build",
-    "build-ts": "tsc -p tsconfig.build.json",
-    "check-types": "tsc --noEmit",
-    "clean": "rimraf lib",
-    "dev": "storybook dev -p 6006",
-    "eslint": "eslint .",
-    "eslint-fix": "npm run eslint -- --fix",
-    "playwright": "playwright test -c playwright-ct.config.ts",
-    "prepack": "npm run build",
-    "prettier": "prettier --check .",
-    "prettier-write": "prettier --write .",
-    "start": "npm run dev",
-    "test": "npm run playwright && npm run eslint && npm run prettier && npm run check-types"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zakodium-oss/react-plot.git"
-  },
   "keywords": [
     "react",
     "plot",
@@ -42,49 +17,29 @@
     "Nadjib Souab",
     "Luc Patiny"
   ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/zakodium-oss/react-plot/issues"
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js"
   },
-  "homepage": "https://github.com/zakodium-oss/react-plot#readme",
-  "peerDependencies": {
-    "@types/react": "*",
-    "react": ">=18.0.0"
-  },
-  "devDependencies": {
-    "@playwright/experimental-ct-react": "^1.53.0",
-    "@simbathesailor/use-what-changed": "^2.0.0",
-    "@storybook/addon-docs": "^9.0.8",
-    "@storybook/addon-links": "^9.0.8",
-    "@storybook/react-vite": "^9.0.8",
-    "@types/d3-array": "^3.2.1",
-    "@types/d3-scale": "^4.0.9",
-    "@types/d3-scale-chromatic": "^3.1.0",
-    "@types/d3-shape": "^3.1.7",
-    "@types/node": "^22.7.5",
-    "@types/point-in-polygon": "^1.1.5",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@zakodium/tsconfig": "^1.0.1",
-    "eslint": "^9.28.0",
-    "eslint-config-zakodium": "^15.0.1",
-    "eslint-plugin-storybook": "^9.0.8",
-    "isotopic-distribution": "^3.4.14",
-    "iv-analysis": "^0.4.0",
-    "ml-dataset-iris": "^1.2.1",
-    "ml-directional-distribution": "^0.1.1",
-    "ml-pca": "^4.1.1",
-    "ml-regression-simple-linear": "^3.0.1",
-    "ml-spectra-processing": "^14.12.0",
-    "ms-spectrum": "^3.9.0",
-    "point-in-polygon": "^1.1.0",
-    "prettier": "^3.5.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-error-boundary": "^6.0.0",
-    "rimraf": "^6.0.1",
-    "storybook": "^9.0.8",
-    "typescript": "^5.8.3"
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "build-storybook": "storybook build",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf lib playwright-report storybook-static test-results",
+    "dev": "storybook dev -p 6006",
+    "eslint": "eslint .",
+    "eslint-fix": "npm run eslint -- --fix",
+    "playwright": "playwright test -c playwright-ct.config.ts",
+    "prepack": "npm run tsc",
+    "prettier": "prettier --check .",
+    "prettier-write": "prettier --write .",
+    "start": "npm run dev",
+    "test": "npm run playwright && npm run eslint && npm run prettier && npm run check-types",
+    "tsc-build": "tsc -p tsconfig.build.json",
+    "tsc": "npm run clean && npm run tsc-build"
   },
   "dependencies": {
     "d3-array": "^3.2.4",
@@ -93,8 +48,55 @@
     "d3-shape": "^3.2.0",
     "immer": "^10.1.1",
     "ml-distance-euclidean": "^2.0.0",
-    "react-d3-utils": "^3.1.0"
+    "react-d3-utils": "^3.1.2"
   },
+  "peerDependencies": {
+    "@types/react": ">=18",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@playwright/experimental-ct-react": "^1.54.2",
+    "@simbathesailor/use-what-changed": "^2.0.0",
+    "@storybook/addon-docs": "^9.1.2",
+    "@storybook/addon-links": "^9.1.2",
+    "@storybook/react-vite": "^9.1.2",
+    "@types/d3-array": "^3.2.1",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-scale-chromatic": "^3.1.0",
+    "@types/d3-shape": "^3.1.7",
+    "@types/node": "^24.2.1",
+    "@types/point-in-polygon": "^1.1.5",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@zakodium/tsconfig": "^1.0.2",
+    "eslint": "^9.33.0",
+    "eslint-config-zakodium": "^16.0.0",
+    "eslint-plugin-storybook": "^9.1.2",
+    "isotopic-distribution": "^3.4.16",
+    "iv-analysis": "^0.4.0",
+    "ml-dataset-iris": "^1.2.1",
+    "ml-directional-distribution": "^0.1.1",
+    "ml-pca": "^4.1.1",
+    "ml-regression-simple-linear": "^3.0.1",
+    "ml-spectra-processing": "^14.16.1",
+    "ms-spectrum": "^3.9.2",
+    "point-in-polygon": "^1.1.0",
+    "prettier": "^3.6.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-error-boundary": "^6.0.0",
+    "rimraf": "^6.0.1",
+    "storybook": "^9.1.2",
+    "typescript": "^5.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakodium-oss/react-plot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zakodium-oss/react-plot/issues"
+  },
+  "homepage": "https://github.com/zakodium-oss/react-plot#readme",
   "volta": {
     "node": "22.16.0"
   }
