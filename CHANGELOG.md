@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/zakodium-oss/react-plot/compare/v3.1.0...v3.1.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* exports ([#473](https://github.com/zakodium-oss/react-plot/issues/473)) ([b34a6cc](https://github.com/zakodium-oss/react-plot/commit/b34a6ccfbfc07f60d25f327b6a837a0723015aec))
+
 ## [3.1.0](https://github.com/zakodium-oss/react-plot/compare/v3.0.0...v3.1.0) (2025-06-11)
 
 
