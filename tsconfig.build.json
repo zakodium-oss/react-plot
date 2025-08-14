@@ -1,10 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": [
-    "**/__tests__",
-    "playwright",
-    "playwright-ct.config.ts",
-    "stories",
-    "tests"
-  ]
+  "include": ["src"],
+  "exclude": ["**/__tests__"]
 }

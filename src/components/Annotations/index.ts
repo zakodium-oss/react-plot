@@ -34,7 +34,7 @@ export type { AnnotationEllipseProps } from './Ellipse.js';
 export type { AnnotationGroupProps } from './Group.js';
 export type { AnnotationLineProps } from './Line.js';
 export type { AnnotationRectangleProps } from './Rectangle.js';
-export type { AnnotationShapeProps, AnnotationShapeName } from './Shape.js';
+export type { AnnotationShapeName, AnnotationShapeProps } from './Shape.js';
 export type { AnnotationTextProps } from './Text.js';
 export type { AnnotationPolygonProps } from './Polygon.js';
 export type { AnnotationPolylineProps } from './Polyline.js';

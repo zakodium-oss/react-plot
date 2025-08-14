@@ -16,9 +16,10 @@ for (let x = 0; x <= data.data[0].x.length; x++) {
 lineData.pop();
 
 function getRangePosition(array: SeriesPoint[]): RangeSeriesPoint[] {
-  if (array.length % 2 !== 0) throw new Error('The array isnt correct');
+  if (array.length % 2 !== 0) throw new Error("The array isn't correct");
   const one = array.slice(0, array.length / 2);
-  const two = array.slice(array.length / 2).reverse();
+  const two = array.slice(array.length / 2);
+  two.reverse();
 
   const result: RangeSeriesPoint[] = [];
 

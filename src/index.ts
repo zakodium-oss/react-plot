@@ -22,15 +22,15 @@ export * from './components/Annotations/index.js';
 export * from './hooks/index.js';
 
 export type {
+  HorizontalPosition,
+  Position,
   ScalarValue,
   SeriesPoint,
-  SeriesPointWithError,
   SeriesPointError,
+  SeriesPointWithError,
   TickLabelFormat,
   TickPosition,
-  Position,
   VerticalPosition,
-  HorizontalPosition,
 } from './types.js';
 
 export {
