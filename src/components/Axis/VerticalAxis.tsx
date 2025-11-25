@@ -139,6 +139,7 @@ export default function VerticalAxis(props: AxisRendererProps) {
         <g ref={axisRef}>{axisLineElement}</g>
         <g
           transform={`translate(${
+            // eslint-disable-next-line react-hooks/refs
             (ticks.width - innerOffset) * (isRight ? 1 : -1)
           }, 0)`}
         >

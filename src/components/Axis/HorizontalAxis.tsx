@@ -143,6 +143,7 @@ export default function HorizontalAxis(props: AxisRendererProps) {
         <g ref={axisRef}>{axisLineElement}</g>
         <g
           transform={`translate(0, ${
+            // eslint-disable-next-line react-hooks/refs
             (ticks.height - innerOffset) * (isBottom ? 1 : -1)
           })`}
         >

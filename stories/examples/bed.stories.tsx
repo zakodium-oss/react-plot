@@ -16,7 +16,7 @@ export default {
 } satisfies Meta;
 
 const data = Array.from(generateNumbers(160))
-  .sort((a, b) => b.beds - a.beds)
+  .toSorted((a, b) => b.beds - a.beds)
   .map((e, i) => ({ ...e, country: i }));
 
 export function Covid19BedCases() {

@@ -39,7 +39,6 @@ export function FunctionSeries(props: FunctionSeriesProps) {
       return data;
     }
     return [{ x: 0, y: 0 }];
-    // eslint-disable-next-line react-hooks/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [x?.domain[0], x?.domain[1]]);
   return <LineSeries data={data} id={id} {...otherProps} />;
