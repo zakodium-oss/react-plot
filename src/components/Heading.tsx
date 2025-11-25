@@ -66,6 +66,7 @@ export function Heading({
       </text>
       {subtitle && (
         <text
+          // eslint-disable-next-line react-hooks/refs
           transform={`translate(0, ${headingBbox.height})`}
           style={{
             ...defaultSubtitleStyle,

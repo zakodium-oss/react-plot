@@ -20,7 +20,7 @@ export interface TickProps {
   line: CoordinatesXY;
   text: Omit<CoordinatesXY, 'x2' | 'y2'>;
   secondary?: boolean;
-  dominantBaseline?: string;
+  dominantBaseline?: SVGAttributes<SVGTextElement>['dominantBaseline'];
   strokeColor?: string;
   strokeHeight?: number;
   anchor?: SVGAttributes<SVGTextElement>['textAnchor'];
