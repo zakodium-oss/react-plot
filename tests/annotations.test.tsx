@@ -26,15 +26,20 @@ test('valid annotations', async ({ mount }) => {
         />
         <Annotation.DirectedEllipse x1="0" x2="3" y1="0" y2="4" width="5" />
         <Annotation.Polygon
+          color="blue"
           points={[
-            { x: '20', y: '70' },
-            { x: '2000', y: '8' },
+            { x: 800, y: 10 },
+            { x: 1500, y: 15 },
+            { x: 1300, y: 5 },
           ]}
         />
         <Annotation.Polyline
+          color="green"
           points={[
-            { x: '20', y: '70' },
-            { x: '2000', y: '8' },
+            { x: 2000, y: 20 },
+            { x: 2500, y: 25 },
+            { x: 2200, y: 30 },
+            { x: 2000, y: 20 },
           ]}
         />
         <Annotation.Rectangle x1="0" x2="3" y1="0" y2="4" />
